@@ -1,4 +1,5 @@
 (function(){
+    var PTM_RATIO = ChuClone.Constants.PTM_RATIO;
     ChuClone.GameEntity = function() {
         this.force = new Box2D.Common.Math.b2Vec2(0,0);
     };
@@ -6,44 +7,35 @@
     ChuClone.GameEntity.prototype = {
         view        : null,
         body        : null,
-        originalSize: null,
         force       : null,
 
 
+        /**
+         * Update the position/rotation based on the BOX2D world position
+         */
         update: function() {
             var bodyPos = this.body.GetPosition();
-            this.view.position.x = bodyPos.x * ChuClone.Constants.PHYSICS_SCALE;
-            this.view.position.y = bodyPos.y * ChuClone.Constants.PHYSICS_SCALE + this.view.geometry.boundingBox.y[0];
+            this.view.position.x = bodyPos.x * PTM_RATIO;
+            this.view.position.y = (bodyPos.y * PTM_RATIO) + this.view.geometry.boundingBox.y[0];
+
             this.view.rotation.z = this.body.GetAngle();
         },
 
-        playerUpdate: function() {
-//            if(Math.random() < 0.01) {
-            //this.body.ApplyForce(new b2Vec2(0.1, 0), this.body.GetPosition() );
-
-//				this.body.ApplyImpulse( impulse, bodyPosition );
-//            }
-        },
-
-        setForce: function( aForce ) {
-            this.force = aForce;
-             var bodyPosition = this.body.GetPosition();
-				var angle = 0.1;//Math.atan2( pos.y - bodyPosition.y, pos.x - bodyPosition.x );
-				var force = 200;
-				var impulse = new Box2D.Common.Math.b2Vec2( Math.cos(angle) * force, Math.sin(angle) * force);
-//            console.log(Math.cos(angle) * force, Math.sin(angle) * force)
-        },
-
+        /**
+         * Get/Set the b2Body
+         */
+        getBody: function() { return this.body; },
         setBody: function( aBody ) {
             this.body = aBody;
         },
 
+        /**
+         * Get/Set the three.js view object
+         * @param aView
+         */
         setView: function( aView ) {
             this.view = aView;
             this.view.geometry.computeBoundingBox();
-
-            console.log(   )
-
         }
     }
 

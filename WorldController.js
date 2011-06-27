@@ -15,6 +15,7 @@ Version:
 	1.0
 */
 (function(){
+    var PTM_RATIO = ChuClone.Constants.PTM_RATIO;
     var b2Vec2 = Box2D.Common.Math.b2Vec2;
     var b2BodyDef = Box2D.Dynamics.b2BodyDef;
     var b2Body = Box2D.Dynamics.b2Body;
@@ -34,8 +35,8 @@ Version:
 	ChuClone.WorldController.prototype = {
 		_world							: null,
         _debugDraw                      : null,
-		_velocityIterationsPerSecond    : 100,
-		_positionIterationsPerSecond	: 300,
+		_velocityIterationsPerSecond    : 10,
+		_positionIterationsPerSecond	: 30,
 
 
 		/**
@@ -45,17 +46,15 @@ Version:
 			this.createBox2dWorld();
             this._world.DestroyBody( this._wallRight );
             this._world.DestroyBody( this._wallBottom );
-            this._world.DestroyBody( this._wallTop );
+//            this._world.DestroyBody( this._wallTop );
 		},
 
 		/**
 		 * Creates the Box2D world with 4 walls around the edges
 		 */
 		createBox2dWorld: function() {
-            var m_world = new b2World(
-                    new b2Vec2(0, -550)    //gravity
-                    , true                 //allow sleep
-            );
+            var m_world = new b2World( new b2Vec2(0, 16), true );
+
 
 			// Create border of boxes
 			var wall = new b2PolygonShape();
@@ -72,13 +71,17 @@ Version:
 			this._wallRight = m_world.CreateBody(wallBd);
 			this._wallRight.CreateFixture2(wall);
 			// BOTTOM
-			wallBd.position.Set(ChuClone.Constants.GAME_WIDTH/2, ChuClone.Constants.GAME_HEIGHT+0.55);
-			wall.SetAsBox(ChuClone.Constants.GAME_WIDTH/2, 1);
+            wall = new b2PolygonShape();
+            wallBd = new b2BodyDef();
+			wallBd.position.Set(ChuClone.Constants.GAME_WIDTH/2 / PTM_RATIO, ChuClone.Constants.GAME_HEIGHT / PTM_RATIO );
+			wall.SetAsBox(ChuClone.Constants.GAME_WIDTH / PTM_RATIO, 1 / PTM_RATIO);
 			this._wallTop = m_world.CreateBody(wallBd);
 			this._wallTop.CreateFixture2(wall);
 			// TOP
+            wall = new b2PolygonShape();
+            wallBd = new b2BodyDef();
 			wallBd.position.Set(ChuClone.Constants.GAME_WIDTH/2, 1);
-			wall.SetAsBox(ChuClone.Constants.GAME_WIDTH/2, 1);
+			wall.SetAsBox(ChuClone.Constants.GAME_WIDTH/2 * 10, 1);
 			this._wallBottom = m_world.CreateBody(wallBd);
 			this._wallBottom.CreateFixture2(wall);
 
@@ -117,9 +120,9 @@ Version:
 		 * @return {b2Body}	A Box2D body
 		 */
 		createBox: function(x, y, rotation, size, isFixed ) {
-            x /= ChuClone.Constants.PHYSICS_SCALE;
-			y /= ChuClone.Constants.PHYSICS_SCALE;
-            size /= ChuClone.Constants.PHYSICS_SCALE;
+            x *= PTM_RATIO;
+			y *= PTM_RATIO;
+            size *= PTM_RATIO;
 
 			var bodyDef = new b2BodyDef();
 			bodyDef.type = isFixed ? b2Body.b2_staticBody : b2Body.b2_dynamicBody;
@@ -147,10 +150,10 @@ Version:
 		},
 
         createRect: function( x, y, rotation, width, height, isFixed ) {
-            x /= ChuClone.Constants.PHYSICS_SCALE;
-            y /= ChuClone.Constants.PHYSICS_SCALE;
-            width /= ChuClone.Constants.PHYSICS_SCALE;
-            height /= ChuClone.Constants.PHYSICS_SCALE;
+            x /= PTM_RATIO;
+            y /= PTM_RATIO;
+            width /= PTM_RATIO;
+            height /= PTM_RATIO;
 
             var fixtureDef= new Box2D.Dynamics.b2FixtureDef();
             fixtureDef.density = 1.0;
@@ -192,52 +195,25 @@ Version:
             this._world.ClearForces();
 		},
 
-		/**
-		 * @inheritDoc
-		 */
-		shouldUpdatePlayer: function( aClientid, data ) {
-//			var pos = new b2Vec2( data.payload.x, data.payload.y);
-//			pos.x /= ChuClone.Constants.PHYSICS_SCALE;
-//			pos.y /= ChuClone.Constants.PHYSICS_SCALE;
-//
-//			// Loop through each entity, retrieve it's Box2D body, and apply an impulse towards the mouse position a user clicked
-//			this.fieldController.getEntities().forEach( function(key, entity) {
-//				var body = entity.getBox2DBody();
-//				var bodyPosition = body.GetPosition();
-//				var angle = Math.atan2( pos.y - bodyPosition.y, pos.x - bodyPosition.x );
-//				var force = 20;
-//				var impulse = new b2Vec2( Math.cos(angle) * force, Math.sin(angle) * force);
-//				body.ApplyImpulse( impulse, bodyPosition );
-//			}, this );
-		},
-
         setDebugDraw: function(canvas) {
             if( !canvas ) {
                 var container = document.createElement( 'div' );
                 container.style.position = "absolute";
                 container.style.top = "0px";
-//                container.
                 document.body.appendChild( container );
 
                 var debugCanvas = document.createElement('canvas');
                 container.appendChild( debugCanvas );
 
                 canvas = debugCanvas;
-                canvas.width = 400;
-                canvas.height = 400;
-
-                /*
-                this.stats.domElement.style.position = 'absolute';
-			this.stats.domElement.style.top = '0px';
-			container.appendChild( this.stats.domElement );
-			document.body.appendChild( container );
-                 */
+                canvas.width = 2000;
+                canvas.height = 800;
             }
 
              //setup debug draw
             var debugDraw = new b2DebugDraw();
             debugDraw.SetSprite( canvas.getContext("2d") );
-            debugDraw.SetDrawScale(0.25);
+            debugDraw.SetDrawScale(PTM_RATIO/2);
             debugDraw.SetFillAlpha(0.3);
             debugDraw.SetLineThickness(0.5);
             debugDraw.SetFlags(b2DebugDraw.e_shapeBit | b2DebugDraw.e_jointBit);
@@ -245,6 +221,8 @@ Version:
             this._world.SetDebugDraw(debugDraw);
             this._debugDraw = debugDraw;
 
-        }
+        },
+
+        getWorld: function() { return this._world; }
 	};
 })();

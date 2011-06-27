@@ -16,17 +16,19 @@ Version:
 */
 (function(){
 	ChuClone.Constants = {
-		ENTITY_DEFAULT_RADIUS	: 8,
-		ENTITY_BOX_SIZE			: 16,
-		PHYSICS_SCALE			: 1,
-		GAME_WIDTH				: 700,
+        GAME_WIDTH				: 700,
 		GAME_HEIGHT				: 450,
-		MAX_OBJECTS				: 100,
+        // TODO: MIGRATE FROM PHYSICS_SCALE TO PTM_RATIO
+		PHYSICS_SCALE			: 1,
+        PTM_RATIO               : 64,
 		GAME_DURATION			: 1000*300,
 
-		ENTITY_TYPES: {
-			CIRCLE:			1 << 1,
-			BOX:			1 << 2
-		}
+        KEYS: {
+            LEFT: 37,
+            UP: 38,
+            RIGHT: 39,
+            DOWN: 40,
+
+        }
 	}
 })();
