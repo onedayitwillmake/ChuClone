@@ -29,6 +29,11 @@ Version:
 
 	ChuClone.GameView = function() {
 		this.setupThreeJS();
+        this.setupSceneEditor();
+
+        // Add it to the scene plotter, specifying SQUARE as 2d representation
+        this.sceneEditor.startPlottingObject( this.camera, THREE.SceneEditor.ScenePlotterDot.prototype.TYPES.SQUARE, false, false );
+        this.sceneEditor.startPlottingObject( this.light1, THREE.SceneEditor.ScenePlotterDot.prototype.TYPES.SQUARE, false, false );
 //		this.setupStats();
 	};
 
@@ -38,6 +43,9 @@ Version:
 		stats				: null,				// Stats.js instance
         theta               : 0.2,
         camera              : null,
+        sceneEditor         : null,
+
+        light1              : null,
 
 		// Methods
 		setupThreeJS: function() {
@@ -54,28 +62,31 @@ Version:
 
 				this.camera = new THREE.Camera( 70, window.innerWidth / window.innerHeight, 1, 10000 );
 
-				this.camera.position.x = -5;
-				this.camera.position.z = 375;
+				this.camera.position.x = 0;
+				this.camera.position.y = 1;
+				this.camera.position.z = 0;
+                this.camera.name = "camera";
 
 				scene = new THREE.Scene();
-//                scene.addLight( new THREE.AmbientLight( 0x333333 ) );
+                scene.addLight( new THREE.AmbientLight( 0x111111) );
 
             //hex, intensity, distance, castShadow
-				var light = new THREE.PointLight( 0xffffff, 1.5, 1000 );
-				light.position.x = 0;
-				light.position.y = 1;
-				light.position.z = 0;
-				light.position.normalize();
-				scene.addLight( light );
-//                var light1 = new THREE.PointLight( 0xffffff, 10, 0 );
+				this.light1 = new THREE.PointLight( 0xffffff, 1.5, 1000 );
+                this.light1.name = "light1";
+				this.light1.position.x = 0;
+				this.light1.position.y = 318;
+				this.light1.position.z = 90;
+				scene.addLight( this.light1 );
+//                var   light1 = new THREE.PointLight( 0xffffff, 10, 0 );
 //                scene.addLight( light1 );
 
-				var light = new THREE.PointLight( 0xffffff, 1 );
-				light.position.x = - 1;
-				light.position.y = - 1;
-				light.position.z = - 1;
-				light.position.normalize();
-				scene.addLight( light );
+//				var light = new THREE.PointLight( 0xffffff, 1 );
+//				light.position.x = - 1;
+//				light.position.y = - 1;
+//				light.position.z = - 1;
+//				light.position.normalize();
+//				scene.addLight( light );
+
 
                 this.camera.position.y = 100;
 				projector = new THREE.Projector();
@@ -85,11 +96,6 @@ Version:
 				renderer.setSize( window.innerWidth, window.innerHeight );
 
 				container.appendChild(renderer.domElement);
-
-				stats = new Stats();
-				stats.domElement.style.position = 'absolute';
-				stats.domElement.style.top = '0px';
-				container.appendChild( stats.domElement );
 
                 var that = this;
 				document.addEventListener( 'mousemove', function(e){that.onDocumentMouseMove(e)}, false );
@@ -102,29 +108,73 @@ Version:
              */
 		},
 
+        setupSceneEditor: function() {
+
+            // Create a canvas for the sceneeditor
+            var container = document.createElement('div');
+            container.style.position = "absolute";
+            container.style.top = "200px";
+            document.body.appendChild(container);
+
+            var sceneEditorCanvas = document.createElement('canvas');
+            container.appendChild(sceneEditorCanvas);
+
+            sceneEditorCanvas.width = 500;
+            sceneEditorCanvas.height = 400;
+
+
+            // Instantiate the sceneeditor
+            var sceneEditor = new THREE.SceneEditor();
+            sceneEditor.setCanvas( sceneEditorCanvas );
+            sceneEditor.create();
+            sceneEditor.setWorldOffset( this.camera.position );
+
+            var axis = ['xy', 'xz', 'zy'],
+                scales = [0.11, 0.11, 0.11];
+
+            var xBuffer = 5,
+                yBuffer = 50,
+                xSpacing = 5;
+
+            var plotterSize = 150;
+
+            for (var i = 0; i < axis.length; i++) {
+                var aScenePlotter = sceneEditor.addScenePlotter(axis[i], scales[i], plotterSize);
+                aScenePlotter.setPosition(i * (plotterSize + xSpacing) + xBuffer, yBuffer);
+            }
+
+            this.sceneEditor = sceneEditor;
+        },
+
 		/**
 		 * Updates our current view, passing along the current actual time (via Date().getTime());
 		 * @param {Number} gameClockReal The current actual time, according to the game
 		 */
 		render: function( gameClockReal ) {
-			var radius = 600;
+			var radius = 300;
 //			var theta = 0;
 
-            var s = 0;
-
-            this.theta += 0.5;
-//            this.camera.position.x = radius * Math.sin( this.theta * Math.PI / 360 ) + s;
-//            this.camera.position.y = radius * Math.sin( this.theta * Math.PI / 360 );
-//            this.camera.position.z = radius * Math.cos( this.theta * Math.PI / 360 ) + s;
+            this.theta += 0.1;
+            var offset = 0;
+//            this.camera.position.x = radius * Math.sin( this.theta * Math.PI / 360 );
+//            this.camera.position.y = radius * Math.sin( this.theta * Math.PI / 360  * 2);
+            this.camera.position.z = radius * Math.cos( this.theta * Math.PI / 360 );
 //            var zero = new THREE.Vector3(Math.random() * 100, Math.random() * 100,0);
 //            console.log(zero)
 
 
-            // find intersections
-
-
             this.camera.update();
+            renderer.render( scene, this.camera );
 
+            if(this.stats) this.stats.update();
+            if(this.sceneEditor) {
+//                if(this.sceneEditor._activePlotter && this.sceneEditor._activePlotter._draggedDot)
+//                    console.log( this.sceneEditor._activePlotter._draggedDot._delegate )
+                this.sceneEditor.update();
+            }
+		},
+
+        findIntersections: function() {
             var vector = new THREE.Vector3( mouse.x, mouse.y, 0.5 );
             projector.unprojectVector( vector, this.camera );
 
@@ -151,10 +201,7 @@ Version:
                 INTERSECTED = null;
 
             }
-
-            renderer.render( scene, this.camera );
-
-		},
+        },
 
 		/**
 		 * Creates a Stats.js instance and adds it to the page

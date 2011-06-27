@@ -41,7 +41,7 @@
             var that = this;
 
 			document.addEventListener('keydown', function(e) {
-              var force = new b2Vec2(0,0);
+              var force = new Box2D.Common.Math.b2Vec2(0,0);
                 switch(e.keyCode) {
                     case 37:
                         force.x = 1;
@@ -54,13 +54,10 @@
                 var bodyPosition = that.player.body.GetPosition();
 				var angle = Math.PI;//Math.atan2( pos.y - bodyPosition.y, pos.x - bodyPosition.x );
 				var strength = 2000;
-				var impulse = new b2Vec2( Math.cos(angle) * strength, Math.sin(angle) * strength);
-                impulse.x *= force.x;
-                that.player.body.ApplyTorque( 10);
-
-
+				var impulse = new Box2D.Common.Math.b2Vec2(3000, -5);
+                impulse.x *= -force.x;
+                that.player.body.ApplyImpulse( impulse, bodyPosition );
 			}, false);
-
 
 //            console.log(Math.cos(angle) * force, Math.sin(angle) * force)
 //            this.player.applyForce( force );
@@ -76,11 +73,11 @@
 
         setup: function() {
 
-            var boxSize = 21;
+            var boxSize = 30;
             for ( var i = 0; i < 100; i ++ ) {
-                var x = i*boxSize;
-                var y = Math.sin(i/10)*50;
-                var body = this.worldController.createBox( x, y, 0, boxSize,true );
+                var x = i*(boxSize);
+                var y = Math.sin(i/10)*30;
+                var body = this.worldController.createRect( x, y, 0, boxSize, boxSize, true );
                 var view = this.view.createEntityView( x, y, boxSize*0.9, 2, 200  );
                 var entity = new ChuClone.GameEntity();
                 entity.setBody( body );
@@ -94,7 +91,7 @@
             x = 21;
             y = 30;
             boxSize *= 1.5;
-            body = this.worldController.createBox( x, y, 0, 5, false);
+            body = this.worldController.createRect( x, y, 0, 5, 5, false);
             view = this.view.createEntityView( x, y, boxSize, boxSize, 20 );
             view.materials[0] = new THREE.MeshLambertMaterial( { color: 0xFF0000 } );
             entity = new ChuClone.GameEntity();
@@ -107,8 +104,6 @@
         },
 
         update: function() {
-//            console.log( this.entities[5].body.GetPosition().x, this.entities[0].body.GetPosition().y );
-
             for(var i = 0; i < this.entities.length; i++ ) {
                 this.entities[i].update();
             }
@@ -116,11 +111,7 @@
             this.player.playerUpdate();
             this.worldController.update();
             this.view.camera.target.position = this.player.view.position;
-//            this.view.camera.target.y = Math.random() * 100;
-//            this.view.camera.target.z = Math.random() * 100;
             this.view.camera.position.x = this.player.view.position.x;
-
-//            this.view.camera.lookAt( this.player.view.position );
             this.view.render();
         }
     };

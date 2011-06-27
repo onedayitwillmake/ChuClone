@@ -15,15 +15,25 @@ Version:
 	1.0
 */
 (function(){
+    var b2Vec2 = Box2D.Common.Math.b2Vec2;
+    var b2BodyDef = Box2D.Dynamics.b2BodyDef;
+    var b2Body = Box2D.Dynamics.b2Body;
+    var b2FixtureDef = Box2D.Dynamics.b2FixtureDef;
+    var b2Fixture = Box2D.Dynamics.b2Fixture;
+    var b2World = Box2D.Dynamics.b2World;
+    var b2MassData = Box2D.Collision.Shapes.b2MassData;
+    var b2PolygonShape = Box2D.Collision.Shapes.b2PolygonShape;
+    var b2CircleShape = Box2D.Collision.Shapes.b2CircleShape;
+    var b2DebugDraw = Box2D.Dynamics.b2DebugDraw;
+
 	ChuClone.WorldController = function() {
-//		this.setGameDuration( ChuClone.Constants.GAME_DURATION );
 		this.setupBox2d();
-		return this;
+        this.setDebugDraw();
 	};
 
 	ChuClone.WorldController.prototype = {
 		_world							: null,
-        _dbgDraw                        : null,
+        _debugDraw                      : null,
 		_velocityIterationsPerSecond    : 100,
 		_positionIterationsPerSecond	: 300,
 
@@ -32,31 +42,18 @@ Version:
 		 * Sets up the Box2D world and creates a bunch of boxes from that fall from the sky
 		 */
 		setupBox2d: function() {
-
-			ChuClone.Constants.GAME_WIDTH /= ChuClone.Constants.PHYSICS_SCALE;
-			ChuClone.Constants.GAME_HEIGHT /= ChuClone.Constants.PHYSICS_SCALE;
-			ChuClone.Constants.ENTITY_BOX_SIZE /= ChuClone.Constants.PHYSICS_SCALE;
-
-
 			this.createBox2dWorld();
-			this._world.DestroyBody(this._wallBottom);
-
-			for(var i = 0; i < ChuClone.Constants.MAX_OBJECTS ; i ++) {
-				var x = (ChuClone.Constants.GAME_WIDTH/2) + Math.sin(i/5);
-				var y = i * -ChuClone.Constants.ENTITY_BOX_SIZE*3;
-
-				// Make a square or a box
-				if(Math.random() < 0.5) this.createBall(x, y, ChuClone.Constants.ENTITY_BOX_SIZE);
-				else this.createBox(x, y, 0, ChuClone.Constants.ENTITY_BOX_SIZE);
-			}
+            this._world.DestroyBody( this._wallRight );
 		},
 
 		/**
 		 * Creates the Box2D world with 4 walls around the edges
 		 */
 		createBox2dWorld: function() {
-			var m_world = new b2World(new b2Vec2(0, -300), true);
-			m_world.SetWarmStarting(true);
+            var m_world = new b2World(
+                    new b2Vec2(0, -100)    //gravity
+                    , true                 //allow sleep
+            );
 
 			// Create border of boxes
 			var wall = new b2PolygonShape();
@@ -68,10 +65,10 @@ Version:
 			this._wallLeft = m_world.CreateBody(wallBd);
 			this._wallLeft.CreateFixture2(wall);
 			// Right
-//			wallBd.position.Set(ChuClone.Constants.GAME_WIDTH + 0.55, ChuClone.Constants.GAME_HEIGHT/2);
-//			wall.SetAsBox(1, ChuClone.Constants.GAME_HEIGHT*10);
-//			this._wallRight = m_world.CreateBody(wallBd);
-//			this._wallRight.CreateFixture2(wall);
+			wallBd.position.Set(ChuClone.Constants.GAME_WIDTH + 0.55, ChuClone.Constants.GAME_HEIGHT/2);
+			wall.SetAsBox(1, ChuClone.Constants.GAME_HEIGHT*10);
+			this._wallRight = m_world.CreateBody(wallBd);
+			this._wallRight.CreateFixture2(wall);
 			// BOTTOM
 			wallBd.position.Set(ChuClone.Constants.GAME_WIDTH/2, ChuClone.Constants.GAME_HEIGHT+0.55);
 			wall.SetAsBox(ChuClone.Constants.GAME_WIDTH/2, 1);
@@ -91,7 +88,7 @@ Version:
 		 * @param {Number} x	Body position on X axis
 		 * @param {Number} y    Body position on Y axis
 		 * @param {Number} radius Body radius
-		 * @return {b2Body}	A Box2D body
+		 * @return {Box2D.Dynamics.b2Body}	A Box2D body
 		 */
 		createBall: function(x, y, radius) {
 			var fixtureDef = new b2FixtureDef();
@@ -106,13 +103,6 @@ Version:
 			var body = this._world.CreateBody(ballBd);
 			body.CreateFixture(fixtureDef);
 
-			// Create the entity for it in RealTimeMultiplayerNodeJS
-//			var aBox2DEntity = new ChuClone.Box2DEntity( this.getNextEntityID(), RealtimeMultiplayerGame.Constants.SERVER_SETTING.CLIENT_ID );
-//			aBox2DEntity.setBox2DBody( body );
-//			aBox2DEntity.entityType = ChuClone.Constants.ENTITY_TYPES.CIRCLE;
-//
-//			this.fieldController.addEntity( aBox2DEntity );
-//
 			return body;
 		},
 
@@ -154,6 +144,31 @@ Version:
 			return body;
 		},
 
+        createRect: function( x, y, rotation, width, height, isFixed ) {
+            x /= ChuClone.Constants.PHYSICS_SCALE;
+            y /= ChuClone.Constants.PHYSICS_SCALE;
+            width /= ChuClone.Constants.PHYSICS_SCALE;
+            height /= ChuClone.Constants.PHYSICS_SCALE;
+
+            var fixtureDef= new Box2D.Dynamics.b2FixtureDef();
+            fixtureDef.density = 1.0;
+            fixtureDef.friction = 0.5;
+            fixtureDef.restitution = 0.2;
+
+            var bodyDef = new Box2D.Dynamics.b2BodyDef();
+            bodyDef.type = (isFixed) ? Box2D.Dynamics.b2Body.b2_staticBody : Box2D.Dynamics.b2Body.b2_dynamicBody;
+            bodyDef.position.x = x;
+            bodyDef.position.y = y;
+
+            fixtureDef.shape = new Box2D.Collision.Shapes.b2PolygonShape();
+            fixtureDef.shape.SetAsBox( width, height );
+
+            var body = this._world.CreateBody( bodyDef );
+            body.CreateFixture( fixtureDef );
+
+            return body;
+        },
+
 
 		/**
 		 * Updates the game
@@ -162,78 +177,72 @@ Version:
 		update: function() {
 			var delta = 16 / 1000;
 			this.step( delta );
-
-//			if(this.gameTick % 30 === 0) {
-//				this.resetRandomBody();
-//			}
-			// Note we call superclass's implementation after we're done
-//			ChuClone.DemoServerGame.superclass.tick.call(this);
 		},
 
-		/**
-		 * Resets an entity and drops it from the sky
-		 */
-		resetRandomBody: function() {
-			// Retrieve a random key, and use it to retreive an entity
-			var allEntities = this.fieldController.getEntities();
-			var randomKeyIndex = Math.floor(Math.random() * allEntities._keys.length);
-			var entity = allEntities.objectForKey( allEntities._keys[randomKeyIndex] );
-
-			var x = Math.random() * ChuClone.Constants.GAME_WIDTH + ChuClone.Constants.ENTITY_BOX_SIZE;
-			var y = Math.random() * -15;
-			entity.getBox2DBody().SetPosition( new b2Vec2( x, y ) );
-		},
 
 		step: function( delta ) {
-			this._world.ClearForces();
 //			var delta = (typeof delta == "undefined") ? 1/this._fps : delta;
 			this._world.Step(delta, delta * this._velocityIterationsPerSecond, delta * this._positionIterationsPerSecond);
-		},
 
-		shouldAddPlayer: function( aClientid, data ) {
-//			this.createPlayerEntity( this.getNextEntityID(), aClientid);
+            if(this._debugDraw) {
+                this._world.DrawDebugData();
+            }
+            this._world.ClearForces();
 		},
 
 		/**
 		 * @inheritDoc
 		 */
 		shouldUpdatePlayer: function( aClientid, data ) {
-			var pos = new b2Vec2( data.payload.x, data.payload.y);
-			pos.x /= ChuClone.Constants.PHYSICS_SCALE;
-			pos.y /= ChuClone.Constants.PHYSICS_SCALE;
-
-			// Loop through each entity, retrieve it's Box2D body, and apply an impulse towards the mouse position a user clicked
-			this.fieldController.getEntities().forEach( function(key, entity) {
-				var body = entity.getBox2DBody();
-				var bodyPosition = body.GetPosition();
-				var angle = Math.atan2( pos.y - bodyPosition.y, pos.x - bodyPosition.x );
-				var force = 20;
-				var impulse = new b2Vec2( Math.cos(angle) * force, Math.sin(angle) * force);
-				body.ApplyImpulse( impulse, bodyPosition );
-			}, this );
-		},
-
-		shouldRemovePlayer: function( aClientid ) {
-//			ChuClone.DemoServerGame.superclass.shouldRemovePlayer.call( this, aClientid );
-//			console.log("DEMO::REMOVEPLAYER");
+//			var pos = new b2Vec2( data.payload.x, data.payload.y);
+//			pos.x /= ChuClone.Constants.PHYSICS_SCALE;
+//			pos.y /= ChuClone.Constants.PHYSICS_SCALE;
+//
+//			// Loop through each entity, retrieve it's Box2D body, and apply an impulse towards the mouse position a user clicked
+//			this.fieldController.getEntities().forEach( function(key, entity) {
+//				var body = entity.getBox2DBody();
+//				var bodyPosition = body.GetPosition();
+//				var angle = Math.atan2( pos.y - bodyPosition.y, pos.x - bodyPosition.x );
+//				var force = 20;
+//				var impulse = new b2Vec2( Math.cos(angle) * force, Math.sin(angle) * force);
+//				body.ApplyImpulse( impulse, bodyPosition );
+//			}, this );
 		},
 
         setDebugDraw: function(canvas) {
-            this._dbgDraw = new b2DebugDraw();
-            var c = canvas.getContext("2d");
+            if( !canvas ) {
+                var container = document.createElement( 'div' );
+                container.style.position = "absolute";
+                container.style.top = "0px";
+//                container.
+                document.body.appendChild( container );
 
-            // sublcasses expect visual area inside 64x36
-        //	this._dbgDraw.m_drawScale = Math.min(canvas.width/64, canvas.height/36);
-                    this._dbgDraw.SetFlags(b2DebugDraw.e_shapeBit | b2DebugDraw.e_jointBit | b2DebugDraw.e_centerOfMassBit);
-                    this._dbgDraw.SetSprite(c);
-                if(this._world) {
-                    this._world.SetDebugDraw(this._dbgDraw);
-                    this._world.DrawDebugData();
-                }
+                var debugCanvas = document.createElement('canvas');
+                container.appendChild( debugCanvas );
+
+                canvas = debugCanvas;
+                canvas.width = 400;
+                canvas.height = 400;
+
+                /*
+                this.stats.domElement.style.position = 'absolute';
+			this.stats.domElement.style.top = '0px';
+			container.appendChild( this.stats.domElement );
+			document.body.appendChild( container );
+                 */
+            }
+
+             //setup debug draw
+            var debugDraw = new b2DebugDraw();
+            debugDraw.SetSprite( canvas.getContext("2d") );
+            debugDraw.SetDrawScale(0.5);
+            debugDraw.SetFillAlpha(0.3);
+            debugDraw.SetLineThickness(0.5);
+            debugDraw.SetFlags(b2DebugDraw.e_shapeBit | b2DebugDraw.e_jointBit);
+
+            this._world.SetDebugDraw(debugDraw);
+            this._debugDraw = debugDraw;
 
         }
 	};
-
-	// extend RealtimeMultiplayerGame.AbstractServerGame
-//	ChuClone.extend(ChuClone.DemoServerGame, RealtimeMultiplayerGame.AbstractServerGame, null);
-})()
+})();

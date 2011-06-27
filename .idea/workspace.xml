@@ -58,110 +58,109 @@
     <favorites_list name="Chuclone" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="vertical" split-proportion="0.66077346">
-      <split-first>
-        <leaf>
-          <file leaf-file-name="ChuCloneGame.js" pinned="false" current="true" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/ChuCloneGame.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state line="73" column="66" selection-start="2030" selection-end="2030" vertical-scroll-proportion="0.7345133">
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="box2d.js" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/lib/box2d.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state line="3009" column="28" selection-start="99675" selection-end="99686" vertical-scroll-proportion="0.0">
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="WorldController.js" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/WorldController.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state line="222" column="26" selection-start="7522" selection-end="7522" vertical-scroll-proportion="0.0">
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="GameEntity.js" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/GameEntity.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state line="13" column="84" selection-start="466" selection-end="466" vertical-scroll-proportion="0.0">
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="GameView.js" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/GameView.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state line="11" column="16" selection-start="300" selection-end="300" vertical-scroll-proportion="-2.8846154">
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="DirectionalLight.js" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/three.js/src/lights/DirectionalLight.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state line="4" column="73" selection-start="85" selection-end="122" vertical-scroll-proportion="0.0">
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-        </leaf>
-      </split-first>
-      <split-second>
-        <leaf>
-          <file leaf-file-name="WorldController.js" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/WorldController.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state line="35" column="66" selection-start="942" selection-end="942" vertical-scroll-proportion="0.0">
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="ChuCloneConstants.js" pinned="false" current="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/ChuCloneConstants.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state line="25" column="15" selection-start="611" selection-end="611" vertical-scroll-proportion="0.92753625">
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-        </leaf>
-      </split-second>
-    </splitter>
+    <leaf>
+      <file leaf-file-name="GameView.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/GameView.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="115" column="38" selection-start="3598" selection-end="3598" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SceneEditor.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/three.js/src/extras/sceneplotter/SceneEditor.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="216" column="37" selection-start="5331" selection-end="5331" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ScenePlotter.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/three.js/src/extras/sceneplotter/ScenePlotter.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="209" column="50" selection-start="6090" selection-end="6090" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ScenePlotterDot.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/three.js/src/extras/sceneplotter/ScenePlotterDot.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="25" column="17" selection-start="571" selection-end="580" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ChuCloneGame.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/ChuCloneGame.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="83" column="4" selection-start="0" selection-end="4181" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="README.md" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/README.md">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="3" column="89" selection-start="195" selection-end="195" vertical-scroll-proportion="0.052508753">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="WorldController.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/WorldController.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="211" column="40" selection-start="7099" selection-end="7099" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="GameEntity.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/GameEntity.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="14" column="56" selection-start="537" selection-end="537" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FindManager">
     <FindUsagesManager>
       <setting name="OPEN_NEW_TAB" value="false" />
     </FindUsagesManager>
   </component>
+  <component name="Git.Settings">
+    <option name="CHECKOUT_INCLUDE_TAGS" value="false" />
+    <option name="UPDATE_CHANGES_POLICY" value="STASH" />
+  </component>
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/three.js/examples/webgl_interactive_cubes.html" />
-        <option value="$PROJECT_DIR$/Sketch.js" />
-        <option value="$PROJECT_DIR$/ChuClone.js" />
         <option value="$PROJECT_DIR$/webgl_interactive_cubes.html" />
         <option value="$PROJECT_DIR$/levels/01.html" />
         <option value="$PROJECT_DIR$/levels/01.json" />
         <option value="$PROJECT_DIR$/ChuCloneConstants.js" />
         <option value="$PROJECT_DIR$/lib/box2d.js" />
+        <option value="$PROJECT_DIR$/lib/Box2D.js" />
+        <option value="$PROJECT_DIR$/box2dtest.html" />
         <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/GameEntity.js" />
-        <option value="$PROJECT_DIR$/GameView.js" />
         <option value="$PROJECT_DIR$/WorldController.js" />
+        <option value="$PROJECT_DIR$/three.js/src/extras/sceneplotter/SceneEditor.js" />
+        <option value="$PROJECT_DIR$/three.js/src/extras/sceneplotter/ScenePlotterDot.js" />
+        <option value="$PROJECT_DIR$/three.js/src/extras/sceneplotter/ScenePlotter.js" />
+        <option value="$PROJECT_DIR$/GameView.js" />
         <option value="$PROJECT_DIR$/ChuCloneGame.js" />
+        <option value="$PROJECT_DIR$/README.md" />
       </list>
     </option>
   </component>
@@ -195,8 +194,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Favorites" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -212,6 +209,38 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="Chuclone" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Chuclone" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Chuclone" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="three.js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Chuclone" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Chuclone" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="three.js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -246,19 +275,25 @@
         </subPane>
       </pane>
       <pane id="PackagesPane" />
+      <pane id="Favorites" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="project.structure.last.edited" value="Project" />
     <property name="GoToFile.includeJavaFiles" value="false" />
     <property name="project.structure.proportion" value="0.15" />
+    <property name="options.splitter.main.proportions" value="0.3" />
+    <property name="MemberChooser.sorted" value="false" />
+    <property name="options.lastSelected" value="editor.preferences.folding" />
+    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="MemberChooser.copyJavadoc" value="false" />
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="MemberChooser.sorted" value="false" />
     <property name="MemberChooser.showClasses" value="true" />
-    <property name="project.structure.side.proportion" value="0.0" />
     <property name="GoToClass.includeLibraries" value="false" />
-    <property name="MemberChooser.copyJavadoc" value="false" />
+    <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="options.searchVisible" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -328,7 +363,7 @@
     </configuration>
     <configuration default="true" type="JavascriptDebugSession" factoryName="Local">
       <JSDebuggerConfigurationSettings>
-        <option name="engineId" />
+        <option name="engineId" value="embedded" />
         <option name="fileUrl" />
       </JSDebuggerConfigurationSettings>
       <method>
@@ -406,11 +441,11 @@
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25735295" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.26102942" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -465,114 +500,110 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/three.js/src/lights/PointLight.js">
+    <entry file="file://$PROJECT_DIR$/lib/Point.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="6" selection-start="55" selection-end="55" vertical-scroll-proportion="0.06841505">
+        <state line="232" column="4" selection-start="5827" selection-end="5827" vertical-scroll-proportion="0.88027364" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ChuCloneConstants.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="18" column="135" selection-start="460" selection-end="460" vertical-scroll-proportion="0.054347824">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/three.js/src/lights/AmbientLight.js">
+    <entry file="file://$PROJECT_DIR$/box2dtest.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="6" selection-start="55" selection-end="55" vertical-scroll-proportion="0.06841505">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/three.js/examples/webgl_lights_pointlights.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="100" column="34" selection-start="2797" selection-end="2827" vertical-scroll-proportion="0.75">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/Utils.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/DAT.GUI.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/levels/01.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ChuClone.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="89" column="5" selection-start="2661" selection-end="2661" vertical-scroll-proportion="1.5222349">
+        <state line="102" column="26" selection-start="4026" selection-end="4026" vertical-scroll-proportion="0.60453403">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/three.js/src/lights/DirectionalLight.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="73" selection-start="85" selection-end="122" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/Point.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="232" column="4" selection-start="5827" selection-end="5827" vertical-scroll-proportion="0.88027364">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ChuCloneConstants.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="15" selection-start="611" selection-end="611" vertical-scroll-proportion="0.92753625">
+        <state line="4" column="73" selection-start="85" selection-end="122" vertical-scroll-proportion="0.07125891">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="41" selection-start="211" selection-end="211" vertical-scroll-proportion="0.22181146">
+        <state line="11" column="20" selection-start="260" selection-end="260" vertical-scroll-proportion="0.41561714">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lib/box2d.js">
+    <entry file="file://$PROJECT_DIR$/namespace.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="3009" column="28" selection-start="99675" selection-end="99686" vertical-scroll-proportion="0.0">
+        <state line="89" column="5" selection-start="2661" selection-end="2661" vertical-scroll-proportion="3.1710215">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/GameEntity.js">
+    <entry file="file://$PROJECT_DIR$/three.js/src/renderers/WebGLRenderer.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="84" selection-start="466" selection-end="466" vertical-scroll-proportion="0.0">
+        <state line="75" column="102" selection-start="1903" selection-end="1937" vertical-scroll-proportion="0.375">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/lib/JavascriptLanguage.jar!/com/intellij/lang/javascript/index/predefined/HTML5.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1073" column="3" selection-start="17602" selection-end="17604" vertical-scroll-proportion="0.6762936" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/GameView.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="115" column="38" selection-start="3598" selection-end="3598" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/three.js/src/extras/sceneplotter/SceneEditor.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="216" column="37" selection-start="5331" selection-end="5331" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/three.js/src/extras/sceneplotter/ScenePlotter.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="209" column="50" selection-start="6090" selection-end="6090" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/three.js/src/extras/sceneplotter/ScenePlotterDot.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="25" column="17" selection-start="571" selection-end="580" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/WorldController.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="222" column="26" selection-start="7522" selection-end="7522" vertical-scroll-proportion="0.0">
+        <state line="211" column="40" selection-start="7099" selection-end="7099" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/GameView.js">
+    <entry file="file://$PROJECT_DIR$/GameEntity.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="16" selection-start="300" selection-end="300" vertical-scroll-proportion="-2.8846154">
+        <state line="14" column="56" selection-start="537" selection-end="537" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/ChuCloneGame.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="73" column="66" selection-start="2030" selection-end="2030" vertical-scroll-proportion="0.7345133">
+        <state line="83" column="4" selection-start="0" selection-end="4181" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3" column="89" selection-start="195" selection-end="195" vertical-scroll-proportion="0.052508753">
           <folding />
         </state>
       </provider>

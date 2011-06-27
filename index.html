@@ -8,18 +8,22 @@
 				font-family: Monospace;
 				background-color: #111111;
 				margin: 0px;
-				overflow: hidden;
+				/*overflow: hidden;*/
 			}
 		</style>
-	</head>
-	<body>
+
 
 		<script type="text/javascript" src="three.js/build/Three.js"></script>
-
 		<script type="text/javascript" src="three.js/examples/js/RequestAnimationFrame.js"></script>
 		<script type="text/javascript" src="three.js/examples/js/Stats.js"></script>
-        <script type="text/javascript" src="lib/box2d.js"></script>
-        <script type="text/javascript" src="ChuClone.js"></script>
+        <script type="text/javascript" src="three.js/src/extras/sceneplotter/SceneEditor.js"></script>
+		<script type="text/javascript" src="three.js/src/extras/sceneplotter/SortedLookupTable.js"></script>
+		<script type="text/javascript" src="three.js/src/extras/sceneplotter/ScenePlotter.js"></script>
+		<script type="text/javascript" src="three.js/src/extras/sceneplotter/ScenePlotterDot.js"></script>
+
+        <script type="text/javascript" src="lib/Box2D.js"></script>
+
+        <script type="text/javascript" src="namespace.js"></script>
         <script type="text/javascript" src="ChuCloneConstants.js"></script>
         <script type="text/javascript" src="WorldController.js"></script>
         <script type="text/javascript" src="GameView.js"></script>
@@ -40,5 +44,7 @@
             var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
             })();
         </script>
+	</head>
+	<body>
 	</body>
 </html>
