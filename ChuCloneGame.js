@@ -42,20 +42,21 @@
 
 			document.addEventListener('keydown', function(e) {
               var force = new Box2D.Common.Math.b2Vec2(0,0);
+                // UP DOWN LEFT RIGHT
                 switch(e.keyCode) {
-                    case 37:
-                        force.x = 1;
-                    break;
-                     case 39:
-                        force.x = -1;
-                    break;
+                    case 37: force.x = 1; break;
+                    case 39: force.x = -1; break;
+                    case 38: force.y = 1; break;
+                    case 40: force.y = -1;
+                    default: break;
                 }
 
                 var bodyPosition = that.player.body.GetPosition();
-				var angle = Math.PI;//Math.atan2( pos.y - bodyPosition.y, pos.x - bodyPosition.x );
+//				var angle = Math.atan2( pos.y - bodyPosition.y, pos.x - bodyPosition.x );
 				var strength = 2000;
-				var impulse = new Box2D.Common.Math.b2Vec2(3000, -5);
+				var impulse = new Box2D.Common.Math.b2Vec2(100 * that.player.body.GetMass(), 50 * that.player.body.GetMass());
                 impulse.x *= -force.x;
+                impulse.y *= force.y;
                 that.player.body.ApplyImpulse( impulse, bodyPosition );
 			}, false);
 
@@ -75,10 +76,10 @@
 
             var boxSize = 30;
             for ( var i = 0; i < 100; i ++ ) {
-                var x = i*(boxSize);
-                var y = Math.sin(i/10)*30;
+                var x = i*(boxSize*2);
+                var y = Math.sin(i/10)*-50;
                 var body = this.worldController.createRect( x, y, 0, boxSize, boxSize, true );
-                var view = this.view.createEntityView( x, y, boxSize*0.9, 2, 200  );
+                var view = this.view.createEntityView( x, y, boxSize*2, 0.1, 200  );
                 var entity = new ChuClone.GameEntity();
                 entity.setBody( body );
                 entity.setView( view );
@@ -90,10 +91,10 @@
             // Player-
             x = 21;
             y = 30;
-            boxSize *= 1.5;
-            body = this.worldController.createRect( x, y, 0, 5, 5, false);
-            view = this.view.createEntityView( x, y, boxSize, boxSize, 20 );
-            view.materials[0] = new THREE.MeshLambertMaterial( { color: 0xFF0000 } );
+            boxSize = 30;
+            body = this.worldController.createRect( x, y, 0, boxSize, 0.1, false);
+            view = this.view.createEntityView( x, y, boxSize * 2, 0.1, boxSize * 2);
+            view.materials[0] = new THREE.MeshPhongMaterial( { ambient: 0x030303, color: 0xdddddd, specular: 0x009900, shininess: 30, shading: THREE.FlatShading } );
             entity = new ChuClone.GameEntity();
             entity.setBody( body );
             entity.setView( view );

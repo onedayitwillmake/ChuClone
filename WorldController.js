@@ -44,6 +44,7 @@ Version:
 		setupBox2d: function() {
 			this.createBox2dWorld();
             this._world.DestroyBody( this._wallRight );
+            this._world.DestroyBody( this._wallBottom );
 		},
 
 		/**
@@ -51,7 +52,7 @@ Version:
 		 */
 		createBox2dWorld: function() {
             var m_world = new b2World(
-                    new b2Vec2(0, -100)    //gravity
+                    new b2Vec2(0, -450)    //gravity
                     , true                 //allow sleep
             );
 
@@ -152,8 +153,8 @@ Version:
 
             var fixtureDef= new Box2D.Dynamics.b2FixtureDef();
             fixtureDef.density = 1.0;
-            fixtureDef.friction = 0.5;
-            fixtureDef.restitution = 0.2;
+            fixtureDef.friction = 0.2;
+            fixtureDef.restitution = 0.3;
 
             var bodyDef = new Box2D.Dynamics.b2BodyDef();
             bodyDef.type = (isFixed) ? Box2D.Dynamics.b2Body.b2_staticBody : Box2D.Dynamics.b2Body.b2_dynamicBody;

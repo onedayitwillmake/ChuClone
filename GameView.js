@@ -217,7 +217,7 @@ Version:
 
         createEntityView: function( x, y, width, height, depth ) {
             var geometry = new THREE.CubeGeometry( width, height, depth );
-            var object = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color: 0xffffff } ) );
+            var object = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color: 0xffffff, shading: THREE.FlatShading } ) );
             object.position.x = x;//i * 21;//i*100;//Math.random() * 800 - 400;
             object.position.y = y;//Math.random() * 800 - 400;
             object.position.z = 0;//10;// Math.random() * 800 - 400;
