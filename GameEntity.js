@@ -12,11 +12,12 @@
 
         /**
          * Update the position/rotation based on the BOX2D world position
+         * Takes PTM_RATIO into account
          */
         update: function() {
             var bodyPos = this.body.GetPosition();
-            this.view.position.x = bodyPos.x * PTM_RATIO;
-            this.view.position.y = (bodyPos.y * PTM_RATIO) + this.view.geometry.boundingBox.y[0];
+//            this.view.position.x = bodyPos.x * PTM_RATIO;
+//            this.view.position.y = (bodyPos.y * PTM_RATIO) + this.view.geometry.boundingBox.y[0];
 
             this.view.rotation.z = this.body.GetAngle();
         },

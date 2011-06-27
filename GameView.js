@@ -33,7 +33,7 @@ Version:
 
         // Add it to the scene plotter, specifying SQUARE as 2d representation
         this.sceneEditor.startPlottingObject( this.camera, THREE.SceneEditor.ScenePlotterDot.prototype.TYPES.SQUARE, false, false );
-        this.sceneEditor.startPlottingObject( this.light1, THREE.SceneEditor.ScenePlotterDot.prototype.TYPES.SQUARE, false, false );
+//        this.sceneEditor.startPlottingObject( this.light1, THREE.SceneEditor.ScenePlotterDot.prototype.TYPES.SQUARE, false, false );
 //		this.setupStats();
 	};
 
@@ -63,15 +63,15 @@ Version:
 				this.camera = new THREE.Camera( 70, window.innerWidth / window.innerHeight, 1, 10000 );
 
 				this.camera.position.x = 0;
-				this.camera.position.y = 1;
-				this.camera.position.z = 0;
+				this.camera.position.y = 0;
+				this.camera.position.z = 1000;
                 this.camera.name = "camera";
 
 				scene = new THREE.Scene();
-                scene.addLight( new THREE.AmbientLight( 0x111111) );
+                scene.addLight( new THREE.AmbientLight( 0xFFFFFF) );
 
             //hex, intensity, distance, castShadow
-				this.light1 = new THREE.PointLight( 0xffffff, 1.5, 1000 );
+				this.light1 = new THREE.PointLight( 0xffffff, 1.5, 0 );
                 this.light1.name = "light1";
 				this.light1.position.x = 0;
 				this.light1.position.y = 318;
@@ -113,7 +113,7 @@ Version:
             // Create a canvas for the sceneeditor
             var container = document.createElement('div');
             container.style.position = "absolute";
-            container.style.top = "200px";
+            container.style.top = "0px";
             document.body.appendChild(container);
 
             var sceneEditorCanvas = document.createElement('canvas');
@@ -129,12 +129,13 @@ Version:
             sceneEditor.create();
             sceneEditor.setWorldOffset( this.camera.position );
 
+            var defaultScale = 0.1;
             var axis = ['xy', 'xz', 'zy'],
                 scales = [0.11, 0.11, 0.11];
 
-            var xBuffer = 5,
-                yBuffer = 50,
-                xSpacing = 5;
+            var xBuffer = 0,
+                yBuffer = 0,
+                xSpacing = 0;
 
             var plotterSize = 150;
 
@@ -144,7 +145,7 @@ Version:
             }
 
             this.sceneEditor = sceneEditor;
-            this.sceneEditor.setIsActive( false )
+//            this.sceneEditor.setIsActive( false )
         },
 
 		/**
@@ -230,9 +231,7 @@ Version:
 //            					object.rotation.y = ( Math.random() * 360 ) * Math.PI / 180;
 //            					object.rotation.z = ( Math.random() * 360 ) * Math.PI / 180;
 
-            //        this.sceneEditor.startPlottingObject( this.camera, THREE.SceneEditor.ScenePlotterDot.prototype.TYPES.SQUARE, false, false );
-
-            if(this.sceneEditor) this.sceneEditor.startPlottingObject( object, THREE.SceneEditor.ScenePlotterDot.prototype.TYPES.SQUARE, false, false );
+//            if(this.sceneEditor) this.sceneEditor.startPlottingObject( object, THREE.SceneEditor.ScenePlotterDot.prototype.TYPES.SQUARE, false, false );
 
             return object;
         },
