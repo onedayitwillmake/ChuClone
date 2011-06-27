@@ -154,7 +154,7 @@ Version:
 			var radius = 300;
 //			var theta = 0;
 
-            this.theta += 0.1;
+            this.theta = 0;
             var offset = 0;
 //            this.camera.position.x = radius * Math.sin( this.theta * Math.PI / 360 );
 //            this.camera.position.y = radius * Math.sin( this.theta * Math.PI / 360  * 2);

@@ -48,13 +48,13 @@
                 if( e.keyCode == 38 ) force.y = 1;
                 else if( e.keyCode == 40) force.y = -1;
 
-                var bodyPosition = that.player.body.GetPosition();
+                var bodyPosition = that.player.body.GetWorldCenter();
 //				var angle = Math.atan2( pos.y - bodyPosition.y, pos.x - bodyPosition.x );
 				var strength = 2000;
 				var impulse = new Box2D.Common.Math.b2Vec2(10000 * that.player.body.GetMass(), 5000 * that.player.body.GetMass());
                 impulse.x *= -force.x;
-                impulse.y *= force.y;
-                that.player.body.ApplyForce( impulse, bodyPosition );
+                impulse.y = 0;//force.y;
+                that.player.body.ApplyImpulse( impulse, bodyPosition );
 			}, false);
 
 //            console.log(Math.cos(angle) * force, Math.sin(angle) * force)
@@ -76,7 +76,7 @@
                 var x = i*(boxSize*2);
                 var y = Math.abs(Math.sin(i/10))*-50 + 50;
                 var body = this.worldController.createRect( x, y, 0, boxSize, boxSize, true );
-                var view = this.view.createEntityView( x, y, boxSize*2, 0.1, 200  );
+                var view = this.view.createEntityView( x, y, boxSize*2, boxSize, 600  );
                 var entity = new ChuClone.GameEntity();
                 entity.setBody( body );
                 entity.setView( view );
@@ -86,15 +86,17 @@
             }
 
             // Player-
-            x = 21;
-            y = 500;
+            x = 35;
+            y = 200;
             boxSize = 30;
-            body = this.worldController.createRect( x, y, Math.random() * 6, boxSize, boxSize/2, false);
-            view = this.view.createEntityView( x, y, boxSize * 4, boxSize*2, boxSize * 2);
+            body = this.worldController.createRect( x, y, Math.random() * 6, boxSize, boxSize, false);
+            view = this.view.createEntityView( x, y, boxSize * 2, boxSize*2, boxSize * 2);
             view.materials[0] = new THREE.MeshPhongMaterial( { ambient: 0x030303, color: 0xdddddd, specular: 0x009900, shininess: 30, shading: THREE.FlatShading } );
             entity = new ChuClone.GameEntity();
             entity.setBody( body );
             entity.setView( view );
+//            body.ApplyImpulse( new Box2D.Dynamics.b2Vec2(1000, 0), body.GetPosition() );
+
 
             this.entities.push( entity );
             this.view.addEntity( entity.view );

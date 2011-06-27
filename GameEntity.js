@@ -6,12 +6,14 @@
     ChuClone.GameEntity.prototype = {
         view        : null,
         body        : null,
+        originalSize: null,
         force       : null,
+
 
         update: function() {
             var bodyPos = this.body.GetPosition();
             this.view.position.x = bodyPos.x * ChuClone.Constants.PHYSICS_SCALE;
-            this.view.position.y = bodyPos.y * ChuClone.Constants.PHYSICS_SCALE;
+            this.view.position.y = bodyPos.y * ChuClone.Constants.PHYSICS_SCALE + this.view.geometry.boundingBox.y[0];
             this.view.rotation.z = this.body.GetAngle();
         },
 
@@ -38,6 +40,10 @@
 
         setView: function( aView ) {
             this.view = aView;
+            this.view.geometry.computeBoundingBox();
+
+            console.log(   )
+
         }
     }
 

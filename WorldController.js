@@ -53,7 +53,7 @@ Version:
 		 */
 		createBox2dWorld: function() {
             var m_world = new b2World(
-                    new b2Vec2(0, -450)    //gravity
+                    new b2Vec2(0, -550)    //gravity
                     , true                 //allow sleep
             );
 
