@@ -62,7 +62,7 @@
       <file leaf-file-name="ChuCloneGame.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/ChuCloneGame.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="94" column="73" selection-start="2996" selection-end="2996" vertical-scroll-proportion="0.6076389">
+            <state line="92" column="64" selection-start="3045" selection-end="3045" vertical-scroll-proportion="0.5208333">
               <folding />
             </state>
           </provider>
@@ -71,7 +71,7 @@
       <file leaf-file-name="WorldController.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/WorldController.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="156" column="40" selection-start="5282" selection-end="5282" vertical-scroll-proportion="0.0">
+            <state line="239" column="38" selection-start="8161" selection-end="8161" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -89,7 +89,7 @@
       <file leaf-file-name="GameView.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/GameView.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="219" column="127" selection-start="7413" selection-end="7413" vertical-scroll-proportion="0.0">
+            <state line="165" column="60" selection-start="5483" selection-end="5483" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -122,8 +122,8 @@
         <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/GameEntity.js" />
-        <option value="$PROJECT_DIR$/GameView.js" />
         <option value="$PROJECT_DIR$/WorldController.js" />
+        <option value="$PROJECT_DIR$/GameView.js" />
         <option value="$PROJECT_DIR$/ChuCloneGame.js" />
       </list>
     </option>
@@ -593,23 +593,23 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/GameView.js">
+    <entry file="file://$PROJECT_DIR$/WorldController.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="219" column="127" selection-start="7413" selection-end="7413" vertical-scroll-proportion="0.0">
+        <state line="239" column="38" selection-start="8161" selection-end="8161" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/WorldController.js">
+    <entry file="file://$PROJECT_DIR$/GameView.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="156" column="40" selection-start="5282" selection-end="5282" vertical-scroll-proportion="0.0">
+        <state line="165" column="60" selection-start="5483" selection-end="5483" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/ChuCloneGame.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="94" column="73" selection-start="2996" selection-end="2996" vertical-scroll-proportion="0.6076389">
+        <state line="92" column="64" selection-start="3045" selection-end="3045" vertical-scroll-proportion="0.5208333">
           <folding />
         </state>
       </provider>

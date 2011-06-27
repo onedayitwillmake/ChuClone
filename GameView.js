@@ -162,6 +162,8 @@ Version:
 //            var zero = new THREE.Vector3(Math.random() * 100, Math.random() * 100,0);
 //            console.log(zero)
 
+            this.light1.position.x = this.camera.position.x;
+            this.light1.position.z = this.camera.position.z ;
 
             this.camera.update();
             renderer.render( scene, this.camera );

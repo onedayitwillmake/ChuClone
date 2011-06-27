@@ -45,6 +45,7 @@ Version:
 			this.createBox2dWorld();
             this._world.DestroyBody( this._wallRight );
             this._world.DestroyBody( this._wallBottom );
+            this._world.DestroyBody( this._wallTop );
 		},
 
 		/**
@@ -236,7 +237,7 @@ Version:
              //setup debug draw
             var debugDraw = new b2DebugDraw();
             debugDraw.SetSprite( canvas.getContext("2d") );
-            debugDraw.SetDrawScale(0.5);
+            debugDraw.SetDrawScale(0.25);
             debugDraw.SetFillAlpha(0.3);
             debugDraw.SetLineThickness(0.5);
             debugDraw.SetFlags(b2DebugDraw.e_shapeBit | b2DebugDraw.e_jointBit);
