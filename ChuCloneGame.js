@@ -28,9 +28,8 @@
             this.setup();
             this.setupKeyboard();
 
+            // MAIN LOOP
             var that = this;
-
-            // Loop
             (function loop() {
                 that.update();
                 window.requestAnimationFrame( loop, null );
@@ -131,23 +130,7 @@
             this.worldController.update();
             this.view.camera.target.position = this.player.view.position;
             this.view.camera.position.x = this.player.view.position.x;
-//            this.view.render();
+            this.view.render();
         }
     };
-
-       /*
-           var onLoad = function( event ) {
-            // Create canvas element
-            var canvas = document.createElement('canvas');
-            canvas.id = "container";
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            document.body.insertBefore( canvas, document.getElementById("linklist") );
-
-            var context = canvas.getContext("2d");
-            var game = new ChuClone.ChuCloneGame();
-
-
-        };
-        */
 }());

@@ -144,6 +144,7 @@ Version:
             }
 
             this.sceneEditor = sceneEditor;
+            this.sceneEditor.setIsActive( false )
         },
 
 		/**
@@ -154,11 +155,11 @@ Version:
 			var radius = 300;
 //			var theta = 0;
 
-            this.theta = 0;
+            this.theta += 1;
             var offset = 0;
 //            this.camera.position.x = radius * Math.sin( this.theta * Math.PI / 360 );
 //            this.camera.position.y = radius * Math.sin( this.theta * Math.PI / 360  * 2);
-            this.camera.position.z = radius * Math.cos( this.theta * Math.PI / 360 );
+//            this.camera.position.z = radius * Math.cos( this.theta * Math.PI / 360 );
 //            var zero = new THREE.Vector3(Math.random() * 100, Math.random() * 100,0);
 //            console.log(zero)
 
@@ -217,18 +218,21 @@ Version:
 			document.body.appendChild( container );
 		},
 
+        id: 0,
         createEntityView: function( x, y, width, height, depth ) {
             var geometry = new THREE.CubeGeometry( width, height, depth );
             var object = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color: 0xffffff, shading: THREE.FlatShading } ) );
+            object.name = ++this.id;
             object.position.x = x;//i * 21;//i*100;//Math.random() * 800 - 400;
             object.position.y = y;//Math.random() * 800 - 400;
             object.position.z = 0;//10;// Math.random() * 800 - 400;
 //            					object.rotation.x = ( Math.random() * 360 ) * Math.PI / 180;
 //            					object.rotation.y = ( Math.random() * 360 ) * Math.PI / 180;
 //            					object.rotation.z = ( Math.random() * 360 ) * Math.PI / 180;
-            //					object.scale.x = Math.random() * 2 + 1;
-            //					object.scale.y = Math.random() * 2 + 1;
-            //					object.scale.z = Math.random() * 2 + 1;
+
+            //        this.sceneEditor.startPlottingObject( this.camera, THREE.SceneEditor.ScenePlotterDot.prototype.TYPES.SQUARE, false, false );
+
+            if(this.sceneEditor) this.sceneEditor.startPlottingObject( object, THREE.SceneEditor.ScenePlotterDot.prototype.TYPES.SQUARE, false, false );
 
             return object;
         },
