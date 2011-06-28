@@ -4,8 +4,8 @@
  * http://ribbonpaint.com
  */
 (function(){
+	var PTM_RATIO = ChuClone.Constants.PTM_RATIO;
     ChuClone.namespace("ChuClone");
-
     ChuClone.ChuCloneGame = function() {
         this.entities = [];
         this.listenForReady();
@@ -46,15 +46,16 @@
                 // SPACEBAR
                 if(e.keyCode == 32) {
                     var playerPosition = new Box2D.Common.Math.b2Vec2(that.player.getBody().GetPosition().x, that.player.getBody().GetPosition().y);
-                    var size = 10;
+					playerPosition.y += 60/PTM_RATIO;
+                    var size = 1/ChuClone.Constants.PTM_RATIO;
                     var aabb = new Box2D.Collision.b2AABB();
                     aabb.lowerBound.Set( playerPosition.x - size, playerPosition.y - size );
                     aabb.upperBound.Set( playerPosition.x + size, playerPosition.y + size );
 
+
                     var selectedBody = null;
                     that.worldController.getWorld().QueryAABB(function getBodyCB(fixture) {
-                        console.log(fixture.GetBody() == that.player.getBody())
-                        if (fixture.GetBody().GetType() != Box2D.Dynamics.b2Body.b2_dynamicBody) {
+                        if (fixture.GetBody().GetType() == Box2D.Dynamics.b2Body.b2_dynamicBody) {
                             if (fixture.GetShape().TestPoint(fixture.GetBody().GetTransform(), playerPosition)) {
                                 selectedBody = fixture.GetBody();
                                 return false;
@@ -63,12 +64,14 @@
                         return false;
                     }, aabb);
 
+					console.log(selectedBody)
+
                     if(!selectedBody) return;
-                    console.log(selectedBody)
                     var bodyPosition = selectedBody.GetPosition();
 
-
-                    var impulse = new Box2D.Common.Math.b2Vec2(0, -5000 * selectedBody.GetMass());
+//				var prismaticJoint = new Box2D.Dynamics.b2PrismaticJointDef();
+//				prismaticJoint.Initialize( body)
+                    var impulse = new Box2D.Common.Math.b2Vec2(0, -20* selectedBody.GetMass());
                  //   impulse.y = 0;//force.y;
                     selectedBody.ApplyImpulse( impulse, bodyPosition );
 
@@ -91,11 +94,11 @@
         setup: function() {
 
             var boxSize = 30;
-            for ( var i = 0; i < 30; i ++ ) {
-                var x = i*(boxSize*2);
-                var y = Math.abs(Math.sin(i/10))*-150 + 150;
-                var body = this.worldController.createRect( x, y, 0, boxSize, boxSize, false );
-                var view = this.view.createEntityView( x, y, boxSize*2, boxSize*2, 100  );
+            for ( var i = 0; i < 100; i ++ ) {
+                var x = i*(boxSize*2*2*2*2*2*2);
+                var y = Math.abs(Math.sin(i/10))*-400 + 150;
+                var body = this.worldController.createRect( x, y, 0, boxSize*2*2*2*2*2, boxSize, true );
+                var view = this.view.createEntityView( x, y, boxSize*2*2*2*2*2*2, boxSize, 100  );
                 var entity = new ChuClone.GameEntity();
                 entity.setBody( body );
                 entity.setView( view );

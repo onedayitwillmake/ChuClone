@@ -15,6 +15,7 @@ Version:
 	1.0
 */
 (function(){
+	ChuClone.namespace("ChuClone");
 	ChuClone.Constants = {
         GAME_WIDTH				: 700,
 		GAME_HEIGHT				: 450,
@@ -27,7 +28,7 @@ Version:
             LEFT: 37,
             UP: 38,
             RIGHT: 39,
-            DOWN: 40,
+            DOWN: 40
 
         }
 	}

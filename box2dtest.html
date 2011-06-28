@@ -30,7 +30,8 @@
 
         var lastBody;
         function init() {
-            var b2Vec2 = Box2D.Common.Math.b2Vec2
+            var b2Vec2 = Box2D.Common.Math.b2Vec2,
+			b2AABB = Box2D.Collision.b2AABB
                     ,    b2BodyDef = Box2D.Dynamics.b2BodyDef
                     ,    b2Body = Box2D.Dynamics.b2Body
                     ,    b2FixtureDef = Box2D.Dynamics.b2FixtureDef
@@ -93,6 +94,38 @@
             world.SetDebugDraw(debugDraw);
 
             window.setInterval(update, 1000 / 60);
+
+			function getBodyAtMouse() {
+				console.log("YO", mouseX)
+				mousePVec = new b2Vec2(mouseX, mouseY);
+
+				var aabb = new b2AABB();
+				aabb.lowerBound.Set(mouseX - 0.001, mouseY - 0.001);
+				aabb.upperBound.Set(mouseX + 0.001, mouseY + 0.001);
+
+				// Query the world for overlapping shapes.
+
+				selectedBody = null;
+				world.QueryAABB(getBodyCB, aabb);
+				return selectedBody;
+         }
+
+         function getBodyCB(fixture) {
+            if(fixture.GetBody().GetType() != b2Body.b2_staticBody) {
+               if(fixture.GetShape().TestPoint(fixture.GetBody().GetTransform(), mousePVec)) {
+                  selectedBody = fixture.GetBody();
+                  return false;
+               }
+            }
+            return true;
+         }
+
+		window.addEventListener("mousedown", function(e){
+			mouseX = e.clientX/30;
+			mouseY = e.clientY/30;
+
+			getBodyAtMouse();
+		}, true);
         }
 
         function update() {
@@ -109,6 +142,7 @@
             world.DrawDebugData();
             world.ClearForces();
         }
+
         window.addEventListener("DOMContentLoaded", init, true);
     </script>
 

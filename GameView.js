@@ -29,10 +29,10 @@ Version:
 
 	ChuClone.GameView = function() {
 		this.setupThreeJS();
-        this.setupSceneEditor();
+//        this.setupSceneEditor();
 
         // Add it to the scene plotter, specifying SQUARE as 2d representation
-        this.sceneEditor.startPlottingObject( this.camera, THREE.SceneEditor.ScenePlotterDot.prototype.TYPES.SQUARE, false, false );
+//        this.sceneEditor.startPlottingObject( this.camera, THREE.SceneEditor.ScenePlotterDot.prototype.TYPES.SQUARE, false, false );
 //        this.sceneEditor.startPlottingObject( this.light1, THREE.SceneEditor.ScenePlotterDot.prototype.TYPES.SQUARE, false, false );
 //		this.setupStats();
 	};
@@ -68,10 +68,10 @@ Version:
                 this.camera.name = "camera";
 
 				scene = new THREE.Scene();
-                scene.addLight( new THREE.AmbientLight( 0xFFFFFF) );
+//                scene.addLight( new THREE.AmbientLight(0xFFFFFF) );
 
             //hex, intensity, distance, castShadow
-				this.light1 = new THREE.PointLight( 0xffffff, 1.5, 0 );
+				this.light1 = new THREE.PointLight( 0xffffff, 0.5, 0 );
                 this.light1.name = "light1";
 				this.light1.position.x = 0;
 				this.light1.position.y = 318;
@@ -153,19 +153,19 @@ Version:
 		 * @param {Number} gameClockReal The current actual time, according to the game
 		 */
 		render: function( gameClockReal ) {
-			var radius = 300;
+			var radius = 1000;
 //			var theta = 0;
 
             this.theta += 1;
             var offset = 0;
 //            this.camera.position.x = radius * Math.sin( this.theta * Math.PI / 360 );
-//            this.camera.position.y = radius * Math.sin( this.theta * Math.PI / 360  * 2);
+            this.camera.position.y = 400;//radius * Math.sin( this.theta * Math.PI / 360 );
 //            this.camera.position.z = radius * Math.cos( this.theta * Math.PI / 360 );
 //            var zero = new THREE.Vector3(Math.random() * 100, Math.random() * 100,0);
 //            console.log(zero)
 
             this.light1.position.x = this.camera.position.x;
-            this.light1.position.z = this.camera.position.z ;
+//            this.light1.position.z = this.camera.position.z ;
 
             this.camera.update();
             renderer.render( scene, this.camera );
@@ -222,7 +222,7 @@ Version:
         id: 0,
         createEntityView: function( x, y, width, height, depth ) {
             var geometry = new THREE.CubeGeometry( width, height, depth );
-            var object = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { color: 0xffffff, shading: THREE.FlatShading } ) );
+            var object = new THREE.Mesh( geometry, new THREE.MeshPhongMaterial( { color: 0xffffff, shading: THREE.FlatShading } ) );
             object.name = ++this.id;
             object.position.x = x;//i * 21;//i*100;//Math.random() * 800 - 400;
             object.position.y = y;//Math.random() * 800 - 400;

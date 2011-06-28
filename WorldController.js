@@ -53,7 +53,7 @@ Version:
 		 * Creates the Box2D world with 4 walls around the edges
 		 */
 		createBox2dWorld: function() {
-            var m_world = new b2World( new b2Vec2(0, 16), true );
+            var m_world = new b2World( new b2Vec2(0, 30), true );
 
 
 			// Create border of boxes
@@ -157,8 +157,8 @@ Version:
 
             var fixtureDef= new Box2D.Dynamics.b2FixtureDef();
             fixtureDef.density = 1.0;
-            fixtureDef.friction = 0.2;
-            fixtureDef.restitution = 0.3;
+            fixtureDef.friction = 0.5;
+            fixtureDef.restitution = 0.1;
 
             var bodyDef = new Box2D.Dynamics.b2BodyDef();
             bodyDef.type = (isFixed) ? Box2D.Dynamics.b2Body.b2_staticBody : Box2D.Dynamics.b2Body.b2_dynamicBody;
@@ -213,7 +213,7 @@ Version:
              //setup debug draw
             var debugDraw = new b2DebugDraw();
             debugDraw.SetSprite( canvas.getContext("2d") );
-            debugDraw.SetDrawScale(PTM_RATIO/2);
+            debugDraw.SetDrawScale(3);
             debugDraw.SetFillAlpha(0.3);
             debugDraw.SetLineThickness(0.5);
             debugDraw.SetFlags(b2DebugDraw.e_shapeBit | b2DebugDraw.e_jointBit);
