@@ -60,7 +60,7 @@ Version:
 //				info.innerHTML = '<a href="http://github.com/mrdoob/three.js" target="_blank">three.js</a> webgl - interactive cubes';
 				container.appendChild( info );
 
-				this.camera = new THREE.Camera( 70, window.innerWidth / window.innerHeight, 1, 10000 );
+				this.camera = new THREE.Camera( 70, window.innerWidth / window.innerHeight, 1, 30000 );
 
 				this.camera.position.x = 0;
 				this.camera.position.y = 0;
@@ -71,11 +71,11 @@ Version:
 //                scene.addLight( new THREE.AmbientLight(0xFFFFFF) );
 
             //hex, intensity, distance, castShadow
-				this.light1 = new THREE.PointLight( 0xffffff, 0.5, 0 );
+				this.light1 = new THREE.PointLight( 0xFFFFFF, 1, 10000 );
                 this.light1.name = "light1";
 				this.light1.position.x = 0;
-				this.light1.position.y = 318;
-				this.light1.position.z = 90;
+				this.light1.position.y = 0;
+				this.light1.position.z = 0;
 				scene.addLight( this.light1 );
 //                var   light1 = new THREE.PointLight( 0xffffff, 10, 0 );
 //                scene.addLight( light1 );
@@ -158,13 +158,13 @@ Version:
 
             this.theta += 1;
             var offset = 0;
-//            this.camera.position.x = radius * Math.sin( this.theta * Math.PI / 360 );
-            this.camera.position.y = 400;//radius * Math.sin( this.theta * Math.PI / 360 );
+            this.camera.position.x += mouse.x * 1000;//radius * Math.sin( this.theta * Math.PI / 360 );
+            this.camera.position.y = Math.sin(mouse.y) * 1000;//radius * Math.sin( this.theta * Math.PI / 360 );
 //            this.camera.position.z = radius * Math.cos( this.theta * Math.PI / 360 );
 //            var zero = new THREE.Vector3(Math.random() * 100, Math.random() * 100,0);
 //            console.log(zero)
 
-            this.light1.position.x = this.camera.position.x;
+            this.light1.position.x -= (this.light1.position.x - this.camera.position.x - 1000) * 0.09;
 //            this.light1.position.z = this.camera.position.z ;
 
             this.camera.update();
@@ -222,7 +222,7 @@ Version:
         id: 0,
         createEntityView: function( x, y, width, height, depth ) {
             var geometry = new THREE.CubeGeometry( width, height, depth );
-            var object = new THREE.Mesh( geometry, new THREE.MeshPhongMaterial( { color: 0xffffff, shading: THREE.FlatShading } ) );
+            var object = new THREE.Mesh( geometry, [new THREE.MeshLambertMaterial( { color: 0xffffff, shading: THREE.FlatShading }), new THREE.MeshBasicMaterial( { color: 0xffffff, opacity: 0.05, wireframe: true } )] );
             object.name = ++this.id;
             object.position.x = x;//i * 21;//i*100;//Math.random() * 800 - 400;
             object.position.y = y;//Math.random() * 800 - 400;

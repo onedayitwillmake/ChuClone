@@ -98,7 +98,7 @@
                 var x = i*(boxSize*2*2*2*2*2*2);
                 var y = Math.abs(Math.sin(i/10))*-400 + 150;
                 var body = this.worldController.createRect( x, y, 0, boxSize*2*2*2*2*2, boxSize, true );
-                var view = this.view.createEntityView( x, y, boxSize*2*2*2*2*2*2, boxSize, 100  );
+                var view = this.view.createEntityView( x, y, boxSize*2*2*2*2*2*2, boxSize + Math.random() * 1000, 600  );
                 var entity = new ChuClone.GameEntity();
                 entity.setBody( body );
                 entity.setView( view );
@@ -113,7 +113,7 @@
             boxSize = 30;
             body = this.worldController.createRect( x, y, Math.random() * 6, boxSize, boxSize, false);
             view = this.view.createEntityView( x, y, boxSize * 2, boxSize*2, boxSize * 2);
-            view.materials[0] = new THREE.MeshPhongMaterial( { ambient: 0x030303, color: 0xdddddd, specular: 0x009900, shininess: 30, shading: THREE.FlatShading } );
+            view.materials[0] = new THREE.MeshPhongMaterial( { ambient: 0x111111, color: 0x666666, specular: 0xDDDDDD, shininess:1, shading: THREE.FlatShading } );
             entity = new ChuClone.PlayerEntity();
             entity.setBody( body );
             entity.setView( view );
@@ -132,7 +132,7 @@
 
             this.worldController.update();
             this.view.camera.target.position = this.player.view.position;
-            this.view.camera.position.x = this.player.view.position.x;
+            this.view.camera.position.x = this.player.view.position.x - 700;
             this.view.render();
         }
     };
