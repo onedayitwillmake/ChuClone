@@ -68,7 +68,7 @@ Version:
 			this.camera.name = "camera";
 
 			scene = new THREE.Scene();
-//                scene.addLight( new THREE.AmbientLight(0x608090) );
+			scene.addLight( new THREE.AmbientLight(0x608090) );
 
 		//hex, intensity, distance, castShadow
 //				this.light1 = new THREE.PointLight( 0xFFFFFF, 1, 25000 );
@@ -77,15 +77,15 @@ Version:
 //				this.light1.position.y = 20;
 //				this.light1.position.z = -100;
 //				scene.addLight( this.light1 );
-			this.light1 = new THREE.DirectionalLight( 0x608090, 1.6 );
+			this.light1 = new THREE.DirectionalLight( 0x608090, 1.6, 0, true );
 			this.light1.position.set( 0, 2, 1 );
 			scene.addLight( this.light1 );
 
-			var light = new THREE.DirectionalLight( 0xffffff, 1 );
-			light.position.set( -1, 0, 0.5 );
-			scene.addLight( light );
+//			var light = new THREE.DirectionalLight( 0xffffff, 1 );
+//			light.position.set( -1, 0, 0.5 );
+//			scene.addLight( light );
 
-//			scene.fog = new THREE.FogExp2( 0x111111, 0.00005 );
+			scene.fog = new THREE.FogExp2( 0x000000, 0.00001 );
 //                var   light1 = new THREE.PointL	ight( 0xffffff, 10, 0 );
 //                scene.addLight( light1 );
 
@@ -102,6 +102,7 @@ Version:
 
 			renderer = new THREE.WebGLRenderer();
 			renderer.sortObjects = false;
+			renderer.setClearColor(new THREE.Color(0xFFFFFF), 1);
 			renderer.setSize( window.innerWidth, window.innerHeight );
 
 			container.appendChild(renderer.domElement);
@@ -115,12 +116,14 @@ Version:
 
 		setupBirds: function() {
 			this.birds = [];
-			var range = 300;
+			var range = 600;
 
 			for(var i = 0; i < 100; i++ ) {
-				var bird = this.birds[ i ] = new THREE.Mesh( new Bird(), new THREE.MeshBasicMaterial( { color:Math.random() * 0x222222 + 0xDDDDDD} ) );
+				var bird = this.birds[ i ] = new THREE.Mesh( new Bird(), new THREE.MeshBasicMaterial( {
+					color:Math.random() * 0x222222 + 0xDDDDDD
+				} ) );
 				bird.phase = Math.floor( Math.random() * 62.83 );
-				bird.position = new THREE.Vector3( Math.random() * 300, Math.random() * 300, (Math.random()*2-1) * 800 );
+				bird.position = new THREE.Vector3( Math.random() * range, Math.random() * range, (Math.random()*2-1) * range*2 );
 				bird.doubleSided = true;
 				bird.scale.x = bird.scale.y = bird.scale.z = (Math.random()) * 5 + 5;
 				scene.addObject( bird );
@@ -208,6 +211,7 @@ Version:
 
 //					bird.rotation.y = Math.atan2( - boid.velocity.z, boid.velocity.x );
 //					bird.rotation.z = Math.asin( boid.velocity.y / boid.velocity.length() );
+//					bird.position.x = this.camera.position.x;
 
 //					bird.phase = ( bird.phase + ( Math.max( 0, bird.rotation.z ) + 0.1 )  ) % 62.83;
 					bird.geometry.vertices[ 5 ].position.y = bird.geometry.vertices[ 4 ].position.y = Math.sin( Math.random() ) * 5;
@@ -258,7 +262,10 @@ Version:
         id: 0,
         createEntityView: function( x, y, width, height, depth ) {
             var geometry = new THREE.CubeGeometry( width, height, depth );
-            var object = new THREE.Mesh( geometry, [new THREE.MeshLambertMaterial( { color: 0xFFFFFF, shading: THREE.SmoothShading })] );
+            var object = new THREE.Mesh( geometry, [new THREE.MeshLambertMaterial( {
+				color: 0xFFFFFF, shading: THREE.SmoothShading,
+				map : THREE.ImageUtils.loadTexture( "lvl.png" )
+			})] );
             object.name = ++this.id;
             object.position.x = x;//i * 21;//i*100;//Math.random() * 800 - 400;
             object.position.y = y;//Math.random() * 800 - 400;

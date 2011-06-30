@@ -6,6 +6,7 @@
 
     ChuClone.PlayerEntity.prototype = {
 		_isJumping: false,
+		_hasReachedJumpingApex: false,
 
         keys: {
             left: false,
@@ -56,6 +57,23 @@
 
 		checkIsJumping: function() {
 			if(!this._isJumping) return;
+
+//			var that = this;
+//			if(!this._hasReachedJumpingApex && this.body.GetLinearVelocity().y >= 0.0)
+//			    setTimeout( function() {
+//					if(that.aboutToApex) {
+//						that._hasReachedJumpingApex = true;
+//						that.aboutToApex = false;
+//					}
+//				}, 1000);
+//
+//			console.log(this.aboutToApex)
+//			if(this._hasReachedJumpingApex )
+//				console.log("Waiting to fall:", Math.round(this.body.GetLinearVelocity().y*100));
+//
+
+//			if()
+//			if()
 			if(this.body.GetLinearVelocity().y == 0)
 				this._isJumping = false;
 
