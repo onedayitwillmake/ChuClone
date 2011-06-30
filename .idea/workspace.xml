@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9d9caf78-14fd-4f67-b5ce-27a9be60b51a" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/GameView.js" afterPath="$PROJECT_DIR$/GameView.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
     </list>
     <ignored path="Chuclone.iws" />
@@ -74,7 +73,7 @@
       <file leaf-file-name="README.md" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/README.md">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="3" column="95" selection-start="201" selection-end="201" vertical-scroll-proportion="0.06346968">
+            <state line="3" column="79" selection-start="185" selection-end="185" vertical-scroll-proportion="0.06346968">
               <folding />
             </state>
           </provider>
@@ -602,7 +601,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="95" selection-start="201" selection-end="201" vertical-scroll-proportion="0.06346968">
+        <state line="3" column="79" selection-start="185" selection-end="185" vertical-scroll-proportion="0.06346968">
           <folding />
         </state>
       </provider>
