@@ -44,9 +44,17 @@ Version:
 		 */
 		setupBox2d: function() {
 			this.createBox2dWorld();
+			this.modifySettings();
             this._world.DestroyBody( this._wallRight );
             this._world.DestroyBody( this._wallBottom );
 //            this._world.DestroyBody( this._wallTop );
+		},
+
+		/**
+		 * This is where we modify any of the box2d defaults
+		 */
+		modifySettings: function() {
+			Box2D.Common.b2Settings.b2_maxRotation = 0;// 0.01;
 		},
 
 		/**

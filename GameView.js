@@ -50,34 +50,43 @@ Version:
 		// Methods
 		setupThreeJS: function() {
             container = document.createElement( 'div' );
-				document.body.appendChild( container );
+			document.body.appendChild( container );
 
-				var info = document.createElement( 'div' );
-				info.style.position = 'absolute';
-				info.style.top = '10px';
-				info.style.width = '100%';
-				info.style.textAlign = 'center';
+			var info = document.createElement( 'div' );
+			info.style.position = 'absolute';
+			info.style.top = '10px';
+			info.style.width = '100%';
+			info.style.textAlign = 'center';
 //				info.innerHTML = '<a href="http://github.com/mrdoob/three.js" target="_blank">three.js</a> webgl - interactive cubes';
-				container.appendChild( info );
+			container.appendChild( info );
 
-				this.camera = new THREE.Camera( 70, window.innerWidth / window.innerHeight, 1, 30000 );
+			this.camera = new THREE.Camera( 70, window.innerWidth / window.innerHeight, 1, 30000 );
 
-				this.camera.position.x = 0;
-				this.camera.position.y = 0;
-				this.camera.position.z = 1000;
-                this.camera.name = "camera";
+			this.camera.position.x = 0;
+			this.camera.position.y = 0;
+			this.camera.position.z = 1000;
+			this.camera.name = "camera";
 
-				scene = new THREE.Scene();
-//                scene.addLight( new THREE.AmbientLight(0xFFFFFF) );
+			scene = new THREE.Scene();
+//                scene.addLight( new THREE.AmbientLight(0x608090) );
 
-            //hex, intensity, distance, castShadow
-				this.light1 = new THREE.PointLight( 0xFFFFFF, 1, 10000 );
-                this.light1.name = "light1";
-				this.light1.position.x = 0;
-				this.light1.position.y = 0;
-				this.light1.position.z = 0;
-				scene.addLight( this.light1 );
-//                var   light1 = new THREE.PointLight( 0xffffff, 10, 0 );
+		//hex, intensity, distance, castShadow
+//				this.light1 = new THREE.PointLight( 0xFFFFFF, 1, 25000 );
+//                this.light1.name = "light1";
+//				this.light1.position.x = 0;
+//				this.light1.position.y = 20;
+//				this.light1.position.z = -100;
+//				scene.addLight( this.light1 );
+			this.light1 = new THREE.DirectionalLight( 0x608090, 1.6 );
+			this.light1.position.set( 0, 2, 1 );
+			scene.addLight( this.light1 );
+
+			var light = new THREE.DirectionalLight( 0xffffff, 1 );
+			light.position.set( -1, 0, 0.5 );
+			scene.addLight( light );
+
+//			scene.fog = new THREE.FogExp2( 0x111111, 0.00005 );
+//                var   light1 = new THREE.PointL	ight( 0xffffff, 10, 0 );
 //                scene.addLight( light1 );
 
 //				var light = new THREE.PointLight( 0xffffff, 1 );
@@ -88,24 +97,34 @@ Version:
 //				scene.addLight( light );
 
 
-                this.camera.position.y = 100;
-				projector = new THREE.Projector();
+			this.camera.position.y = 100;
+			projector = new THREE.Projector();
 
-				renderer = new THREE.WebGLRenderer();
-				renderer.sortObjects = false;
-				renderer.setSize( window.innerWidth, window.innerHeight );
+			renderer = new THREE.WebGLRenderer();
+			renderer.sortObjects = false;
+			renderer.setSize( window.innerWidth, window.innerHeight );
 
-				container.appendChild(renderer.domElement);
+			container.appendChild(renderer.domElement);
 
-                var that = this;
-				document.addEventListener( 'mousemove', function(e){that.onDocumentMouseMove(e)}, false );
 
-            /*
-            requestAnimationFrame( animate );
+			this.setupBirds();
 
-				render();
-				stats.update();
-             */
+			var that = this;
+			document.addEventListener( 'mousemove', function(e){that.onDocumentMouseMove(e)}, false );
+		},
+
+		setupBirds: function() {
+			this.birds = [];
+			var range = 300;
+
+			for(var i = 0; i < 100; i++ ) {
+				var bird = this.birds[ i ] = new THREE.Mesh( new Bird(), new THREE.MeshBasicMaterial( { color:Math.random() * 0x222222 + 0xDDDDDD} ) );
+				bird.phase = Math.floor( Math.random() * 62.83 );
+				bird.position = new THREE.Vector3( Math.random() * 300, Math.random() * 300, (Math.random()*2-1) * 800 );
+				bird.doubleSided = true;
+				bird.scale.x = bird.scale.y = bird.scale.z = (Math.random()) * 5 + 5;
+				scene.addObject( bird );
+			}
 		},
 
         setupSceneEditor: function() {
@@ -164,9 +183,10 @@ Version:
 //            var zero = new THREE.Vector3(Math.random() * 100, Math.random() * 100,0);
 //            console.log(zero)
 
-            this.light1.position.x -= (this.light1.position.x - this.camera.position.x - 1000) * 0.09;
+//            this.light1.position.x -= (this.light1.position.x - this.camera.position.x - 1000) * 0.09;
 //            this.light1.position.z = this.camera.position.z ;
 
+			this.renderBirds();
             this.camera.update();
             renderer.render( scene, this.camera );
 
@@ -176,6 +196,22 @@ Version:
 //                    console.log( this.sceneEditor._activePlotter._draggedDot._delegate )
                 this.sceneEditor.update();
             }
+		},
+
+		renderBirds: function() {
+			for ( var i = 0, il = this.birds.length; i < il; i++ ) {
+					var bird = this.birds[ i ];
+
+					var color = bird.materials[ 0 ].color;
+					color.r = color.g = color.b = ( 500 - bird.position.z ) / 1000;
+					color.updateHex();
+
+//					bird.rotation.y = Math.atan2( - boid.velocity.z, boid.velocity.x );
+//					bird.rotation.z = Math.asin( boid.velocity.y / boid.velocity.length() );
+
+//					bird.phase = ( bird.phase + ( Math.max( 0, bird.rotation.z ) + 0.1 )  ) % 62.83;
+					bird.geometry.vertices[ 5 ].position.y = bird.geometry.vertices[ 4 ].position.y = Math.sin( Math.random() ) * 5;
+				}
 		},
 
         findIntersections: function() {
@@ -222,7 +258,7 @@ Version:
         id: 0,
         createEntityView: function( x, y, width, height, depth ) {
             var geometry = new THREE.CubeGeometry( width, height, depth );
-            var object = new THREE.Mesh( geometry, [new THREE.MeshLambertMaterial( { color: 0xffffff, shading: THREE.FlatShading }), new THREE.MeshBasicMaterial( { color: 0xffffff, opacity: 0.05, wireframe: true } )] );
+            var object = new THREE.Mesh( geometry, [new THREE.MeshLambertMaterial( { color: 0xFFFFFF, shading: THREE.SmoothShading })] );
             object.name = ++this.id;
             object.position.x = x;//i * 21;//i*100;//Math.random() * 800 - 400;
             object.position.y = y;//Math.random() * 800 - 400;

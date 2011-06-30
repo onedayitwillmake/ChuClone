@@ -5,6 +5,8 @@
     };
 
     ChuClone.PlayerEntity.prototype = {
+		_isJumping: false,
+
         keys: {
             left: false,
             right: false,
@@ -14,22 +16,23 @@
 
         handleKeyDown: function( e ) {
 
-            if( e.keyCode == ChuClone.Constants.KEYS.LEFT ) this.keys.left = true;
-            else if(  e.keyCode == ChuClone.Constants.KEYS.RIGHT ) this.keys.right = true;
-            if( e.keyCode == ChuClone.Constants.KEYS.UP ) this.keys.up = true;
-            else if( e.keyCode == ChuClone.Constants.KEYS.DOWN ) this.keys.down = true;
+            if( e.keyCode == ChuClone.Constants.KEYS.LEFT || e.keyCode == ChuClone.Constants.KEYS.A ) this.keys.left = true;
+            else if(  e.keyCode == ChuClone.Constants.KEYS.RIGHT || e.keyCode == ChuClone.Constants.KEYS.D ) this.keys.right = true;
+            if( e.keyCode == ChuClone.Constants.KEYS.UP || e.keyCode == ChuClone.Constants.KEYS.W ) this.keys.up = true;
+            else if( e.keyCode == ChuClone.Constants.KEYS.DOWN || e.keyCode == ChuClone.Constants.KEYS.S ) this.keys.down = true;
         },
 
         handleKeyUp: function(e) {
-            if( e.keyCode == ChuClone.Constants.KEYS.LEFT ) this.keys.left = false;
-            else if(  e.keyCode == ChuClone.Constants.KEYS.RIGHT ) this.keys.right = false;
-            if( e.keyCode == ChuClone.Constants.KEYS.UP ) this.keys.up = false;
-            else if( e.keyCode == ChuClone.Constants.KEYS.DOWN ) this.keys.down = false;
+            if( e.keyCode == ChuClone.Constants.KEYS.LEFT || e.keyCode == ChuClone.Constants.KEYS.A ) this.keys.left = false;
+            else if(  e.keyCode == ChuClone.Constants.KEYS.RIGHT || e.keyCode == ChuClone.Constants.KEYS.D ) this.keys.right = false;
+            if( e.keyCode == ChuClone.Constants.KEYS.UP || e.keyCode == ChuClone.Constants.KEYS.W ) this.keys.up = false;
+            else if( e.keyCode == ChuClone.Constants.KEYS.DOWN || e.keyCode == ChuClone.Constants.KEYS.S ) this.keys.down = false;
         },
 
         update: function() {
             ChuClone.PlayerEntity.superclass.update.call(this);
             this.applyInput();
+			this.checkIsJumping();
         },
 
         /**
@@ -40,14 +43,24 @@
             var force = new Box2D.Common.Math.b2Vec2(0,0);
             if( this.keys.left ) force.x = -1;
             else if( this.keys.right ) force.x = 1;
-            if( this.keys.up ) force.y = -1;
-            else if( this.keys.down ) force.y = 1;
+            if( this.keys.up && !this._isJumping ) {
+				force.y = -1;
+				this._isJumping = true;
+			} else if( this.keys.down ) force.y = 1;
 
             // Apply force
             var bodyPosition = this.body.GetWorldCenter();
-            var impulse = new Box2D.Common.Math.b2Vec2( 0.01 * PTM_RATIO * this.body.GetMass() * force.x, 0.04 * PTM_RATIO * this.body.GetMass() * force.y );
+            var impulse = new Box2D.Common.Math.b2Vec2( 0.01 * PTM_RATIO * this.body.GetMass() * force.x, 0.3 * PTM_RATIO * this.body.GetMass() * force.y );
             this.body.ApplyImpulse( impulse, bodyPosition );
         },
+
+		checkIsJumping: function() {
+			if(!this._isJumping) return;
+			if(this.body.GetLinearVelocity().y == 0)
+				this._isJumping = false;
+
+//			console.log(this.body.GetLinearVelocity().y)
+		},
 
 		setBody: function( aBody ) {
 			ChuClone.PlayerEntity.superclass.setBody.call(this, aBody );

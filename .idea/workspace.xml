@@ -1,7 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="9d9caf78-14fd-4f67-b5ce-27a9be60b51a" name="Default" comment="" />
+    <list default="true" id="9d9caf78-14fd-4f67-b5ce-27a9be60b51a" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib/Bird.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib/shaders/lightmapShader.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/lib/Box2D.js" afterPath="$PROJECT_DIR$/lib/Box2DWeb.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ChuCloneGame.js" afterPath="$PROJECT_DIR$/ChuCloneGame.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Constants.js" afterPath="$PROJECT_DIR$/Constants.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/GameView.js" afterPath="$PROJECT_DIR$/GameView.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PlayerEntity.js" afterPath="$PROJECT_DIR$/PlayerEntity.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WorldController.js" afterPath="$PROJECT_DIR$/WorldController.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.html" afterPath="$PROJECT_DIR$/index.html" />
+    </list>
     <ignored path="Chuclone.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -62,7 +74,52 @@
       <file leaf-file-name="GameView.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/GameView.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="160" column="48" selection-start="5113" selection-end="5113" vertical-scroll-proportion="0.0">
+            <state line="213" column="0" selection-start="7459" selection-end="7459" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/index.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="24" column="52" selection-start="1047" selection-end="1047" vertical-scroll-proportion="-7.2916665">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Bird.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/lib/Bird.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="40" column="34" selection-start="635" selection-end="635" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PlayerEntity.js" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/PlayerEntity.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="58" column="15" selection-start="2484" selection-end="2484" vertical-scroll-proportion="0.77009875">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Constants.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Constants.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="35" column="14" selection-start="816" selection-end="816" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="lightmapShader.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/lib/shaders/lightmapShader.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="81" column="2" selection-start="2259" selection-end="2259" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -71,16 +128,16 @@
       <file leaf-file-name="PointLight.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/three.js/src/lights/PointLight.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="4" column="6" selection-start="55" selection-end="55" vertical-scroll-proportion="0.0">
+            <state line="1" column="133" selection-start="43" selection-end="43" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ChuCloneGame.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="ChuCloneGame.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ChuCloneGame.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="98" column="52" selection-start="3349" selection-end="3349" vertical-scroll-proportion="0.32356256">
+            <state line="98" column="50" selection-start="3334" selection-end="3334" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -90,24 +147,6 @@
         <entry file="file://$PROJECT_DIR$/GameEntity.js">
           <provider selected="true" editor-type-id="text-editor">
             <state line="21" column="36" selection-start="702" selection-end="702" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="box2d.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/lib/box2d.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="3706" column="57" selection-start="142869" selection-end="142869" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/index.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="23" column="0" selection-start="924" selection-end="924" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -127,22 +166,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/three.js/src/extras/sceneplotter/ScenePlotter.js" />
-        <option value="$PROJECT_DIR$/README.md" />
-        <option value="$PROJECT_DIR$/lib/Box2D.js" />
         <option value="$PROJECT_DIR$/ChuCloneConstants.js" />
         <option value="$PROJECT_DIR$/three.js/src/extras/sceneplotter/SceneEditor.js" />
         <option value="$PROJECT_DIR$/three.js/src/extras/sceneplotter/ScenePlotterDot.js" />
         <option value="$PROJECT_DIR$/three.js/src/extras/sceneplotter/SceneWindow.js" />
-        <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/box2dtest.html" />
         <option value="$PROJECT_DIR$/lib/box2d.js" />
-        <option value="$PROJECT_DIR$/Constants.js" />
         <option value="$PROJECT_DIR$/GameEntity.js" />
-        <option value="$PROJECT_DIR$/PlayerEntity.js" />
         <option value="$PROJECT_DIR$/WorldController.js" />
-        <option value="$PROJECT_DIR$/GameView.js" />
+        <option value="$PROJECT_DIR$/lib/Box2DWeb.js" />
+        <option value="$PROJECT_DIR$/lib/shaders/lightmapShader.js" />
+        <option value="$PROJECT_DIR$/Constants.js" />
+        <option value="$PROJECT_DIR$/lib/Bird.js" />
+        <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/ChuCloneGame.js" />
+        <option value="$PROJECT_DIR$/GameView.js" />
+        <option value="$PROJECT_DIR$/PlayerEntity.js" />
       </list>
     </option>
   </component>
@@ -150,7 +189,7 @@
     <option name="LAST_EDITED_MODULE_NAME" />
     <option name="LAST_EDITED_TAB_NAME" />
   </component>
-  <component name="ProjectLevelVcsManager" settingsEditedManually="false">
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
     <OptionsSetting value="true" id="Remove" />
     <OptionsSetting value="true" id="Checkout" />
@@ -206,7 +245,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="three.js" />
+              <option name="myItemId" value="lib" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -220,11 +259,11 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="three.js" />
+              <option name="myItemId" value="lib" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
+              <option name="myItemId" value="shaders" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -413,10 +452,10 @@
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.27512255" sideWeight="0.7645161" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.27512255" sideWeight="0.83849555" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16150442" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -477,36 +516,14 @@
         <state line="12" column="8" selection-start="248" selection-end="248" vertical-scroll-proportion="0.20454545" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/PlayerEntity.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="58" column="7" selection-start="2171" selection-end="2171" vertical-scroll-proportion="0.89772725" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/box2dtest.html">
       <provider selected="true" editor-type-id="text-editor">
         <state line="98" column="40" selection-start="3867" selection-end="3867" vertical-scroll-proportion="0.72602737" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Constants.js">
+    <entry file="file://$PROJECT_DIR$/three.js/src/materials/MeshFaceMaterial.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="30" column="20" selection-start="768" selection-end="768" vertical-scroll-proportion="0.5" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/WorldController.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="41" column="48" selection-start="1266" selection-end="1266" vertical-scroll-proportion="0.31666666" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="0" selection-start="924" selection-end="924" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/box2d.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="3706" column="57" selection-start="142869" selection-end="142869" vertical-scroll-proportion="0.0">
+        <state line="4" column="6" selection-start="55" selection-end="55" vertical-scroll-proportion="0.06666667">
           <folding />
         </state>
       </provider>
@@ -518,30 +535,72 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/lib/Box2DWeb.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3709" column="76" selection-start="143149" selection-end="143149" vertical-scroll-proportion="0.33687943">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/WorldController.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="56" column="57" selection-start="1761" selection-end="1761" vertical-scroll-proportion="1.4558059">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/three.js/src/lights/PointLight.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="6" selection-start="55" selection-end="55" vertical-scroll-proportion="0.0">
+        <state line="1" column="133" selection-start="43" selection-end="43" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/three.js/src/materials/MeshFaceMaterial.js">
+    <entry file="file://$PROJECT_DIR$/lib/shaders/lightmapShader.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="6" selection-start="55" selection-end="55" vertical-scroll-proportion="0.06666667">
+        <state line="81" column="2" selection-start="2259" selection-end="2259" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/GameView.js">
+    <entry file="file://$PROJECT_DIR$/Constants.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="160" column="48" selection-start="5113" selection-end="5113" vertical-scroll-proportion="0.0">
+        <state line="35" column="14" selection-start="816" selection-end="816" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/Bird.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="40" column="34" selection-start="635" selection-end="635" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="24" column="52" selection-start="1047" selection-end="1047" vertical-scroll-proportion="-7.2916665">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/ChuCloneGame.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="98" column="52" selection-start="3349" selection-end="3349" vertical-scroll-proportion="0.32356256">
+        <state line="98" column="50" selection-start="3334" selection-end="3334" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/GameView.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="213" column="0" selection-start="7459" selection-end="7459" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PlayerEntity.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="58" column="15" selection-start="2484" selection-end="2484" vertical-scroll-proportion="0.77009875">
           <folding />
         </state>
       </provider>
@@ -575,6 +634,7 @@
       </state>
       <state key="GlobalLibrariesConfigurable.UI">
         <settings>
+          <last-edited>[gem] actionmailer (v1.3.6, /System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/gems/1.8/gems/actionmailer-1.3.6)</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
@@ -586,6 +646,7 @@
       </state>
       <state key="JdkListConfigurable.UI">
         <settings>
+          <last-edited>1.6</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
@@ -608,7 +669,7 @@
           </splitter-proportions>
         </settings>
       </state>
-      <state key="ProjectJDKs.UI">
+      <state key="ProjectLibrariesConfigurable.UI">
         <settings>
           <splitter-proportions>
             <option name="proportions">
@@ -619,15 +680,9 @@
           </splitter-proportions>
         </settings>
       </state>
-      <state key="ProjectLibrariesConfigurable.UI">
+      <state key="ScopeChooserConfigurable.UI">
         <settings>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
+          <splitter-proportions />
         </settings>
       </state>
     </states>
