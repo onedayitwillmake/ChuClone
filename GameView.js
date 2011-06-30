@@ -203,8 +203,8 @@ Version:
 					var bird = this.birds[ i ];
 
 					var color = bird.materials[ 0 ].color;
-					color.r = color.g = color.b = ( 500 - bird.position.z ) / 1000;
-					color.updateHex();
+//					color.r = color.g = color.b = ( 500 - bird.position.z ) / 1000;
+//					color.updateHex();
 
 //					bird.rotation.y = Math.atan2( - boid.velocity.z, boid.velocity.x );
 //					bird.rotation.z = Math.asin( boid.velocity.y / boid.velocity.length() );
