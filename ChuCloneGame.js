@@ -96,7 +96,7 @@
             var boxSize = 30;
             for ( var i = 0; i < 100; i ++ ) {
                 var x = i*(boxSize*2*2*2*2*2*2);
-                var y = Math.abs(Math.sin(i/10))*-400 + 150;
+                var y = Math.abs(Math.sin(i/10))*-150 + 150;
                 var body = this.worldController.createRect( x, y, 0, boxSize*2*2*2*2*2, boxSize, true );
                 var view = this.view.createEntityView( x, y, boxSize*2*2*2*2*2*2, boxSize + Math.random() * 1000, 600  );
                 var entity = new ChuClone.GameEntity();
