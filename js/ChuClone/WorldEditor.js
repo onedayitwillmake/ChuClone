@@ -42,7 +42,10 @@
 
         setupMouseEvents: function() {
             var that = this;
+
             window.addEventListener( 'mousedown', function(e){ that.onDocumentMouseDown(e)}, false );
+            window.addEventListener( 'mousemove', function(e){ that.onMouseMove(e)}, false );
+            window.addEventListener( 'mouseup', function(e){ that.onMouseUp(e)}, false );
         },
 
         /**
@@ -54,8 +57,8 @@
 
             this.addController("x", 0).step(0.1);
             this.addController("y", 0).step(0.1);
-            this.addController("width", 0).min(0.01);
-            this.addController("height", 0).min(0.01);
+            this.addController("width", 0).min(0.01).max(2000);
+            this.addController("height", 0).min(0.01).max(2000);
             this._gui.close();
             this._gui.open();
         },
@@ -74,6 +77,39 @@
 
             var selectedBody = this.getBodyAtPosition( pos );
         },
+
+        /**
+         * Window 'mousemove' callback
+         * @param {MouseEvent} e
+         */
+        onMouseMove: function(e) {
+            if( !this._currentBody ) return;
+            this.updateMousePosition(e);
+
+            var pos = new Box2D.Common.Math.b2Vec2(this._mousePosition.x, this._mousePosition.y);
+            pos.Multiply( 1.0 / this._worldController.getDebugDraw().GetDrawScale() );
+
+            this._currentBody.SetPosition(pos);
+            this.populateInfoWithB2Body( this._currentBody );
+
+//            var selectedBody = this.getBodyAtPosition( pos );
+        },
+
+        /**
+         * Window 'mouseup' callback
+         * @param {MouseEvent} e
+         */
+        onMouseUp: function(e) {
+
+            return;
+            this.updateMousePosition(e);
+
+            var pos = new Box2D.Common.Math.b2Vec2(this._mousePosition.x, this._mousePosition.y);
+            pos.Multiply( 1.0 / this._worldController.getDebugDraw().GetDrawScale() );
+
+            var selectedBody = this.getBodyAtPosition( pos );
+        },
+
         /**
          * Returns the body at a point, point should be scaled relative position already (@see Box2D.Dynamics.b2DebugDraw.GetDrawScale())
          * // TODO: IMPLEMENT FILTERING?
