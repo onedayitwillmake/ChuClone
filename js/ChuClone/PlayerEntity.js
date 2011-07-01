@@ -6,8 +6,8 @@
     };
 
     ChuClone.PlayerEntity.prototype = {
-		_isJumping: false,
-		_hasReachedJumpingApex: false,
+        _isJumping: false,
+        _hasReachedJumpingApex: false,
 
         keys: {
             left: false,
@@ -34,7 +34,7 @@
         update: function() {
             ChuClone.PlayerEntity.superclass.update.call(this);
             this.applyInput();
-			this.checkIsJumping();
+            this.checkIsJumping();
         },
 
         /**
@@ -46,9 +46,9 @@
             if( this.keys.left ) force.x = -1;
             else if( this.keys.right ) force.x = 1;
             if( this.keys.up && !this._isJumping ) {
-				force.y = -1;
-				this._isJumping = true;
-			} else if( this.keys.down ) force.y = 1;
+                force.y = -1;
+                this._isJumping = true;
+            } else if( this.keys.down ) force.y = 1;
 
             // Apply force
             var bodyPosition = this.body.GetWorldCenter();
@@ -56,8 +56,8 @@
             this.body.ApplyImpulse( impulse, bodyPosition );
         },
 
-		checkIsJumping: function() {
-			if(!this._isJumping) return;
+        checkIsJumping: function() {
+            if(!this._isJumping) return;
 
 //			var that = this;
 //			if(!this._hasReachedJumpingApex && this.body.GetLinearVelocity().y >= 0.0)
@@ -75,15 +75,15 @@
 
 //			if()
 //			if()
-			if(this.body.GetLinearVelocity().y == 0)
-				this._isJumping = false;
+            if(this.body.GetLinearVelocity().y == 0)
+                this._isJumping = false;
 
 //			console.log(this.body.GetLinearVelocity().y)
-		},
+        },
 
-		setBody: function( aBody ) {
-			ChuClone.PlayerEntity.superclass.setBody.call(this, aBody );
-		}
+        setBody: function( aBody ) {
+            ChuClone.PlayerEntity.superclass.setBody.call(this, aBody );
+        }
 
     };
 

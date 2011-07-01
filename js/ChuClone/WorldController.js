@@ -1,19 +1,19 @@
 /**
-File:
-	ChuCloneServerGame.js
-Created By:
-	Mario Gonzalez
-Project:
-	ChuClone
-Abstract:
-	This is a demo of using Box2d.js with RealTimeMultiplayerNode.js
- 	The box2d.js world creation and other things in this demo, are shamelessly lifted from the https://github.com/HBehrens/box2d.js examples
-Basic Usage:
- 	demoServerGame = new ChuClone.DemoServerGame();
- 	demoServerGame.startGameClock();
-Version:
-	1.0
-*/
+ File:
+    ChuCloneServerGame.js
+ Created By:
+    Mario Gonzalez
+ Project:
+    ChuClone
+ Abstract:
+     This is a demo of using Box2d.js with RealTimeMultiplayerNode.js
+     The box2d.js world creation and other things in this demo, are shamelessly lifted from the https://github.com/HBehrens/box2d.js examples
+ Basic Usage:
+     demoServerGame = new ChuClone.DemoServerGame();
+     demoServerGame.startGameClock();
+ Version:
+    1.0
+ */
 (function(){
     var PTM_RATIO = ChuClone.Constants.PTM_RATIO;
     var b2Vec2 = Box2D.Common.Math.b2Vec2;
@@ -27,16 +27,16 @@ Version:
     var b2CircleShape = Box2D.Collision.Shapes.b2CircleShape;
     var b2DebugDraw = Box2D.Dynamics.b2DebugDraw;
 
-	ChuClone.WorldController = function() {
-		this.setupBox2d();
+    ChuClone.WorldController = function() {
+        this.setupBox2d();
         this.setDebugDraw();
-	};
+    };
 
-	ChuClone.WorldController.prototype = {
+    ChuClone.WorldController.prototype = {
         /**
          * @type {Box2D.Dynamics.b2World}
          */
-		_world							: null,
+        _world							: null,
 
         /**
          * @type {ChuClone.editor.WorldEditor}
@@ -47,93 +47,93 @@ Version:
          * @type {Box2D.Dynamics.b2DebugDraw}
          */
         _debugDraw                      : null,
-		_velocityIterationsPerSecond    : 10,
-		_positionIterationsPerSecond	: 30,
+        _velocityIterationsPerSecond    : 10,
+        _positionIterationsPerSecond	: 30,
 
 
-		/**
-		 * Sets up the Box2D world and creates a bunch of boxes from that fall from the sky
-		 */
-		setupBox2d: function() {
-			this.createBox2dWorld();
-			this.modifySettings();
+        /**
+         * Sets up the Box2D world and creates a bunch of boxes from that fall from the sky
+         */
+        setupBox2d: function() {
+            this.createBox2dWorld();
+            this.modifySettings();
             this._world.DestroyBody( this._wallRight );
             this._world.DestroyBody( this._wallTop );
 //            this._world.DestroyBody( this._wallTop );
-		},
+        },
 
         setupEditor: function() {
             this._editor = new ChuClone.editor.WorldEditor( this );
         },
 
-		/**
-		 * This is where we modify any of the box2d defaults
-		 */
-		modifySettings: function() {
-			Box2D.Common.b2Settings.b2_maxRotation = 0;// 0.01;
-		},
+        /**
+         * This is where we modify any of the box2d defaults
+         */
+        modifySettings: function() {
+            Box2D.Common.b2Settings.b2_maxRotation = 0;// 0.01;
+        },
 
-		/**
-		 * Creates the Box2D world with 4 walls around the edges
-		 */
-		createBox2dWorld: function() {
+        /**
+         * Creates the Box2D world with 4 walls around the edges
+         */
+        createBox2dWorld: function() {
             var m_world = new b2World( new b2Vec2(0, 30), true );
 
 
-			// Create border of boxes
-			var wall = new b2PolygonShape();
-			var wallBd = new b2BodyDef();
+            // Create border of boxes
+            var wall = new b2PolygonShape();
+            var wallBd = new b2BodyDef();
 
-			// Left
-			wallBd.position.Set(-1.5, ChuClone.Constants.GAME_HEIGHT/2);
-			wall.SetAsBox(1, ChuClone.Constants.GAME_HEIGHT*10);
-			this._wallLeft = m_world.CreateBody(wallBd);
-			this._wallLeft.CreateFixture2(wall);
-			// Right
-			wallBd.position.Set(ChuClone.Constants.GAME_WIDTH + 0.55, ChuClone.Constants.GAME_HEIGHT/2);
-			wall.SetAsBox(1, ChuClone.Constants.GAME_HEIGHT*10);
-			this._wallRight = m_world.CreateBody(wallBd);
-			this._wallRight.CreateFixture2(wall);
-			// BOTTOM
+            // Left
+            wallBd.position.Set(-1.5, ChuClone.Constants.GAME_HEIGHT/2);
+            wall.SetAsBox(1, ChuClone.Constants.GAME_HEIGHT*10);
+            this._wallLeft = m_world.CreateBody(wallBd);
+            this._wallLeft.CreateFixture2(wall);
+            // Right
+            wallBd.position.Set(ChuClone.Constants.GAME_WIDTH + 0.55, ChuClone.Constants.GAME_HEIGHT/2);
+            wall.SetAsBox(1, ChuClone.Constants.GAME_HEIGHT*10);
+            this._wallRight = m_world.CreateBody(wallBd);
+            this._wallRight.CreateFixture2(wall);
+            // BOTTOM
             wall = new b2PolygonShape();
             wallBd = new b2BodyDef();
-			wallBd.position.Set(ChuClone.Constants.GAME_WIDTH/2, 1);
-			wall.SetAsBox(ChuClone.Constants.GAME_WIDTH / PTM_RATIO * 8 , 1 / PTM_RATIO);
-			this._wallTop = m_world.CreateBody(wallBd);
-			this._wallTop.CreateFixture2(wall);
-			// TOP
+            wallBd.position.Set(ChuClone.Constants.GAME_WIDTH/2, 1);
+            wall.SetAsBox(ChuClone.Constants.GAME_WIDTH / PTM_RATIO * 8 , 1 / PTM_RATIO);
+            this._wallTop = m_world.CreateBody(wallBd);
+            this._wallTop.CreateFixture2(wall);
+            // TOP
             wall = new b2PolygonShape();
             wallBd = new b2BodyDef();
-			wallBd.position.Set(ChuClone.Constants.GAME_WIDTH/2 / PTM_RATIO, ChuClone.Constants.GAME_HEIGHT / PTM_RATIO );
-			wall.SetAsBox(ChuClone.Constants.GAME_WIDTH/2 * 100, 1/PTM_RATIO);
-			this._wallBottom = m_world.CreateBody(wallBd);
-			this._wallBottom.CreateFixture2(wall);
+            wallBd.position.Set(ChuClone.Constants.GAME_WIDTH/2 / PTM_RATIO, ChuClone.Constants.GAME_HEIGHT / PTM_RATIO );
+            wall.SetAsBox(ChuClone.Constants.GAME_WIDTH/2 * 100, 1/PTM_RATIO);
+            this._wallBottom = m_world.CreateBody(wallBd);
+            this._wallBottom.CreateFixture2(wall);
 
-			this._world = m_world;
-		},
+            this._world = m_world;
+        },
 
-		/**
-		 * Creates a Box2D circular body
-		 * @param {Number} x	Body position on X axis
-		 * @param {Number} y    Body position on Y axis
-		 * @param {Number} radius Body radius
-		 * @return {Box2D.Dynamics.b2Body}	A Box2D body
-		 */
-		createBall: function(x, y, radius) {
-			var fixtureDef = new b2FixtureDef();
-			fixtureDef.shape = new b2CircleShape(radius);
-			fixtureDef.friction = 0.4;
-			fixtureDef.restitution = 0.0;
-			fixtureDef.density = 2.0;
+        /**
+         * Creates a Box2D circular body
+         * @param {Number} x	Body position on X axis
+         * @param {Number} y    Body position on Y axis
+         * @param {Number} radius Body radius
+         * @return {Box2D.Dynamics.b2Body}	A Box2D body
+         */
+        createBall: function(x, y, radius) {
+            var fixtureDef = new b2FixtureDef();
+            fixtureDef.shape = new b2CircleShape(radius);
+            fixtureDef.friction = 0.4;
+            fixtureDef.restitution = 0.0;
+            fixtureDef.density = 2.0;
 
-			var ballBd = new b2BodyDef();
-			ballBd.type = b2Body.b2_dynamicBody;
-			ballBd.position.Set(x,y);
-			var body = this._world.CreateBody(ballBd);
-			body.CreateFixture(fixtureDef);
+            var ballBd = new b2BodyDef();
+            ballBd.type = b2Body.b2_dynamicBody;
+            ballBd.position.Set(x,y);
+            var body = this._world.CreateBody(ballBd);
+            body.CreateFixture(fixtureDef);
 
-			return body;
-		},
+            return body;
+        },
 
         /**
          * Creates a rectangular body. Position is given in pixels and PTM_RATIO is taken into account
@@ -171,25 +171,25 @@ Version:
         },
 
 
-		/**
-		 * Updates the game
-		 * Creates a WorldEntityDescription which it sends to NetChannel
-		 */
-		update: function() {
-			var delta = 16 / 1000;
-			this.step( delta );
-		},
+        /**
+         * Updates the game
+         * Creates a WorldEntityDescription which it sends to NetChannel
+         */
+        update: function() {
+            var delta = 16 / 1000;
+            this.step( delta );
+        },
 
 
-		step: function( delta ) {
+        step: function( delta ) {
 //			var delta = (typeof delta == "undefined") ? 1/this._fps : delta;
-			this._world.Step(delta, delta * this._velocityIterationsPerSecond, delta * this._positionIterationsPerSecond);
+            this._world.Step(delta, delta * this._velocityIterationsPerSecond, delta * this._positionIterationsPerSecond);
 
             if(this._debugDraw) {
                 this._world.DrawDebugData();
             }
             this._world.ClearForces();
-		},
+        },
 
         setDebugDraw: function(canvas) {
             if( !canvas ) {
@@ -206,7 +206,7 @@ Version:
                 canvas.height = 800;
             }
 
-             //setup debug draw
+            //setup debug draw
             var debugDraw = new b2DebugDraw();
             debugDraw.SetSprite( canvas.getContext("2d") );
             debugDraw.SetDrawScale(10);
@@ -235,5 +235,5 @@ Version:
          * @return {Box2D.Dynamics.b2DebugDraw}
          */
         getDebugDraw: function() { return this._debugDraw; }
-	};
+    };
 })();

@@ -1,5 +1,5 @@
 /**
- * RibbonPaintCanvas
+ * ChueClone
  * Mario Gonzalez
  * http://ribbonpaint.com
  */
@@ -28,7 +28,7 @@
             var singlePart = parts[i];
             // create a property if it doesn't exist
             if (typeof parent[singlePart] === "undefined") {
-               parent[singlePart] = {};
+                parent[singlePart] = {};
             }
             parent = parent[singlePart];
 
@@ -42,9 +42,9 @@
      */
     ChuClone.extend = function(subc, superc, overrides)
     {
-       /**
-        * @constructor
-        */
+        /**
+         * @constructor
+         */
         var F = function() {};
         var i;
 
@@ -54,19 +54,19 @@
             subc.prototype.constructor = subc;
             subc.superclass = superc.prototype;
             if (superc.prototype.constructor == Object.prototype.constructor)   {
-               superc.prototype.constructor = superc;
+                superc.prototype.constructor = superc;
             }
-           for (i in overrides) {
-              if (overrides.hasOwnProperty(i)) {
-                 subc.prototype[i] = overrides[i];
-              }
-           }
+            for (i in overrides) {
+                if (overrides.hasOwnProperty(i)) {
+                    subc.prototype[i] = overrides[i];
+                }
+            }
         } else {
 
             subc.prototype.constructor = subc;
             subc.superclass= superc.prototype;
             if (superc.prototype.constructor == Object.prototype.constructor)   {
-               superc.prototype.constructor = superc;
+                superc.prototype.constructor = superc;
             }
             for( i in superc.prototype ) {
                 if ( false==subc.prototype.hasOwnProperty(i)) {
@@ -77,15 +77,15 @@
         }
     };
 
-	if ( !window.requestAnimationFrame ) {
-			window.requestAnimationFrame = ( function() {
-				return window.webkitRequestAnimationFrame ||
-				window.mozRequestAnimationFrame ||
-				window.oRequestAnimationFrame ||
-				window.msRequestAnimationFrame ||
-				function( /* function FrameRequestCallback */ callback, /* DOMElement Element */ element ) {
-					window.setTimeout( callback, 1000 / 60 );
-				};
-		})();
-	}
+    if ( !window.requestAnimationFrame ) {
+        window.requestAnimationFrame = ( function() {
+            return window.webkitRequestAnimationFrame ||
+                window.mozRequestAnimationFrame ||
+                window.oRequestAnimationFrame ||
+                window.msRequestAnimationFrame ||
+                function( /* function FrameRequestCallback */ callback, /* DOMElement Element */ element ) {
+                    window.setTimeout( callback, 1000 / 60 );
+                };
+        })();
+    }
 }());

@@ -1,10 +1,10 @@
 /**
- * RibbonPaintCanvas
+ * ChueClone Main
  * Mario Gonzalez
  * http://ribbonpaint.com
  */
 (function(){
-	var PTM_RATIO = ChuClone.Constants.PTM_RATIO;
+    var PTM_RATIO = ChuClone.Constants.PTM_RATIO;
     ChuClone.namespace("ChuClone");
     ChuClone.ChuCloneGame = function() {
         this.entities = [];
@@ -43,14 +43,14 @@
         setupKeyboard: function() {
             var that = this;
 
-			document.addEventListener('keydown', function(e) {
+            document.addEventListener('keydown', function(e) {
                 that.player.handleKeyDown( e );
 
 
                 // SPACEBAR
                 if(e.keyCode == 32) {
                     var playerPosition = new Box2D.Common.Math.b2Vec2(that.player.getBody().GetPosition().x, that.player.getBody().GetPosition().y);
-					playerPosition.y += 60/PTM_RATIO;
+                    playerPosition.y += 60/PTM_RATIO;
                     var size = 1/ChuClone.Constants.PTM_RATIO;
                     var aabb = new Box2D.Collision.b2AABB();
                     aabb.lowerBound.Set( playerPosition.x - size, playerPosition.y - size );
@@ -75,11 +75,11 @@
 //				var prismaticJoint = new Box2D.Dynamics.b2PrismaticJointDef();
 //				prismaticJoint.Initialize( body)
                     var impulse = new Box2D.Common.Math.b2Vec2(0, -20* selectedBody.GetMass());
-                 //   impulse.y = 0;//force.y;
+                    //   impulse.y = 0;//force.y;
                     selectedBody.ApplyImpulse( impulse, bodyPosition );
 
                 }
-			}, false);
+            }, false);
 
             document.addEventListener("keyup", function(e){
                 that.player.handleKeyUp(e);
