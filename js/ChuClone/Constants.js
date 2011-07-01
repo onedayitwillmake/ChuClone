@@ -19,8 +19,6 @@ Version:
 	ChuClone.Constants = {
         GAME_WIDTH				: 700,
 		GAME_HEIGHT				: 450,
-        // TODO: MIGRATE FROM PHYSICS_SCALE TO PTM_RATIO
-		PHYSICS_SCALE			: 1,
         PTM_RATIO               : 64,
 		GAME_DURATION			: 1000*300,
 

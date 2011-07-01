@@ -222,8 +222,8 @@ Version:
 
         setDebugDrawOffset: function( x, y ) {
             if(!this._debugDraw) return;
-//            this._debugDraw.offsetX = x;
-//            this._debugDraw.offsetY = y;
+            this._debugDraw.offsetX = x;
+            this._debugDraw.offsetY = y;
         },
 
         /**

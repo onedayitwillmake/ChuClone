@@ -177,9 +177,13 @@
 				x = e.offsetX;
 				y = e.offsetY;
 			}
-			// Offset
-			this._mousePosition.x = x - this._worldController.getDebugDraw().GetSprite().canvas.offsetLeft;
+			// Offset for canvas
+			this._mousePosition.x = x - this._worldController.getDebugDraw().GetSprite().canvas.offsetLeft;// - (this._worldController.getDebugDraw().offsetX/this._worldController.getDebugDraw().GetDrawScale());
 			this._mousePosition.y = y - this._worldController.getDebugDraw().GetSprite().canvas.offsetTop;
+
+            // Offset for DEBUGDRAW
+            this._mousePosition.x -= this._worldController.getDebugDraw().offsetX*this._worldController.getDebugDraw().GetDrawScale();
+            this._mousePosition.y -= this._worldController.getDebugDraw().offsetY*this._worldController.getDebugDraw().GetDrawScale();
 		},
 
         /**

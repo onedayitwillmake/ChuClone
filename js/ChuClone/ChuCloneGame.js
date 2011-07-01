@@ -139,12 +139,16 @@
                 this.entities[i].update();
             }
 
-            this.worldController.setDebugDrawOffset( -this.player.getBody().GetPosition().x + 50, 5);
+            this.worldController.setDebugDrawOffset( -this.player.getBody().GetPosition().x+25, 5);
             this.worldController.update();
 
-            this.view.camera.target.position = this.player.view.position;
-            this.view.camera.position.x = this.player.view.position.x - 700;
-            this.view.render();
+            if(Math.random() < 0.01) {
+                console.log("Player:", this.player.getBody().GetPosition().x )
+            }
+//
+//            this.view.camera.target.position = this.player.view.position;
+//            this.view.camera.position.x = this.player.view.position.x - 700;
+//            this.view.render();
         }
     };
 }());

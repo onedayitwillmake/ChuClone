@@ -272,7 +272,7 @@ Version:
             var geometry = new THREE.CubeGeometry( 1, 1, depth );
             var object = new THREE.Mesh( geometry, [new THREE.MeshLambertMaterial( {
 				color: 0xFFFFFF, shading: THREE.SmoothShading,
-				map : THREE.ImageUtils.loadTexture( "lvl.png" )
+				map : THREE.ImageUtils.loadTexture( "assets/images/game/floor.png" )
 			})] );
 
 
