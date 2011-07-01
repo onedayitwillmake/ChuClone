@@ -4,6 +4,9 @@
     };
 
     ChuClone.GameEntity.prototype = {
+        /**
+         * @type {THREE.Mesh}
+         */
         view        : null,
 
         /**
@@ -59,6 +62,10 @@
             this.view = aView;
             this.view.geometry.computeBoundingBox();
         },
+        /**
+         * @return {THREE.Mesh}
+         */
+        getView: function() { return this.view; },
 
         getDimensions: function() { return {width: this.width, height: this.height}; },
         setDimensions: function(aWidth, aHeight) {
