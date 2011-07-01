@@ -18,8 +18,8 @@
 
     ChuClone.editor.WorldEditor.prototype = {
         /**
-        * @type {ChuClone.WorldController}
-        */
+         * @type {ChuClone.WorldController}
+         */
         _worldController    : null,
         /**
          * @type {Box2D.Common.Math.b2Vec2}
@@ -91,10 +91,10 @@
             var selectedBody = null;
             that._worldController.getWorld().QueryAABB(function getBodyCB(fixture) {
                 // Only level objects
-                  if(fixture.GetBody().GetUserData() instanceof ChuClone.GameEntity) {
-                        selectedBody = fixture.GetBody();
-                        return true;
-                  }
+                if(fixture.GetBody().GetUserData() instanceof ChuClone.GameEntity) {
+                    selectedBody = fixture.GetBody();
+                    return true;
+                }
                 return false;
             }, aabb);
 
@@ -166,25 +166,25 @@
          * @param {MouseEvent}  e
          */
         updateMousePosition: function(e) {
-			var x = 0,
-				y = 0;
+            var x = 0,
+                y = 0;
 
-			// Get the mouse position relative to the canvas element.
-			if (e.layerX || e.layerX == 0) { // Firefox
-				x = e.layerX;
-				y = e.layerY;
-			} else if (e.offsetX || e.offsetX == 0) { // Opera
-				x = e.offsetX;
-				y = e.offsetY;
-			}
-			// Offset for canvas
-			this._mousePosition.x = x - this._worldController.getDebugDraw().GetSprite().canvas.offsetLeft;// - (this._worldController.getDebugDraw().offsetX/this._worldController.getDebugDraw().GetDrawScale());
-			this._mousePosition.y = y - this._worldController.getDebugDraw().GetSprite().canvas.offsetTop;
+            // Get the mouse position relative to the canvas element.
+            if (e.layerX || e.layerX == 0) { // Firefox
+                x = e.layerX;
+                y = e.layerY;
+            } else if (e.offsetX || e.offsetX == 0) { // Opera
+                x = e.offsetX;
+                y = e.offsetY;
+            }
+            // Offset for canvas
+            this._mousePosition.x = x - this._worldController.getDebugDraw().GetSprite().canvas.offsetLeft;// - (this._worldController.getDebugDraw().offsetX/this._worldController.getDebugDraw().GetDrawScale());
+            this._mousePosition.y = y - this._worldController.getDebugDraw().GetSprite().canvas.offsetTop;
 
             // Offset for DEBUGDRAW
             this._mousePosition.x -= this._worldController.getDebugDraw().offsetX*this._worldController.getDebugDraw().GetDrawScale();
             this._mousePosition.y -= this._worldController.getDebugDraw().offsetY*this._worldController.getDebugDraw().GetDrawScale();
-		},
+        },
 
         /**
          * Adds a controller to DAT.GUI and adds it into our _controllers object.
@@ -196,16 +196,16 @@
         addController: function(propName, initialValue) {
 
             var that = this;
-			this._propProxy[propName] = initialValue;
+            this._propProxy[propName] = initialValue;
 
-			var controller = this._gui.add(this._propProxy, propName);
+            var controller = this._gui.add(this._propProxy, propName);
             this._controllers[propName] = controller;
 
             // Set a timeout that will be destroyed if the value is changed while waiting to be fired
             controller.onFinishChange( function(newValue) {
                 clearTimeout( WAIT_TIMEOUT );
                 WAIT_TIMEOUT = setTimeout( function() {
-                   that.onControllerWasChanged(newValue);
+                    that.onControllerWasChanged(newValue);
                 }, 500);
             });
 
@@ -213,7 +213,7 @@
         },
 
         removeController: function( propName ) {
-          // TODO: Not Implemented
+            // TODO: Not Implemented
         }
     }
 })();
