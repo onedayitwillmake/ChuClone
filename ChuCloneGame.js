@@ -68,7 +68,6 @@
                         return false;
                     }, aabb);
 
-					console.log(selectedBody)
 
                     if(!selectedBody) return;
                     var bodyPosition = selectedBody.GetPosition();
@@ -102,12 +101,12 @@
             for ( var i = 0; i < 100; i ++ ) {
                 if(i > 0 && Math.random() < 0.1 ) continue; // Random skip
 
-                var x = i*(boxSize*3);
-                var y = 300;//Math.abs(Math.sin(i/10))*-150 + Math.random() * 200;
-                var w = boxSize;
+                var x = i*(boxSize* 8 * 2);
+                var y = Math.abs(Math.sin(i/10))*-150 + Math.random() * 200 + 300
+                var w = boxSize * 3 * 2;
                 var h = boxSize;
                 var body = this.worldController.createRect( x, y, 0, w, h, true );
-                var view = this.view.createEntityView( x, y, w, h, 1000  );
+                var view = this.view.createEntityView( x, y, w*2, h*2, 1000  );
                 var entity = new ChuClone.GameEntity();
                 entity.setBody( body );
                 entity.setView( view );
@@ -140,12 +139,12 @@
                 this.entities[i].update();
             }
 
-            this.worldController.setDebugDrawOffset( -this.player.getBody().GetPosition().x + 50, 0);
+            this.worldController.setDebugDrawOffset( -this.player.getBody().GetPosition().x + 50, 5);
             this.worldController.update();
 
-//            this.view.camera.target.position = this.player.view.position;
-//            this.view.camera.position.x = this.player.view.position.x - 700;
-//            this.view.render();
+            this.view.camera.target.position = this.player.view.position;
+            this.view.camera.position.x = this.player.view.position.x - 700;
+            this.view.render();
         }
     };
 }());
