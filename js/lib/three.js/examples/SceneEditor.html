@@ -1,0 +1,192 @@
+
+<!DOCTYPE HTML> 
+<html lang="en"> 
+	<head> 
+		<title>SceneEditor</title> 
+		<meta charset="utf-8"> 
+		<style type="text/css"> 
+			body {
+				font-family: Monospace;
+				background-color: #f0f0f0;
+				margin: 0px;
+				overflow: hidden;
+			}
+		</style> 
+	</head> 
+	<body> 
+		<!--THREE.js--> 
+		<script type="text/javascript" src="../build/Three.js"></script>
+		<script type="text/javascript" src="js/Stats.js"></script> 
+ 
+		<!-- Onedayitwillmake SceneEditor --> 
+		<script type="text/javascript" src="../src/extras/sceneeditor/SceneEditor.js"></script>
+		<script type="text/javascript" src="../src/extras/sceneeditor/SortedLookupTable.js"></script>
+		<script type="text/javascript" src="../src/extras/sceneeditor/SceneWindow.js"></script>
+		<script type="text/javascript" src="../src/extras/sceneeditor/ScenePlotterDot.js"></script>
+ 
+		<script type="text/javascript"> 
+			onReady = function () {
+				var container, stats;
+				var camera, scene, projector, renderer;
+					
+				var lastCube = null;
+				var sceneEditor = null;
+ 
+				init();
+				setInterval( loop, 1000 / 60 );
+ 
+				function init()
+				{
+					initContentDiv();
+					initScene();
+					container.appendChild(renderer.domElement); // Place scene into container
+					initSceneEditor();
+					initCubes();
+					initStats();
+					container.appendChild( stats.domElement ); // Place scene into container
+				}
+
+				function initCubes()
+				{
+					// Create one g
+					var geometry = new THREE.CubeGeometry( 100, 100, 100 );
+					var numCubes = 20;
+
+					for ( var i = 0; i < numCubes; i ++ )
+					{
+
+						var faceMaterial = new THREE.MeshBasicMaterial( { color: Math.random() * 0xffffff, opacity: 0.5 } ),
+							wireMaterial = new THREE.MeshBasicMaterial( { color: 0xffffff, opacity: 0.5, wireframe: true } );
+						var object = new THREE.Mesh( geometry, [ faceMaterial, wireMaterial ] );
+
+						// Set position
+						object.position.x = (( i % 5 ) * 200 - 400) + (Math.random() * 100 - 50);
+						object.position.y = Math.random() * 300 - 150;
+						object.position.z = (Math.floor( i / 5 ) * 200 - 350) + (Math.random() * 100 - 50);
+						object.name = "cube"+i;
+
+						// Add the new cube to the scene
+						scene.addObject( object );
+
+						// Add it to the scene plotter, specifying SQUARE as 2d representation
+						sceneEditor.startPlottingObject( object, THREE.SceneEditor.ScenePlotterDot.prototype.TYPES.SQUARE, false, false );
+					}
+
+					// Store last created one so we can move it around for some reason
+					lastCube = object;
+				}
+
+				function initScene()
+				{
+					camera = new THREE.Camera( 70, window.innerWidth / window.innerHeight, 1, 10000 );
+					camera.position.y = 300;
+					camera.position.z = 500;
+
+					scene = new THREE.Scene();
+
+					// Renderer
+					renderer = new THREE.CanvasRenderer();
+					renderer.setSize( window.innerWidth, window.innerHeight );
+
+
+				}
+ 
+				function initSceneEditor()
+				{
+				// Create a canvas for the sceneeditor
+				var container = document.createElement('div');
+				container.style.position = "absolute";
+				container.style.top = "0px";
+				document.body.appendChild(container);
+	
+				var sceneEditorCanvas = document.createElement('canvas');
+				container.appendChild(sceneEditorCanvas);
+	
+				sceneEditorCanvas.width = 500;
+				sceneEditorCanvas.height = 400;
+	
+	
+				// Instantiate the sceneeditor
+				sceneEditor = new THREE.SceneEditor();
+				sceneEditor.setCanvas( sceneEditorCanvas );
+				sceneEditor.create();
+				sceneEditor.setWorldOffset( camera.position );
+	
+				var defaultScale = 0.1;
+				var axis = ['xy', 'xz', 'zy'],
+                scales = [0.11, 0.11, 0.11];
+ 
+					var xBuffer = 5,
+						yBuffer = 50,
+						xSpacing = 5;
+ 
+					var plotterSize = 150;
+ 
+					for(var i = 0; i < axis.length; i++)
+					{
+						var aScenePlotter = sceneEditor.addScenePlotter(axis[i], scales[i], plotterSize);
+						aScenePlotter.setPosition(i * (plotterSize + xSpacing) + xBuffer, yBuffer);
+					}
+				}
+ 
+				var radius = 600;
+				var theta = 0;
+				var initialPosition = lastCube.position.clone();
+				initialPosition.x = 0;
+				
+				function loop()
+				{
+					theta += 0.05;
+					camera.position.x = radius * Math.sin( theta * Math.PI / 360 );
+					camera.position.y = radius * Math.sin( theta * Math.PI / 360 ) + 200;
+					camera.position.z = radius * Math.cos( theta * Math.PI / 360 );
+ 
+					
+					
+					var radiusB = -300;
+					var thetaB = theta*20;
+//					console.log(lastCube.position.x);
+					lastCube.position.x = initialPosition.x + radiusB * Math.sin( thetaB * Math.PI / 360 );
+					lastCube.position.y = initialPosition.y + radiusB * Math.sin( -thetaB * Math.PI / 360 )+200;
+					lastCube.position.z = initialPosition.z + radiusB * Math.cos( thetaB * Math.PI / 360 );
+					
+					var rotationTheta = 0.01;
+					lastCube.rotation.x += rotationTheta;
+					lastCube.rotation.y -= rotationTheta;
+					lastCube.rotation.z -= rotationTheta;
+					
+					stats.update();
+					sceneEditor.update();
+					renderer.render(scene, camera);
+				}
+
+				function initContentDiv()
+				{
+					container = document.createElement( 'div' );
+					document.body.appendChild( container );
+
+					var info = document.createElement( 'div' );
+					info.style.position = 'absolute';
+					info.style.top = '10px';
+					info.style.width = '100%';
+					info.style.textAlign = 'center';
+					info.innerHTML = '<a href="https://github.com/onedayitwillmake/three.js/tree/sceneeditor" target="_blank">Onedayitwillmake SceneEditor Alpha</a> for <a href="https://github.com/mrdoob/three.js" target="_blank">three.js</a><br>( Use the 2D windows to modify the 3d space )';
+					container.appendChild( info );
+				}
+
+				function initStats()
+				{
+					// Stats
+					stats = new Stats();
+					stats.domElement.style.position = 'absolute';
+					stats.domElement.style.left = "5px";
+					stats.domElement.style.top = '0px';
+
+				}
+			};
+ 
+			window.addEventListener('load', onReady, false);
+		</script> 
+ 
+	</body> 
+</html> 
