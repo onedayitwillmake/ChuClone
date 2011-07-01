@@ -6,6 +6,10 @@
 
     ChuClone.GameEntity.prototype = {
         view        : null,
+
+        /**
+         * @type {Box2D.Dynamics.b2Body}
+         */
         body        : null,
         force       : null,
 
@@ -23,9 +27,13 @@
         },
 
         /**
-         * Get/Set the b2Body
+         * @return {Box2D.Dynamics.b2Body}
          */
         getBody: function() { return this.body; },
+        /**
+         * Set the body
+         * @param {Box2D.Dynamics.b2Body} aBody
+         */
         setBody: function( aBody ) {
             this.body = aBody;
         },

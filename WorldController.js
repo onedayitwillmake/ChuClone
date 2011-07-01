@@ -34,6 +34,15 @@ Version:
 
 	ChuClone.WorldController.prototype = {
 		_world							: null,
+
+        /**
+         * @type {ChuClone.editor.WorldEditor}
+         */
+        _editor                         : null,
+
+        /**
+         * @type {Box2D.Dynamics.b2DebugDraw}
+         */
         _debugDraw                      : null,
 		_velocityIterationsPerSecond    : 10,
 		_positionIterationsPerSecond	: 30,
@@ -49,6 +58,10 @@ Version:
             this._world.DestroyBody( this._wallBottom );
 //            this._world.DestroyBody( this._wallTop );
 		},
+
+        setupEditor: function() {
+            this._editor = new ChuClone.editor.WorldEditor( this );
+        },
 
 		/**
 		 * This is where we modify any of the box2d defaults
@@ -221,16 +234,28 @@ Version:
              //setup debug draw
             var debugDraw = new b2DebugDraw();
             debugDraw.SetSprite( canvas.getContext("2d") );
-            debugDraw.SetDrawScale(3);
+            debugDraw.SetDrawScale(10);
             debugDraw.SetFillAlpha(0.3);
             debugDraw.SetLineThickness(0.5);
             debugDraw.SetFlags(b2DebugDraw.e_shapeBit | b2DebugDraw.e_jointBit);
+            debugDraw.offsetX = 0;
+            debugDraw.offsetY = 0;
 
             this._world.SetDebugDraw(debugDraw);
             this._debugDraw = debugDraw;
-
         },
 
-        getWorld: function() { return this._world; }
+        setDebugDrawOffset: function( x, y ) {
+            if(!this._debugDraw) return;
+//            this._debugDraw.offsetX = x;
+//            this._debugDraw.offsetY = y;
+        },
+
+        getWorld: function() { return this._world; },
+
+        /**
+         * @return {Box2D.Dynamics.b2DebugDraw}
+         */
+        getDebugDraw: function() { return this._debugDraw; }
 	};
 })();

@@ -15,6 +15,10 @@
         view: null,
         worldController: null,
         entities    :   [],
+
+        /**
+         * @type {ChuClone.GameEntity}
+         */
         player      : null,
 
         listenForReady: function() {
@@ -89,17 +93,18 @@
 
         setupWorldController: function() {
             this.worldController = new ChuClone.WorldController();
+            this.worldController.setupEditor();
         },
 
         setup: function() {
 
             var boxSize = 30;
             for ( var i = 0; i < 100; i ++ ) {
-                var x = i*(boxSize*2*2*2*2*2*2)
-				if(Math.random() < 0.1 ) continue;
-                var y = Math.abs(Math.sin(i/10))*-150 + Math.random() * 200;
-                var body = this.worldController.createRect( x, y, 0, boxSize*2*2*2*2*2, boxSize * 3, true );
-                var view = this.view.createEntityView( x, y, boxSize*2*2*2*2*2*2, boxSize*3, 1000  );
+                var x = i*(boxSize*2)
+//				    if(i > 0 && Math.random() < 0.1 ) continue;
+                var y = 500;//Math.abs(Math.sin(i/10))*-150 + Math.random() * 200;
+                var body = this.worldController.createRect( x, y, 0, boxSize, boxSize, true );
+                var view = this.view.createEntityView( x, y, boxSize, boxSize, 1000  );
                 var entity = new ChuClone.GameEntity();
                 entity.setBody( body );
                 entity.setView( view );
@@ -131,10 +136,12 @@
                 this.entities[i].update();
             }
 
+            this.worldController.setDebugDrawOffset( -this.player.getBody().GetPosition().x + 50, 0);
             this.worldController.update();
-            this.view.camera.target.position = this.player.view.position;
-            this.view.camera.position.x = this.player.view.position.x - 700;
-            this.view.render();
+
+//            this.view.camera.target.position = this.player.view.position;
+//            this.view.camera.position.x = this.player.view.position.x - 700;
+//            this.view.render();
         }
     };
 }());

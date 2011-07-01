@@ -1,5 +1,6 @@
 (function() {
     var PTM_RATIO = ChuClone.Constants.PTM_RATIO;
+    ChuClone.namespace("ChuClone");
     ChuClone.PlayerEntity = function() {
         ChuClone.PlayerEntity.superclass.constructor.call(this)
     };
