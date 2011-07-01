@@ -1,7 +1,6 @@
 (function(){
     var PTM_RATIO = ChuClone.Constants.PTM_RATIO;
     ChuClone.GameEntity = function() {
-        this.force = new Box2D.Common.Math.b2Vec2(0,0);
     };
 
     ChuClone.GameEntity.prototype = {
@@ -11,7 +10,15 @@
          * @type {Box2D.Dynamics.b2Body}
          */
         body        : null,
-        force       : null,
+        /**
+         * @type {Number}
+         */
+        width       : 0,
+        /**
+         * @type {Number}
+         */
+        height      : 0,
+
 
 
         /**
@@ -35,7 +42,13 @@
          * @param {Box2D.Dynamics.b2Body} aBody
          */
         setBody: function( aBody ) {
+            // If we have a .body and it's pointing to us, null the reference
+            if(this.body && this.body.userData == this) {
+                this.body.SetUserData(null);
+            }
+
             this.body = aBody;
+            this.body.SetUserData(this);
         },
 
         /**
@@ -45,6 +58,17 @@
         setView: function( aView ) {
             this.view = aView;
             this.view.geometry.computeBoundingBox();
+        },
+
+        getDimensions: function() { return {width: this.width, height: this.height}; },
+        setDimensions: function(aWidth, aHeight) {
+            this.width = aWidth;
+            this.height = aHeight;
+        },
+
+
+        modifyDimensions: function(aWidth, aHeight) {
+
         }
     }
 

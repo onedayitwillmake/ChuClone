@@ -33,6 +33,9 @@ Version:
 	};
 
 	ChuClone.WorldController.prototype = {
+        /**
+         * @type {Box2D.Dynamics.b2World}
+         */
 		_world							: null,
 
         /**
@@ -55,7 +58,7 @@ Version:
 			this.createBox2dWorld();
 			this.modifySettings();
             this._world.DestroyBody( this._wallRight );
-            this._world.DestroyBody( this._wallBottom );
+            this._world.DestroyBody( this._wallTop );
 //            this._world.DestroyBody( this._wallTop );
 		},
 
@@ -94,15 +97,15 @@ Version:
 			// BOTTOM
             wall = new b2PolygonShape();
             wallBd = new b2BodyDef();
-			wallBd.position.Set(ChuClone.Constants.GAME_WIDTH/2 / PTM_RATIO, ChuClone.Constants.GAME_HEIGHT / PTM_RATIO );
-			wall.SetAsBox(ChuClone.Constants.GAME_WIDTH / PTM_RATIO, 1 / PTM_RATIO);
+			wallBd.position.Set(ChuClone.Constants.GAME_WIDTH/2, 1);
+			wall.SetAsBox(ChuClone.Constants.GAME_WIDTH / PTM_RATIO * 8 , 1 / PTM_RATIO);
 			this._wallTop = m_world.CreateBody(wallBd);
 			this._wallTop.CreateFixture2(wall);
 			// TOP
             wall = new b2PolygonShape();
             wallBd = new b2BodyDef();
-			wallBd.position.Set(ChuClone.Constants.GAME_WIDTH/2, 1);
-			wall.SetAsBox(ChuClone.Constants.GAME_WIDTH/2 * 10, 1);
+			wallBd.position.Set(ChuClone.Constants.GAME_WIDTH/2 / PTM_RATIO, ChuClone.Constants.GAME_HEIGHT / PTM_RATIO );
+			wall.SetAsBox(ChuClone.Constants.GAME_WIDTH/2 * 100, 1/PTM_RATIO);
 			this._wallBottom = m_world.CreateBody(wallBd);
 			this._wallBottom.CreateFixture2(wall);
 
@@ -132,49 +135,22 @@ Version:
 			return body;
 		},
 
-		/**
-		 * Creates a Box2D square body
-		 * @param {Number} x	Body position on X axis
-		 * @param {Number} y    Body position on Y axis
-		 * @param {Number} rotation	Body rotation
-		 * @param {Number} size Body size
-		 * @return {b2Body}	A Box2D body
-		 */
-		createBox: function(x, y, rotation, size, isFixed ) {
-            x *= PTM_RATIO;
-			y *= PTM_RATIO;
-            size *= PTM_RATIO;
-
-			var bodyDef = new b2BodyDef();
-			bodyDef.type = isFixed ? b2Body.b2_staticBody : b2Body.b2_dynamicBody;
-			bodyDef.position.Set(x, y);
-			bodyDef.angle = rotation;
-
-			var body = this._world.CreateBody(bodyDef);
-			var shape = new b2PolygonShape.AsBox(size, size);
-			var fixtureDef = new b2FixtureDef();
-			fixtureDef.restitution = 0.1;
-			fixtureDef.density = 0.1;//isFixed ? 0 : 1.0;
-			fixtureDef.friction = 0.6;
-			fixtureDef.shape = shape;
-			body.CreateFixture(fixtureDef);
-
-//			Create the entity for it in RealTimeMultiplayerNodeJS
-//			var aBox2DEntity = new ChuClone.Box2DEntity( this.getNextEntityID(), RealtimeMultiplayerGame.Constants.SERVER_SETTING.CLIENT_ID );
-//			aBox2DEntity.setBox2DBody( body );
-//			aBox2DEntity.entityType = ChuClone.Constants.ENTITY_TYPES.BOX;
-//
-//
-//			this.fieldController.addEntity( aBox2DEntity );
-
-			return body;
-		},
-
+        /**
+         * Creates a rectangular body. Position is given in pixels and PTM_RATIO is taken into account
+         * @param {Number} x
+         * @param {Number} y
+         * @param {Number} rotation Rotation in radians
+         * @param {Number} width
+         * @param {Number} height
+         * @param {Boolean} isFixed
+         * @return {Box2D.Dynamics.b2Body}
+         */
         createRect: function( x, y, rotation, width, height, isFixed ) {
             x /= PTM_RATIO;
             y /= PTM_RATIO;
             width /= PTM_RATIO;
             height /= PTM_RATIO;
+//            isFixed = false;
 
             var fixtureDef= new Box2D.Dynamics.b2FixtureDef();
             fixtureDef.density = 1.0;
@@ -183,13 +159,12 @@ Version:
 
             var bodyDef = new Box2D.Dynamics.b2BodyDef();
             bodyDef.type = (isFixed) ? Box2D.Dynamics.b2Body.b2_staticBody : Box2D.Dynamics.b2Body.b2_dynamicBody;
-            bodyDef.position.x = x;
-            bodyDef.position.y = y;
 
             fixtureDef.shape = new Box2D.Collision.Shapes.b2PolygonShape();
             fixtureDef.shape.SetAsBox( width, height );
 
             var body = this._world.CreateBody( bodyDef );
+            body.SetPositionAndAngle( new Box2D.Common.Math.b2Vec2(x, y), rotation );
             body.CreateFixture( fixtureDef );
 
             return body;
@@ -251,6 +226,9 @@ Version:
 //            this._debugDraw.offsetY = y;
         },
 
+        /**
+         * @return {Box2D.Dynamics.b2World}
+         */
         getWorld: function() { return this._world; },
 
         /**

@@ -100,14 +100,18 @@
 
             var boxSize = 30;
             for ( var i = 0; i < 100; i ++ ) {
-                var x = i*(boxSize*2)
-//				    if(i > 0 && Math.random() < 0.1 ) continue;
-                var y = 500;//Math.abs(Math.sin(i/10))*-150 + Math.random() * 200;
-                var body = this.worldController.createRect( x, y, 0, boxSize, boxSize, true );
-                var view = this.view.createEntityView( x, y, boxSize, boxSize, 1000  );
+                if(i > 0 && Math.random() < 0.1 ) continue; // Random skip
+
+                var x = i*(boxSize*3);
+                var y = 300;//Math.abs(Math.sin(i/10))*-150 + Math.random() * 200;
+                var w = boxSize;
+                var h = boxSize;
+                var body = this.worldController.createRect( x, y, 0, w, h, true );
+                var view = this.view.createEntityView( x, y, w, h, 1000  );
                 var entity = new ChuClone.GameEntity();
                 entity.setBody( body );
                 entity.setView( view );
+                entity.setDimensions( w, h);
 
                 this.entities.push( entity );
                 this.view.addEntity( entity.view );
