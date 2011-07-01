@@ -1,23 +1,21 @@
 /**
 File:
-	AbstractServerGame.js
+	GameView.js
 Created By:
 	Mario Gonzalez
 Project:
-	RealtimeMultiplayerNodeJS
+	ChuClone
 Abstract:
-	This class is the base Game controller in RealtimeMultiplayerGame on the server side.
- 	It provides things such as dropping players, and contains a ServerNetChannel
+	This class controls the view for the game overall.
+    It currently uses THREE.js to render the objects
+
 Basic Usage:
- 	[This class is not instantiated! - below is an example of using this class by extending it]
+ 	this.view = new ChuClone.GameView();
 
- 	(function(){
-		MyGameClass = function() {
-			return this;
- 		}
-
-		RealtimeMultiplayerGame.extend(MyGameClass, RealtimeMultiplayerGame.AbstractServerGame, null);
-	};
+    // Assuming you have a player  - call every frame
+    this.view.camera.target.position = this.player.view.position;
+    this.view.camera.position.x = this.player.view.position.x - 700;
+    this.view.render();
 Version:
 	1.0
 */
@@ -46,6 +44,11 @@ Version:
         sceneEditor         : null,
 
         light1              : null,
+
+        /**
+         * @type {Number}
+         */
+        NEXT_VIEW_ID        : 0,
 
 		// Methods
 		setupThreeJS: function() {
@@ -111,7 +114,8 @@ Version:
 			this.setupBirds();
 
 			var that = this;
-			document.addEventListener( 'mousemove', function(e){that.onDocumentMouseMove(e)}, false );
+            window.addEventListener( 'resize', function(e) { that.onResize(e); }, false);
+			document.addEventListener( 'mousemove', function(e){ that.onDocumentMouseMove(e)}, false );
 		},
 
 		setupBirds: function() {
@@ -125,6 +129,7 @@ Version:
 				bird.phase = Math.floor( Math.random() * 62.83 );
 				bird.position = new THREE.Vector3( Math.random() * range, Math.random() * range, (Math.random()*2-1) * range*2 );
 				bird.doubleSided = true;
+//                bird.dynamic = true;
 				bird.scale.x = bird.scale.y = bird.scale.z = (Math.random()) * 5 + 5;
 				scene.addObject( bird );
 			}
@@ -199,6 +204,10 @@ Version:
 //                    console.log( this.sceneEditor._activePlotter._draggedDot._delegate )
                 this.sceneEditor.update();
             }
+
+            if(this.first) {
+//                console.log(this.first)
+            }
 		},
 
 		renderBirds: function() {
@@ -259,23 +268,30 @@ Version:
 			document.body.appendChild( container );
 		},
 
-        id: 0,
         createEntityView: function( x, y, width, height, depth ) {
-            var geometry = new THREE.CubeGeometry( width, height, depth );
+            var geometry = new THREE.CubeGeometry( 1, 1, depth );
             var object = new THREE.Mesh( geometry, [new THREE.MeshLambertMaterial( {
 				color: 0xFFFFFF, shading: THREE.SmoothShading,
 				map : THREE.ImageUtils.loadTexture( "lvl.png" )
 			})] );
-            object.name = ++this.id;
-            object.position.x = x;//i * 21;//i*100;//Math.random() * 800 - 400;
-            object.position.y = y;//Math.random() * 800 - 400;
-            object.position.z = 0;//10;// Math.random() * 800 - 400;
-//            					object.rotation.x = ( Math.random() * 360 ) * Math.PI / 180;
-//            					object.rotation.y = ( Math.random() * 360 ) * Math.PI / 180;
-//            					object.rotation.z = ( Math.random() * 360 ) * Math.PI / 180;
 
-//            if(this.sceneEditor) this.sceneEditor.startPlottingObject( object, THREE.SceneEditor.ScenePlotterDot.prototype.TYPES.SQUARE, false, false );
 
+
+            var id = ChuClone.GameView.prototype.GET_NEXT_VIEW_ID();
+
+            object.name = id;
+            object.position.x = x;
+            object.position.y = y;
+            object.position.z = 0;
+            object.scale.x = width;
+            object.scale.y = height;
+
+            if(this.sceneEditor)
+                this.sceneEditor.startPlottingObject( object, THREE.SceneEditor.ScenePlotterDot.prototype.TYPES.SQUARE, false, false );
+
+            if(id == 0) {
+                this.first = object;
+            }
             return object;
         },
 
@@ -287,26 +303,38 @@ Version:
 			scene.removeObject( anEntityView );
 		},
 
+        /**
+         * Convert to cartesian cordinates
+         * @param {MouseEvent} event
+         */
         onDocumentMouseMove: function( event ) {
-
             event.preventDefault();
-
             mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
             mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
-
         },
 
-		/**
-		 * Insert the CAATDirector canvas into an HTMLElement
-		 * @param {String} id An HTMLElement id
-		 */
-		insertIntoHTMLElementWithId: function( id ) {
-			document.getElementById(id).appendChild( this.caatDirector.canvas);
-		},
+        /**
+         * Resize viewport and adjust camera
+         * @param {Event} e
+         */
+        onResize: function( e ) {
+            console.log("RESIZE")
+            renderer.setSize( window.innerWidth, window.innerHeight );
+            this.camera.aspect = window.innerWidth/window.innerHeight;
+            this.camera.updateProjectionMatrix();
+        },
+
 
 		// Memory
 		dealloc: function() {
 			this.director.destroy();
-		}
+		},
+
+        /**
+         * @return {Number}
+         */
+        GET_NEXT_VIEW_ID: function() {
+            return ChuClone.GameView.prototype.NEXT_VIEW_ID++;
+        }
 	};
 })();
