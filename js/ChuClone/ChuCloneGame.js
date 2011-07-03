@@ -13,8 +13,11 @@
 
     ChuClone.ChuCloneGame.prototype = {
         view: null,
+
+        /**
+         * @type {ChuClone.WorldController}
+         */
         worldController: null,
-        entities    :   [],
 
         /**
          * @type {ChuClone.GameEntity}
@@ -31,6 +34,7 @@
             this.setupWorldController();
             this.setup();
             this.setupKeyboard();
+            this.setupPlayer();
 
             // MAIN LOOP
             var that = this;
@@ -92,11 +96,11 @@
 
         setupWorldController: function() {
             this.worldController = new ChuClone.WorldController();
-            this.worldController.setupEditor();
+            this.worldController.setupEditor( this.view );
         },
 
         setup: function() {
-
+            return;
             var boxSize = 30;
             for ( var i = 0; i < 100; i ++ ) {
                 if(i > 0 && Math.random() < 0.1 ) continue; // Random skip
@@ -115,19 +119,19 @@
                 this.entities.push( entity );
                 this.view.addEntity( entity.view );
             }
+        },
 
-            // Player-
-            x = 600;
-            y = -200;
-            boxSize = 30;
-            body = this.worldController.createRect( x, y, Math.random() * 6, boxSize, boxSize, false);
-            view = this.view.createEntityView( x, y, boxSize * 2, boxSize*2, boxSize * 2);
+        setupPlayer: function() {
+            var x = 600;
+            var y = -200;
+            var boxSize = 30;
+            var body = this.worldController.createRect( x, y, Math.random() * 6, boxSize, boxSize, false);
+            var view = this.view.createEntityView( x, y, boxSize * 2, boxSize*2, boxSize * 2);
             view.materials[0] = new THREE.MeshPhongMaterial( { ambient: 0x111111, color: 0x666666, specular: 0xDDDDDD, shininess:1, shading: THREE.FlatShading } );
-            entity = new ChuClone.PlayerEntity();
+
+            var entity = new ChuClone.PlayerEntity();
             entity.setBody( body );
             entity.setView( view );
-//            body.ApplyImpulse( new Box2D.Dynamics.b2Vec2(1000, 0), body.GetPosition() );
-
 
             this.entities.push( entity );
             this.view.addEntity( entity.view );
@@ -135,17 +139,30 @@
         },
 
         update: function() {
-            for(var i = 0; i < this.entities.length; i++ ) {
-                this.entities[i].update();
-            }
 
-            this.worldController.setDebugDrawOffset( -this.player.getBody().GetPosition().x+25, 5);
-            this.worldController.update();
-
-            if(Math.random() < 0.01) {
-                console.log("Player:", this.player.getBody().GetPosition().x )
-            }
+            /**
+             * @type {Box2D.Dynamics.b2Body}
+             */
+            var node = this.worldController.getWorld().GetBodyList();
+            while(node) {
+                var b = node;
+                node = node.GetNext();
 //
+                /**
+                 * @type {ChuClone.GameEntity}
+                 */
+                var entity = b.GetUserData();
+                if(entity)
+                    entity.update();
+//
+            }
+
+            if( this.player ) {
+                this.worldController.setDebugDrawOffset( -this.player.getBody().GetPosition().x+25, 5);
+                this.worldController.update();
+            }
+
+
 //            this.view.camera.target.position = this.player.view.position;
 //            this.view.camera.position.x = this.player.view.position.x - 700;
 //            this.view.render();

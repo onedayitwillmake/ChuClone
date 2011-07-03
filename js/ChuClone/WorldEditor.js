@@ -22,6 +22,10 @@
          */
         _worldController    : null,
         /**
+         * @type {ChuClone.GameView}
+         */
+        _gameView           : null,
+        /**
          * @type {Box2D.Common.Math.b2Vec2}
          */
         _mousePosition      : null,
@@ -33,36 +37,62 @@
         /**
          * @type {DAT.GUI}
          */
-        _gui                : null,
+        _guiModification                : null,
         /**
          * We modify this not the b2Body directly
          */
-        _propProxy          : {x: 0, y: 0 },
+        _propProxy          : {x: 0, y: 0, width: 0, height:0},
         _controllers        : {},
+
+                            // Store reference for remval later: HACK?
+        _closures           : {'mousemove':null, 'mouseup':null, 'mousedown': null},
 
         setupMouseEvents: function() {
             var that = this;
+            this._closures['mousedown'] = function(e) { that.onDocumentMouseDown(e); };
+            this._closures['mousemove'] = function(e) { that.onMouseMove(e); };
+            this._closures['mouseup'] = function(e) { that.onMouseUp(e); };
 
-            window.addEventListener( 'mousedown', function(e){ that.onDocumentMouseDown(e)}, false );
-            window.addEventListener( 'mousemove', function(e){ that.onMouseMove(e)}, false );
-            window.addEventListener( 'mouseup', function(e){ that.onMouseUp(e)}, false );
+            window.addEventListener( 'mousedown', this._closures['mousedown'], false );
+            window.addEventListener( 'mouseup', this._closures['mouseup'], false );
         },
 
         /**
          * Setup DAT.GUI controllers
          */
         setupGui: function() {
-            this._gui = new DAT.GUI();
-            this._gui.autoListen = false;
+            this._guiModification = new DAT.GUI();
+            this._guiModification.name("Modification");
+            this._guiModification.autoListen = false;
 
-            this.addController("x", 0).step(0.1);
-            this.addController("y", 0).step(0.1);
-            this.addController("width", 0).min(0.01).max(2000);
-            this.addController("height", 0).min(0.01).max(2000);
-            this._gui.close();
-            this._gui.open();
+            this.addControllerWithTimeout(this._guiModification, "x", 0).step(0.1);
+            this.addControllerWithTimeout(this._guiModification, "y", 0).step(0.1);
+            this.addControllerWithTimeout(this._guiModification, "width", 0).min(0.01).max(2000);
+            this.addControllerWithTimeout(this._guiModification, "height", 0).min(0.01).max(2000);
+            this._guiModification.close();
+            this._guiModification.open();
+
+
+            this._guiCreation = new DAT.GUI();
+            this._guiCreation.name("Creation");
+            this._guiCreation.autoListen = false;
+            this._controllers['onShouldCreate'] = this._guiCreation.add(this, 'onShouldCreate').name("Create Entity");
+            this._controllers['onShouldDelete'] = this._guiCreation.add(this, 'onShouldDelete').name("Destroy Last Entity");
+
+            this._controllers['type'] = this._guiCreation.add(this, 'onShouldDelete').name("Destroy Last Entity")
+            //ui.add(obj, 'propertyName').options({'Small': 1, 'Medium': 2, 'Large': 3});
+
+            this._guiCreation.close();
+            this._guiCreation.open();
         },
 
+        onShouldCreate: function(e) {
+            console.log(this,"ABC");
+        },
+
+        onShouldDelete: function(e) {
+            console.log(this,"ABC");
+        },
 
         /**
          * Called by onDocumentMouseDown
@@ -76,6 +106,14 @@
             pos.Multiply( 1.0 / this._worldController.getDebugDraw().GetDrawScale() );
 
             var selectedBody = this.getBodyAtPosition( pos );
+
+            if(selectedBody) {
+                this._currentBody = selectedBody;
+
+                window.removeEventListener( 'mousemove', this._closures['mousemove'], false );
+                window.addEventListener( 'mousemove', this._closures['mousemove'], false );
+            }
+
         },
 
         /**
@@ -91,8 +129,6 @@
 
             this._currentBody.SetPosition(pos);
             this.populateInfoWithB2Body( this._currentBody );
-
-//            var selectedBody = this.getBodyAtPosition( pos );
         },
 
         /**
@@ -100,14 +136,8 @@
          * @param {MouseEvent} e
          */
         onMouseUp: function(e) {
-
-            return;
+            window.removeEventListener( 'mousemove', this._closures['mousemove'], false );
             this.updateMousePosition(e);
-
-            var pos = new Box2D.Common.Math.b2Vec2(this._mousePosition.x, this._mousePosition.y);
-            pos.Multiply( 1.0 / this._worldController.getDebugDraw().GetDrawScale() );
-
-            var selectedBody = this.getBodyAtPosition( pos );
         },
 
         /**
@@ -155,6 +185,7 @@
 
         onControllerWasChanged: function( newValue ) {
             if(this._currentBody == null) return;
+
 
             // Create a new using current body's data
             var newBody = this._worldController.createRect(
@@ -225,16 +256,17 @@
         /**
          * Adds a controller to DAT.GUI and adds it into our _controllers object.
          * This function also sets a timeout that will be destroyed if the value is changed while waiting to be fired
+         * @param {DAT.GUI} aGui
          * @param {String} propName
          * @param {String|Number|Boolean} initialValue
          * @return {DAT.GUI.Controller}
          */
-        addController: function(propName, initialValue) {
+        addControllerWithTimeout: function(aGui, propName, initialValue) {
 
             var that = this;
             this._propProxy[propName] = initialValue;
 
-            var controller = this._gui.add(this._propProxy, propName);
+            var controller = aGui.add(this._propProxy, propName);
             this._controllers[propName] = controller;
 
             // Set a timeout that will be destroyed if the value is changed while waiting to be fired
@@ -250,6 +282,19 @@
 
         removeController: function( propName ) {
             // TODO: Not Implemented
+        },
+
+
+        dealloc: function() {
+            window.removeEventListener('mousedown', this._closures['mousedown'], false );
+            window.removeEventListener('mousemove', this._closures['mousemove'], false );
+            window.removeEventListener('mouseup', this._closures['mouseup'], false );
+
+            this._worldController = null;
+            this._gameView = null;
+            this._currentBody = null;
+            this._mousePosition = null;
+            this._worldController = null;
         }
-    }
+}
 })();

@@ -1,16 +1,17 @@
 /**
  File:
-    ChuCloneServerGame.js
+    WorldController.js
  Created By:
     Mario Gonzalez
  Project:
     ChuClone
  Abstract:
-     This is a demo of using Box2d.js with RealTimeMultiplayerNode.js
-     The box2d.js world creation and other things in this demo, are shamelessly lifted from the https://github.com/HBehrens/box2d.js examples
+     This class controls some Box2D functionality for the game
  Basic Usage:
-     demoServerGame = new ChuClone.DemoServerGame();
-     demoServerGame.startGameClock();
+     setupWorldController: function() {
+            this.worldController = new ChuClone.WorldController();
+            this.worldController.setupEditor();
+        },
  Version:
     1.0
  */
@@ -47,7 +48,13 @@
          * @type {Box2D.Dynamics.b2DebugDraw}
          */
         _debugDraw                      : null,
+        /**
+         * @type {Number}
+         */
         _velocityIterationsPerSecond    : 10,
+        /**
+         * @type {Number}
+         */
         _positionIterationsPerSecond	: 30,
 
 
@@ -62,12 +69,17 @@
 //            this._world.DestroyBody( this._wallTop );
         },
 
-        setupEditor: function() {
-            this._editor = new ChuClone.editor.WorldEditor( this );
+        /**
+         * Creates the editor taking a reference to the games view object
+         * @param {ChuClone.GameView} aView
+         */
+        setupEditor: function( aView ) {
+            this._editor = new ChuClone.editor.WorldEditor( this, aView );
         },
 
         /**
          * This is where we modify any of the box2d defaults
+         * //TODO: DOESN'T WORK
          */
         modifySettings: function() {
             Box2D.Common.b2Settings.b2_maxRotation = 0;// 0.01;
@@ -182,7 +194,6 @@
 
 
         step: function( delta ) {
-//			var delta = (typeof delta == "undefined") ? 1/this._fps : delta;
             this._world.Step(delta, delta * this._velocityIterationsPerSecond, delta * this._positionIterationsPerSecond);
 
             if(this._debugDraw) {
@@ -191,6 +202,10 @@
             this._world.ClearForces();
         },
 
+        /**
+         * Setup the canvas used for debugging
+         * @param {HTMLCanvasElement} canvas
+         */
         setDebugDraw: function(canvas) {
             if( !canvas ) {
                 var container = document.createElement( 'div' );
@@ -220,8 +235,14 @@
             this._debugDraw = debugDraw;
         },
 
+        /**
+         * Set the offset of the debugDraw object - use this to scroll the debug draw
+         * @param {Number} x
+         * @param {Number} y
+         */
         setDebugDrawOffset: function( x, y ) {
             if(!this._debugDraw) return;
+
             this._debugDraw.offsetX = x;
             this._debugDraw.offsetY = y;
         },
