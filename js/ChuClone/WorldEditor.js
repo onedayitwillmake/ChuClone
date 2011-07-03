@@ -2,18 +2,22 @@
     var PTM_RATIO = ChuClone.Constants.PTM_RATIO;
     var WAIT_TIMEOUT = 0;
 
-    ChuClone.namespace("ChuClone.editor.WorldEditor");
+    ChuClone.namespace("ChuClone.editor");
 
     /**
      * Creates a new WorldEditor
      * @param {ChuClone.WorldController} aWorldController
      */
-    ChuClone.editor.WorldEditor = function( aWorldController ) {
+    ChuClone.editor.WorldEditor = function( aWorldController, aGameView ) {
         this._worldController = aWorldController;
+        this._gameView = aGameView;
         this._mousePosition = new Box2D.Common.Math.b2Vec2(0,0);
 
         this.setupMouseEvents();
+        this.setupKeyboardEvents();
         this.setupGui();
+
+        //this.onShouldCreate();
     };
 
     ChuClone.editor.WorldEditor.prototype = {
@@ -37,11 +41,11 @@
         /**
          * @type {DAT.GUI}
          */
-        _guiModification                : null,
+        _guiModification    : null,
         /**
          * We modify this not the b2Body directly
          */
-        _propProxy          : {x: 0, y: 0, width: 0, height:0},
+        _propProxy          : {x: 5, y: 5, width: 10, height:10},
         _controllers        : {},
 
                             // Store reference for remval later: HACK?
@@ -49,13 +53,24 @@
 
         setupMouseEvents: function() {
             var that = this;
-            this._closures['mousedown'] = function(e) { that.onDocumentMouseDown(e); };
-            this._closures['mousemove'] = function(e) { that.onMouseMove(e); };
+            this._closures['mousedown'] = function(e) { that.onMouseDown(e); };
+            this._closures['mousemove'] = function(e) { that.onDraggingPiece(e); };
             this._closures['mouseup'] = function(e) { that.onMouseUp(e); };
 
-            window.addEventListener( 'mousedown', this._closures['mousedown'], false );
+            this._worldController.getDebugDraw().GetSprite().canvas.addEventListener( 'mousedown', this._closures['mousedown'], false );
             window.addEventListener( 'mouseup', this._closures['mouseup'], false );
         },
+
+        setupKeyboardEvents: function() {
+            var that = this;
+
+            this._closures['keydown'] = function(e) { that.onKeyDown(e); };
+            this._closures['keyup'] = function(e) { that.onKeyUp(e); };
+
+            document.addEventListener('keydown', this._closures['keydown'], false);
+            document.addEventListener('keyup', this._closures['keyup'], false);
+        },
+
 
         /**
          * Setup DAT.GUI controllers
@@ -65,10 +80,10 @@
             this._guiModification.name("Modification");
             this._guiModification.autoListen = false;
 
-            this.addControllerWithTimeout(this._guiModification, "x", 0).step(0.1);
-            this.addControllerWithTimeout(this._guiModification, "y", 0).step(0.1);
-            this.addControllerWithTimeout(this._guiModification, "width", 0).min(0.01).max(2000);
-            this.addControllerWithTimeout(this._guiModification, "height", 0).min(0.01).max(2000);
+            this.addControllerWithTimeout(this._guiModification, "x", this._propProxy.x).step(0.1);
+            this.addControllerWithTimeout(this._guiModification, "y", this._propProxy.y).step(0.1);
+            this.addControllerWithTimeout(this._guiModification, "width", this._propProxy.width).min(0.01).max(2000/PTM_RATIO);
+            this.addControllerWithTimeout(this._guiModification, "height", this._propProxy.height).min(0.01).max(2000/PTM_RATIO);
             this._guiModification.close();
             this._guiModification.open();
 
@@ -78,27 +93,82 @@
             this._guiCreation.autoListen = false;
             this._controllers['onShouldCreate'] = this._guiCreation.add(this, 'onShouldCreate').name("Create Entity");
             this._controllers['onShouldDelete'] = this._guiCreation.add(this, 'onShouldDelete').name("Destroy Last Entity");
-
-            this._controllers['type'] = this._guiCreation.add(this, 'onShouldDelete').name("Destroy Last Entity")
+            this._controllers['onShouldClone'] = this._guiCreation.add(this, 'onShouldCloneEntity').name("Clone Entity")
             //ui.add(obj, 'propertyName').options({'Small': 1, 'Medium': 2, 'Large': 3});
 
             this._guiCreation.close();
             this._guiCreation.open();
         },
-
+        /**
+         * Create a new body using lastMousePosition and propProxy data
+         * @param e
+         */
         onShouldCreate: function(e) {
-            console.log(this,"ABC");
+            var w = this._propProxy.width * PTM_RATIO;
+            var h = this._propProxy.height * PTM_RATIO;
+
+            // Get the new position by dividing the given mouse position by the drawscale, and the result of that by the PTM_RATIO
+            var pos = new Box2D.Common.Math.b2Vec2(this._mousePosition.x, this._mousePosition.y);
+            pos.Multiply( (1 / this._worldController.getDebugDraw().GetDrawScale()) * PTM_RATIO );
+
+            // Create the b2Body
+            var newBody = this._worldController.createRect(
+                pos.x,
+                pos.y,
+                0,
+                w,
+                h,
+                Box2D.Dynamics.b2Body.b2_dynamicBody
+            );
+
+            // Create the THREE.js mesh
+            var view = this._gameView.createEntityView( this._mousePosition.x, this._mousePosition.x, w*2, h*2, 1000  );
+            var entity = new ChuClone.GameEntity();
+            entity.setBody( newBody );
+            entity.setView( view );
+            entity.setDimensions( w, h );
+
+            this._currentBody = newBody;
+            this.populateInfoWithB2Body( this._currentBody );
         },
 
         onShouldDelete: function(e) {
-            console.log(this,"ABC");
+            if(!this._currentBody) {
+                console.error("WorldEditor::onShouldDelete - _currentBody is null!");
+                return;
+            }
+
+            if(!this._currentBody.GetUserData()) {
+                console.error("WorldEditor::onShouldDelete - _currentBody.GetUserData() returns null!");
+                return;
+            }
+
+
+            // Destroy the old body, and store the current body inside the previous one's entity
+            var entity = this._currentBody.GetUserData();
+            this._gameView.removeEntity( entity.getView() );
+
+            entity.dealloc();
+            this._worldController.getWorld().DestroyBody( this._currentBody );
+            this._currentBody = null;
         },
 
         /**
-         * Called by onDocumentMouseDown
+         * Clones the _currentBody
+         */
+        onShouldCloneEntity: function(){
+            this._mousePosition.x = this._currentBody.GetPosition().x;
+            this._mousePosition.y = this._currentBody.GetPosition().y;
+            this._mousePosition.Multiply( this._worldController.getDebugDraw().GetDrawScale() );
+
+            this.onShouldCreate(null);
+        },
+
+        /**
+         * Mousedown event handler
          * @param {MouseEvent} e
          */
-        onDocumentMouseDown: function(e) {
+        onMouseDown: function(e) {
             e.preventDefault();
             this.updateMousePosition(e);
 
@@ -110,17 +180,17 @@
             if(selectedBody) {
                 this._currentBody = selectedBody;
 
-                window.removeEventListener( 'mousemove', this._closures['mousemove'], false );
-                window.addEventListener( 'mousemove', this._closures['mousemove'], false );
+                this._worldController.getDebugDraw().GetSprite().canvas.removeEventListener( 'mousemove', this._closures['mousemove'], false );
+                this._worldController.getDebugDraw().GetSprite().canvas.addEventListener( 'mousemove', this._closures['mousemove'], false );
+            } else {
+//                this.onShouldCreate();
             }
-
         },
 
         /**
-         * Window 'mousemove' callback
          * @param {MouseEvent} e
          */
-        onMouseMove: function(e) {
+        onDraggingPiece: function(e) {
             if( !this._currentBody ) return;
             this.updateMousePosition(e);
 
@@ -136,8 +206,132 @@
          * @param {MouseEvent} e
          */
         onMouseUp: function(e) {
-            window.removeEventListener( 'mousemove', this._closures['mousemove'], false );
-            this.updateMousePosition(e);
+            this._worldController.getDebugDraw().GetSprite().canvas.removeEventListener( 'mousemove', this._closures['mousemove'], false );
+//            this.updateMousePosition(e);
+        },
+
+
+
+        /**
+         * @param {KeyboardEvent} e
+         */
+        onKeyDown: function(e) {
+            var that = this;
+
+            if(e.keyCode == 32) {
+                if(this._closures['pan']) // already panning
+                    return;
+
+                this._worldController.getDebugDraw().GetSprite().canvas.removeEventListener( 'mousemove', this._closures['pan'], false );
+
+                var initialMousePosition = null;
+                var initialOffsetPosition = new Box2D.Common.Math.b2Vec2( this._worldController.getDebugDraw().offsetX, this._worldController.getDebugDraw().offsetY );
+                this._closures['pan'] = function(e) {
+                    that.updateMousePosition(e);
+
+                    if(!initialMousePosition) { // First call
+                        initialMousePosition = new Box2D.Common.Math.b2Vec2( that._mousePosition.x, that._mousePosition.y );
+                    }
+
+                    var scale = 4;
+                    that._worldController.getDebugDraw().offsetX = initialOffsetPosition.x + (initialMousePosition.x - that._mousePosition.x) / PTM_RATIO * -scale;
+                    that._worldController.getDebugDraw().offsetY = initialOffsetPosition.y + (initialMousePosition.y - that._mousePosition.y) / PTM_RATIO * -scale;
+                };
+
+                this._worldController.getDebugDraw().GetSprite().canvas.addEventListener( 'mousemove', this._closures['pan'], false );
+            }
+        },
+
+        /**
+         * @param {KeyboardEvent} e
+         */
+        onKeyUp: function(e) {
+            if(e.keyCode == 32) {
+                this._worldController.getDebugDraw().GetSprite().canvas.removeEventListener( 'mousemove', this._closures['pan'], false );
+                this._closures['pan'] = null;
+            }
+        },
+
+        /**
+         * Populates the GUI.DAT panel with information about this Box2D Body
+         * @param aBody
+         */
+        populateInfoWithB2Body: function( aBody ) {
+            this._controllers['x'].setValue( aBody.GetPosition().x );
+            this._controllers['y'].setValue( aBody.GetPosition().y );
+            this._controllers['width'].setValue( this._currentBody.GetUserData().getDimensions().width / PTM_RATIO );
+            this._controllers['height'].setValue( this._currentBody.GetUserData().getDimensions().height / PTM_RATIO );
+        },
+
+        onControllerWasChanged: function( newValue ) {
+            if(this._currentBody == null) return;
+
+
+            // Create a new using current body's data
+            var newBody = this._worldController.createRect(
+                this._controllers['x'].getValue() * PTM_RATIO,
+                this._controllers['y'].getValue()  * PTM_RATIO,
+                this._currentBody.GetAngle(),
+                this._controllers['width'].getValue() * PTM_RATIO,
+                this._controllers['height'].getValue() * PTM_RATIO,
+                this._currentBody.GetType() == Box2D.Dynamics.b2Body.b2_staticBody
+            );
+
+
+            // Destroy the old body, and store the current body inside the previous one's entity
+            // NOTE: Assumes GetUserData is of type ChuClone.GameEntity
+            var entity = this._currentBody.GetUserData();
+
+            this._worldController.getWorld().DestroyBody( this._currentBody );
+            entity.setBody( newBody );
+            entity.setDimensions( this._controllers['width'].getValue() * PTM_RATIO, this._controllers['height'].getValue() * PTM_RATIO)
+
+            // TODO: MODIFY GEOMETRY CORRECTLY INSTEAD OF SCALING
+            entity.getView().scale.x = this._controllers['width'].getValue() * 2;
+            entity.getView().scale.y = this._controllers['height'].getValue() * 2;
+
+
+            this._currentBody = newBody;
+        },
+
+        /**
+         * Clones a box2d body
+         */
+        cloneBody: function() {
+            // Create a new using current body's data
+            var newBody = this._worldController.createRect(
+                this._currentBody.GetPosition.x * PTM_RATIO,
+                this._currentBody.GetPosition.y * PTM_RATIO,
+                this._currentBody.GetAngle(),
+                this._currentBody.GetUserData().getDimensions().width / PTM_RATIO,
+                this._currentBody.GetUserData().getDimensions().height / PTM_RATIO,
+                this._currentBody.GetType() == Box2D.Dynamics.b2Body.b2_dynamicBody
+            );
+        },
+
+        /**
+         * Sets the _mousePosition property taking the canvas position into account
+         * @param {MouseEvent}  e
+         */
+        updateMousePosition: function(e) {
+            var x = 0,
+                y = 0;
+
+            // Get the mouse position relative to the canvas element.
+            if (e.layerX || e.layerX == 0) { // Firefox
+                x = e.layerX;
+                y = e.layerY;
+            } else if (e.offsetX || e.offsetX == 0) { // Opera
+                x = e.offsetX;
+                y = e.offsetY;
+            }
+            // Offset for canvas
+            this._mousePosition.x = x - this._worldController.getDebugDraw().GetSprite().canvas.offsetLeft;// - (this._worldController.getDebugDraw().offsetX/this._worldController.getDebugDraw().GetDrawScale());
+            this._mousePosition.y = y - this._worldController.getDebugDraw().GetSprite().canvas.offsetTop;
+
+            // Offset for DEBUGDRAW
+            this._mousePosition.x -= this._worldController.getDebugDraw().offsetX*this._worldController.getDebugDraw().GetDrawScale();
+            this._mousePosition.y -= this._worldController.getDebugDraw().offsetY*this._worldController.getDebugDraw().GetDrawScale();
         },
 
         /**
@@ -173,87 +367,6 @@
         },
 
         /**
-         * Populates the GUI.DAT panel with information about this Box2D Body
-         * @param aBody
-         */
-        populateInfoWithB2Body: function( aBody ) {
-            this._controllers['x'].setValue( aBody.GetPosition().x );
-            this._controllers['y'].setValue( aBody.GetPosition().y );
-            this._controllers['width'].setValue( this._currentBody.GetUserData().getDimensions().width );
-            this._controllers['height'].setValue( this._currentBody.GetUserData().getDimensions().height );
-        },
-
-        onControllerWasChanged: function( newValue ) {
-            if(this._currentBody == null) return;
-
-
-            // Create a new using current body's data
-            var newBody = this._worldController.createRect(
-                this._controllers['x'].getValue() * PTM_RATIO,
-                this._controllers['y'].getValue()  * PTM_RATIO,
-                this._currentBody.GetAngle(),
-                this._controllers['width'].getValue(),
-                this._controllers['height'].getValue(),
-                this._currentBody.GetType() == Box2D.Dynamics.b2Body.b2_staticBody
-            );
-
-
-            // Destroy the old body, and store the current body inside the previous one's entity
-            // NOTE: Assumes GetUserData is of type ChuClone.GameEntity
-            var entity = this._currentBody.GetUserData();
-
-            this._worldController.getWorld().DestroyBody( this._currentBody );
-            entity.setBody( newBody );
-
-            // TODO: MODIFY GEOMETRY CORRECTLY INSTEAD OF SCALING
-            entity.getView().scale.x = this._controllers['width'].getValue() * 2;
-            entity.getView().scale.y = this._controllers['height'].getValue() * 2;
-
-
-            this._currentBody = newBody;
-        },
-
-        /**
-         * Clones a box2d body
-         */
-        cloneBody: function() {
-            // Create a new using current body's data
-            var newBody = this._worldController.createRect(
-                this._currentBody.GetPosition.x * PTM_RATIO,
-                this._currentBody.GetPosition.y * PTM_RATIO,
-                this._currentBody.GetAngle(),
-                this._currentBody.GetUserData().getDimensions().width,
-                this._currentBody.GetUserData().getDimensions().height,
-                this._currentBody.GetType() == Box2D.Dynamics.b2Body.b2_dynamicBody
-            );
-        },
-
-        /**
-         * Sets the _mousePosition property taking the canvas position into account
-         * @param {MouseEvent}  e
-         */
-        updateMousePosition: function(e) {
-            var x = 0,
-                y = 0;
-
-            // Get the mouse position relative to the canvas element.
-            if (e.layerX || e.layerX == 0) { // Firefox
-                x = e.layerX;
-                y = e.layerY;
-            } else if (e.offsetX || e.offsetX == 0) { // Opera
-                x = e.offsetX;
-                y = e.offsetY;
-            }
-            // Offset for canvas
-            this._mousePosition.x = x - this._worldController.getDebugDraw().GetSprite().canvas.offsetLeft;// - (this._worldController.getDebugDraw().offsetX/this._worldController.getDebugDraw().GetDrawScale());
-            this._mousePosition.y = y - this._worldController.getDebugDraw().GetSprite().canvas.offsetTop;
-
-            // Offset for DEBUGDRAW
-            this._mousePosition.x -= this._worldController.getDebugDraw().offsetX*this._worldController.getDebugDraw().GetDrawScale();
-            this._mousePosition.y -= this._worldController.getDebugDraw().offsetY*this._worldController.getDebugDraw().GetDrawScale();
-        },
-
-        /**
          * Adds a controller to DAT.GUI and adds it into our _controllers object.
          * This function also sets a timeout that will be destroyed if the value is changed while waiting to be fired
          * @param {DAT.GUI} aGui
@@ -286,9 +399,14 @@
 
 
         dealloc: function() {
-            window.removeEventListener('mousedown', this._closures['mousedown'], false );
-            window.removeEventListener('mousemove', this._closures['mousemove'], false );
+            this._worldController.getDebugDraw().GetSprite().canvas.removeEventListener( 'mousedown', this._closures['mousedown'], false );
+            this._worldController.getDebugDraw().GetSprite().canvas.removeEventListener('mousemove', this._closures['mousemove'], false );
             window.removeEventListener('mouseup', this._closures['mouseup'], false );
+
+            document.removeEventListener('keydown', this._closures['keydown'], false);
+            document.removeEventListener('keyup', this._closures['keyup'], false);
+
+            this._closures = null;
 
             this._worldController = null;
             this._gameView = null;

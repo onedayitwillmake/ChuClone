@@ -65,6 +65,7 @@
             this.createBox2dWorld();
             this.modifySettings();
             this._world.DestroyBody( this._wallRight );
+            this._world.DestroyBody( this._wallLeft );
             this._world.DestroyBody( this._wallTop );
 //            this._world.DestroyBody( this._wallTop );
         },
@@ -211,14 +212,15 @@
                 var container = document.createElement( 'div' );
                 container.style.position = "absolute";
                 container.style.top = "0px";
+                container.style.backgroundColor = "#000000";
                 document.body.appendChild( container );
 
                 var debugCanvas = document.createElement('canvas');
                 container.appendChild( debugCanvas );
 
                 canvas = debugCanvas;
-                canvas.width = 2000;
-                canvas.height = 800;
+                canvas.width = 1000;
+                canvas.height = 500;
             }
 
             //setup debug draw

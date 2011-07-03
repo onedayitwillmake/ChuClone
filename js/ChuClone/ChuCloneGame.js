@@ -139,7 +139,6 @@
         },
 
         update: function() {
-
             /**
              * @type {Box2D.Dynamics.b2Body}
              */
@@ -158,7 +157,7 @@
             }
 
             if( this.player ) {
-                this.worldController.setDebugDrawOffset( -this.player.getBody().GetPosition().x+25, 5);
+//                this.worldController.setDebugDrawOffset( -this.player.getBody().GetPosition().x+25, 5);
                 this.worldController.update();
             }
 

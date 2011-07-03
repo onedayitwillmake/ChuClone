@@ -76,6 +76,20 @@
 
         modifyDimensions: function(aWidth, aHeight) {
 
+        },
+
+        /**
+         * Deallocate
+         */
+        dealloc: function() {
+            this.view = null;
+
+            // If we have a .body and it's pointing to us, null the reference
+            if(this.body && this.body.userData == this) {
+                this.body.SetUserData(null);
+            }
+
+            this.body = null;
         }
     }
 

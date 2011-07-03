@@ -292,6 +292,8 @@
             if(id == 0) {
                 this.first = object;
             }
+
+            this.addEntity( object );
             return object;
         },
 
@@ -299,6 +301,10 @@
             scene.addObject( anEntityView );
         },
 
+        /**
+         * Removes an entity
+         * @param {THREE.Mesh} anEntityView
+         */
         removeEntity: function( anEntityView ) {
             scene.removeObject( anEntityView );
         },
