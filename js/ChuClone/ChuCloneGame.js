@@ -100,9 +100,8 @@
         },
 
         setup: function() {
-            return;
-            for ( var i = 0; i < 20; i ++ ) {
-                var w = 300;
+            for ( var i = 0; i < 100; i ++ ) {
+                var w = Math.random() * 300 + 200;
                 var h = Math.random() * 300;
 
                 var x = i*(w*2);
@@ -144,14 +143,12 @@
             while(node) {
                 var b = node;
                 node = node.GetNext();
-//
                 /**
                  * @type {ChuClone.GameEntity}
                  */
                 var entity = b.GetUserData();
                 if(entity)
                     entity.update();
-//
             }
 
             if( this.player ) {

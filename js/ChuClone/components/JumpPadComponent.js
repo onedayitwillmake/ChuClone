@@ -12,7 +12,6 @@ Abstract:
 */
 (function(){
 	ChuClone.namespace("ChuClone.components");
-	var RATE = 0.2;
 
 	ChuClone.components.JumpPadComponent = function() {
 		ChuClone.components.JumpPadComponent.superclass.constructor.call(this);
@@ -20,8 +19,10 @@ Abstract:
 	};
 
 	ChuClone.components.JumpPadComponent.prototype = {
-		displayName						: "ChaseTrait",					// Unique string name for this Trait
+		displayName						: "JumpPadComponent",					// Unique string name for this Trait
 
+        _textureSource                  : "assets/images/game/jumppad.png",
+        _restitution                    : 2,
         _previousMaterial               : null,
         _previousRestitution            : 0,
 
@@ -38,7 +39,7 @@ Abstract:
             this._previousMaterial = view.materials[0];
             view.materials[0] = new THREE.MeshLambertMaterial( {
                 color: 0xFFFFFF, shading: THREE.SmoothShading,
-                map : THREE.ImageUtils.loadTexture( "assets/images/game/jumppad.png" )
+                map : THREE.ImageUtils.loadTexture( this._textureSource )
             });
 
             // Swap restitution
@@ -60,7 +61,7 @@ Abstract:
                 node = fixture.GetNext();
 
                 this._previousRestitution = fixture.GetRestitution();
-                fixture.SetRestitution(2);
+                fixture.SetRestitution( this._restitution );
             }
         },
 
@@ -88,6 +89,19 @@ Abstract:
             }
 
             ChuClone.components.JumpPadComponent.superclass.detach.call(this);
+        },
+
+        /**
+         * @inheritDoc
+         */
+        getModel: function() {
+            var returnObject = ChuClone.components.JumpPadComponent.superclass.getModel.call(this);
+            returnObject.restitution = this._restitution;
+            returnObject.textureSource = this._textureSource;
+//            returnObject.previousMaterial = this._previousMaterial;
+            returnObject.previousRestitution = this.previousRestitution;
+
+            return returnObject;
         }
 
 	};

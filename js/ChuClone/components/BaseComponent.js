@@ -151,6 +151,13 @@
                     this.attachedEntity[key] = this.interceptedProperties[key];
                 }
             }
+        },
+
+        getModel: function() {
+            return {
+                displayName: this.displayName
+            }
         }
+        
     }
 })();

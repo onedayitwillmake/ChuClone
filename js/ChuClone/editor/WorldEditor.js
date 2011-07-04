@@ -133,7 +133,7 @@
         },
 
         setupLevelManager: function() {
-            this._levelManager = new ChuClone.editor.LevelManager();
+            this._levelManager = new ChuClone.editor.LevelManager( this._worldController );
             this._levelManager.setupGui();
         },
 

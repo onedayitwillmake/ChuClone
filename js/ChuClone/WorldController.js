@@ -211,7 +211,7 @@
             if( !canvas ) {
                 var container = document.createElement( 'div' );
                 container.style.position = "absolute";
-                container.style.top = "305px";
+                container.style.top = "505px";
                 container.style.backgroundColor = "#000000";
                 document.body.appendChild( container );
 
@@ -220,7 +220,7 @@
 
                 canvas = debugCanvas;
                 canvas.width = 1000;
-                canvas.height = 500;
+                canvas.height = 400;
             }
 
             //setup debug draw

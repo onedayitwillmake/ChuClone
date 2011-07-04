@@ -54,7 +54,7 @@
         setupThreeJS: function() {
 
             var width = 1000;
-            var height = 300;
+            var height = 500;
 
             container = document.createElement( 'div' );
             document.body.appendChild( container );
@@ -99,7 +99,7 @@
             renderer = new THREE.WebGLRenderer();
             renderer.sortObjects = false;
             renderer.setClearColor(new THREE.Color(0xFFFFFF), 1);
-            renderer.setSize( 1000, 300);
+            renderer.setSize( width, height);
 
 
 

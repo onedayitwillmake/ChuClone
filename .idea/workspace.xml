@@ -2,21 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9d9caf78-14fd-4f67-b5ce-27a9be60b51a" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/assets/images/game/jumppad.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/js/ChuClone/components/BaseComponent.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/js/ChuClone/components/JumpPadComponent.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/js/ChuClone/editor/LevelManager.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/js/ChuClone/editor/LevelModel.js" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/js/ChuClone/LevelModel.js" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/js/ChuClone/WorldEditor.js" afterPath="$PROJECT_DIR$/js/ChuClone/editor/WorldEditor.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.html" afterPath="$PROJECT_DIR$/index.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/ChuClone/ChuCloneGame.js" afterPath="$PROJECT_DIR$/js/ChuClone/ChuCloneGame.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/ChuClone/Constants.js" afterPath="$PROJECT_DIR$/js/ChuClone/Constants.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/ChuClone/GameEntity.js" afterPath="$PROJECT_DIR$/js/ChuClone/GameEntity.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/ChuClone/GameView.js" afterPath="$PROJECT_DIR$/js/ChuClone/GameView.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/ChuClone/PlayerEntity.js" afterPath="$PROJECT_DIR$/js/ChuClone/PlayerEntity.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/ChuClone/WorldController.js" afterPath="$PROJECT_DIR$/js/ChuClone/WorldController.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/ChuClone/components/BaseComponent.js" afterPath="$PROJECT_DIR$/js/ChuClone/components/BaseComponent.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/ChuClone/components/JumpPadComponent.js" afterPath="$PROJECT_DIR$/js/ChuClone/components/JumpPadComponent.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/ChuClone/editor/LevelManager.js" afterPath="$PROJECT_DIR$/js/ChuClone/editor/LevelManager.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/ChuClone/editor/LevelModel.js" afterPath="$PROJECT_DIR$/js/ChuClone/editor/LevelModel.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/ChuClone/editor/WorldEditor.js" afterPath="$PROJECT_DIR$/js/ChuClone/editor/WorldEditor.js" />
     </list>
     <ignored path="Chuclone.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -75,46 +70,37 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="JumpPadComponent.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/js/ChuClone/components/JumpPadComponent.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="33" column="7" selection-start="774" selection-end="774" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="WorldEditor.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/js/ChuClone/editor/WorldEditor.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="342" column="51" selection-start="14381" selection-end="14381" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="LevelModel.js" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/js/ChuClone/editor/LevelModel.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="33" column="27" selection-start="506" selection-end="506" vertical-scroll-proportion="0.52742124">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="LevelManager.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/ChuClone/editor/LevelManager.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="20" column="21" selection-start="816" selection-end="816" vertical-scroll-proportion="0.0">
+            <state line="34" column="0" selection-start="1107" selection-end="1107" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Texture.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/js/lib/three.js/src/materials/Texture.js">
+      <file leaf-file-name="README.md" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/README.md">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="42" column="28" selection-start="1057" selection-end="1079" vertical-scroll-proportion="0.0">
+            <state line="9" column="0" selection-start="569" selection-end="569" vertical-scroll-proportion="0.15752625">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LevelModel.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/ChuClone/editor/LevelModel.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="113" column="47" selection-start="2920" selection-end="2932" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="BaseComponent.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/ChuClone/components/BaseComponent.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="156" column="0" selection-start="4806" selection-end="4806" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -123,7 +109,25 @@
       <file leaf-file-name="ChuCloneGame.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/ChuClone/ChuCloneGame.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="95" column="0" selection-start="3161" selection-end="3161" vertical-scroll-proportion="0.0">
+            <state line="107" column="27" selection-start="3575" selection-end="3575" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="GameView.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/ChuClone/GameView.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="101" column="35" selection-start="3217" selection-end="3217" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="WorldEditor.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/ChuClone/editor/WorldEditor.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="164" column="0" selection-start="7027" selection-end="7027" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -132,7 +136,16 @@
       <file leaf-file-name="WorldController.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/ChuClone/WorldController.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="247" column="28" selection-start="8497" selection-end="8504" vertical-scroll-proportion="0.0">
+            <state line="222" column="33" selection-start="7674" selection-end="7674" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="JumpPadComponent.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/ChuClone/components/JumpPadComponent.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="101" column="33" selection-start="3222" selection-end="3222" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -141,7 +154,7 @@
       <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="32" column="85" selection-start="1539" selection-end="1539" vertical-scroll-proportion="-16.375">
+            <state line="32" column="83" selection-start="1537" selection-end="1537" vertical-scroll-proportion="-16.375">
               <folding />
             </state>
           </provider>
@@ -161,22 +174,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/js/ChuClone/namespace.js" />
         <option value="$PROJECT_DIR$/js/ChuClone/LevelModel.js" />
         <option value="$PROJECT_DIR$/js/ChuClone/GameEntity.js" />
         <option value="$PROJECT_DIR$/js/ChuClone/Constants.js" />
-        <option value="$PROJECT_DIR$/js/ChuClone/WorldController.js" />
-        <option value="$PROJECT_DIR$/js/ChuClone/ChuCloneGame.js" />
         <option value="$PROJECT_DIR$/js/ChuClone/PlayerEntity.js" />
-        <option value="$PROJECT_DIR$/js/ChuClone/components/BaseComponent.js" />
-        <option value="$PROJECT_DIR$/js/ChuClone/GameView.js" />
         <option value="$PROJECT_DIR$/js/ChuClone/WorldEditor.js" />
-        <option value="$PROJECT_DIR$/js/ChuClone/components/JumpPadComponent.js" />
         <option value="$PROJECT_DIR$/js/ChuClone/LevelManager.js" />
         <option value="$PROJECT_DIR$/index.html" />
-        <option value="$PROJECT_DIR$/js/ChuClone/editor/LevelManager.js" />
+        <option value="$PROJECT_DIR$/js/ChuClone/components/BaseComponent.js" />
+        <option value="$PROJECT_DIR$/js/ChuClone/components/JumpPadComponent.js" />
         <option value="$PROJECT_DIR$/js/ChuClone/editor/WorldEditor.js" />
         <option value="$PROJECT_DIR$/js/ChuClone/editor/LevelModel.js" />
+        <option value="$PROJECT_DIR$/js/ChuClone/ChuCloneGame.js" />
+        <option value="$PROJECT_DIR$/js/ChuClone/GameView.js" />
+        <option value="$PROJECT_DIR$/js/ChuClone/WorldController.js" />
+        <option value="$PROJECT_DIR$/js/ChuClone/editor/LevelManager.js" />
+        <option value="$PROJECT_DIR$/README.md" />
       </list>
     </option>
   </component>
@@ -544,12 +557,12 @@
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="left" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2677696" sideWeight="0.22688173" order="1" side_tool="true" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="left" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24816176" sideWeight="0.26821193" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24816176" sideWeight="0.2615894" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24816176" sideWeight="0.2615894" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24816176" sideWeight="0.7295806" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24816176" sideWeight="0.722958" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.1609323" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -608,76 +621,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/js/ChuClone/WorldController.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="247" column="28" selection-start="8497" selection-end="8504" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/ChuClone/ChuCloneGame.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="95" column="0" selection-start="3161" selection-end="3161" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/lib/three.js/build/custom/ThreeExtras.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="18" selection-start="1609" selection-end="1609" vertical-scroll-proportion="0.08886256">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/ChuClone/components/BaseComponent.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="114" column="32" selection-start="3266" selection-end="3266" vertical-scroll-proportion="0.21820304">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/lib/three.js/build/Three.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="85" column="52" selection-start="37440" selection-end="37440" vertical-scroll-proportion="0.3329384">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/lib/three.js/src/materials/Mappings.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="6" selection-start="352" selection-end="352" vertical-scroll-proportion="0.22753793">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/lib/three.js/src/extras/ImageUtils.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="58" selection-start="350" selection-end="350" vertical-scroll-proportion="0.28004667">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/lib/three.js/src/materials/Texture.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="42" column="28" selection-start="1057" selection-end="1079" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/ChuClone/PlayerEntity.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="65" column="54" selection-start="2829" selection-end="2829" vertical-scroll-proportion="1.1376896">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/ChuClone/GameView.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="183" column="40" selection-start="6189" selection-end="6189" vertical-scroll-proportion="0.46978337">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/lib/three.js/build/custom/ThreeWebGL.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="85" column="52" selection-start="37490" selection-end="37490" vertical-scroll-proportion="0.33333334">
@@ -685,37 +628,107 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/js/ChuClone/Constants.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/lib/JavascriptLanguage.jar!/com/intellij/lang/javascript/index/predefined/ECMAScript.js2">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="68" column="25" selection-start="2870" selection-end="2870" vertical-scroll-proportion="0.3249715">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/lib/Box2DWeb.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5371" column="23" selection-start="202280" selection-end="202280" vertical-scroll-proportion="0.3329384">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="32" column="85" selection-start="1539" selection-end="1539" vertical-scroll-proportion="-16.375">
+        <state line="32" column="83" selection-start="1537" selection-end="1537" vertical-scroll-proportion="-16.375">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/ChuClone/editor/LevelManager.js">
+    <entry file="file://$PROJECT_DIR$/js/ChuClone/GameEntity.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="21" selection-start="816" selection-end="816" vertical-scroll-proportion="0.0">
+        <state line="138" column="33" selection-start="3493" selection-end="3605" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/ChuClone/editor/WorldEditor.js">
+    <entry file="file://$PROJECT_DIR$/js/ChuClone/PlayerEntity.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="342" column="51" selection-start="14381" selection-end="14381" vertical-scroll-proportion="0.0">
+        <state line="38" column="18" selection-start="1788" selection-end="1788" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/ChuClone/components/BaseComponent.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="156" column="0" selection-start="4806" selection-end="4806" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/ChuClone/components/JumpPadComponent.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="33" column="7" selection-start="774" selection-end="774" vertical-scroll-proportion="0.0">
+        <state line="101" column="33" selection-start="3222" selection-end="3222" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/ChuClone/ChuCloneGame.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="107" column="27" selection-start="3575" selection-end="3575" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/ChuClone/GameView.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="101" column="35" selection-start="3217" selection-end="3217" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/ChuClone/editor/WorldEditor.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="164" column="0" selection-start="7027" selection-end="7027" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/ChuClone/WorldController.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="222" column="33" selection-start="7674" selection-end="7674" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/ChuClone/editor/LevelModel.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="33" column="27" selection-start="506" selection-end="506" vertical-scroll-proportion="0.52742124">
+        <state line="113" column="47" selection-start="2920" selection-end="2932" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/ChuClone/editor/LevelManager.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="34" column="0" selection-start="1107" selection-end="1107" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9" column="0" selection-start="569" selection-end="569" vertical-scroll-proportion="0.15752625">
           <folding />
         </state>
       </provider>
