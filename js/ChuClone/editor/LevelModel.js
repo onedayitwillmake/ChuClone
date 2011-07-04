@@ -112,7 +112,19 @@
 
             
             return JSON.stringify( returnObject );
+        },
+
+
+        /**
+         * Creates a level from a JSON string object adhering to the protocol defined in ChuClone.editor.LevelModel.parseLevel
+         * @param {ChuClone.WorldController} aWorldController
+         * @param {ChuClone.GameView} aGameView
+         */
+        fromJson: function( aWorldController, aGameView ) {
+
         }
+
+
 
     };
 })();

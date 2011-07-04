@@ -157,8 +157,12 @@
             }
 
 
-            this.view.camera.target.position = this.player.view.position;
-            this.view.camera.position.x = this.player.view.position.x - 700;
+            if (this.player.getView()) {
+//                this.view.camera.target.position.x = this.player.view.position.x;
+//                this.view.camera.target.position.y = this.player.view.position.y;
+//                this.view.camera.target.position.z = this.player.view.position.z;
+//                this.view.camera.position.x = this.player.view.position.x - 700;
+            }
             this.view.render();
         }
     };
