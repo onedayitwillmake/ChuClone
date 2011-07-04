@@ -32,6 +32,10 @@
             W: 87,
             D: 68,
             S: 83
+        },
+
+        ENTITIES: {
+            DEFAULT_DEPTH: 1000
         }
     }
 })();

@@ -65,7 +65,7 @@
             this.createBox2dWorld();
             this.modifySettings();
             this._world.DestroyBody( this._wallRight );
-            this._world.DestroyBody( this._wallLeft );
+//            this._world.DestroyBody( this._wallLeft );
             this._world.DestroyBody( this._wallTop );
 //            this._world.DestroyBody( this._wallTop );
         },
@@ -168,7 +168,7 @@
             var fixtureDef= new Box2D.Dynamics.b2FixtureDef();
             fixtureDef.density = 1.0;
             fixtureDef.friction = 0.5;
-            fixtureDef.restitution = 0.1;
+            fixtureDef.restitution = 0.1;//(isFixed) ? 3 : 0.1;
 
             var bodyDef = new Box2D.Dynamics.b2BodyDef();
             bodyDef.type = (isFixed) ? Box2D.Dynamics.b2Body.b2_staticBody : Box2D.Dynamics.b2Body.b2_dynamicBody;
@@ -211,7 +211,7 @@
             if( !canvas ) {
                 var container = document.createElement( 'div' );
                 container.style.position = "absolute";
-                container.style.top = "0px";
+                container.style.top = "305px";
                 container.style.backgroundColor = "#000000";
                 document.body.appendChild( container );
 
@@ -231,7 +231,7 @@
             debugDraw.SetLineThickness(0.5);
             debugDraw.SetFlags(b2DebugDraw.e_shapeBit | b2DebugDraw.e_jointBit);
             debugDraw.offsetX = 0;
-            debugDraw.offsetY = 0;
+            debugDraw.offsetY = 15;
 
             this._world.SetDebugDraw(debugDraw);
             this._debugDraw = debugDraw;

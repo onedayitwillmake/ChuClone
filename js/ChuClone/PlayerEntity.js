@@ -2,12 +2,15 @@
     var PTM_RATIO = ChuClone.Constants.PTM_RATIO;
     ChuClone.namespace("ChuClone");
     ChuClone.PlayerEntity = function() {
-        ChuClone.PlayerEntity.superclass.constructor.call(this)
+        ChuClone.PlayerEntity.superclass.constructor.call(this);
+
+        this._maxSpeed = this._maxSpeed * PTM_RATIO;
     };
 
     ChuClone.PlayerEntity.prototype = {
-        _isJumping: false,
-        _hasReachedJumpingApex: false,
+        _isJumping              : false,
+        _hasReachedJumpingApex  : false,
+        _maxSpeed               : 0.5,
 
         keys: {
             left: false,
@@ -35,6 +38,18 @@
             ChuClone.PlayerEntity.superclass.update.call(this);
             this.applyInput();
             this.checkIsJumping();
+            this.capVelocity();
+        },
+
+        capVelocity: function() {
+//            if (this.body.m_linearVelocity.Length() >= this._maxSpeed) {
+//                this.body.m_linearVelocity.Normalize();
+//                this.body.m_linearVelocity.Multiply(this._maxSpeed);
+//            }
+            if(this.body.m_linearVelocity.y < -this._maxSpeed) {
+                this.body.m_linearVelocity.y = -this._maxSpeed;
+            }
+//            console.log(this.body.m_linearVelocity.y)
         },
 
         /**
@@ -48,7 +63,7 @@
             if( this.keys.up && !this._isJumping ) {
                 force.y = -1;
                 this._isJumping = true;
-            } else if( this.keys.down ) force.y = 1;
+            } else if( this.keys.down ) force.y = 0.25;
 
             // Apply force
             var bodyPosition = this.body.GetWorldCenter();

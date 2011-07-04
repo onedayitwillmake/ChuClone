@@ -16,6 +16,7 @@
         this.setupMouseEvents();
         this.setupKeyboardEvents();
         this.setupGui();
+        this.setupLevelManager();
 
         //this.onShouldCreate();
     };
@@ -45,7 +46,7 @@
         /**
          * We modify this not the b2Body directly
          */
-        _propProxy          : {x: 5, y: 5, width: 10, height:10},
+        _propProxy          : {x: 5, y: 5, width: 3, height:3, depth: 3, jumpPad: false },
         _controllers        : {},
 
                             // Store reference for remval later: HACK?
@@ -59,6 +60,34 @@
 
             this._worldController.getDebugDraw().GetSprite().canvas.addEventListener( 'mousedown', this._closures['mousedown'], false );
             window.addEventListener( 'mouseup', this._closures['mouseup'], false );
+
+            this._worldController.getDebugDraw().GetSprite().canvas.addEventListener( 'mousewheel', function(e){
+
+                var speed = (e.wheelDelta < 0) ? -1 : 1;
+                speed *= 0.1;
+
+                var scale = that._worldController.getDebugDraw().GetDrawScale();
+                scale += speed;
+                that._worldController.getDebugDraw().SetDrawScale( scale );
+
+
+//                that.updateMousePosition(e)
+                // Offset for canvas
+               // that._mousePosition.x = x - that._worldController.getDebugDraw().GetSprite().canvas.offsetLeft;// - (this._worldController.getDebugDraw().offsetX/this._worldController.getDebugDraw().GetDrawScale());
+               // that._mousePosition.y = y - that._worldController.getDebugDraw().GetSprite().canvas.offsetTop;
+
+                // Offset for DEBUGDRAW
+//                that._mousePosition.x -= that._worldController.getDebugDraw().offsetX*that._worldController.getDebugDraw().GetDrawScale();
+//                that._mousePosition.y -= that._worldController.getDebugDraw().offsetY*that._worldController.getDebugDraw().GetDrawScale();
+
+
+//                console.log(that._worldController.getDebugDraw().GetSprite().canvas.offsetX)
+//                console.log(e.layerX, e.offsetX)
+//                console.log(newY)
+//                console.log(scale*0.01);
+
+//                that._worldController.setDebugDrawOffset( that._mousePosition.x, that._mousePosition.y );
+            }, false );
         },
 
         setupKeyboardEvents: function() {
@@ -76,29 +105,55 @@
          * Setup DAT.GUI controllers
          */
         setupGui: function() {
+            var that = this;
             this._guiModification = new DAT.GUI();
             this._guiModification.name("Modification");
             this._guiModification.autoListen = false;
 
             this.addControllerWithTimeout(this._guiModification, "x", this._propProxy.x).step(0.1);
             this.addControllerWithTimeout(this._guiModification, "y", this._propProxy.y).step(0.1);
-            this.addControllerWithTimeout(this._guiModification, "width", this._propProxy.width).min(0.01).max(2000/PTM_RATIO);
-            this.addControllerWithTimeout(this._guiModification, "height", this._propProxy.height).min(0.01).max(2000/PTM_RATIO);
+            this.addControllerWithTimeout(this._guiModification, "width", this._propProxy.width).min(0.01).max(Math.round(5000/PTM_RATIO)).step(0.05);
+            this.addControllerWithTimeout(this._guiModification, "height", this._propProxy.height).min(0.01).max(Math.round(5000/PTM_RATIO)).step(0.05);
+            this.addControllerWithTimeout(this._guiModification, "depth", this._propProxy.depth).min(50).max(5000).step(10);
+            this._controllers['jumpPad'] = this._guiModification.add(this._propProxy, "jumpPad");
+            this._controllers['jumpPad'].onChange( function(aValue){ that.toggleJumpPad(aValue); } );
             this._guiModification.close();
             this._guiModification.open();
 
-
+            // Creation gui
             this._guiCreation = new DAT.GUI();
             this._guiCreation.name("Creation");
             this._guiCreation.autoListen = false;
             this._controllers['onShouldCreate'] = this._guiCreation.add(this, 'onShouldCreate').name("Create Entity");
-            this._controllers['onShouldDelete'] = this._guiCreation.add(this, 'onShouldDelete').name("Destroy Last Entity");
             this._controllers['onShouldClone'] = this._guiCreation.add(this, 'onShouldCloneEntity').name("Clone Entity")
-            //ui.add(obj, 'propertyName').options({'Small': 1, 'Medium': 2, 'Large': 3});
+            this._controllers['onShouldDelete'] = this._guiCreation.add(this, 'onShouldDelete').name("Destroy Entity");
 
             this._guiCreation.close();
             this._guiCreation.open();
         },
+
+        setupLevelManager: function() {
+            this._levelManager = new ChuClone.editor.LevelManager();
+            this._levelManager.setupGui();
+        },
+
+        toggleJumpPad: function( wantsJumpPad ) {
+            if(!this._currentBody) {
+                console.error("ChuClone.WorldEditor.toggleJumpPad - _currentBody is null!");
+                return;
+            }
+
+            var entity = this._currentBody.GetUserData();
+            var hasJumpPad = entity.getComponentWithName( ChuClone.components.JumpPadComponent.prototype.displayName ) == null;
+
+            if( !wantsJumpPad ) {
+                entity.removeComponentWithName( ChuClone.components.JumpPadComponent.prototype.displayName );
+            } else {
+                var jumpPadComponent = new ChuClone.components.JumpPadComponent();
+                entity.addComponentAndExecute( jumpPadComponent );
+            }
+        },
+
         /**
          * Create a new body using lastMousePosition and propProxy data
          * @param e
@@ -118,15 +173,15 @@
                 0,
                 w,
                 h,
-                Box2D.Dynamics.b2Body.b2_dynamicBody
+                true
             );
 
             // Create the THREE.js mesh
-            var view = this._gameView.createEntityView( this._mousePosition.x, this._mousePosition.x, w*2, h*2, 1000  );
+            var view = this._gameView.createEntityView( this._mousePosition.x, this._mousePosition.x, w*2, h*2, ChuClone.Constants.ENTITIES.DEFAULT_DEPTH  );
             var entity = new ChuClone.GameEntity();
             entity.setBody( newBody );
             entity.setView( view );
-            entity.setDimensions( w, h );
+            entity.setDimensions( w, h, ChuClone.Constants.ENTITIES.DEFAULT_DEPTH);
 
             this._currentBody = newBody;
             this.populateInfoWithB2Body( this._currentBody );
@@ -223,6 +278,7 @@
                     return;
 
                 this._worldController.getDebugDraw().GetSprite().canvas.removeEventListener( 'mousemove', this._closures['pan'], false );
+                this._worldController.getDebugDraw().GetSprite().canvas.style.cursor = "move";
 
                 var initialMousePosition = null;
                 var initialOffsetPosition = new Box2D.Common.Math.b2Vec2( this._worldController.getDebugDraw().offsetX, this._worldController.getDebugDraw().offsetY );
@@ -233,9 +289,9 @@
                         initialMousePosition = new Box2D.Common.Math.b2Vec2( that._mousePosition.x, that._mousePosition.y );
                     }
 
-                    var scale = 4;
-                    that._worldController.getDebugDraw().offsetX = initialOffsetPosition.x + (initialMousePosition.x - that._mousePosition.x) / PTM_RATIO * -scale;
-                    that._worldController.getDebugDraw().offsetY = initialOffsetPosition.y + (initialMousePosition.y - that._mousePosition.y) / PTM_RATIO * -scale;
+                    var scale = (that._worldController.getDebugDraw().GetDrawScale() * 1.5);
+                    that._worldController.getDebugDraw().offsetX = initialOffsetPosition.x + (initialMousePosition.x - that._mousePosition.x) / scale;
+                    that._worldController.getDebugDraw().offsetY = initialOffsetPosition.y + (initialMousePosition.y - that._mousePosition.y) / -scale;
                 };
 
                 this._worldController.getDebugDraw().GetSprite().canvas.addEventListener( 'mousemove', this._closures['pan'], false );
@@ -248,20 +304,11 @@
         onKeyUp: function(e) {
             if(e.keyCode == 32) {
                 this._worldController.getDebugDraw().GetSprite().canvas.removeEventListener( 'mousemove', this._closures['pan'], false );
+                this._worldController.getDebugDraw().GetSprite().canvas.style.cursor = "default";
                 this._closures['pan'] = null;
             }
         },
 
-        /**
-         * Populates the GUI.DAT panel with information about this Box2D Body
-         * @param aBody
-         */
-        populateInfoWithB2Body: function( aBody ) {
-            this._controllers['x'].setValue( aBody.GetPosition().x );
-            this._controllers['y'].setValue( aBody.GetPosition().y );
-            this._controllers['width'].setValue( this._currentBody.GetUserData().getDimensions().width / PTM_RATIO );
-            this._controllers['height'].setValue( this._currentBody.GetUserData().getDimensions().height / PTM_RATIO );
-        },
 
         onControllerWasChanged: function( newValue ) {
             if(this._currentBody == null) return;
@@ -284,15 +331,24 @@
 
             this._worldController.getWorld().DestroyBody( this._currentBody );
             entity.setBody( newBody );
-            entity.setDimensions( this._controllers['width'].getValue() * PTM_RATIO, this._controllers['height'].getValue() * PTM_RATIO)
-
-            // TODO: MODIFY GEOMETRY CORRECTLY INSTEAD OF SCALING
-            entity.getView().scale.x = this._controllers['width'].getValue() * 2;
-            entity.getView().scale.y = this._controllers['height'].getValue() * 2;
-
+            entity.setDimensions( this._controllers['width'].getValue() * PTM_RATIO, this._controllers['height'].getValue() * PTM_RATIO, this._controllers['depth'].getValue() );
 
             this._currentBody = newBody;
         },
+
+        /**
+         * Populates the GUI.DAT panel with information about this Box2D Body
+         * @param aBody
+         */
+        populateInfoWithB2Body: function( aBody ) {
+            this._controllers['x'].setValue( aBody.GetPosition().x );
+            this._controllers['y'].setValue( aBody.GetPosition().y );
+            this._controllers['width'].setValue( this._currentBody.GetUserData().getDimensions().width / PTM_RATIO );
+            this._controllers['height'].setValue( this._currentBody.GetUserData().getDimensions().height / PTM_RATIO );
+            this._controllers['depth'].setValue( this._currentBody.GetUserData().getDimensions().depth );
+            this._controllers['jumpPad'].setValue( this._currentBody.GetUserData().getComponentWithName( ChuClone.components.JumpPadComponent.prototype.displayName) )
+        },
+
 
         /**
          * Clones a box2d body
@@ -375,7 +431,6 @@
          * @return {DAT.GUI.Controller}
          */
         addControllerWithTimeout: function(aGui, propName, initialValue) {
-
             var that = this;
             this._propProxy[propName] = initialValue;
 
@@ -387,7 +442,7 @@
                 clearTimeout( WAIT_TIMEOUT );
                 WAIT_TIMEOUT = setTimeout( function() {
                     that.onControllerWasChanged(newValue);
-                }, 500);
+                }, 400);
             });
 
             return controller;

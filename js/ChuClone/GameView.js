@@ -52,21 +52,15 @@
 
         // Methods
         setupThreeJS: function() {
+
+            var width = 1000;
+            var height = 300;
+
             container = document.createElement( 'div' );
             document.body.appendChild( container );
 
-            var info = document.createElement( 'div' );
-            info.style.position = 'absolute';
-            info.style.top = '10px';
-            info.style.width = '100%';
-            info.style.textAlign = 'center';
-//				info.innerHTML = '<a href="http://github.com/mrdoob/three.js" target="_blank">three.js</a> webgl - interactive cubes';
-            container.appendChild( info );
-
-            this.camera = new THREE.Camera( 70, window.innerWidth / window.innerHeight, 1, 30000 );
-
-            this.camera.position.x = 0;
-            this.camera.position.y = 0;
+            this.camera = new THREE.Camera( 70, width/height, 1, 30000 );
+            this.camera.position.y = 100;
             this.camera.position.z = 1000;
             this.camera.name = "camera";
 
@@ -100,20 +94,21 @@
 //				scene.addLight( light );
 
 
-            this.camera.position.y = 100;
             projector = new THREE.Projector();
 
             renderer = new THREE.WebGLRenderer();
             renderer.sortObjects = false;
             renderer.setClearColor(new THREE.Color(0xFFFFFF), 1);
-            renderer.setSize( window.innerWidth, window.innerHeight );
+            renderer.setSize( 1000, 300);
 
-            container.appendChild(renderer.domElement);
+
 
 
             this.setupBirds();
 
             var that = this;
+            container.appendChild(renderer.domElement);
+
             window.addEventListener( 'resize', function(e) { that.onResize(e); }, false);
             document.addEventListener( 'mousemove', function(e){ that.onDocumentMouseMove(e)}, false );
         },
@@ -129,7 +124,7 @@
                 bird.phase = Math.floor( Math.random() * 62.83 );
                 bird.position = new THREE.Vector3( Math.random() * range, Math.random() * range, (Math.random()*2-1) * range*2 );
                 bird.doubleSided = true;
-//                bird.dynamic = true;
+                bird.dynamic = true;
                 bird.scale.x = bird.scale.y = bird.scale.z = (Math.random()) * 5 + 5;
                 scene.addObject( bird );
             }
@@ -180,13 +175,13 @@
          * @param {Number} gameClockReal The current actual time, according to the game
          */
         render: function( gameClockReal ) {
-            var radius = 1000;
+            var radius = 2000;
 //			var theta = 0;
 
             this.theta += 1;
             var offset = 0;
-            this.camera.position.x += mouse.x * 1000;//radius * Math.sin( this.theta * Math.PI / 360 );
-            this.camera.position.y = Math.sin(mouse.y) * 1000;//radius * Math.sin( this.theta * Math.PI / 360 );
+            this.camera.position.x += mouse.x * radius;//radius * Math.sin( this.theta * Math.PI / 360 );
+            this.camera.position.y = Math.sin(mouse.y) * radius + 500;//radius * Math.sin( this.theta * Math.PI / 360 );
 //            this.camera.position.z = radius * Math.cos( this.theta * Math.PI / 360 );
 //            var zero = new THREE.Vector3(Math.random() * 100, Math.random() * 100,0);
 //            console.log(zero)
@@ -222,8 +217,9 @@
 //					bird.rotation.z = Math.asin( boid.velocity.y / boid.velocity.length() );
 //					bird.position.x = this.camera.position.x;
 
-//					bird.phase = ( bird.phase + ( Math.max( 0, bird.rotation.z ) + 0.1 )  ) % 62.83;
-                bird.geometry.vertices[ 5 ].position.y = bird.geometry.vertices[ 4 ].position.y = Math.sin( Math.random() ) * 5;
+					bird.phase = ( bird.phase + ( Math.max( 0, bird.rotation.z ) + 0.1 )  ) % 62.83;
+                bird.geometry.vertices[ 5 ].position.y = bird.geometry.vertices[ 4 ].position.y = Math.sin(bird.phase);
+                bird.geometry.__dirtyVertices = true;
             }
         },
 
@@ -269,35 +265,34 @@
         },
 
         createEntityView: function( x, y, width, height, depth ) {
-            var geometry = new THREE.CubeGeometry( 1, 1, depth );
-            var object = new THREE.Mesh( geometry, [new THREE.MeshLambertMaterial( {
+            var geometry = new THREE.CubeGeometry( width, height, depth );
+            var mesh = new THREE.Mesh( geometry, [new THREE.MeshLambertMaterial( {
                 color: 0xFFFFFF, shading: THREE.SmoothShading,
                 map : THREE.ImageUtils.loadTexture( "assets/images/game/floor.png" )
             })] );
+            mesh.dynamic = true;
 
 
 
             var id = ChuClone.GameView.prototype.GET_NEXT_VIEW_ID();
-
-            object.name = id;
-            object.position.x = x;
-            object.position.y = y;
-            object.position.z = 0;
-            object.scale.x = width;
-            object.scale.y = height;
+            mesh.name = id;
+            mesh.position.x = x;
+            mesh.position.y = y;
+            mesh.position.z = 0;
 
             if(this.sceneEditor)
-                this.sceneEditor.startPlottingObject( object, THREE.SceneEditor.ScenePlotterDot.prototype.TYPES.SQUARE, false, false );
+                this.sceneEditor.startPlottingObject( mesh, THREE.SceneEditor.ScenePlotterDot.prototype.TYPES.SQUARE, false, false );
 
             if(id == 0) {
-                this.first = object;
+                this.first = mesh;
             }
 
-            this.addEntity( object );
-            return object;
+            this.addEntity( mesh );
+            return mesh;
         },
 
         addEntity: function( anEntityView ) {
+            anEntityView.dynamic = true;
             scene.addObject( anEntityView );
         },
 

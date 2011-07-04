@@ -101,20 +101,18 @@
 
         setup: function() {
             return;
-            var boxSize = 30;
-            for ( var i = 0; i < 100; i ++ ) {
-                if(i > 0 && Math.random() < 0.1 ) continue; // Random skip
+            for ( var i = 0; i < 20; i ++ ) {
+                var w = 300;
+                var h = Math.random() * 300;
 
-                var x = i*(boxSize* 8 * 2);
-                var y = Math.abs(Math.sin(i/10))*-150 + Math.random() * 200 + 300
-                var w = boxSize * 3 * 2;
-                var h = boxSize;
+                var x = i*(w*2);
+                var y = i*h;//Math.abs(Math.sin(i/10))*-150 + Math.random() * 200 + 300;
                 var body = this.worldController.createRect( x, y, 0, w, h, true );
-                var view = this.view.createEntityView( x, y, w*2, h*2, 1000  );
+                var view = this.view.createEntityView( x, y, w*2, h*2, 500  );
                 var entity = new ChuClone.GameEntity();
                 entity.setBody( body );
                 entity.setView( view );
-                entity.setDimensions( w, h);
+                entity.setDimensions( w, h, 1000 );
 
                 this.entities.push( entity );
                 this.view.addEntity( entity.view );
@@ -122,8 +120,8 @@
         },
 
         setupPlayer: function() {
-            var x = 600;
-            var y = -200;
+            var x = 0;
+            var y = -300;
             var boxSize = 30;
             var body = this.worldController.createRect( x, y, Math.random() * 6, boxSize, boxSize, false);
             var view = this.view.createEntityView( x, y, boxSize * 2, boxSize*2, boxSize * 2);
@@ -162,9 +160,9 @@
             }
 
 
-//            this.view.camera.target.position = this.player.view.position;
-//            this.view.camera.position.x = this.player.view.position.x - 700;
-//            this.view.render();
+            this.view.camera.target.position = this.player.view.position;
+            this.view.camera.position.x = this.player.view.position.x - 700;
+            this.view.render();
         }
     };
 }());
