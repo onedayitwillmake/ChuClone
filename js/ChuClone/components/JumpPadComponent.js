@@ -49,7 +49,7 @@ Abstract:
                 map : THREE.ImageUtils.loadTexture( this._textureSource )
             });
 
-            view.materials[0] = new THREE.MeshBasicMaterial( { color: 0x608090, opacity: 0.5, wireframe: true } );
+//            view.materials[0] = new THREE.MeshBasicMaterial( { color: 0x608090, opacity: 0.5, wireframe: true } );
 
             // Swap restitution
             this.swapRestitution( body );

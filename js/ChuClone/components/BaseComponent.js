@@ -120,7 +120,7 @@
             }, aDelay);
         },
 
-        /**
+        /**w
          * Intercept properties from the entity we are attached to.
          * For example, if we intercept handleInput, then our own 'handleInput' function gets called.
          * We can reset all the properties by calling, this.restore();

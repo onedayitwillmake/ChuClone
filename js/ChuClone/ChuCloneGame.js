@@ -17,7 +17,7 @@
         /**
          * @type {ChuClone.physics.WorldController}
          */
-        worldController: null,
+        _worldController: null,
 
         /**
          * @type {ChuClone.PlayerEntity}
@@ -34,6 +34,10 @@
             var that = this;
             ChuClone.PlayerEntity.prototype.eventEmitter.once(ChuClone.PlayerEntity.prototype.EVENTS.CREATED, function( aPlayer ) {
                 that.onPlayerCreated( aPlayer );
+            });
+
+            ChuClone.editor.LevelManager.prototype.EMITTER.addListener(ChuClone.Constants.STANDARD_EVENTS.CREATED, function( aLevelModel ) {
+                that._worldController.createBox2dWorld();
             });
         },
         
@@ -72,8 +76,8 @@
         },
 
         setupWorldController: function() {
-            this.worldController = new ChuClone.physics.WorldController();
-            this.worldController.setupEditor( this.view );
+            this._worldController = new ChuClone.physics.WorldController();
+            this._worldController.setupEditor( this.view );
         },
 
         debugSetupRandomBlocks: function() {
@@ -84,7 +88,7 @@
 
                 var x = i*(w*2);
                 var y = i*h;//Math.abs(Math.sin(i/10))*-150 + Math.random() * 200 + 300;
-                var body = this.worldController.createRect( x, y, 0, w, h, true );
+                var body = this._worldController.createRect( x, y, 0, w, h, true );
                 var view = this.view.createEntityView( x, y, w*2, h*2, 500  );
                 var entity = new ChuClone.GameEntity();
                 entity.setBody( body );
@@ -99,7 +103,7 @@
             var x = 0;
             var y = -300;
             var boxSize = 30;
-            var body = this.worldController.createRect( x, y, Math.random() * 6, boxSize, boxSize, false);
+            var body = this._worldController.createRect( x, y, Math.random() * 6, boxSize, boxSize, false);
             var view = this.view.createEntityView( x, y, boxSize * 2, boxSize*2, boxSize * 2);
             view.materials[0] = new THREE.MeshPhongMaterial( { ambient: 0x111111, color: 0x666666, specular: 0xDDDDDD, shininess:1, shading: THREE.FlatShading } );
 
@@ -129,7 +133,7 @@
             /**
              * @type {Box2D.Dynamics.b2Body}
              */
-            var node = this.worldController.getWorld().GetBodyList();
+            var node = this._worldController.getWorld().GetBodyList();
             while(node) {
                 var b = node;
                 node = node.GetNext();
@@ -143,7 +147,7 @@
 
 //            if( this.player ) {
 //                this.worldController.setDebugDrawOffset( -this.player.getBody().GetPosition().x+25, 5);
-                this.worldController.update();
+                this._worldController.update();
 //            }
 
 

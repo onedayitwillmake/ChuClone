@@ -2,16 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9d9caf78-14fd-4f67-b5ce-27a9be60b51a" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.html" afterPath="$PROJECT_DIR$/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/ChuClone/ChuCloneGame.js" afterPath="$PROJECT_DIR$/js/ChuClone/ChuCloneGame.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/ChuClone/Constants.js" afterPath="$PROJECT_DIR$/js/ChuClone/Constants.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/ChuClone/GameView.js" afterPath="$PROJECT_DIR$/js/ChuClone/GameView.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/ChuClone/WorldController.js" afterPath="$PROJECT_DIR$/js/ChuClone/WorldController.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/ChuClone/components/BaseComponent.js" afterPath="$PROJECT_DIR$/js/ChuClone/components/BaseComponent.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/ChuClone/components/JumpPadComponent.js" afterPath="$PROJECT_DIR$/js/ChuClone/components/JumpPadComponent.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/ChuClone/editor/LevelManager.js" afterPath="$PROJECT_DIR$/js/ChuClone/editor/LevelManager.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/ChuClone/editor/LevelModel.js" afterPath="$PROJECT_DIR$/js/ChuClone/editor/LevelModel.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/ChuClone/editor/WorldEditor.js" afterPath="$PROJECT_DIR$/js/ChuClone/editor/WorldEditor.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/ChuClone/physics/WorldController.js" afterPath="$PROJECT_DIR$/js/ChuClone/physics/WorldController.js" />
     </list>
     <ignored path="Chuclone.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -73,34 +72,25 @@
       <file leaf-file-name="LevelManager.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/ChuClone/editor/LevelManager.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="34" column="0" selection-start="1107" selection-end="1107" vertical-scroll-proportion="0.0">
+            <state line="67" column="31" selection-start="2390" selection-end="2390" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="README.md" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/README.md">
+      <file leaf-file-name="WorldController.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/ChuClone/physics/WorldController.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="9" column="0" selection-start="569" selection-end="569" vertical-scroll-proportion="0.15752625">
+            <state line="75" column="28" selection-start="2059" selection-end="2059" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="LevelModel.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/js/ChuClone/editor/LevelModel.js">
+      <file leaf-file-name="EventEmitter.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/lib/EventEmitter.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="113" column="47" selection-start="2920" selection-end="2932" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="BaseComponent.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/js/ChuClone/components/BaseComponent.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="156" column="0" selection-start="4806" selection-end="4806" vertical-scroll-proportion="0.0">
+            <state line="137" column="9" selection-start="3619" selection-end="3839" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -109,34 +99,7 @@
       <file leaf-file-name="ChuCloneGame.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/ChuClone/ChuCloneGame.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="107" column="27" selection-start="3575" selection-end="3575" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="GameView.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/js/ChuClone/GameView.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="101" column="35" selection-start="3217" selection-end="3217" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="WorldEditor.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/js/ChuClone/editor/WorldEditor.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="164" column="0" selection-start="7027" selection-end="7027" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="WorldController.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/js/ChuClone/WorldController.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="222" column="33" selection-start="7674" selection-end="7674" vertical-scroll-proportion="0.0">
+            <state line="17" column="35" selection-start="385" selection-end="385" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -145,16 +108,52 @@
       <file leaf-file-name="JumpPadComponent.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/ChuClone/components/JumpPadComponent.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="101" column="33" selection-start="3222" selection-end="3222" vertical-scroll-proportion="0.0">
+            <state line="50" column="0" selection-start="1498" selection-end="1498" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/index.html">
+      <file leaf-file-name="GameView.js" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/js/ChuClone/GameView.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="32" column="83" selection-start="1537" selection-end="1537" vertical-scroll-proportion="-16.375">
+            <state line="182" column="37" selection-start="6083" selection-end="6083" vertical-scroll-proportion="0.57993">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LevelModel.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/ChuClone/editor/LevelModel.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="121" column="36" selection-start="3125" selection-end="3125" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ContactListener.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/ChuClone/physics/ContactListener.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="55" column="21" selection-start="2438" selection-end="2438" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Constants.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/ChuClone/Constants.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="46" column="23" selection-start="1075" selection-end="1075" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DAT.GUI.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/lib/DAT.GUI.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="45" column="14" selection-start="920" selection-end="921" vertical-scroll-proportion="-25.961538">
               <folding />
             </state>
           </provider>
@@ -174,22 +173,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/js/ChuClone/LevelModel.js" />
-        <option value="$PROJECT_DIR$/js/ChuClone/GameEntity.js" />
-        <option value="$PROJECT_DIR$/js/ChuClone/Constants.js" />
+        <option value="$PROJECT_DIR$/js/ChuClone/components/PhysicsVelocityLimitComponent.js" />
         <option value="$PROJECT_DIR$/js/ChuClone/PlayerEntity.js" />
-        <option value="$PROJECT_DIR$/js/ChuClone/WorldEditor.js" />
-        <option value="$PROJECT_DIR$/js/ChuClone/LevelManager.js" />
-        <option value="$PROJECT_DIR$/index.html" />
-        <option value="$PROJECT_DIR$/js/ChuClone/components/BaseComponent.js" />
-        <option value="$PROJECT_DIR$/js/ChuClone/components/JumpPadComponent.js" />
-        <option value="$PROJECT_DIR$/js/ChuClone/editor/WorldEditor.js" />
+        <option value="$PROJECT_DIR$/js/lib/EventEmitter.js" />
         <option value="$PROJECT_DIR$/js/ChuClone/editor/LevelModel.js" />
-        <option value="$PROJECT_DIR$/js/ChuClone/ChuCloneGame.js" />
-        <option value="$PROJECT_DIR$/js/ChuClone/GameView.js" />
-        <option value="$PROJECT_DIR$/js/ChuClone/WorldController.js" />
+        <option value="$PROJECT_DIR$/js/ChuClone/components/CharacterControllerComponent.js" />
+        <option value="$PROJECT_DIR$/js/ChuClone/components/KeyboardInputComponent.js" />
+        <option value="$PROJECT_DIR$/js/ChuClone/GameEntity.js" />
+        <option value="$PROJECT_DIR$/js/ChuClone/components/BaseComponent.js" />
+        <option value="$PROJECT_DIR$/js/lib/DAT.GUI.js" />
+        <option value="$PROJECT_DIR$/js/ChuClone/editor/WorldEditor.js" />
+        <option value="$PROJECT_DIR$/js/ChuClone/Constants.js" />
         <option value="$PROJECT_DIR$/js/ChuClone/editor/LevelManager.js" />
-        <option value="$PROJECT_DIR$/README.md" />
+        <option value="$PROJECT_DIR$/js/ChuClone/physics/WorldController.js" />
+        <option value="$PROJECT_DIR$/js/ChuClone/ChuCloneGame.js" />
+        <option value="$PROJECT_DIR$/js/ChuClone/components/JumpPadComponent.js" />
+        <option value="$PROJECT_DIR$/js/ChuClone/GameView.js" />
       </list>
     </option>
   </component>
@@ -223,7 +222,7 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -239,6 +238,20 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="Chuclone" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Chuclone" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Chuclone" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="lib" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -310,6 +323,28 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="physics" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Chuclone" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Chuclone" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ChuClone" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="editor" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -350,32 +385,10 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Chuclone" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Chuclone" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="assets" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="images" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="game" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
       <pane id="Favorites" />
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -386,6 +399,7 @@
     <property name="MemberChooser.sorted" value="false" />
     <property name="options.lastSelected" value="preferences.editor" />
     <property name="project.structure.side.proportion" value="0.0" />
+    <property name="GoToClass.includeJavaFiles" value="false" />
     <property name="MemberChooser.copyJavadoc" value="false" />
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
@@ -552,23 +566,23 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="22" width="1680" height="1024" extended-state="0" />
+    <frame x="0" y="22" width="1680" height="1024" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="left" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24816176" sideWeight="0.26821193" order="1" side_tool="true" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.13907285" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24816176" sideWeight="0.2615894" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24816176" sideWeight="0.722958" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25490198" sideWeight="0.86092716" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.1609323" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3289183" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -621,114 +635,114 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/js/lib/three.js/build/custom/ThreeWebGL.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="85" column="52" selection-start="37490" selection-end="37490" vertical-scroll-proportion="0.33333334">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/ChuClone/Constants.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/lib/JavascriptLanguage.jar!/com/intellij/lang/javascript/index/predefined/ECMAScript.js2">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="68" column="25" selection-start="2870" selection-end="2870" vertical-scroll-proportion="0.3249715">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/lib/Box2DWeb.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="5371" column="23" selection-start="202280" selection-end="202280" vertical-scroll-proportion="0.3329384">
+        <state line="4524" column="20" selection-start="171055" selection-end="171055" vertical-scroll-proportion="0.2951389">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/index.html">
+    <entry file="file://$PROJECT_DIR$/js/ChuClone/components/KeyboardInputComponent.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="32" column="83" selection-start="1537" selection-end="1537" vertical-scroll-proportion="-16.375">
+        <state line="89" column="53" selection-start="3229" selection-end="3229" vertical-scroll-proportion="0.8118586">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/ChuClone/components/CharacterControllerComponent.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="55" column="0" selection-start="1659" selection-end="1659" vertical-scroll-proportion="0.3576389">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/ChuClone/GameEntity.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="138" column="33" selection-start="3493" selection-end="3605" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/ChuClone/PlayerEntity.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="38" column="18" selection-start="1788" selection-end="1788" vertical-scroll-proportion="0.0">
+        <state line="132" column="39" selection-start="4104" selection-end="4104" vertical-scroll-proportion="-0.6419612">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/ChuClone/components/BaseComponent.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="156" column="0" selection-start="4806" selection-end="4806" vertical-scroll-proportion="0.0">
+        <state line="122" column="12" selection-start="3622" selection-end="3622" vertical-scroll-proportion="0.36716077">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/ChuClone/components/JumpPadComponent.js">
+    <entry file="file://$PROJECT_DIR$/js/lib/DAT.GUI.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="101" column="33" selection-start="3222" selection-end="3222" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/ChuClone/ChuCloneGame.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="107" column="27" selection-start="3575" selection-end="3575" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/ChuClone/GameView.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="101" column="35" selection-start="3217" selection-end="3217" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/ChuClone/editor/WorldEditor.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="164" column="0" selection-start="7027" selection-end="7027" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/ChuClone/WorldController.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="222" column="33" selection-start="7674" selection-end="7674" vertical-scroll-proportion="0.0">
+        <state line="45" column="14" selection-start="920" selection-end="921" vertical-scroll-proportion="-25.961538">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/ChuClone/editor/LevelModel.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="113" column="47" selection-start="2920" selection-end="2932" vertical-scroll-proportion="0.0">
+        <state line="121" column="36" selection-start="3125" selection-end="3125" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/ChuClone/Constants.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="46" column="23" selection-start="1075" selection-end="1075" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/ChuClone/physics/ContactListener.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="55" column="21" selection-start="2438" selection-end="2438" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/lib/EventEmitter.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="137" column="9" selection-start="3619" selection-end="3839" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/ChuClone/editor/WorldEditor.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="108" column="96" selection-start="4231" selection-end="4231" vertical-scroll-proportion="0.96445495">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/ChuClone/editor/LevelManager.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="34" column="0" selection-start="1107" selection-end="1107" vertical-scroll-proportion="0.0">
+        <state line="67" column="31" selection-start="2390" selection-end="2390" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
+    <entry file="file://$PROJECT_DIR$/js/ChuClone/physics/WorldController.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="0" selection-start="569" selection-end="569" vertical-scroll-proportion="0.15752625">
+        <state line="75" column="28" selection-start="2059" selection-end="2059" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/ChuClone/ChuCloneGame.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="17" column="35" selection-start="385" selection-end="385" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/ChuClone/components/JumpPadComponent.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="50" column="0" selection-start="1498" selection-end="1498" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/ChuClone/GameView.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="182" column="37" selection-start="6083" selection-end="6083" vertical-scroll-proportion="0.57993">
           <folding />
         </state>
       </provider>

@@ -106,7 +106,7 @@
          */
         setupGui: function() {
             var that = this;
-            this._guiModification = new DAT.GUI();
+            this._guiModification = new DAT.GUI({width: ChuClone.Constants.EDITOR.PANEL_WIDTH});
             this._guiModification.name("Modification");
             this._guiModification.autoListen = false;
 
@@ -121,9 +121,10 @@
             this._guiModification.open();
 
             // Creation gui
-            this._guiCreation = new DAT.GUI();
+            this._guiCreation = new DAT.GUI({width: ChuClone.Constants.EDITOR.PANEL_WIDTH});
             this._guiCreation.name("Creation");
             this._guiCreation.autoListen = false;
+
             this._controllers['onShouldCreate'] = this._guiCreation.add(this, 'onShouldCreate').name("Create Entity");
             this._controllers['onShouldClone'] = this._guiCreation.add(this, 'onShouldCloneEntity').name("Clone Entity")
             this._controllers['onShouldDelete'] = this._guiCreation.add(this, 'onShouldDelete').name("Destroy Entity");

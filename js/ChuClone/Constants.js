@@ -34,10 +34,20 @@
             S: 83
         },
 
+        EDITOR: {
+            PANEL_WIDTH     : 190
+        },
+        
         ENTITIES: {
             DEFAULT_WIDTH   : 300,
             DEFAULT_HEIGHT  : 100,
             DEFAULT_DEPTH   : 1000
+        },
+
+        STANDARD_EVENTS: {
+            COMPLETE: "complete",
+            CREATED: "created",
+            REMOVED: "removed"
         },
 
         PLAYER: {

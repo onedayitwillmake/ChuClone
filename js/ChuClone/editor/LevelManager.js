@@ -6,10 +6,16 @@
     };
 
     ChuClone.editor.LevelManager.prototype = {
+
+        /**
+         * @type {EventEmitter}
+         */
+        EMITTER             : new EventEmitter(),
+
         /**
          * @type {ChuClone.editor.LevelModel}
          */
-        _levelModel        : null,
+        _levelModel         : null,
         /**
          * @type {ChuClone.physics.WorldController}
          */
@@ -17,7 +23,7 @@
         /**
          * @type {ChuClone.GameView}
          */
-        _gameView    : null,
+        _gameView           : null,
         /**
          * @type {Object}
          */
@@ -29,7 +35,7 @@
 
         setupGui: function() {
              // Creation gui
-            this._gui = new DAT.GUI();
+            this._gui = new DAT.GUI({width: ChuClone.Constants.EDITOR.PANEL_WIDTH + 50});
             this._gui.name("LevelManager");
             this._gui.autoListen = false;
 
@@ -64,6 +70,8 @@
             var model = new ChuClone.editor.LevelModel();
             var slot = "slot"+this._currentSlot;
             model.fromJson( localStorage.getItem(slot),  this._worldController,  this._gameView );
+
+            ChuClone.editor.LevelManager.prototype.EMITTER.emit( ChuClone.Constants.STANDARD_EVENTS.CREATED, model );
         },
 
         /**

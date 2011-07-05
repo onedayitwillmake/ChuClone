@@ -57,6 +57,12 @@
          */
         _positionIterationsPerSecond	: 30,
 
+        /**
+         * Container of closures used in event callbacks
+         * @type {Object}
+         */
+        _closures   : {},
+
 
         /**
          * Sets up the Box2D world and creates a bunch of boxes from that fall from the sky
@@ -64,8 +70,10 @@
         setupBox2d: function() {
             this.createBox2dWorld();
             this.modifySettings();
-            this._world.DestroyBody( this._wallRight );
-            this._world.DestroyBody( this._wallTop );
+        },
+
+        setupEvents: function() {
+            var that = this;
         },
 
         /**
@@ -88,10 +96,18 @@
          * Creates the Box2D world with 4 walls around the edges
          */
         createBox2dWorld: function() {
-            var m_world = new b2World( new b2Vec2(0, 30), true );
+            var didNotHaveWorld = (this._world == null);
+            this._world = this._world || new b2World( new b2Vec2(0, 30), true );
 
-            m_world.SetContactListener( new ChuClone.physics.ContactListener() );
-            
+            if(didNotHaveWorld)
+              this._world.SetContactListener( new ChuClone.physics.ContactListener() );
+
+            this.createWorldBoundary();
+            this._world.DestroyBody( this._wallRight );
+            this._world.DestroyBody( this._wallTop );
+        },
+
+        createWorldBoundary: function() {
             // Create border of boxes
             var wall = new b2PolygonShape();
             var wallBd = new b2BodyDef();
@@ -99,29 +115,30 @@
             // Left
             wallBd.position.Set(-1.5, ChuClone.Constants.GAME_HEIGHT/2);
             wall.SetAsBox(1, ChuClone.Constants.GAME_HEIGHT*10);
-            this._wallLeft = m_world.CreateBody(wallBd);
+            this._wallLeft = this._world.CreateBody(wallBd);
             this._wallLeft.CreateFixture2(wall);
             // Right
             wallBd.position.Set(ChuClone.Constants.GAME_WIDTH + 0.55, ChuClone.Constants.GAME_HEIGHT/2);
             wall.SetAsBox(1, ChuClone.Constants.GAME_HEIGHT*10);
-            this._wallRight = m_world.CreateBody(wallBd);
+            this._wallRight = this._world.CreateBody(wallBd);
             this._wallRight.CreateFixture2(wall);
             // BOTTOM
             wall = new b2PolygonShape();
             wallBd = new b2BodyDef();
             wallBd.position.Set(ChuClone.Constants.GAME_WIDTH/2, 1);
             wall.SetAsBox(ChuClone.Constants.GAME_WIDTH / PTM_RATIO * 8 , 1 / PTM_RATIO);
-            this._wallTop = m_world.CreateBody(wallBd);
+            this._wallTop = this._world.CreateBody(wallBd);
             this._wallTop.CreateFixture2(wall);
             // TOP
             wall = new b2PolygonShape();
             wallBd = new b2BodyDef();
             wallBd.position.Set(ChuClone.Constants.GAME_WIDTH/2 / PTM_RATIO, ChuClone.Constants.GAME_HEIGHT / PTM_RATIO );
             wall.SetAsBox(ChuClone.Constants.GAME_WIDTH/2 * 100, 1/PTM_RATIO);
-            this._wallBottom = m_world.CreateBody(wallBd);
+            this._wallBottom = this._world.CreateBody(wallBd);
             this._wallBottom.CreateFixture2(wall);
 
-            this._world = m_world;
+
+            this
         },
 
         /**
