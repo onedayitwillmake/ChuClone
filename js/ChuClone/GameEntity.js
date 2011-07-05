@@ -1,4 +1,5 @@
 (function(){
+    "use strict";
     var PTM_RATIO = ChuClone.Constants.PTM_RATIO;
     ChuClone.GameEntity = function() {
         this.components = [];
@@ -41,6 +42,13 @@
             this.view.position.x = bodyPos.x * PTM_RATIO;
             this.view.position.y = bodyPos.y * -PTM_RATIO;///((bodyPos.y+this.height/-PTM_RATIO) * -PTM_RATIO) + this.view.geometry.boundingBox.y[0];
             this.view.rotation.z = -this.body.GetAngle();
+
+            var len = this.components.length;
+            for(var i = 0; i < len; ++i ) {
+                if( this.components[i].requiresUpdate ) {
+                    this.components[i].update();
+                }
+            }
         },
 
         modifyDimensions: function(aWidth, aHeight) {
@@ -50,94 +58,94 @@
 
 ////// COMPONENT LOGIC
         /**
-         * Adds and attaches a component (assumed to have already been created), to this entity
+         * Adds and attaches a component, to this entity
          * @param {ChuClone.components.BaseComponent}  aComponent
          * @return {ChuClone.components.BaseComponent}
          */
-		addComponent: function(aComponent) {
-			// Check if we already have this component, if we do - make sure the component allows stacking
-			var existingVersionOfComponent = this.getComponentWithName(aComponent.displayName);
-			if(existingVersionOfComponent && !existingVersionOfComponent.canStack) {
-				return false;
-			}
+        addComponent: function(aComponent) {
+            // Check if we already have this component, if we do - make sure the component allows stacking
+            var existingVersionOfComponent = this.getComponentWithName(aComponent.displayName);
+            if (existingVersionOfComponent && !existingVersionOfComponent.canStack) {
+                return false;
+            }
 
-			// Remove existing version
-			if(existingVersionOfComponent) {
-				this.removeComponentWithName(aComponent.displayName);
-			}
+            // Remove existing version
+            if (existingVersionOfComponent) {
+                this.removeComponentWithName(aComponent.displayName);
+            }
 
 
-			this.components.push(aComponent);
-			aComponent.attach(this);
+            this.components.push(aComponent);
+            aComponent.attach(this);
 
-			return aComponent;
-		},
-
-		/**
-		 * Convinience method that calls ChuClone.GameEntity.addComponent then calls aComponent.execute
-         * @param {ChuClone.components.BaseComponent}  aComponent
-         * @return {ChuClone.components.BaseComponent}
-		 */
-		addComponentAndExecute: function(aComponent) {
-			var wasAdded = this.addComponent(aComponent);
-			if(wasAdded) {
-				aComponent.execute();
-				return aComponent;
-			}
-
-			return null;
-		},
+            return aComponent;
+        },
 
         /**
-		 * Returns a component with a matching .displayName property
-		 * @param aComponentName
-		 */
-		getComponentWithName: function(aComponentName) {
-			var len = this.components.length;
-			var component = null;
-			for( var i = 0; i < len; ++i ) {
-				if( this.components[i].displayName === aComponentName ) {
-					component = this.components[i];
-					break;
-				}
-			}
-			return component;
-		},
+         * Convenience method that calls ChuClone.GameEntity.addComponent then calls execute on the newly created component
+         * @param {ChuClone.components.BaseComponent}  aComponent
+         * @return {ChuClone.components.BaseComponent}
+         */
+        addComponentAndExecute: function(aComponent) {
+            var wasAdded = this.addComponent(aComponent);
+            if (wasAdded) {
+                aComponent.execute();
+                return aComponent;
+            }
 
-        		/**
-		 * Removes a component with a matching .displayName property
+            return null;
+        },
+
+        /**
+         * Returns a component with a matching .displayName property
+         * @param aComponentName
+         */
+        getComponentWithName: function(aComponentName) {
+            var len = this.components.length;
+            var component = null;
+            for (var i = 0; i < len; ++i) {
+                if (this.components[i].displayName === aComponentName) {
+                    component = this.components[i];
+                    break;
+                }
+            }
+            return component;
+        },
+
+        /**
+         * Removes a component with a matching .displayName property
          * @param {String}  aComponentName
-		 */
-		removeComponentWithName: function(aComponentName) {
-			var len = this.components.length;
-			var removedComponents = null;
-			for( var i = 0; i < len; ++i ) {
-				if( this.components[i].displayName === aComponentName ) {
-					removedComponents = this.components.splice(i, 1);
-					break;
-				}
-			}
+         */
+        removeComponentWithName: function(aComponentName) {
+            var len = this.components.length;
+            var removedComponents = [];
+            for (var i = 0; i < len; ++i) {
+                if (this.components[i].displayName === aComponentName) {
+                    removedComponents.push(this.components.splice(i, 1));
+                    break;
+                }
+            }
 
-			// Detach removed components
-			if(removedComponents) {
-				i = removedComponents.length;
-				while (i--) {
-					removedComponents[i].detach();
-				}
-			}
-		},
+            // Detach removed components
+            if (removedComponents) {
+                i = removedComponents.length;
+                while (i--) {
+                    removedComponents[i].detach();
+                }
+            }
+        },
 
-		/**
-		 * Removes all components contained in this entity
-		 */
-		removeAllComponents: function() {
-			var i = this.components.length;
-			while (i--) {
-				this.components[i].detach();
-			}
+        /**
+         * Removes all components contained in this entity
+         */
+        removeAllComponents: function() {
+            var i = this.components.length;
+            while (i--) {
+                this.components[i].detach();
+            }
 
-			this.components = [];
-		},
+            this.components = [];
+        },
 
 
         /**

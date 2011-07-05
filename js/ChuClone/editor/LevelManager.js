@@ -11,7 +11,7 @@
          */
         _levelModel        : null,
         /**
-         * @type {ChuClone.WorldController}
+         * @type {ChuClone.physics.WorldController}
          */
         _worldController    : null,
         /**
@@ -24,6 +24,7 @@
         _controllers        : {},
 
         _currentSlot        : 0,
+        _currentName        : "NONAME",
         _saveSlots          : null,
 
         setupGui: function() {
@@ -32,9 +33,16 @@
             this._gui.name("LevelManager");
             this._gui.autoListen = false;
 
-            this._controllers['slot'] = this._gui.add(this, '_currentSlot').options(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10).name("Slot");
+            this._controllers['slot'] = this._gui.add(this, '_currentSlot').options([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]).name("Slot")
+            this._controllers['slot'].domElement.childNodes[1].selectedIndex = parseInt( localStorage.getItem("lastSlot") )
+            this._controllers['name'] = this._gui.add(this, '_currentName').name("Level Name").onChange({
+
+            });
             this._controllers['saveLevel'] = this._gui.add(this, 'saveLevel').name("Save Level");
             this._controllers['loadLevel'] = this._gui.add(this, 'loadLevel').name("Load Level");
+
+//            this._controllers['addSlot'] = this._gui.add(this, 'saveLevel').name("Save Level");
+//            this._controllers['deleteSlot'] = this._gui.add(this, 'loadLevel').name("Load Level");
 
             this._gui.close();
             this._gui.open();
@@ -42,20 +50,25 @@
 
         saveLevel: function() {
             var model = new ChuClone.editor.LevelModel();
-            var data = model.parseLevel( this._worldController );
-
+            var data = model.parseLevel( this._worldController, this._currentName );
             var slot = "slot"+this._currentSlot;
+
+            this.clearLevel();
             localStorage.setItem(slot, data);
+            localStorage.setItem("lastSlot", this._currentSlot);
+
         },
 
         loadLevel: function() {
+            this.clearLevel();
             var model = new ChuClone.editor.LevelModel();
             var slot = "slot"+this._currentSlot;
-
-            model.fromJson( localStorage.getItem(slot) );
-            this.clearLevel();
+            model.fromJson( localStorage.getItem(slot),  this._worldController,  this._gameView );
         },
 
+        /**
+         * Clears a level
+         */
         clearLevel: function() {
             var node = this._worldController.getWorld().GetBodyList();
             while (node) {

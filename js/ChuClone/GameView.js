@@ -180,7 +180,7 @@
 
             this.theta += 1;
             var offset = 0;
-            this.camera.position.x += mouse.x * radius;//radius * Math.sin( this.theta * Math.PI / 360 );
+//            this.camera.position.x += mouse.x * radius;//radius * Math.sin( this.theta * Math.PI / 360 );
             this.camera.position.y = Math.sin(mouse.y) * radius + 500;//radius * Math.sin( this.theta * Math.PI / 360 );
 //            this.camera.position.z = radius * Math.cos( this.theta * Math.PI / 360 );
 //            var zero = new THREE.Vector3(Math.random() * 100, Math.random() * 100,0);

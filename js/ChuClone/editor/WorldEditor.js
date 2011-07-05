@@ -6,7 +6,7 @@
 
     /**
      * Creates a new WorldEditor
-     * @param {ChuClone.WorldController} aWorldController
+     * @param {ChuClone.physics.WorldController} aWorldController
      */
     ChuClone.editor.WorldEditor = function( aWorldController, aGameView ) {
         this._worldController = aWorldController;

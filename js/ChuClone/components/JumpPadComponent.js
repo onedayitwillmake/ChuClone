@@ -31,9 +31,16 @@ Abstract:
 		 */
 		attach: function(anEntity) {
 			ChuClone.components.JumpPadComponent.superclass.attach.call(this, anEntity);
+            
+            // Listen for body change
+            this.intercept(['setBody']);
+		},
 
-            var view = anEntity.getView();
-            var body = anEntity.getBody();
+        execute: function() {
+            ChuClone.components.JumpPadComponent.superclass.execute.call(this);
+
+            var view = this.attachedEntity.getView();
+            var body = this.attachedEntity.getBody();
 
             // Swap materials
             this._previousMaterial = view.materials[0];
@@ -42,13 +49,11 @@ Abstract:
                 map : THREE.ImageUtils.loadTexture( this._textureSource )
             });
 
+            view.materials[0] = new THREE.MeshBasicMaterial( { color: 0x608090, opacity: 0.5, wireframe: true } );
+
             // Swap restitution
             this.swapRestitution( body );
-
-
-            // Listen for body change
-            this.intercept(['setBody', 'height']);
-		},
+        },
 
         /**
          * Sets the restitution level of  the provided body's fixtures to make it a jumppad
@@ -98,8 +103,7 @@ Abstract:
             var returnObject = ChuClone.components.JumpPadComponent.superclass.getModel.call(this);
             returnObject.restitution = this._restitution;
             returnObject.textureSource = this._textureSource;
-//            returnObject.previousMaterial = this._previousMaterial;
-            returnObject.previousRestitution = this.previousRestitution;
+            returnObject.previousRestitution = this._previousRestitution;
 
             return returnObject;
         }

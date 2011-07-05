@@ -73,10 +73,15 @@
          * If it cannot stack, it is not applied if it's currently active.
          * For example, you can not be frozen after being frozen.
          * However you can be sped up multiple times.
-         *
          * @type {Boolean}
          */
         canStack                : false,
+
+        /**
+         * While true, this components 'update' method is called at the next frame
+         * @type {Boolean}
+         */
+        requiresUpdate          : false,
 
         /**
          * Attach the component to the host object
@@ -90,9 +95,8 @@
          * Execute the component
          * For example if you needed to cause an animation to start when a character is 'unfrozen', this is when you would do it
          */
-        execute: function() {
-
-        },
+        execute: function() {},
+        update: function() { throw new Error("BaseComponent update method has been called. Overwrite!")},
 
         /**
          * Detaches a component from an 'attachedEntity' and restores the properties
@@ -129,7 +133,7 @@
                 var aKey = arrayOfProperties[len];
                 this.interceptedProperties[aKey] = this.attachedEntity[aKey];
 
-                // Wrap function calls in closure, if not just overwrite
+                // Wrap function calls in closure so that the 'this' object refers to the component, if not just overwrite
                 if(this.attachedEntity[aKey] instanceof Function) {
                     this.attachedEntity[aKey] = function(){
                         that[aKey].apply(that, arguments);
@@ -142,7 +146,7 @@
         },
 
         /**
-         * Restores components that were intercepted.
+         * Restores poperties that were intercepted that were intercepted.
          * Be sure to call this when removing the component!
          */
         restore: function() {
@@ -151,13 +155,6 @@
                     this.attachedEntity[key] = this.interceptedProperties[key];
                 }
             }
-        },
-
-        getModel: function() {
-            return {
-                displayName: this.displayName
-            }
         }
-        
     }
 })();

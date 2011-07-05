@@ -9,7 +9,7 @@
      This class controls some Box2D functionality for the game
  Basic Usage:
      setupWorldController: function() {
-            this.worldController = new ChuClone.WorldController();
+            this.worldController = new ChuClone.physics.WorldController();
             this.worldController.setupEditor();
         },
  Version:
@@ -28,12 +28,12 @@
     var b2CircleShape = Box2D.Collision.Shapes.b2CircleShape;
     var b2DebugDraw = Box2D.Dynamics.b2DebugDraw;
 
-    ChuClone.WorldController = function() {
+    ChuClone.physics.WorldController = function() {
         this.setupBox2d();
         this.setDebugDraw();
     };
 
-    ChuClone.WorldController.prototype = {
+    ChuClone.physics.WorldController.prototype = {
         /**
          * @type {Box2D.Dynamics.b2World}
          */
@@ -65,9 +65,7 @@
             this.createBox2dWorld();
             this.modifySettings();
             this._world.DestroyBody( this._wallRight );
-//            this._world.DestroyBody( this._wallLeft );
             this._world.DestroyBody( this._wallTop );
-//            this._world.DestroyBody( this._wallTop );
         },
 
         /**
@@ -92,7 +90,8 @@
         createBox2dWorld: function() {
             var m_world = new b2World( new b2Vec2(0, 30), true );
 
-
+            m_world.SetContactListener( new ChuClone.physics.ContactListener() );
+            
             // Create border of boxes
             var wall = new b2PolygonShape();
             var wallBd = new b2BodyDef();

@@ -35,7 +35,14 @@
         },
 
         ENTITIES: {
-            DEFAULT_DEPTH: 1000
-        }
+            DEFAULT_WIDTH   : 300,
+            DEFAULT_HEIGHT  : 100,
+            DEFAULT_DEPTH   : 1000
+        },
+
+        /**
+         * @type {EventEmitter}
+         */
+        EMITTER: new EventEmitter()
     }
 })();
