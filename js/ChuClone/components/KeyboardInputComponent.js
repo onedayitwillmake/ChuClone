@@ -49,11 +49,11 @@ Abstract:
 		 * @inheritDoc
 		 */
 		attach: function(anEntity) {
-			ChuClone.components.JumpPadComponent.superclass.attach.call(this, anEntity);
+			ChuClone.components.KeyboardInputComponent.superclass.attach.call(this, anEntity);
 		},
 
         execute: function() {
-            ChuClone.components.JumpPadComponent.superclass.execute.call(this);
+            ChuClone.components.KeyboardInputComponent.superclass.execute.call(this);
 
             var that = this;
             this._callback = function(e){
@@ -83,25 +83,12 @@ Abstract:
          * Restore material and restitution
          */
         detach: function() {
-
             document.removeEventListener('keydown', this._callback, false);
             document.removeEventListener('keyup', this._callback, false);
             this._callback = null;
 
-            ChuClone.components.JumpPadComponent.superclass.detach.call(this);
+           ChuClone.components.KeyboardInputComponent.superclass.detach.call(this);
         }
-
-//        /**
-//         * @inheritDoc
-//         */
-//        getModel: function() {
-//            var returnObject = ChuClone.components.JumpPadComponent.superclass.getModel.call(this);
-//            returnObject.restitution = this._restitution;
-//            returnObject.textureSource = this._textureSource;
-//            returnObject.previousRestitution = this._previousRestitution;
-//
-//            return returnObject;
-//        }
 
 	};
 

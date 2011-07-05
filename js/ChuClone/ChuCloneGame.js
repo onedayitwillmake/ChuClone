@@ -8,6 +8,7 @@
     ChuClone.namespace("ChuClone");
     ChuClone.ChuCloneGame = function() {
         this.listenForReady();
+        this.setupEvents();
     };
 
     ChuClone.ChuCloneGame.prototype = {
@@ -19,20 +20,44 @@
         worldController: null,
 
         /**
-         * @type {ChuClone.GameEntity}
+         * @type {ChuClone.PlayerEntity}
          */
-        player      : null,
+        _player         : null,
 
+        /**
+         * Container of closures used in event callbacks
+         * @type {Object}
+         */
+        _closures   : {},
+
+        setupEvents: function() {
+            var that = this;
+            ChuClone.PlayerEntity.prototype.eventEmitter.once(ChuClone.PlayerEntity.prototype.EVENTS.CREATED, function( aPlayer ) {
+                that.onPlayerCreated( aPlayer );
+            });
+        },
+        
+        /**
+         * Listens for DOMContentLoaded event
+         */
         listenForReady: function() {
             var that = this;
-            window.addEventListener('DOMContentLoaded', function(e){that.onReady()}, true);
+
+            window.addEventListener('DOMContentLoaded', function callback(e){
+                window.removeEventListener('DOMContentLoaded', callback, false);
+                that.onReady()
+            }, false);
         },
 
-        onReady: function() {
+        /**
+         * Dispatched when 'DOMContentLoaded' event is fired
+         * @type {Event}    'DOMContentLoaded' event
+         */
+        onReady: function(e) {
             this.setupView();
             this.setupWorldController();
-            this.setupDebug();
-            this.setupPlayer();
+            this.debugSetupRandomBlocks();
+            this.debugSetupPlayer();
 
             // MAIN LOOP
             var that = this;
@@ -51,7 +76,7 @@
             this.worldController.setupEditor( this.view );
         },
 
-        setupDebug: function() {
+        debugSetupRandomBlocks: function() {
             return;
             for ( var i = 0; i < 100; i ++ ) {
                 var w = Math.random() * 300 + 200;
@@ -70,7 +95,7 @@
             }
         },
 
-        setupPlayer: function() {
+        debugSetupPlayer: function() {
             var x = 0;
             var y = -300;
             var boxSize = 30;
@@ -83,9 +108,23 @@
             entity.setView( view );
 
             this.view.addEntity( entity.view );
-            this.player = entity;
+            this._player = entity;
         },
 
+         /**
+         * Dispatched when the player is created
+         * @param aPlayer
+         */
+         onPlayerCreated: function(aPlayer) {
+             var x = 50;
+             var y = -300;
+
+             aPlayer.getBody().SetPosition( new Box2D.Common.Math.b2Vec2(x / ChuClone.Constants.PTM_RATIO, y / ChuClone.Constants.PTM_RATIO) );
+             aPlayer.getView().materials[0] = ChuClone.Constants.PLAYER.MATERIAL;
+             aPlayer.setDimensions(ChuClone.Constants.PLAYER.WIDTH, ChuClone.Constants.PLAYER.HEIGHT, ChuClone.Constants.PLAYER.WIDTH);
+             this._player = aPlayer;
+         },
+        
         update: function() {
             /**
              * @type {Box2D.Dynamics.b2Body}
@@ -102,18 +141,18 @@
                     entity.update();
             }
 
-            if( this.player ) {
+//            if( this.player ) {
 //                this.worldController.setDebugDrawOffset( -this.player.getBody().GetPosition().x+25, 5);
                 this.worldController.update();
-            }
+//            }
 
 
-            if (this.player.getView()) {
+//            if (this.player.getView()) {
 //                this.view.camera.target.position.x = this.player.view.position.x;
 //                this.view.camera.target.position.y = this.player.view.position.y;
 //                this.view.camera.target.position.z = this.player.view.position.z;
 //                this.view.camera.position.x = this.player.view.position.x - 700;
-            }
+//            }
             this.view.render();
         }
     };

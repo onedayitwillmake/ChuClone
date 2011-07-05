@@ -121,7 +121,7 @@
             var removedComponents = [];
             for (var i = 0; i < len; ++i) {
                 if (this.components[i].displayName === aComponentName) {
-                    removedComponents.push(this.components.splice(i, 1));
+                    removedComponents.push( this.components.splice(i, 1)[0] );
                     break;
                 }
             }

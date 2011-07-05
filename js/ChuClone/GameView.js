@@ -53,8 +53,8 @@
         // Methods
         setupThreeJS: function() {
 
-            var width = 1000;
-            var height = 500;
+            var width = 900;
+            var height = 300;
 
             container = document.createElement( 'div' );
             document.body.appendChild( container );

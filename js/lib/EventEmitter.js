@@ -8,10 +8,25 @@
 
 function EventEmitter() {
 	// Put the instance in scope and initialise all required variables
+    /**
+     * @type {EventEmitter}
+     */
 	var instance = this,
+        /**
+         * @type {Object}
+         */
 		listeners = {},
+        /**
+         * @type {Number}
+         */
 		i = null,
+        /**
+         * @type {Object}
+         */
 		args = null,
+        /**
+         * @type {Number}
+         */
 		index = null;
 
 	/**
@@ -61,14 +76,7 @@ function EventEmitter() {
 		return instance;
 	};
 
-	/**
-	 * Assigns a listener to the specified event (alias for addListener)
-	 *
-	 * @param {String} eventName Name of the event to assign the listener to
-	 * @param {Function} listener Function to be executed when the specified event is emitted
-	 * @returns {Object} The current instance of EventEmitter to allow chaining
-	 */
-	instance.on = instance.addListener;
+
 
 	/**
 	 * Emits the specified event running all listeners associated with it

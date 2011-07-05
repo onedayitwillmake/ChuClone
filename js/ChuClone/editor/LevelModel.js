@@ -118,7 +118,8 @@
                 returnObject.bodyList.push( entityInfo );
             }
 
-            
+
+            console.log(returnObject)
             return JSON.stringify( returnObject );
         },
 

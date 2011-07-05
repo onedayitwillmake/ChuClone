@@ -13,27 +13,28 @@ Abstract:
 (function(){
 	ChuClone.namespace("ChuClone.components");
 
-	ChuClone.components.CharacterInputComponent = function() {
-		ChuClone.components.CharacterInputComponent.superclass.constructor.call(this);
+    var SUPERREF;
+	ChuClone.components.CharacterControllerComponent = function() {
+		ChuClone.components.CharacterControllerComponent.superclass.constructor.call(this);
         this.requiresUpdate = true;
 	};
 
-	ChuClone.components.CharacterInputComponent.prototype = {
+	ChuClone.components.CharacterControllerComponent.prototype = {
         /**
          * @type {String}
          */
-		displayName						: "CharacterInputComponent",					// Unique string name for this Trait
+		displayName						: "CharacterControllerComponent",					// Unique string name for this Trait
 
         /**
          * @type {Number}
          */
-        _maxSpeed                       : 0.5,
+        _moveSpeed                       : new Box2D.Common.Math.b2Vec2(0.1, 0.3),
 
 		/**
 		 * @inheritDoc
 		 */
 		attach: function(anEntity) {
-			ChuClone.components.JumpPadComponent.superclass.attach.call(this, anEntity);
+			ChuClone.components.CharacterControllerComponent.superclass.attach.call(this, anEntity);
 
             this._input = new ChuClone.components.KeyboardInputComponent();
             this.attachedEntity.addComponentAndExecute( this._input );
@@ -55,7 +56,7 @@ Abstract:
 
             // Apply force
             var bodyPosition = body.GetWorldCenter();
-            var impulse = new Box2D.Common.Math.b2Vec2(0.01 * PTM_RATIO * body.GetMass() * force.x, 0.3 * PTM_RATIO * body.GetMass() * force.y);
+            var impulse = new Box2D.Common.Math.b2Vec2(this._moveSpeed.x * PTM_RATIO * body.GetMass() * force.x, this._moveSpeed.y * PTM_RATIO * body.GetMass() * force.y);
             body.ApplyImpulse(impulse, bodyPosition);
         },
 
@@ -67,9 +68,20 @@ Abstract:
             this.attachedEntity.removeComponentWithName( ChuClone.components.KeyboardInputComponent.prototype.displayName );
             this._input = null;
 
-            ChuClone.components.JumpPadComponent.superclass.detach.call(this);
+            ChuClone.components.CharacterControllerComponent.superclass.detach.call(this);
+        },
+
+
+        /**
+         * @inheritDoc
+         */
+        getModel: function() {
+            var returnObject = ChuClone.components.CharacterControllerComponent.superclass.getModel.call(this);
+            returnObject.moveSpeed = {x:0.1, y:0.3};
+            
+            return returnObject;
         }
 	};
 
-    ChuClone.extend( ChuClone.components.CharacterInputComponent, ChuClone.components.BaseComponent );
+    ChuClone.extend( ChuClone.components.CharacterControllerComponent, ChuClone.components.BaseComponent );
 })();

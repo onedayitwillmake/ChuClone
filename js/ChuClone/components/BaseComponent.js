@@ -155,6 +155,24 @@
                     this.attachedEntity[key] = this.interceptedProperties[key];
                 }
             }
+        },
+
+        /**
+         * A chance for a component to store any extra information it might need when recreating itself
+         */
+        getModel: function() {
+            return {
+                displayName: this.displayName
+            }
+        },
+
+        /**
+         * When a level is created from a model, this is called on every component so that it can do any extra stuff on itself before
+         * It starts being used, set it's maxspeed, maxSize, timeLimit, etc
+         * @param data
+         */
+        fromModel: function( data ) {
+
         }
     }
 })();

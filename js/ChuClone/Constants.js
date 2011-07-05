@@ -40,6 +40,13 @@
             DEFAULT_DEPTH   : 1000
         },
 
+        PLAYER: {
+            WIDTH: 30,
+            HEIGHT: 30,
+            DEPTH: 30,
+            MATERIAL: new THREE.MeshPhongMaterial( { ambient: 0x111111, color: 0x666666, specular: 0xDDDDDD, shininess:1, shading: THREE.FlatShading } ),
+        },
+
         /**
          * @type {EventEmitter}
          */
