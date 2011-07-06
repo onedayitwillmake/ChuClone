@@ -51,9 +51,12 @@
             }
         },
 
-        modifyDimensions: function(aWidth, aHeight) {
-
-        },
+        /**
+         * Called when a collision has occured with another GameEntity
+         * Should be overwriten by components
+         * @param {ChuClone.GameEntity} otherActor
+         */
+        onCollision: function( otherActor ) {},
 
 
 ////// COMPONENT LOGIC
@@ -152,14 +155,13 @@
          * Deallocate
          */
         dealloc: function() {
+            this.removeAllComponents();
             this.view = null;
 
             // If we have a .body and it's pointing to us, null the reference
             if(this.body && this.body.userData == this) {
                 this.body.SetUserData(null);
             }
-
-            this.removeAllComponents();
             this.components = null;
             this.body = null;
         },
@@ -197,11 +199,15 @@
         getView: function() { return this.view; },
 
         getDimensions: function() { return {width: this.width, height: this.height, depth: this.depth }; },
+        // TODO: NORMALIZE BY ALWAYS PASSING FULL WIDTH AND DIVIDING INTERNALLY
+        // CURRENTLY WE ARE PASSING EXTENTS NOT WIDTH
         setDimensions: function(aWidth, aHeight, aDepth) {
             this.width = aWidth;
+//            aWidth /= 2;
             this.height = aHeight;
-            aDepth = Math.round(aDepth*0.5);
+//            aHeight /= 2;
             this.depth = aDepth;
+//            aDepth /= 2;
 
             // THIS TRICK CURRENTLY ONLY WORKS FOR RECTANGULAR/CUBE ENTITIES
             this.view.dynamic = true;

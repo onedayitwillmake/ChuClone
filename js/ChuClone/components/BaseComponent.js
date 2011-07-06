@@ -132,12 +132,16 @@
             while (len--) {
                 var aKey = arrayOfProperties[len];
                 this.interceptedProperties[aKey] = this.attachedEntity[aKey];
+                this.attachedEntity[aKey] = this[aKey];
 
                 // Wrap function calls in closure so that the 'this' object refers to the component, if not just overwrite
                 if(this.attachedEntity[aKey] instanceof Function) {
-                    this.attachedEntity[aKey] = function(){
-                        that[aKey].apply(that, arguments);
-                    }
+                    this.attachedEntity[aKey] = (function(){
+                        var myKey = aKey; // 'aKey' will always point to the last value of arrayOfProperties, so store the current value of it - e.g. i after a forloop
+                        return function() {
+                             that[myKey].apply(that, arguments);
+                        }
+                    })();
                 } else {
                     this.attachedEntity[aKey] = this[aKey];
                 }

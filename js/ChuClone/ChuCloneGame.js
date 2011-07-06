@@ -32,6 +32,8 @@
 
         setupEvents: function() {
             var that = this;
+
+            
             ChuClone.PlayerEntity.prototype.eventEmitter.once(ChuClone.PlayerEntity.prototype.EVENTS.CREATED, function( aPlayer ) {
                 that.onPlayerCreated( aPlayer );
             });
@@ -125,7 +127,7 @@
 
              aPlayer.getBody().SetPosition( new Box2D.Common.Math.b2Vec2(x / ChuClone.Constants.PTM_RATIO, y / ChuClone.Constants.PTM_RATIO) );
              aPlayer.getView().materials[0] = ChuClone.Constants.PLAYER.MATERIAL;
-             aPlayer.setDimensions(ChuClone.Constants.PLAYER.WIDTH, ChuClone.Constants.PLAYER.HEIGHT, ChuClone.Constants.PLAYER.WIDTH);
+             aPlayer.setDimensions(ChuClone.Constants.PLAYER.WIDTH, ChuClone.Constants.PLAYER.HEIGHT, ChuClone.Constants.PLAYER.DEPTH);
              this._player = aPlayer;
          },
         

@@ -33,7 +33,7 @@ Abstract:
 			ChuClone.components.JumpPadComponent.superclass.attach.call(this, anEntity);
             
             // Listen for body change
-            this.intercept(['setBody']);
+            this.intercept(['setBody', 'onCollision']);
 		},
 
         execute: function() {
@@ -60,6 +60,7 @@ Abstract:
          * @param {Box2D.Dynamics.b2Body} aBody
          */
         swapRestitution: function( aBody ) {
+            return;
             var node = aBody.GetFixtureList();
             while(node) {
                 var fixture = node;
@@ -78,6 +79,11 @@ Abstract:
             this.interceptedProperties.setBody.call(this.attachedEntity, aBody );
             if(aBody) // Sometimes setBody is called with null
                 this.swapRestitution( aBody )
+        },
+
+        onCollision: function( otherActor ) {
+            var vel = otherActor.getBody().GetLinearVelocity();
+            vel.y += -0.8 * ChuClone.Constants.PTM_RATIO;
         },
 
         /**

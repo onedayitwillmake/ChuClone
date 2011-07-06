@@ -58,13 +58,21 @@
 
    ChuClone.physics.ContactListener.prototype.BeginContact = function( contact ) {
 
-       return;
         // Box2d objects that collided
         var fixtureA = contact.GetFixtureA();
         var fixtureB = contact.GetFixtureB();
+
         // Sprites that collided
         var actorA = fixtureA.GetBody().GetUserData();
         var actorB = fixtureB.GetBody().GetUserData();
+
+       if (actorA && actorA.onCollision)
+           actorA.onCollision(actorB);
+
+       if (actorB && actorB.onCollision)
+           actorB.onCollision(actorA);
+
+       return;
 
         // This is only true if for example a sprite touched something in your box2d simulation that was not a sprite such as the ground
         // You may not want to return here, so keep that in mind

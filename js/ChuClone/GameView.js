@@ -117,7 +117,7 @@
             this.birds = [];
             var range = 600;
 
-            for(var i = 0; i < 100; i++ ) {
+            for(var i = 0; i < -100; i++ ) {
                 var bird = this.birds[ i ] = new THREE.Mesh( new Bird(), new THREE.MeshBasicMaterial( {
                     color:Math.random() * 0x222222 + 0xDDDDDD
                 } ) );
@@ -180,9 +180,9 @@
 
             this.theta += 1;
             var offset = 0;
-            this.camera.position.x = radius * Math.sin( this.theta * Math.PI / 360 );
+//            this.camera.position.x = radius * Math.sin( this.theta * Math.PI / 360 );
             this.camera.position.y = Math.sin(mouse.y) * radius + 500;//radius * Math.sin( this.theta * Math.PI / 360 );
-            this.camera.position.z = radius * Math.cos( this.theta * Math.PI / 360 );
+//            this.camera.position.z = radius * Math.cos( this.theta * Math.PI / 360 );
 //            var zero = new THREE.Vector3(Math.random() * 100, Math.random() * 100,0);
 //            console.log(zero)
 
@@ -217,40 +217,12 @@
 //					bird.rotation.z = Math.asin( boid.velocity.y / boid.velocity.length() );
 //					bird.position.x = this.camera.position.x;
 
-					bird.phase = ( bird.phase + ( Math.max( 0, bird.rotation.z ) + 0.1 )  ) % 62.83;
-                bird.geometry.vertices[ 5 ].position.y = bird.geometry.vertices[ 4 ].position.y = Math.sin(bird.phase);
+			    bird.phase = ( bird.phase + ( Math.max( 0, bird.rotation.z ) + 0.1 )  ) % 62.83;
+                bird.geometry.vertices[ 5 ].position.y = bird.geometry.vertices[ 4 ].position.y = Math.sin(bird.phase*2);
                 bird.geometry.__dirtyVertices = true;
             }
         },
 
-        findIntersections: function() {
-            var vector = new THREE.Vector3( mouse.x, mouse.y, 0.5 );
-            projector.unprojectVector( vector, this.camera );
-
-            var ray = new THREE.Ray( this.camera.position, vector.subSelf( this.camera.position ).normalize() );
-
-            var intersects = ray.intersectScene( scene );
-
-            if ( intersects.length > 0 ) {
-
-                if ( INTERSECTED != intersects[ 0 ].object ) {
-
-                    if ( INTERSECTED ) INTERSECTED.materials[ 0 ].color.setHex( INTERSECTED.currentHex );
-
-                    INTERSECTED = intersects[ 0 ].object;
-                    INTERSECTED.currentHex = INTERSECTED.materials[ 0 ].color.hex;
-                    INTERSECTED.materials[ 0 ].color.setHex( 0xff0000 );
-
-                }
-
-            } else {
-
-                if ( INTERSECTED ) INTERSECTED.materials[ 0 ].color.setHex( INTERSECTED.currentHex );
-
-                INTERSECTED = null;
-
-            }
-        },
 
         /**
          * Creates a Stats.js instance and adds it to the page

@@ -137,8 +137,6 @@
             this._wallBottom = this._world.CreateBody(wallBd);
             this._wallBottom.CreateFixture2(wall);
 
-
-            this
         },
 
         /**

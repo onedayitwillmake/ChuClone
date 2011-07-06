@@ -69,24 +69,6 @@
                 var scale = that._worldController.getDebugDraw().GetDrawScale();
                 scale += speed;
                 that._worldController.getDebugDraw().SetDrawScale( scale );
-
-
-//                that.updateMousePosition(e)
-                // Offset for canvas
-               // that._mousePosition.x = x - that._worldController.getDebugDraw().GetSprite().canvas.offsetLeft;// - (this._worldController.getDebugDraw().offsetX/this._worldController.getDebugDraw().GetDrawScale());
-               // that._mousePosition.y = y - that._worldController.getDebugDraw().GetSprite().canvas.offsetTop;
-
-                // Offset for DEBUGDRAW
-//                that._mousePosition.x -= that._worldController.getDebugDraw().offsetX*that._worldController.getDebugDraw().GetDrawScale();
-//                that._mousePosition.y -= that._worldController.getDebugDraw().offsetY*that._worldController.getDebugDraw().GetDrawScale();
-
-
-//                console.log(that._worldController.getDebugDraw().GetSprite().canvas.offsetX)
-//                console.log(e.layerX, e.offsetX)
-//                console.log(newY)
-//                console.log(scale*0.01);
-
-//                that._worldController.setDebugDrawOffset( that._mousePosition.x, that._mousePosition.y );
             }, false );
         },
 
@@ -114,7 +96,7 @@
             this.addControllerWithTimeout(this._guiModification, "y", this._propProxy.y).step(0.1);
             this.addControllerWithTimeout(this._guiModification, "width", this._propProxy.width).min(0.01).max(Math.round(5000/PTM_RATIO)).step(0.05);
             this.addControllerWithTimeout(this._guiModification, "height", this._propProxy.height).min(0.01).max(Math.round(5000/PTM_RATIO)).step(0.05);
-            this.addControllerWithTimeout(this._guiModification, "depth", this._propProxy.depth).min(50).max(5000).step(10);
+            this.addControllerWithTimeout(this._guiModification, "depth", this._propProxy.depth).min(0.01).max(5000/PTM_RATIO).step(0.05);
             this._controllers['jumpPad'] = this._guiModification.add(this._propProxy, "jumpPad");
             this._controllers['jumpPad'].onChange( function(aValue){ that.toggleJumpPad(aValue); } );
             this._guiModification.close();
@@ -162,6 +144,7 @@
         onShouldCreate: function(e) {
             var w = this._propProxy.width * PTM_RATIO;
             var h = this._propProxy.height * PTM_RATIO;
+            var depth = this._propProxy.depth * PTM_RATIO;
 
             // Get the new position by dividing the given mouse position by the drawscale, and the result of that by the PTM_RATIO
             var pos = new Box2D.Common.Math.b2Vec2(this._mousePosition.x, this._mousePosition.y);
@@ -178,11 +161,11 @@
             );
 
             // Create the THREE.js mesh
-            var view = this._gameView.createEntityView( this._mousePosition.x, this._mousePosition.x, w*2, h*2, ChuClone.Constants.ENTITIES.DEFAULT_DEPTH  );
+            var view = this._gameView.createEntityView( this._mousePosition.x, this._mousePosition.x, w, h, depth );
             var entity = new ChuClone.GameEntity();
             entity.setBody( newBody );
             entity.setView( view );
-            entity.setDimensions( w, h, ChuClone.Constants.ENTITIES.DEFAULT_DEPTH);
+            entity.setDimensions( w, h, depth );
 
             this._currentBody = newBody;
             this.populateInfoWithB2Body( this._currentBody );
@@ -292,7 +275,7 @@
 
                     var scale = (that._worldController.getDebugDraw().GetDrawScale() * 1.5);
                     that._worldController.getDebugDraw().offsetX = initialOffsetPosition.x + (initialMousePosition.x - that._mousePosition.x) / scale;
-                    that._worldController.getDebugDraw().offsetY = initialOffsetPosition.y + (initialMousePosition.y - that._mousePosition.y) / -scale;
+                    that._worldController.getDebugDraw().offsetY = initialOffsetPosition.y + (initialMousePosition.y - that._mousePosition.y) / scale;
                 };
 
                 this._worldController.getDebugDraw().GetSprite().canvas.addEventListener( 'mousemove', this._closures['pan'], false );
@@ -332,7 +315,7 @@
 
             this._worldController.getWorld().DestroyBody( this._currentBody );
             entity.setBody( newBody );
-            entity.setDimensions( this._controllers['width'].getValue() * PTM_RATIO, this._controllers['height'].getValue() * PTM_RATIO, this._controllers['depth'].getValue() );
+            entity.setDimensions( this._controllers['width'].getValue() * PTM_RATIO, this._controllers['height'].getValue() * PTM_RATIO, this._controllers['depth'].getValue() * PTM_RATIO );
 
             this._currentBody = newBody;
         },
@@ -346,7 +329,7 @@
             this._controllers['y'].setValue( aBody.GetPosition().y );
             this._controllers['width'].setValue( this._currentBody.GetUserData().getDimensions().width / PTM_RATIO );
             this._controllers['height'].setValue( this._currentBody.GetUserData().getDimensions().height / PTM_RATIO );
-            this._controllers['depth'].setValue( this._currentBody.GetUserData().getDimensions().depth );
+            this._controllers['depth'].setValue( this._currentBody.GetUserData().getDimensions().depth / PTM_RATIO );
             this._controllers['jumpPad'].setValue( this._currentBody.GetUserData().getComponentWithName( ChuClone.components.JumpPadComponent.prototype.displayName) )
         },
 
@@ -439,11 +422,11 @@
             this._controllers[propName] = controller;
 
             // Set a timeout that will be destroyed if the value is changed while waiting to be fired
-            controller.onFinishChange( function(newValue) {
+            controller.onChange( function(newValue) {
                 clearTimeout( WAIT_TIMEOUT );
                 WAIT_TIMEOUT = setTimeout( function() {
                     that.onControllerWasChanged(newValue);
-                }, 400);
+                }, 600);
             });
 
             return controller;

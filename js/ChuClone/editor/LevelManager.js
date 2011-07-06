@@ -41,8 +41,7 @@
 
             this._controllers['slot'] = this._gui.add(this, '_currentSlot').options([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]).name("Slot")
             this._controllers['slot'].domElement.childNodes[1].selectedIndex = parseInt( localStorage.getItem("lastSlot") )
-            this._controllers['name'] = this._gui.add(this, '_currentName').name("Level Name").onChange({
-
+            this._controllers['name'] = this._gui.add(this, '_currentName').name("Level Name").onFinishChange(function(){
             });
             this._controllers['saveLevel'] = this._gui.add(this, 'saveLevel').name("Save Level");
             this._controllers['loadLevel'] = this._gui.add(this, 'loadLevel').name("Load Level");
@@ -59,7 +58,6 @@
             var data = model.parseLevel( this._worldController, this._currentName );
             var slot = "slot"+this._currentSlot;
 
-            this.clearLevel();
             localStorage.setItem(slot, data);
             localStorage.setItem("lastSlot", this._currentSlot);
 
@@ -67,6 +65,7 @@
 
         loadLevel: function() {
             this.clearLevel();
+
             var model = new ChuClone.editor.LevelModel();
             var slot = "slot"+this._currentSlot;
             model.fromJson( localStorage.getItem(slot),  this._worldController,  this._gameView );

@@ -28,7 +28,7 @@ Abstract:
         /**
          * @type {Number}
          */
-        _moveSpeed                       : new Box2D.Common.Math.b2Vec2(0.1, 0.3),
+        _moveSpeed                       : new Box2D.Common.Math.b2Vec2(0.015, 0.3),
 
 		/**
 		 * @inheritDoc

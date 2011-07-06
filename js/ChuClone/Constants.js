@@ -60,6 +60,6 @@
         /**
          * @type {EventEmitter}
          */
-        EMITTER: new EventEmitter()
+        DISPATCH: new EventEmitter()
     }
 })();
