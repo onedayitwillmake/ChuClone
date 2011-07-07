@@ -41,16 +41,13 @@
 
             this._controllers['slot'] = this._gui.add(this, '_currentSlot').options([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]).name("Slot")
             this._controllers['slot'].domElement.childNodes[1].selectedIndex = parseInt( localStorage.getItem("lastSlot") )
-            this._controllers['name'] = this._gui.add(this, '_currentName').name("Level Name").onFinishChange(function(){
-            });
+            this._controllers['name'] = this._gui.add(this, '_currentName').name("Level Name").onFinishChange(function(){ });
             this._controllers['saveLevel'] = this._gui.add(this, 'saveLevel').name("Save Level");
             this._controllers['loadLevel'] = this._gui.add(this, 'loadLevel').name("Load Level");
-
-//            this._controllers['addSlot'] = this._gui.add(this, 'saveLevel').name("Save Level");
-//            this._controllers['deleteSlot'] = this._gui.add(this, 'loadLevel').name("Load Level");
+            this._controllers['clearLevel'] = this._gui.add(this, 'clearLevel').name("Clear Level");
 
             this._gui.close();
-            this._gui.open();
+//            this._gui.open();
         },
 
         saveLevel: function() {
@@ -69,6 +66,7 @@
             var model = new ChuClone.editor.LevelModel();
             var slot = "slot"+this._currentSlot;
             model.fromJson( localStorage.getItem(slot),  this._worldController,  this._gameView );
+            this._controllers['name'].setValue( model.levelName );
 
             ChuClone.editor.LevelManager.prototype.EMITTER.emit( ChuClone.Constants.STANDARD_EVENTS.CREATED, model );
         },
@@ -87,13 +85,18 @@
                  * @type {ChuClone.GameEntity}
                  */
                 var entity = b.GetUserData();
+
                 if (!entity) {
                     this._worldController.getWorld().DestroyBody(b);
                     continue;
                 }
 
-                this._gameView.removeEntity( entity.getView() );
-                entity.dealloc();
+                if( "getView" in entity )
+                    this._gameView.removeEntity( entity.getView() );
+
+                if( "dealloc" in entity )
+                    entity.dealloc();
+
                 this._worldController.getWorld().DestroyBody(b);
             }
         }

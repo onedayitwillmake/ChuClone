@@ -34,7 +34,7 @@
             var that = this;
 
             
-            ChuClone.PlayerEntity.prototype.eventEmitter.once(ChuClone.PlayerEntity.prototype.EVENTS.CREATED, function( aPlayer ) {
+            ChuClone.PlayerEntity.prototype.eventEmitter.addListener(ChuClone.PlayerEntity.prototype.EVENTS.CREATED, function( aPlayer ) {
                 that.onPlayerCreated( aPlayer );
             });
 
@@ -83,7 +83,6 @@
         },
 
         debugSetupRandomBlocks: function() {
-            return;
             for ( var i = 0; i < 100; i ++ ) {
                 var w = Math.random() * 300 + 200;
                 var h = Math.random() * 300;
@@ -128,6 +127,9 @@
              aPlayer.getBody().SetPosition( new Box2D.Common.Math.b2Vec2(x / ChuClone.Constants.PTM_RATIO, y / ChuClone.Constants.PTM_RATIO) );
              aPlayer.getView().materials[0] = ChuClone.Constants.PLAYER.MATERIAL;
              aPlayer.setDimensions(ChuClone.Constants.PLAYER.WIDTH, ChuClone.Constants.PLAYER.HEIGHT, ChuClone.Constants.PLAYER.DEPTH);
+
+             
+             aPlayer.addComponentAndExecute( new ChuClone.components.CharacterControllerComponent() );
              this._player = aPlayer;
          },
         
@@ -149,16 +151,15 @@
 
 //            if( this.player ) {
 //                this.worldController.setDebugDrawOffset( -this.player.getBody().GetPosition().x+25, 5);
-                this._worldController.update();
+                this._worldController.update(); 
 //            }
 
-
-//            if (this.player.getView()) {
-//                this.view.camera.target.position.x = this.player.view.position.x;
-//                this.view.camera.target.position.y = this.player.view.position.y;
-//                this.view.camera.target.position.z = this.player.view.position.z;
-//                this.view.camera.position.x = this.player.view.position.x - 700;
-//            }
+            if (this._player && this._player.getView()) {
+                this.view.camera.target.position.x = this._player.view.position.x;
+                this.view.camera.target.position.y = this._player.view.position.y;
+                this.view.camera.target.position.z = this._player.view.position.z;
+                this.view.camera.position.x = this._player.view.position.x - 700;
+            }
             this.view.render();
         }
     };

@@ -1,0 +1,200 @@
+{
+	"editingInfo": {
+		"author": "mario gonzalez",
+		"levelName": "HelloWorld",
+		"creationDate": 1310069522673,
+		"modificationDate": 1310069522673
+	},
+	"worldSettings": {
+		"PTM_RATIO": 64
+	},
+	"playerInfo": null,
+	"bodyList": [
+		{
+			"x": 26.448598130841123,
+			"y": 6.682242990654206,
+			"dimensions": {
+				"width": 192,
+				"height": 16,
+				"depth": 192
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 0
+			},
+			"entityType": 0,
+			"components": [
+				{
+					"displayName": "JumpPadComponent",
+					"textureSource": "assets/images/game/jumppad.png"
+				}
+			]
+		},
+		{
+			"x": 84.20560747663552,
+			"y": 5,
+			"dimensions": {
+				"width": 192,
+				"height": 16,
+				"depth": 185.6
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 0
+			},
+			"entityType": 0,
+			"components": [
+				{
+					"displayName": "JumpPadComponent",
+					"textureSource": "assets/images/game/jumppad.png"
+				}
+			]
+		},
+		{
+			"x": 84.20560747663552,
+			"y": -1,
+			"dimensions": {
+				"width": 192,
+				"height": 16,
+				"depth": 185.6
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 0
+			},
+			"entityType": 0,
+			"components": []
+		},
+		{
+			"x": 84.20560747663552,
+			"y": 6,
+			"dimensions": {
+				"width": 192,
+				"height": 16,
+				"depth": 185.6
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 0
+			},
+			"entityType": 0,
+			"components": []
+		},
+		{
+			"x": 84.20560747663552,
+			"y": 6.77570093457944,
+			"dimensions": {
+				"width": 192,
+				"height": 16,
+				"depth": 185.6
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 0
+			},
+			"entityType": 0,
+			"components": []
+		},
+		{
+			"x": 41.7,
+			"y": 0.1,
+			"dimensions": {
+				"width": 281.6,
+				"height": 422.40000000000003,
+				"depth": 633.6
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 0
+			},
+			"entityType": 0,
+			"components": []
+		},
+		{
+			"x": 71.99230939039221,
+			"y": 7.5481689085364065,
+			"dimensions": {
+				"width": 4640,
+				"height": 32,
+				"depth": 192
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 0
+			},
+			"entityType": 0,
+			"components": []
+		},
+		{
+			"x": 0.866838248116729,
+			"y": 6.537884907939617,
+			"dimensions": {
+				"width": 30,
+				"height": 30,
+				"depth": 30
+			},
+			"angle": 293.7408236525778,
+			"physicsInfo": {
+				"density": 0,
+				"friction": 0,
+				"restitution": 0,
+				"bodyType": 2
+			},
+			"entityType": 0,
+			"components": [
+				{
+					"displayName": "CheckIsJumpingComponent"
+				},
+				{
+					"displayName": "KeyboardInputComponent"
+				},
+				{
+					"displayName": "CharacterControllerComponent",
+					"moveSpeed": {
+						"x": 0.1,
+						"y": 0.3
+					}
+				}
+			]
+		},
+		{
+			"x": 63.29999999999998,
+			"y": 2.600000000000001,
+			"dimensions": {
+				"width": 281.6,
+				"height": 281.6,
+				"depth": 633.6
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 0
+			},
+			"entityType": 0,
+			"components": []
+		}
+	]
+}

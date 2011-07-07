@@ -30,6 +30,11 @@
          */
         height      : 0,
 
+        /**
+         * @type {Number}
+         */
+        _type       : ChuClone.Constants.ENTITY_TYPES.PLATFORM,
+
 
 
         /**
@@ -40,7 +45,7 @@
             var bodyPos = this.body.GetPosition();
 
             this.view.position.x = bodyPos.x * PTM_RATIO;
-            this.view.position.y = bodyPos.y * -PTM_RATIO;///((bodyPos.y+this.height/-PTM_RATIO) * -PTM_RATIO) + this.view.geometry.boundingBox.y[0];
+            this.view.position.y = bodyPos.y * -PTM_RATIO;
             this.view.rotation.z = -this.body.GetAngle();
 
             var len = this.components.length;
@@ -69,6 +74,7 @@
             // Check if we already have this component, if we do - make sure the component allows stacking
             var existingVersionOfComponent = this.getComponentWithName(aComponent.displayName);
             if (existingVersionOfComponent && !existingVersionOfComponent.canStack) {
+                console.debug("GameEntity::addComponent - Not adding '" + aComponent.displayName + "', already exist and canStack = false.");
                 return false;
             }
 
@@ -181,6 +187,9 @@
                 this.body.SetUserData(null);
             }
 
+//            aBody.GetFixtureList().filter.categoryBits = 0x0001;
+//            aBody.GetFixtureList().filter.maskBits = 0xFFFF;
+//            aBody.GetFixtureList().filter.groupIndex = 0;
             this.body = aBody;
             this.body.SetUserData(this);
         },
@@ -203,11 +212,8 @@
         // CURRENTLY WE ARE PASSING EXTENTS NOT WIDTH
         setDimensions: function(aWidth, aHeight, aDepth) {
             this.width = aWidth;
-//            aWidth /= 2;
             this.height = aHeight;
-//            aHeight /= 2;
             this.depth = aDepth;
-//            aDepth /= 2;
 
             // THIS TRICK CURRENTLY ONLY WORKS FOR RECTANGULAR/CUBE ENTITIES
             this.view.dynamic = true;
@@ -223,6 +229,10 @@
 
             this.view.geometry.__dirtyVertices = true;
             this.view.geometry.computeBoundingBox();
+        },
+
+        getType: function() {
+            return this._type;
         }
     }
 

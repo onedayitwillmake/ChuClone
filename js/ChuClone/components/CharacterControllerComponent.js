@@ -28,7 +28,7 @@ Abstract:
         /**
          * @type {Number}
          */
-        _moveSpeed                       : new Box2D.Common.Math.b2Vec2(0.015, 0.3),
+        _moveSpeed                       : new Box2D.Common.Math.b2Vec2(0.015, 0.15),
 
 		/**
 		 * @inheritDoc
@@ -36,28 +36,47 @@ Abstract:
 		attach: function(anEntity) {
 			ChuClone.components.CharacterControllerComponent.superclass.attach.call(this, anEntity);
 
+            // Attach kb control
             this._input = new ChuClone.components.KeyboardInputComponent();
             this.attachedEntity.addComponentAndExecute( this._input );
+
+            // Attach sensor to check if jumping
+            this._jumpCheckComponent = new ChuClone.components.CheckIsJumpingComponent();
+            this.attachedEntity.addComponentAndExecute( this._jumpCheckComponent );
 		},
 
         update: function() {
             var force = new Box2D.Common.Math.b2Vec2(0, 0);
             var PTM_RATIO = ChuClone.Constants.PTM_RATIO;
             var body = this.attachedEntity.getBody();
+            this._jumpCheckComponent.update();
 
             // x-axis
             if (this._input._keyStates.left) force.x = -1;
             else if (this._input._keyStates.right) force.x = 1;
             // y-axis
-            if (this._input._keyStates.up && !this._isJumping) {
+            if (this._input._keyStates.up && this._jumpCheckComponent._canJump) {
                 force.y = -1;
-                this._isJumping = true;
+                this._jumpCheckComponent._canJump = false;
+
             } else if (this._input._keyStates.down) force.y = 0.25;
 
             // Apply force
             var bodyPosition = body.GetWorldCenter();
             var impulse = new Box2D.Common.Math.b2Vec2(this._moveSpeed.x * PTM_RATIO * body.GetMass() * force.x, this._moveSpeed.y * PTM_RATIO * body.GetMass() * force.y);
             body.ApplyImpulse(impulse, bodyPosition);
+        },
+
+        /**
+         * Once set _isReady is locked for N milliseconds
+         */
+        startWaitingForIsReady: function() {
+            var that = this;
+            this._isJumping = true;
+            clearTimeout( this._isReadyTimeout );
+            this._isReadyTimeout = setTimeout( function(){
+                that._isJumping = false;
+            }, 1900);
         },
 
         /**

@@ -54,7 +54,7 @@
         setupThreeJS: function() {
 
             var width = 900;
-            var height = 300;
+            var height = 400;
 
             container = document.createElement( 'div' );
             document.body.appendChild( container );
@@ -175,12 +175,12 @@
          * @param {Number} gameClockReal The current actual time, according to the game
          */
         render: function( gameClockReal ) {
-            var radius = 2000;
+            var radius = 4000;
 //			var theta = 0;
 
             this.theta += 1;
             var offset = 0;
-//            this.camera.position.x = radius * Math.sin( this.theta * Math.PI / 360 );
+            this.camera.position.x += Math.cos(mouse.x) * radius - 1500;
             this.camera.position.y = Math.sin(mouse.y) * radius + 500;//radius * Math.sin( this.theta * Math.PI / 360 );
 //            this.camera.position.z = radius * Math.cos( this.theta * Math.PI / 360 );
 //            var zero = new THREE.Vector3(Math.random() * 100, Math.random() * 100,0);

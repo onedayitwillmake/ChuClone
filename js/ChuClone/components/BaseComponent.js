@@ -1,43 +1,42 @@
 /**
  File:
- BaseComponent.js
+    BaseComponent.js
  Created By:
- Mario Gonzalez
+    Mario Gonzalez
  Project    :
- ChuClone
+    ChuClone
  Abstract:
- Components work by effectively 'hi-jacking' properties of their attachedEntity.
- These properties can by functions, or non-primitive data types.
+     Components work by effectively 'hi-jacking' properties of their attachedEntity.
+     These properties can by functions, or non-primitive data types.
 
- Instead of creating a new trivial subclass, considering creating a component and attaching it to that object
+     Instead of creating a new trivial subclass, considering creating a component and attaching it to that object
 
- For example to make an entity invincible for a period of time you might make a component like this
+     For example to make an entity invincible for a period of time you might make a component like this
 
- [PSUEDO CODE START]
- // Inside a component subclass
- attach: function(anEntity)
- {
- this.callSuper();
- this.intercept(['onHit', 'getShotPower']);
- },
+     [PSUEDO CODE START]
+     // Inside a component subclass
+     attach: function(anEntity)
+     {
+     this.callSuper();
+     this.intercept(['onHit', 'getShotPower']);
+     },
 
- onHit: function() {
- // Do nothing, im invincible!
- },
+     onHit: function() {
+     // Do nothing, im invincible!
+     },
 
- getShotStrength: function() {
- return 100000000; // OMGBBQ! Thats high!
- }
- [PSUEDO CODE END]
+     getShotStrength: function() {
+     return 100000000; // OMGBBQ! Thats high!
+     }
+     [PSUEDO CODE END]
 
- Be sure to call restore before detaching the component!
+     Be sure to call restore before detaching the component!
 
  Basic Usage:
-
- // Let my character be controlled by the KB
- if(newEntity.connectionID === this.netChannel.connectionID) {
- aCharacter.addComponentAndExecute( new ClientControlledComponent() );
- this.clientCharacter = aCharacter;
+     // Let my character be controlled by the KB
+     if(newEntity.connectionID === this.netChannel.connectionID) {
+     aCharacter.addComponentAndExecute( new ClientControlledComponent() );
+     this.clientCharacter = aCharacter;
  }
  */
 (function() {

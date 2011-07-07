@@ -15,25 +15,25 @@ Abstract:
 
 	ChuClone.components.JumpPadComponent = function() {
 		ChuClone.components.JumpPadComponent.superclass.constructor.call(this);
-        console.log(this)
+
 	};
 
 	ChuClone.components.JumpPadComponent.prototype = {
 		displayName						: "JumpPadComponent",					// Unique string name for this Trait
 
         _textureSource                  : "assets/images/game/jumppad.png",
-        _restitution                    : 2,
+        _force                          : 1500,
         _previousMaterial               : null,
-        _previousRestitution            : 0,
+        _isReady                        : true,
+        _isReadyTimeout                 : null,
 
 		/**
 		 * @inheritDoc
 		 */
 		attach: function(anEntity) {
 			ChuClone.components.JumpPadComponent.superclass.attach.call(this, anEntity);
-            
-            // Listen for body change
-            this.intercept(['setBody', 'onCollision']);
+            // Intercept collision
+            this.intercept(['onCollision']);
 		},
 
         execute: function() {
@@ -48,42 +48,36 @@ Abstract:
                 color: 0xFFFFFF, shading: THREE.SmoothShading,
                 map : THREE.ImageUtils.loadTexture( this._textureSource )
             });
-
-//            view.materials[0] = new THREE.MeshBasicMaterial( { color: 0x608090, opacity: 0.5, wireframe: true } );
-
-            // Swap restitution
-            this.swapRestitution( body );
-        },
-
-        /**
-         * Sets the restitution level of  the provided body's fixtures to make it a jumppad
-         * @param {Box2D.Dynamics.b2Body} aBody
-         */
-        swapRestitution: function( aBody ) {
-            return;
-            var node = aBody.GetFixtureList();
-            while(node) {
-                var fixture = node;
-                node = fixture.GetNext();
-
-                this._previousRestitution = fixture.GetRestitution();
-                fixture.SetRestitution( this._restitution );
-            }
-        },
-
-        /**
-         * Set the body
-         * @param {Box2D.Dynamics.b2Body} aBody
-         */
-        setBody: function( aBody ) {
-            this.interceptedProperties.setBody.call(this.attachedEntity, aBody );
-            if(aBody) // Sometimes setBody is called with null
-                this.swapRestitution( aBody )
         },
 
         onCollision: function( otherActor ) {
+            if( otherActor._type != ChuClone.Constants.ENTITY_TYPES.PLAYER )
+                return;
+            
+            this.interceptedProperties.onCollision.call(this.attachedEntity, otherActor );
+
+            if( !this._isReady ) return;
+
             var vel = otherActor.getBody().GetLinearVelocity();
-            vel.y += -0.8 * ChuClone.Constants.PTM_RATIO;
+            vel.y -= Math.abs(vel.y) + this._force / ChuClone.Constants.PTM_RATIO;
+
+            this.startWaitingForIsReady()
+        },
+
+        /**
+         * Once set _isReady is locked for N milliseconds
+         */
+        startWaitingForIsReady: function() {
+            var that = this;
+            this._isReady = false;
+            clearTimeout( this._isReadyTimeout );
+            this._isReadyTimeout = setTimeout( function(){
+                that._isReady = true;
+            }, 1000);
+        },
+        
+        getIsReady: function() {
+            return this._isReady;
         },
 
         /**
@@ -91,14 +85,6 @@ Abstract:
          */
         detach: function() {
             this.attachedEntity.getView().materials[0] = this._previousMaterial;
-
-            var node = this.attachedEntity.getBody().GetFixtureList();
-            while(node) {
-                var fixture = node;
-                node = fixture.GetNext();
-                fixture.SetRestitution(this._previousRestitution);
-            }
-
             ChuClone.components.JumpPadComponent.superclass.detach.call(this);
         },
 
@@ -107,9 +93,7 @@ Abstract:
          */
         getModel: function() {
             var returnObject = ChuClone.components.JumpPadComponent.superclass.getModel.call(this);
-            returnObject.restitution = this._restitution;
             returnObject.textureSource = this._textureSource;
-            returnObject.previousRestitution = this._previousRestitution;
 
             return returnObject;
         }

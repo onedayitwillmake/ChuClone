@@ -34,8 +34,10 @@
     <script type="text/javascript" src="js/ChuClone/components/BaseComponent.js"></script>
     <script type="text/javascript" src="js/ChuClone/components/JumpPadComponent.js"></script>
     <script type="text/javascript" src="js/ChuClone/components/KeyboardInputComponent.js"></script>
+    <script type="text/javascript" src="js/ChuClone/components/CheckIsJumpingComponent.js"></script>
     <script type="text/javascript" src="js/ChuClone/components/CharacterControllerComponent.js"></script>
     <script type="text/javascript" src="js/ChuClone/components/PhysicsVelocityLimitComponent.js"></script>
+    <script type="text/javascript" src="js/ChuClone/components/ComponentFactory.js"></script>
 
     <script type="text/javascript" src="js/ChuClone/editor/LevelModel.js"></script>
     <script type="text/javascript" src="js/ChuClone/editor/LevelManager.js"></script>
@@ -48,6 +50,7 @@
     <script type="text/javascript" src="js/ChuClone/ChuCloneGame.js"></script>
     <script type="text/javascript">
         var game = new ChuClone.ChuCloneGame();
+        ChuClone.components.ComponentFactory.getComponentByName( "JumpPadComponent" );
     </script>
 
     <!--<script type="text/javascript">-->

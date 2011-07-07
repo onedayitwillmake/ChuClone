@@ -52,6 +52,9 @@
                             // Store reference for remval later: HACK?
         _closures           : {'mousemove':null, 'mouseup':null, 'mousedown': null},
 
+        /**
+         * Setups up mouse related event callbacks
+         */
         setupMouseEvents: function() {
             var that = this;
             this._closures['mousedown'] = function(e) { that.onMouseDown(e); };
@@ -72,6 +75,9 @@
             }, false );
         },
 
+        /**
+         * Sets up keyboard related event callbacks
+         */
         setupKeyboardEvents: function() {
             var that = this;
 
@@ -100,7 +106,7 @@
             this._controllers['jumpPad'] = this._guiModification.add(this._propProxy, "jumpPad");
             this._controllers['jumpPad'].onChange( function(aValue){ that.toggleJumpPad(aValue); } );
             this._guiModification.close();
-            this._guiModification.open();
+//            this._guiModification.open();
 
             // Creation gui
             this._guiCreation = new DAT.GUI({width: ChuClone.Constants.EDITOR.PANEL_WIDTH});
@@ -112,14 +118,21 @@
             this._controllers['onShouldDelete'] = this._guiCreation.add(this, 'onShouldDelete').name("Destroy Entity");
 
             this._guiCreation.close();
-            this._guiCreation.open();
+//            this._guiCreation.open();
         },
 
+        /**
+         * Sets up the LevelManager
+         */
         setupLevelManager: function() {
             this._levelManager = new ChuClone.editor.LevelManager( this._worldController, this._gameView );
             this._levelManager.setupGui();
         },
 
+        /**
+         * If _currentBody, toggles the JumpPadComponent
+         * @param wantsJumpPad
+         */
         toggleJumpPad: function( wantsJumpPad ) {
             if(!this._currentBody) {
                 console.error("ChuClone.WorldEditor.toggleJumpPad - _currentBody is null!");

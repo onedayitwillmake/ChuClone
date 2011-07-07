@@ -38,10 +38,16 @@
             PANEL_WIDTH     : 190
         },
         
-        ENTITIES: {
+        ENTITY_DEFAULTS: {
             DEFAULT_WIDTH   : 300,
             DEFAULT_HEIGHT  : 100,
             DEFAULT_DEPTH   : 1000
+        },
+
+        ENTITY_TYPES: {
+            PLAYER: 0 << 1,
+            PLATFORM: 0 << 2,
+            JUMPPAD: 0 << 3
         },
 
         STANDARD_EVENTS: {
@@ -55,6 +61,13 @@
             HEIGHT: 30,
             DEPTH: 30,
             MATERIAL: new THREE.MeshPhongMaterial( { ambient: 0x111111, color: 0x666666, specular: 0xDDDDDD, shininess:1, shading: THREE.FlatShading } ),
+        },
+
+        PHYSICS: {
+            GROUPS: {
+                PLAYER: 0x0001,
+                PLATFORM: 0x0002
+            }
         },
 
         /**

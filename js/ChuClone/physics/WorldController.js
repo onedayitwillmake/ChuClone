@@ -105,6 +105,8 @@
             this.createWorldBoundary();
             this._world.DestroyBody( this._wallRight );
             this._world.DestroyBody( this._wallTop );
+
+
         },
 
         createWorldBoundary: function() {
@@ -136,6 +138,7 @@
             wall.SetAsBox(ChuClone.Constants.GAME_WIDTH/2 * 100, 1/PTM_RATIO);
             this._wallBottom = this._world.CreateBody(wallBd);
             this._wallBottom.CreateFixture2(wall);
+            this._wallBottom.GetFixtureList().SetFriction(1.2)
 
         },
 
@@ -181,7 +184,7 @@
 
             var fixtureDef= new Box2D.Dynamics.b2FixtureDef();
             fixtureDef.density = 1.0;
-            fixtureDef.friction = 0.5;
+            fixtureDef.friction = 1.0;//65;
             fixtureDef.restitution = 0.1;//(isFixed) ? 3 : 0.1;
 
             var bodyDef = new Box2D.Dynamics.b2BodyDef();
@@ -193,7 +196,7 @@
             var body = this._world.CreateBody( bodyDef );
             body.SetPositionAndAngle( new Box2D.Common.Math.b2Vec2(x, y), rotation );
             body.CreateFixture( fixtureDef );
-
+            
             return body;
         },
 
@@ -225,8 +228,9 @@
             if( !canvas ) {
                 var container = document.createElement( 'div' );
                 container.style.position = "absolute";
-                container.style.top = "305px";
+                container.style.top = "405px";
                 container.style.backgroundColor = "#000000";
+                container.style.opacity = 0.75;
                 document.body.appendChild( container );
 
                 var debugCanvas = document.createElement('canvas');

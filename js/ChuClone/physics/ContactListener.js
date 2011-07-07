@@ -13,51 +13,11 @@
     var b2DebugDraw = Box2D.Dynamics.b2DebugDraw;
 //
     ChuClone.namespace("ChuClone.physics");
-//
-//	/// Implement this class to get collision results. You can use these results for
-//	/// things like sounds and game logic. You can also get contact results by
-//	/// traversing the contact lists after the time step. However, you might miss
-//	/// some contacts because continuous physics leads to sub-stepping.
-//	/// Additionally you may receive multiple callbacks for the same contact in a
-//	/// single time step.
-//	/// You should strive to make your callbacks efficient because there may be
-//	/// many callbacks per time step.
-//	/// @warning The contact separation is the last computed value.
-//	/// @warning You cannot create/destroy Box2D entities inside these callbacks.
-//	public class b2ContactListener {
-//
-//		/// Called when a contact point is added. This includes the geometry
-//		/// and the forces.
-//		public virtual function Add(point:b2ContactPoint):void {
-//			trace("Collision between "+point.shape1.GetBody().GetUserData().name+" and "+point.shape2.GetBody().GetUserData().name);
-//			point.shape1.GetBody().GetUserData().alpha=0.5
-//			point.shape2.GetBody().GetUserData().alpha=0.5
-//		}
-//
-//		/// Called when a contact point persists. This includes the geometry
-//		/// and the forces.
-//		public virtual function Persist(point:b2ContactPoint):void {
-//			point.shape1.GetBody().GetUserData().alpha=0.5
-//			point.shape2.GetBody().GetUserData().alpha=0.5
-//		}
-//
-//		/// Called when a contact point is removed. This includes the last
-//		/// computed geometry and forces.
-//		public virtual function Remove(point:b2ContactPoint):void {
-//			point.shape1.GetBody().GetUserData().alpha=1
-//			point.shape2.GetBody().GetUserData().alpha=1
-//		}
-//
-//		/// Called after a contact point is solved.
-//		public virtual function Result(point:b2ContactResult):void {
-//		}
-//	}
 
     ChuClone.physics.ContactListener = function () {
     };
 
    ChuClone.physics.ContactListener.prototype.BeginContact = function( contact ) {
-
         // Box2d objects that collided
         var fixtureA = contact.GetFixtureA();
         var fixtureB = contact.GetFixtureB();
@@ -66,11 +26,17 @@
         var actorA = fixtureA.GetBody().GetUserData();
         var actorB = fixtureB.GetBody().GetUserData();
 
+       if( fixtureA.GetUserData() && fixtureA.GetUserData().onCollision )
+           fixtureA.GetUserData().onCollision(actorB);
+
        if (actorA && actorA.onCollision)
            actorA.onCollision(actorB);
 
        if (actorB && actorB.onCollision)
            actorB.onCollision(actorA);
+
+       if( fixtureB.GetUserData() && fixtureB.GetUserData().onCollision )
+           fixtureB.GetUserData().onCollision(actorA);
 
        return;
 

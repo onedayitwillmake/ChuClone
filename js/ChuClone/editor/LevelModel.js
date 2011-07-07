@@ -104,7 +104,8 @@
                     y: b.GetPosition().y,
                     dimensions: entity.getDimensions(),
                     angle: b.GetAngle(),
-                    physicsInfo: physicsInfo
+                    physicsInfo: physicsInfo,
+                    entityType: entity.getType()
                 };
 
                 entityInfo.components = [];
@@ -119,8 +120,8 @@
             }
 
 
-            console.log(returnObject)
-            return JSON.stringify( returnObject );
+            //
+            return JSON.stringify( returnObject, null, "\t" );
         },
 
 
@@ -132,8 +133,8 @@
          */
         fromJson: function( aJsonString, aWorldController, aGameView ) {
             var levelObject = JSON.parse(aJsonString);
-//            console.log(levelObject)
             this.author = levelObject.editingInfo.author;
+            this.levelName = levelObject.editingInfo.levelName;
             this.creationDate = levelObject.editingInfo.creationDate;
             this.modificationDate = levelObject.editingInfo.modificationDate;
             this.ptmRatio = levelObject.worldSettings.PTM_RATIO;
@@ -154,16 +155,31 @@
                     entityInfo.physicsInfo.bodyType == Box2D.Dynamics.b2Body.b2_staticBody
                 );
 
-                var view = aGameView.createEntityView( x*this.ptmRatio,
+                var view = aGameView.createEntityView(
+                    entityInfo.x*this.ptmRatio,
                     entityInfo.y*this.ptmRatio,
                     entityInfo.dimensions.width*2,
                     entityInfo.dimensions.height*2,
                     entityInfo.dimensions.depth*2);
 
-                var entity = new ChuClone.GameEntity();
+                // TODO: TEMP HACK - CHECK IF COMPONENTS > 1, ASSUME PLAYER
+                var entity = (entityInfo.components.length > 1) ? new ChuClone.PlayerEntity() : new ChuClone.GameEntity();
                 entity.setBody( body );
                 entity.setView( view );
                 entity.setDimensions( entityInfo.dimensions.width, entityInfo.dimensions.height, entityInfo.dimensions.depth );
+
+                // Attach all components in reverse order
+                for(var j = entityInfo.components.length - 1; j >= 0 ; j--) {
+                    /**
+                     * Use the factory to create the components
+                     * @type {ChuClone.components.BaseComponent}
+                     */
+                    var componentInstance = ChuClone.components.ComponentFactory.getComponentByName( entityInfo.components[j].displayName );
+                    if(!componentInstance) continue;
+                    // Allow the component to set any special properties
+                    componentInstance.fromModel( entityInfo.components[j] );
+                    entity.addComponentAndExecute( componentInstance ); // Attach it to the entity
+                }
 
                 aGameView.addEntity( entity.view );
             }
