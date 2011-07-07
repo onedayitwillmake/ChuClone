@@ -61,7 +61,7 @@
 
             this.camera = new THREE.Camera( 70, width/height, 1, 30000 );
             this.camera.position.y = 100;
-            this.camera.position.z = 1000;
+            this.camera.position.z = 1300;
             this.camera.name = "camera";
 
             scene = new THREE.Scene();
@@ -158,7 +158,7 @@
             var xBuffer = 0,
                 yBuffer = 0,
                 xSpacing = 0;
-
+            
             var plotterSize = 150;
 
             for (var i = 0; i < axis.length; i++) {
@@ -175,20 +175,18 @@
          * @param {Number} gameClockReal The current actual time, according to the game
          */
         render: function( gameClockReal ) {
-            var radius = 4000;
+            var radius = 1000;
 //			var theta = 0;
 
             this.theta += 1;
             var offset = 0;
-            this.camera.position.x += Math.cos(mouse.x) * radius - 1500;
-            this.camera.position.y = Math.sin(mouse.y) * radius + 500;//radius * Math.sin( this.theta * Math.PI / 360 );
-//            this.camera.position.z = radius * Math.cos( this.theta * Math.PI / 360 );
-//            var zero = new THREE.Vector3(Math.random() * 100, Math.random() * 100,0);
-//            console.log(zero)
-
+            this.camera.position.x += Math.cos(mouse.x) * radius;
+            this.camera.position.y = Math.sin(mouse.y) * radius;
 //            this.light1.position.x -= (this.light1.position.x - this.camera.position.x - 1000) * 0.09;
 //            this.light1.position.z = this.camera.position.z ;
 
+
+//            this.pointLight.position.x = this.camera.position.x;
             this.renderBirds();
             this.camera.update();
             renderer.render( scene, this.camera );

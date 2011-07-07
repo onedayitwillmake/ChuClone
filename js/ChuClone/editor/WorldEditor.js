@@ -16,8 +16,6 @@
         this.setupMouseEvents();
         this.setupKeyboardEvents();
         this.setupGui();
-        this.setupLevelManager();
-
         //this.onShouldCreate();
     };
 
@@ -119,14 +117,6 @@
 
             this._guiCreation.close();
 //            this._guiCreation.open();
-        },
-
-        /**
-         * Sets up the LevelManager
-         */
-        setupLevelManager: function() {
-            this._levelManager = new ChuClone.editor.LevelManager( this._worldController, this._gameView );
-            this._levelManager.setupGui();
         },
 
         /**

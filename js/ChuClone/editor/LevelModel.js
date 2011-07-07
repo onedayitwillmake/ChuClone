@@ -57,7 +57,7 @@
          * Parses the current game world
          * @param {ChuClone.physics.WorldController} aWorldController
          * @param {String} aLevelName
-         * @return {JSON}
+         * @return {String} JSON String
          */
         parseLevel: function( aWorldController, aLevelName ) {
             var returnObject = {};
@@ -121,7 +121,9 @@
 
 
             //
-            return JSON.stringify( returnObject, null, "\t" );
+            var aJSONString = JSON.stringify( returnObject, null, "\t" );
+            console.log( aJSONString );
+            return aJSONString;
         },
 
 
@@ -131,7 +133,7 @@
          * @param {ChuClone.physics.WorldController} aWorldController
          * @param {ChuClone.GameView} aGameView
          */
-        fromJson: function( aJsonString, aWorldController, aGameView ) {
+        fromJsonString: function( aJsonString, aWorldController, aGameView ) {
             var levelObject = JSON.parse(aJsonString);
             this.author = levelObject.editingInfo.author;
             this.levelName = levelObject.editingInfo.levelName;

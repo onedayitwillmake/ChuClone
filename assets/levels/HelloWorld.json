@@ -2,8 +2,8 @@
 	"editingInfo": {
 		"author": "mario gonzalez",
 		"levelName": "HelloWorld",
-		"creationDate": 1310069522673,
-		"modificationDate": 1310069522673
+		"creationDate": 1310076354221,
+		"modificationDate": 1310076354221
 	},
 	"worldSettings": {
 		"PTM_RATIO": 64
@@ -11,12 +11,48 @@
 	"playerInfo": null,
 	"bodyList": [
 		{
-			"x": 26.448598130841123,
-			"y": 6.682242990654206,
+			"x": 153.7667,
+			"y": -15,
+			"dimensions": {
+				"width": 6.4,
+				"height": 1408,
+				"depth": 774.4000000000001
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 0
+			},
+			"entityType": 0,
+			"components": []
+		},
+		{
+			"x": 146.2386206086169,
+			"y": -13.765965767830144,
 			"dimensions": {
 				"width": 192,
 				"height": 16,
-				"depth": 192
+				"depth": 185.6
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 0
+			},
+			"entityType": 0,
+			"components": []
+		},
+		{
+			"x": 112.75547454120121,
+			"y": -2.19293205996498,
+			"dimensions": {
+				"width": 192,
+				"height": 16,
+				"depth": 185.6
 			},
 			"angle": 0,
 			"physicsInfo": {
@@ -34,8 +70,8 @@
 			]
 		},
 		{
-			"x": 84.20560747663552,
-			"y": 5,
+			"x": 131.85659813670682,
+			"y": -7.13675228468408,
 			"dimensions": {
 				"width": 192,
 				"height": 16,
@@ -57,8 +93,8 @@
 			]
 		},
 		{
-			"x": 84.20560747663552,
-			"y": -1,
+			"x": 106.46910173797451,
+			"y": -1.695476955768292,
 			"dimensions": {
 				"width": 192,
 				"height": 16,
@@ -76,7 +112,7 @@
 		},
 		{
 			"x": 84.20560747663552,
-			"y": 6,
+			"y": 3,
 			"dimensions": {
 				"width": 192,
 				"height": 16,
@@ -90,11 +126,16 @@
 				"bodyType": 0
 			},
 			"entityType": 0,
-			"components": []
+			"components": [
+				{
+					"displayName": "JumpPadComponent",
+					"textureSource": "assets/images/game/jumppad.png"
+				}
+			]
 		},
 		{
-			"x": 84.20560747663552,
-			"y": 6.77570093457944,
+			"x": 77.82670247057521,
+			"y": 4.796433911142576,
 			"dimensions": {
 				"width": 192,
 				"height": 16,
@@ -108,14 +149,19 @@
 				"bodyType": 0
 			},
 			"entityType": 0,
-			"components": []
+			"components": [
+				{
+					"displayName": "JumpPadComponent",
+					"textureSource": "assets/images/game/jumppad.png"
+				}
+			]
 		},
 		{
-			"x": 41.7,
-			"y": 0.1,
+			"x": 63.3,
+			"y": 0.6000000000000008,
 			"dimensions": {
 				"width": 281.6,
-				"height": 422.40000000000003,
+				"height": 281.6,
 				"depth": 633.6
 			},
 			"angle": 0,
@@ -129,11 +175,29 @@
 			"components": []
 		},
 		{
-			"x": 71.99230939039221,
-			"y": 7.5481689085364065,
+			"x": 58.5,
+			"y": -3.0208000000000004,
 			"dimensions": {
-				"width": 4640,
-				"height": 32,
+				"width": 32,
+				"height": 16,
+				"depth": 185.6
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 0
+			},
+			"entityType": 0,
+			"components": []
+		},
+		{
+			"x": 81.45833333333334,
+			"y": 5.6249999999999964,
+			"dimensions": {
+				"width": 960,
+				"height": 12.8,
 				"depth": 192
 			},
 			"angle": 0,
@@ -147,14 +211,32 @@
 			"components": []
 		},
 		{
-			"x": 0.866838248116729,
-			"y": 6.537884907939617,
+			"x": 14.503736416730362,
+			"y": 5.420374285602874,
+			"dimensions": {
+				"width": 960,
+				"height": 12.8,
+				"depth": 192
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 0
+			},
+			"entityType": 0,
+			"components": []
+		},
+		{
+			"x": 0.7797419747014322,
+			"y": 4.745148945283454,
 			"dimensions": {
 				"width": 30,
 				"height": 30,
 				"depth": 30
 			},
-			"angle": 293.7408236525778,
+			"angle": 279.5985938028856,
 			"physicsInfo": {
 				"density": 0,
 				"friction": 0,
@@ -179,11 +261,142 @@
 			]
 		},
 		{
-			"x": 63.29999999999998,
-			"y": 2.600000000000001,
+			"x": 41.699999999999974,
+			"y": -1.8999999999999986,
 			"dimensions": {
 				"width": 281.6,
-				"height": 281.6,
+				"height": 422.40000000000003,
+				"depth": 633.6
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 0
+			},
+			"entityType": 0,
+			"components": []
+		},
+		{
+			"x": 84.20560747663552,
+			"y": 4.77570093457944,
+			"dimensions": {
+				"width": 192,
+				"height": 16,
+				"depth": 185.6
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 0
+			},
+			"entityType": 0,
+			"components": []
+		},
+		{
+			"x": 84.20560747663554,
+			"y": 4,
+			"dimensions": {
+				"width": 192,
+				"height": 16,
+				"depth": 185.6
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 0
+			},
+			"entityType": 0,
+			"components": []
+		},
+		{
+			"x": 26.448598130841127,
+			"y": 4.682242990654205,
+			"dimensions": {
+				"width": 192,
+				"height": 16,
+				"depth": 192
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 0
+			},
+			"entityType": 0,
+			"components": [
+				{
+					"displayName": "JumpPadComponent",
+					"textureSource": "assets/images/game/jumppad.png"
+				}
+			]
+		},
+		{
+			"x": 32.17815502138152,
+			"y": 6.001769634440084,
+			"dimensions": {
+				"width": 128,
+				"height": 12.8,
+				"depth": 192
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 0
+			},
+			"entityType": 0,
+			"components": []
+		},
+		{
+			"x": 45.177353096762445,
+			"y": 6.709468110783308,
+			"dimensions": {
+				"width": 960,
+				"height": 12.8,
+				"depth": 192
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 0
+			},
+			"entityType": 0,
+			"components": []
+		},
+		{
+			"x": 59.5,
+			"y": 5.763358778625972,
+			"dimensions": {
+				"width": 38.4,
+				"height": 38.4,
+				"depth": 192
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 0
+			},
+			"entityType": 0,
+			"components": []
+		},
+		{
+			"x": 63.29999999999997,
+			"y": -16,
+			"dimensions": {
+				"width": 281.6,
+				"height": 512,
 				"depth": 633.6
 			},
 			"angle": 0,

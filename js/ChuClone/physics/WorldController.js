@@ -228,9 +228,9 @@
             if( !canvas ) {
                 var container = document.createElement( 'div' );
                 container.style.position = "absolute";
-                container.style.top = "405px";
+                container.style.top = "0px";
                 container.style.backgroundColor = "#000000";
-                container.style.opacity = 0.75;
+                container.style.opacity = 0.5;
                 document.body.appendChild( container );
 
                 var debugCanvas = document.createElement('canvas');

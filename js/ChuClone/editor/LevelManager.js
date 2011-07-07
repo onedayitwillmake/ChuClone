@@ -39,18 +39,22 @@
             this._gui.name("LevelManager");
             this._gui.autoListen = false;
 
-            this._controllers['slot'] = this._gui.add(this, '_currentSlot').options([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]).name("Slot")
+            this._controllers['slot'] = this._gui.add(this, '_currentSlot').options([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]).name("Save Slot")
             this._controllers['slot'].domElement.childNodes[1].selectedIndex = parseInt( localStorage.getItem("lastSlot") )
             this._controllers['name'] = this._gui.add(this, '_currentName').name("Level Name").onFinishChange(function(){ });
-            this._controllers['saveLevel'] = this._gui.add(this, 'saveLevel').name("Save Level");
-            this._controllers['loadLevel'] = this._gui.add(this, 'loadLevel').name("Load Level");
+            this._controllers['saveLevelToSlot'] = this._gui.add(this, 'saveLevelToSlot').name("Save Level");
+            this._controllers['loadLevelFromSlot'] = this._gui.add(this, 'loadLevelFromSlot').name("Load Level");
             this._controllers['clearLevel'] = this._gui.add(this, 'clearLevel').name("Clear Level");
 
             this._gui.close();
-//            this._gui.open();
         },
 
-        saveLevel: function() {
+
+
+        /**
+         * Saves the current level a save slot from HTML5 local storage
+         */
+        saveLevelToSlot: function() {
             var model = new ChuClone.editor.LevelModel();
             var data = model.parseLevel( this._worldController, this._currentName );
             var slot = "slot"+this._currentSlot;
@@ -60,14 +64,49 @@
 
         },
 
-        loadLevel: function() {
+        /**
+         * Loads the level at the '_currentSlot'
+         * Will call 'loadLevelFromJSONString'
+         */
+        loadLevelFromSlot: function() {
             this.clearLevel();
 
-            var model = new ChuClone.editor.LevelModel();
             var slot = "slot"+this._currentSlot;
-            model.fromJson( localStorage.getItem(slot),  this._worldController,  this._gameView );
-            this._controllers['name'].setValue( model.levelName );
+            var data = localStorage.getItem(slot);
+            this.loadLevelFromJSONString( data );
+        },
 
+        /**
+         * Retrieves a level from a URL
+         * Will call 'loadLevelFromJSONString'
+         * @param {String} aURL
+         */
+        loadLevelFromURL: function( aURL ) {
+            this.clearLevel();
+            
+            var url = "http://localhost:8888/Chuclone/" + "assets/levels/HelloWorld.json";
+            var request = new XMLHttpRequest();
+            var that = this;
+            request.onreadystatechange = function() {
+                if( request.readyState == 4 ) {
+                    that.loadLevelFromJSONString( request.responseText );
+                }
+            };
+            request.open("GET", url );
+            request.send(null);
+        },
+
+        /**
+         * Creates a model object and loads a level into it.
+         * This is the ultimate end call for loadLevelFromSlot & loadLevelFromURL
+         * @param {String} JSONString
+         */
+        loadLevelFromJSONString: function( JSONString ) {
+            var model = new ChuClone.editor.LevelModel();
+            model.fromJsonString( JSONString,  this._worldController,  this._gameView );
+
+            // Set the current name, and emit the loaded event
+            this._controllers['name'].setValue( model.levelName );
             ChuClone.editor.LevelManager.prototype.EMITTER.emit( ChuClone.Constants.STANDARD_EVENTS.CREATED, model );
         },
 

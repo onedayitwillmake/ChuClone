@@ -20,6 +20,11 @@
         _worldController: null,
 
         /**
+         * @type {ChuClone.editor.LevelManager}
+         */
+        _levelManager: null,
+
+        /**
          * @type {ChuClone.PlayerEntity}
          */
         _player         : null,
@@ -42,6 +47,14 @@
                 that._worldController.createBox2dWorld();
             });
         },
+
+        /**
+         * Sets up the LevelManager
+         */
+        setupLevelManager: function() {
+            this._levelManager = new ChuClone.editor.LevelManager( this._worldController, this._gameView );
+            this._levelManager.setupGui();
+        },
         
         /**
          * Listens for DOMContentLoaded event
@@ -62,8 +75,13 @@
         onReady: function(e) {
             this.setupView();
             this.setupWorldController();
-            this.debugSetupRandomBlocks();
-            this.debugSetupPlayer();
+            this.setupLevelManager();
+            this._levelManager.loadLevelFromURL("");
+
+
+//            this.debugSetupRandomBlocks();
+//            this.debugSetupPlayer();
+
 
             // MAIN LOOP
             var that = this;
@@ -74,7 +92,8 @@
         },
 
         setupView: function() {
-            this.view = new ChuClone.GameView();
+            this._gameView = new ChuClone.GameView();
+            this._gameView.onResize( null );
         },
 
         setupWorldController: function() {
@@ -112,7 +131,7 @@
             entity.setBody( body );
             entity.setView( view );
 
-            this.view.addEntity( entity.view );
+            this._gameView.addEntity( entity.view );
             this._player = entity;
         },
 
@@ -155,12 +174,12 @@
 //            }
 
             if (this._player && this._player.getView()) {
-                this.view.camera.target.position.x = this._player.view.position.x;
-                this.view.camera.target.position.y = this._player.view.position.y;
-                this.view.camera.target.position.z = this._player.view.position.z;
-                this.view.camera.position.x = this._player.view.position.x - 700;
+                this._gameView.camera.target.position.x = this._player.view.position.x + 700;
+                this._gameView.camera.target.position.y = this._player.view.position.y - 100;
+                this._gameView.camera.target.position.z = this._player.view.position.z;
+                this._gameView.camera.position.x = this._player.view.position.x - 700;
             }
-            this.view.render();
+            this._gameView.render();
         }
     };
 }());
