@@ -84,7 +84,7 @@
         loadLevelFromURL: function( aURL ) {
             this.clearLevel();
             
-            var url = "http://localhost:8888/Chuclone/" + "assets/levels/HelloWorld.json";
+            var url = window.location.href + "assets/levels/HelloWorld.json";
             var request = new XMLHttpRequest();
             var that = this;
             request.onreadystatechange = function() {
