@@ -20,6 +20,8 @@
     1.0
  */
 (function(){
+    "use strict";
+    
     var container, stats;
     var scene, projector, renderer;
 
@@ -289,7 +291,6 @@
          * @param {Event} e
          */
         onResize: function( e ) {
-            console.log("RESIZE")
             renderer.setSize( window.innerWidth, window.innerHeight );
             this.camera.aspect = window.innerWidth/window.innerHeight;
             this.camera.updateProjectionMatrix();

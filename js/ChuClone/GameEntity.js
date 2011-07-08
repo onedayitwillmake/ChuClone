@@ -1,3 +1,29 @@
+/**
+ File:
+    GameEntity.js
+ Created By:
+    Mario Gonzalez
+ Project    :
+    ChuClone
+ Abstract:
+    Base GameEntity object in ChuClone
+ Basic Usage:
+    var x = 0;
+    var y = -300;
+    var boxSize = 30;
+
+    // Create a Physics body for this entity
+    var body = this._worldController.createRect( x, y, 0, boxSize, boxSize, false);
+
+    // Create a view for this entity
+    var view = this.view.createEntityView( x, y, boxSize * 2, boxSize * 2, boxSize * 2);
+
+    // Create the entity and attach the body and view
+    var entity = new ChuClone.GameEntity();
+    entity.setBody( body );
+    entity.setView( view );
+ }
+ */
 (function(){
     "use strict";
     var PTM_RATIO = ChuClone.Constants.PTM_RATIO;

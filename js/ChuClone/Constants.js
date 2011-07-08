@@ -1,12 +1,12 @@
 /**
  File:
-    DemoBox2DConstants.js
+    Constants.js
  Created By:
     Mario Gonzalez
  Project:
-    RealtimeMultiplayerNodeJS - Demo
+    ChuClone
  Abstract:
-    This class contains Constants used by the DemoBox2D in RealtimeMultiplayerGame
+    This class contains Constants used by the ChuClone
  Basic Usage:
      [This class is not instantiated! - below is an example of using this class by extending it]
      var clientDropWait = RealtimeMultiplayerGame.Constants.CL_DEFAULT_MAXRATE
@@ -15,6 +15,8 @@
     1.0
  */
 (function(){
+    "use strict";
+
     ChuClone.namespace("ChuClone");
     ChuClone.Constants = {
         GAME_WIDTH				: 700,
@@ -35,7 +37,7 @@
         },
 
         EDITOR: {
-            PANEL_WIDTH     : 190
+            PANEL_WIDTH     : 180
         },
         
         ENTITY_DEFAULTS: {
@@ -50,17 +52,11 @@
             JUMPPAD: 0 << 3
         },
 
-        STANDARD_EVENTS: {
-            COMPLETE: "complete",
-            CREATED: "created",
-            REMOVED: "removed"
-        },
-
         PLAYER: {
             WIDTH: 30,
             HEIGHT: 30,
             DEPTH: 30,
-            MATERIAL: new THREE.MeshPhongMaterial( { ambient: 0x111111, color: 0x666666, specular: 0xDDDDDD, shininess:1, shading: THREE.FlatShading } ),
+            MATERIAL: new THREE.MeshPhongMaterial( { ambient: 0x111111, color: 0x666666, specular: 0xDDDDDD, shininess:1, shading: THREE.FlatShading } )
         },
 
         PHYSICS: {
@@ -68,11 +64,6 @@
                 PLAYER: 0x0001,
                 PLATFORM: 0x0002
             }
-        },
-
-        /**
-         * @type {EventEmitter}
-         */
-        DISPATCH: new EventEmitter()
+        }
     }
 })();

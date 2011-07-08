@@ -24,6 +24,8 @@
  }
  */
 (function() {
+    "use strict";
+    
     ChuClone.namespace("ChuClone.components");
 
     // Store a reference to the constructor function for each component by using it's name

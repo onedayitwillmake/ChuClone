@@ -1,4 +1,6 @@
 (function(){
+    "use strict";
+    
     ChuClone.namespace("ChuClone.editor");
     ChuClone.editor.LevelManager = function( aWorldController, aGameView ) {
         this._worldController = aWorldController;

@@ -4,6 +4,8 @@
  * http://ribbonpaint.com
  */
 (function(){
+    "use strict";
+    
     var PTM_RATIO = ChuClone.Constants.PTM_RATIO;
     ChuClone.namespace("ChuClone");
     ChuClone.ChuCloneGame = function() {

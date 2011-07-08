@@ -1,16 +1,23 @@
 /**
 File:
-	ChaseTrait.js
+	PhysicsVelocityLimitComponent.js
 Created By:
 	Mario Gonzalez
 Project	:
-	RealtimeMultiplayerNodeJS
+	ChuClone
 Abstract:
- 	This trait will cause an entity to chase a target
- Basic Usage:
+ 	This component will limit an attachedEntity's physics body's LinearVelocity
 
+ Basic Usage:
+    var someEntity = new GameEntity();
+    var velocityLimitComponent = new ChuClone.components.PhysicsVelocityLimitComponent();
+    velocityLimitComponent.setMaxSpeed( 5, 5 );
+
+    someEntity.addComponentAndExecute( velocityLimitComponent );
 */
 (function(){
+    "use strict";
+
 	ChuClone.namespace("ChuClone.components");
 	ChuClone.components.PhysicsVelocityLimitComponent = function() {
 		ChuClone.components.PhysicsVelocityLimitComponent.superclass.constructor.call(this);
@@ -26,15 +33,30 @@ Abstract:
         /**
          * @type {Number}
          */
-        _maxSpeed                       : new Box2D.Common.Math.b2Vec2(1, 0.4),
+        _maxSpeed                       : new Box2D.Common.Math.b2Vec2(24, 0.4),
 
         update: function() {
             var PTM_RATIO = ChuClone.Constants.PTM_RATIO;
             var body = this.attachedEntity.getBody();
 
+            // Cap X axis
+            if( Math.abs(body.m_linearVelocity.x) > this._maxSpeed.x ) {
+                body.m_linearVelocity.x = this._maxSpeed.x * (body.m_linearVelocity.x < 0 ? -1 : 1);
+            }
+
+            // only care about compromised Y up velocity
             if(body.m_linearVelocity.y < -this._maxSpeed.y * PTM_RATIO) {
                 body.m_linearVelocity.y = -this._maxSpeed.y * PTM_RATIO;
             }
+        },
+
+        /**
+         * Sets the maximum speed to maintain the attachedEntity at
+         * @param x
+         * @param y
+         */
+        setMaxSpeedXY: function( x, y ) {
+            this._maxSpeed = new Box2D.Common.Math.b2Vec2( x, y );
         }
 	};
 

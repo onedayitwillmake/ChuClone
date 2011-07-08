@@ -11,6 +11,8 @@ Abstract:
 
 */
 (function(){
+    "use strict";
+    
 	ChuClone.namespace("ChuClone.components");
 
     var SUPERREF;

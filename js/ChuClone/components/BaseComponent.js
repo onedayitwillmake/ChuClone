@@ -40,6 +40,8 @@
  }
  */
 (function() {
+    "use strict";
+    
     ChuClone.namespace("ChuClone.components");
 
     ChuClone.components.BaseComponent = function() {
