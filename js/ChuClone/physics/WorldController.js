@@ -63,6 +63,10 @@
          */
         _closures   : {},
 
+        EVENTS: {
+            CREATED: "WorldController.events.created"
+        },
+
 
         /**
          * Sets up the Box2D world and creates a bunch of boxes from that fall from the sky

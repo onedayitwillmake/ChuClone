@@ -6,12 +6,6 @@
     };
 
     ChuClone.editor.LevelManager.prototype = {
-
-        /**
-         * @type {EventEmitter}
-         */
-        EMITTER             : new EventEmitter(),
-
         /**
          * @type {ChuClone.editor.LevelModel}
          */
@@ -32,6 +26,10 @@
         _currentSlot        : 0,
         _currentName        : "NONAME",
         _saveSlots          : null,
+
+        EVENTS              : {
+            WORLD_CREATED   : "LevelManager.Events.WorldCreated"
+        },
 
         setupGui: function() {
              // Creation gui
@@ -107,7 +105,7 @@
 
             // Set the current name, and emit the loaded event
             this._controllers['name'].setValue( model.levelName );
-            ChuClone.editor.LevelManager.prototype.EMITTER.emit( ChuClone.Constants.STANDARD_EVENTS.CREATED, model );
+            ChuClone.Events.Dispatcher.emit( ChuClone.editor.LevelManager.prototype.EVENTS.WORLD_CREATED, model );
         },
 
         /**

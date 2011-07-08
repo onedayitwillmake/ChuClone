@@ -37,13 +37,11 @@
 
         setupEvents: function() {
             var that = this;
-
-            
-            ChuClone.PlayerEntity.prototype.eventEmitter.addListener(ChuClone.PlayerEntity.prototype.EVENTS.CREATED, function( aPlayer ) {
+            ChuClone.Events.Dispatcher.addListener(ChuClone.PlayerEntity.prototype.EVENTS.CREATED, function( aPlayer ) {
                 that.onPlayerCreated( aPlayer );
             });
 
-            ChuClone.editor.LevelManager.prototype.EMITTER.addListener(ChuClone.Constants.STANDARD_EVENTS.CREATED, function( aLevelModel ) {
+             ChuClone.Events.Dispatcher.addListener(ChuClone.editor.LevelManager.prototype.EVENTS.WORLD_CREATED, function( aLevelModel ) {
                 that._worldController.createBox2dWorld();
             });
         },
@@ -149,6 +147,7 @@
 
              
              aPlayer.addComponentAndExecute( new ChuClone.components.CharacterControllerComponent() );
+             aPlayer.addComponentAndExecute( new ChuClone.components.PhysicsVelocityLimitComponent() );
              this._player = aPlayer;
          },
         

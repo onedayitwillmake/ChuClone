@@ -9,10 +9,9 @@
     };
 
     ChuClone.PlayerEntity.prototype = {
-        eventEmitter: new EventEmitter(),
         EVENTS: {
-            CREATED: "created",
-            DIED:   "died"
+            CREATED: "PlayerEntity.event.created",
+            DIED:   "PlayerEntity.event.died"
         },
         GROUP   : -1,
 
@@ -22,7 +21,7 @@
         dispatchCreatedEvent: function() {
             var that = this;
             setTimeout(function(){
-                ChuClone.PlayerEntity.prototype.eventEmitter.emit( ChuClone.PlayerEntity.prototype.EVENTS.CREATED, that);
+                ChuClone.Events.Dispatcher.emit( ChuClone.PlayerEntity.prototype.EVENTS.CREATED, that);
             }, 16);
         },
 
