@@ -25,7 +25,7 @@
          */
         _worldController    : null,
         /**
-         * @type {ChuClone.GameView}
+         * @type {ChuClone.GameViewController}
          */
         _gameView           : null,
         /**
@@ -188,7 +188,7 @@
 
             // Destroy the old body, and store the current body inside the previous one's entity
             var entity = this._currentBody.GetUserData();
-            this._gameView.removeEntity( entity.getView() );
+            this._gameView.removeObjectFromScene( entity.getView() );
 
             entity.dealloc();
             this._worldController.getWorld().DestroyBody( this._currentBody );

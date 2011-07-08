@@ -17,7 +17,7 @@
          */
         _worldController    : null,
         /**
-         * @type {ChuClone.GameView}
+         * @type {ChuClone.GameViewController}
          */
         _gameView           : null,
         /**
@@ -131,7 +131,7 @@
                 }
 
                 if( "getView" in entity )
-                    this._gameView.removeEntity( entity.getView() );
+                    this._gameView.removeObjectFromScene( entity.getView() );
 
                 if( "dealloc" in entity )
                     entity.dealloc();

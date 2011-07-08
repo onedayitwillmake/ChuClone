@@ -82,7 +82,7 @@
 
         /**
          * Creates the editor taking a reference to the games view object
-         * @param {ChuClone.GameView} aView
+         * @param {ChuClone.GameViewController} aView
          */
         setupEditor: function( aView ) {
             this._editor = new ChuClone.editor.WorldEditor( this, aView );
@@ -232,17 +232,17 @@
             if( !canvas ) {
                 var container = document.createElement( 'div' );
                 container.style.position = "absolute";
-                container.style.top = "0px";
+                container.style.top = ChuClone.Constants.GAME_HEIGHT + 5 + "px";
                 container.style.backgroundColor = "#000000";
-                container.style.opacity = 0.5;
+                container.style.opacity = 0.75;
                 document.body.appendChild( container );
 
                 var debugCanvas = document.createElement('canvas');
                 container.appendChild( debugCanvas );
 
                 canvas = debugCanvas;
-                canvas.width = 1000;
-                canvas.height = 400;
+                canvas.width = ChuClone.Constants.GAME_WIDTH;
+                canvas.height = ChuClone.Constants.GAME_HEIGHT - 100;
             }
 
             //setup debug draw

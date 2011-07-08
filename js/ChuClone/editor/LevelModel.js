@@ -131,7 +131,7 @@
          * Creates a level from a JSON string object adhering to the protocol defined in ChuClone.editor.LevelModel.parseLevel
          * @param {String}  aJsonString
          * @param {ChuClone.physics.WorldController} aWorldController
-         * @param {ChuClone.GameView} aGameView
+         * @param {ChuClone.GameViewController} aGameView
          */
         fromJsonString: function( aJsonString, aWorldController, aGameView ) {
             var levelObject = JSON.parse(aJsonString);
@@ -183,7 +183,7 @@
                     entity.addComponentAndExecute( componentInstance ); // Attach it to the entity
                 }
 
-                aGameView.addEntity( entity.view );
+//                aGameView.addEntity( entity.view );
             }
         },
 

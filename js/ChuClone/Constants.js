@@ -19,8 +19,8 @@
 
     ChuClone.namespace("ChuClone");
     ChuClone.Constants = {
-        GAME_WIDTH				: 700,
-        GAME_HEIGHT				: 450,
+        GAME_WIDTH				: 1000,
+        GAME_HEIGHT				: 500,
         PTM_RATIO               : 64,
         GAME_DURATION			: 1000*300,
 
@@ -37,7 +37,7 @@
         },
 
         EDITOR: {
-            PANEL_WIDTH     : 180
+            PANEL_WIDTH     : 190
         },
         
         ENTITY_DEFAULTS: {

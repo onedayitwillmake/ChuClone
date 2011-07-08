@@ -14,7 +14,11 @@
     };
 
     ChuClone.ChuCloneGame.prototype = {
-        view: null,
+
+        /**
+         * @type {ChuClone.GameViewController}
+         */
+        _gameView: null,
 
         /**
          * @type {ChuClone.physics.WorldController}
@@ -37,26 +41,7 @@
          */
         _closures   : {},
 
-        setupEvents: function() {
-            var that = this;
-            ChuClone.Events.Dispatcher.addListener(ChuClone.PlayerEntity.prototype.EVENTS.CREATED, function( aPlayer ) {
-                that.onPlayerCreated( aPlayer );
-            });
-
-             ChuClone.Events.Dispatcher.addListener(ChuClone.editor.LevelManager.prototype.EVENTS.WORLD_CREATED, function( aLevelModel ) {
-                that._worldController.createBox2dWorld();
-            });
-        },
-
-        /**
-         * Sets up the LevelManager
-         */
-        setupLevelManager: function() {
-            this._levelManager = new ChuClone.editor.LevelManager( this._worldController, this._gameView );
-            this._levelManager.setupGui();
-        },
-        
-        /**
+         /**
          * Listens for DOMContentLoaded event
          */
         listenForReady: function() {
@@ -90,15 +75,34 @@
                 window.requestAnimationFrame( loop, null );
             })();
         },
+        
+        setupEvents: function() {
+            var that = this;
+            ChuClone.Events.Dispatcher.addListener(ChuClone.PlayerEntity.prototype.EVENTS.CREATED, function( aPlayer ) {
+                that.onPlayerCreated( aPlayer );
+            });
+
+             ChuClone.Events.Dispatcher.addListener(ChuClone.editor.LevelManager.prototype.EVENTS.WORLD_CREATED, function( aLevelModel ) {
+                that._worldController.createBox2dWorld();
+            });
+        },
+
+        /**
+         * Sets up the LevelManager
+         */
+        setupLevelManager: function() {
+            this._levelManager = new ChuClone.editor.LevelManager( this._worldController, this._gameView );
+            this._levelManager.setupGui();
+        },
 
         setupView: function() {
-            this._gameView = new ChuClone.GameView();
+            this._gameView = new ChuClone.GameViewController();
             this._gameView.onResize( null );
         },
 
         setupWorldController: function() {
             this._worldController = new ChuClone.physics.WorldController();
-            this._worldController.setupEditor( this.view );
+            this._worldController.setupEditor( this._gameView );
         },
 
         debugSetupRandomBlocks: function() {
@@ -125,7 +129,7 @@
             var boxSize = 30;
             var body = this._worldController.createRect( x, y, Math.random() * 6, boxSize, boxSize, false);
             var view = this.view.createEntityView( x, y, boxSize * 2, boxSize*2, boxSize * 2);
-            view.materials[0] = new THREE.MeshPhongMaterial( { ambient: 0x111111, color: 0x666666, specular: 0xDDDDDD, shininess:1, shading: THREE.FlatShading } );
+            view.materials[0] = new THREE.MeshPhongMaterial( { opacity: 0.5, ambient: 0x111111, color: 0x666666, specular: 0xDDDDDD, shininess:1, shading: THREE.FlatShading } );
 
             var entity = new ChuClone.PlayerEntity();
             entity.setBody( body );
@@ -175,12 +179,19 @@
 //            }
 
             if (this._player && this._player.getView()) {
-                this._gameView.camera.target.position.x = this._player.view.position.x + 700;
-                this._gameView.camera.target.position.y = this._player.view.position.y - 100;
-                this._gameView.camera.target.position.z = this._player.view.position.z;
-                this._gameView.camera.position.x = this._player.view.position.x - 700;
+                this._gameView._camera.target.position.x = this._player.view.position.x + 700;
+                this._gameView._camera.target.position.y = this._player.view.position.y - 100;
+                this._gameView._camera.target.position.z = this._player.view.position.z;
+                this._gameView._camera.position.x = this._player.view.position.x - 700;
+
+//                if(this._gameView.spacesuit) {
+////                    this._player.view.visible = false;
+//                    this._gameView.spacesuit.scale.x  = this._gameView.spacesuit.scale.y = this._gameView.spacesuit.scale.z = 15;
+//                    this._gameView.spacesuit.position = this._player.view.position.clone();
+//                    this._gameView.spacesuit.position.y -= 20;
+//                }
             }
-            this._gameView.render();
+            this._gameView.update( Date.now() );
         }
     };
 }());
