@@ -1,3 +1,21 @@
+/**
+ File:
+    ChuCloneGame.js
+ Created By:
+    Mario Gonzalez - mariogonzalez@gmail.com
+ Project:
+    ChuClone
+ Abstract:
+    This class represents a level in ChuClone, it knows how to parse a level from JSON, and convert one to JSON
+ Basic Usage:
+
+ Version:
+    1.0
+
+ License:
+    Creative Commons Attribution-NonCommercial-ShareAlike
+    http://creativecommons.org/licenses/by-nc-sa/3.0/
+ */
 (function(){
     ChuClone.namespace("ChuClone.editor");
     ChuClone.editor.LevelModel = function() {

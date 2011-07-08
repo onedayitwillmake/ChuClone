@@ -1,3 +1,21 @@
+/**
+ File:
+    ContactListener.js
+ Created By:
+    Mario Gonzalez - mariogonzalez@gmail.com
+ Project:
+    ChuClone
+ Abstract:
+    Proxy for collisions between Box2D world, and ChuClone game entities
+ Basic Usage:
+    
+ Version:
+    1.0
+
+ License:
+    Creative Commons Attribution-NonCommercial-ShareAlike
+    http://creativecommons.org/licenses/by-nc-sa/3.0/
+ */
 (function(){
 
     var PTM_RATIO = ChuClone.Constants.PTM_RATIO;

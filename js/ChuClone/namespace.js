@@ -1,7 +1,18 @@
 /**
- * ChueClone
- * Mario Gonzalez
- * http://ribbonpaint.com
+ File:
+    namespace.js
+ Created By:
+    Mario Gonzalez - mariogonzalez@gmail.com
+ Project:
+    ChuClone
+ Abstract:
+    Standard javascript namespace and extend methods
+
+ Basic Usage:
+
+  License:
+    Creative Commons Attribution-NonCommercial-ShareAlike
+    http://creativecommons.org/licenses/by-nc-sa/3.0/
  */
 (function(){
     ChuClone = (typeof ChuClone === 'undefined') ? {} : ChuClone;

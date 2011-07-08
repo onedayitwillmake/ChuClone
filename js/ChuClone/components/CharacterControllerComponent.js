@@ -1,15 +1,18 @@
 /**
 File:
-	ChaseTrait.js
+	CharacterControllerComponent.js
 Created By:
 	Mario Gonzalez
 Project	:
-	RealtimeMultiplayerNodeJS
+	ChuClone
 Abstract:
- 	This trait will cause an entity to chase a target
+ 	This component will allow an entity to be controlled as a 'character'
  Basic Usage:
 
-*/
+ License:
+    Creative Commons Attribution-NonCommercial-ShareAlike
+    http://creativecommons.org/licenses/by-nc-sa/3.0/
+ */
 (function(){
     "use strict";
     

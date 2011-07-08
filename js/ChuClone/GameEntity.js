@@ -22,7 +22,10 @@
     var entity = new ChuClone.GameEntity();
     entity.setBody( body );
     entity.setView( view );
- }
+
+  License:
+    Creative Commons Attribution-NonCommercial-ShareAlike
+    http://creativecommons.org/licenses/by-nc-sa/3.0/
  */
 (function(){
     "use strict";

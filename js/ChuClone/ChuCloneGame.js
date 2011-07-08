@@ -1,7 +1,21 @@
 /**
- * ChueClone Main
- * Mario Gonzalez
- * http://ribbonpaint.com
+ File:
+    ChuCloneGame.js
+ Created By:
+    Mario Gonzalez - mariogonzalez@gmail.com
+ Project:
+    ChuClone
+ Abstract:
+    This is the main entry point for the game ChuClone
+ Basic Usage:
+     // Assumes all files are loaded
+    var game = new ChuClone.ChuCloneGame();
+ Version:
+    1.0
+
+ License:
+    Creative Commons Attribution-NonCommercial-ShareAlike
+    http://creativecommons.org/licenses/by-nc-sa/3.0/
  */
 (function(){
     "use strict";

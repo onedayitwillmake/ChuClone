@@ -1,3 +1,22 @@
+/**
+ File:
+    ChuCloneGame.js
+ Created By:
+    Mario Gonzalez - mariogonzalez@gmail.com
+ Project:
+    ChuClone
+ Abstract:
+    This class handles the saving/loading of levels
+ Basic Usage:
+     this._levelManager = new ChuClone.editor.LevelManager( this._worldController, this._gameView );
+     this._levelManager.setupGui();
+ Version:
+    1.0
+
+ License:
+    Creative Commons Attribution-NonCommercial-ShareAlike
+    http://creativecommons.org/licenses/by-nc-sa/3.0/
+ */
 (function(){
     "use strict";
     

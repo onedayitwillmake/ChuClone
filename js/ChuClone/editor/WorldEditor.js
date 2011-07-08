@@ -1,3 +1,22 @@
+/**
+ File:
+    ChuCloneGame.js
+ Created By:
+    Mario Gonzalez - mariogonzalez@gmail.com
+ Project:
+    ChuClone
+ Abstract:
+    This class controls the level editor in ChuClone
+ Basic Usage:
+    // Pass worldcontroller and gameviewcontroller
+    var editor = new ChuClone.editor.WorldEditor( aWorldController, aGameViewController );
+ Version:
+    1.0
+
+ License:
+    Creative Commons Attribution-NonCommercial-ShareAlike
+    http://creativecommons.org/licenses/by-nc-sa/3.0/
+ */
 (function() {
     var PTM_RATIO = ChuClone.Constants.PTM_RATIO;
     var WAIT_TIMEOUT = 0;

@@ -2,15 +2,17 @@
  File:
     GameViewController.js
  Created By:
-    mariogonzalez
-
+    Mario Gonzalez - mariogonzalez@gmail.com
  Project:
-
+    ChuClone
  Abstract:
-
+    Controls THREE.js rendering of ChuClone game instance
+ 
  Basic Usage:
 
- }
+  License:
+    Creative Commons Attribution-NonCommercial-ShareAlike
+    http://creativecommons.org/licenses/by-nc-sa/3.0/
  */
 (function() {
     "use strict";

@@ -10,9 +10,12 @@
  Basic Usage:
      [This class is not instantiated! - below is an example of using this class by extending it]
      var clientDropWait = RealtimeMultiplayerGame.Constants.CL_DEFAULT_MAXRATE
-
  Version:
     1.0
+
+ License:
+    Creative Commons Attribution-NonCommercial-ShareAlike
+    http://creativecommons.org/licenses/by-nc-sa/3.0/
  */
 (function(){
     "use strict";

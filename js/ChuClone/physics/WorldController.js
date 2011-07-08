@@ -14,6 +14,10 @@
         },
  Version:
     1.0
+
+ License:
+    Creative Commons Attribution-NonCommercial-ShareAlike
+    http://creativecommons.org/licenses/by-nc-sa/3.0/
  */
 (function(){
     var PTM_RATIO = ChuClone.Constants.PTM_RATIO;

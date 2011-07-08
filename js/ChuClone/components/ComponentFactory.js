@@ -21,7 +21,10 @@
         // Attach it to the entity
         entity.addComponentAndExecute(componentInstance);
     }
- }
+
+ License:
+    Creative Commons Attribution-NonCommercial-ShareAlike
+    http://creativecommons.org/licenses/by-nc-sa/3.0/
  */
 (function() {
     "use strict";
