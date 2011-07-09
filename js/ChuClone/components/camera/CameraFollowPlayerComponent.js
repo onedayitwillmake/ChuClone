@@ -59,13 +59,14 @@ Abstract:
             this.attachedEntity.target.position.y = this._player.view.position.y - 100;
             this.attachedEntity.target.position.z = this._player.view.position.z;
             this.attachedEntity.position.x = this._player.view.position.x - 700;
+            this.attachedEntity.position.y = 500 + this._player.view.position.y * 0.01;
         },
 
         /**
          * @inheritDoc
          */
         detach: function() {
-            ChuClone.components.CameraFollowPlayerComponent.superclass.detach.call(this);
+            ChuClone.components.camera.CameraFollowPlayerComponent.superclass.detach.call(this);
             this._debugDraw = null;
         },
 
@@ -73,6 +74,13 @@ Abstract:
          * @param {ChuClone.PlayerEntity} aPlayer
          */
         onPlayerCreated: function( aPlayer ) {
+            this.setPlayer( aPlayer );
+        },
+
+        /**
+         * @param {ChuClone.PlayerEntity} aPlayer
+         */
+        onPlayerDestroyed: function( aPlayer ) {
             this.setPlayer( aPlayer );
         },
 

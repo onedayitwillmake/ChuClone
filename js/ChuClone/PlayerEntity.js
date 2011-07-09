@@ -40,12 +40,12 @@
     ChuClone.PlayerEntity.prototype = {
         EVENTS: {
             CREATED: "PlayerEntity.event.created",
-            DIED:   "PlayerEntity.event.died"
+            REMOVED:   "PlayerEntity.event.removed"
         },
         GROUP   : -1,
 
         /**
-         * Dispatches the created event via timeout so that it can be called the next 'frame'
+         * Dispatches the created event via timeout so that it can be called the "next frame"
          */
         dispatchCreatedEvent: function() {
             var that = this;
@@ -67,6 +67,14 @@
 
 //            aBody.GetFixtureList.filter.categoryBits = 0x0002;
             
+        },
+
+        /**
+         * @inheritDoc
+         */
+        dealloc: function() {
+            ChuClone.Events.Dispatcher.emit( ChuClone.PlayerEntity.prototype.EVENTS.REMOVED, this);
+            ChuClone.PlayerEntity.superclass.dealloc.call(this);
         }
     };
 

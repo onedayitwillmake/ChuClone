@@ -218,10 +218,11 @@
          */
         updateCameraPosition: function() {
             var aRadius = 1000;
-//            this._camera.position.x += Math.cos( this._mousePosition.x ) * aRadius;
-            //noinspection JSSuspiciousNameCombinationInspection
-//            this._camera.position.y = Math.sin( this._mousePosition.y ) * aRadius + 100;
             this._camera.update();
+
+            this._camera.position.x += Math.cos( this._mousePosition.x ) * aRadius;
+            //noinspection JSSuspiciousNameCombinationInspection
+            this._camera.position.y = Math.sin( this._mousePosition.y ) * aRadius + 100;
         },
 
         /**

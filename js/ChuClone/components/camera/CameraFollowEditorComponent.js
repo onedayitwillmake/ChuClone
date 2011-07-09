@@ -50,6 +50,7 @@ Abstract:
             var zero = new THREE.Vector3(this.attachedEntity.position.x - 5, -100,0);
             this.attachedEntity.target.position = zero;
             this.attachedEntity.position.x = this._debugDraw.offsetX * -PTM_RATIO;
+            this.attachedEntity.position.y = this._debugDraw.offsetY * -PTM_RATIO + 1000;
         },
 
         /**
