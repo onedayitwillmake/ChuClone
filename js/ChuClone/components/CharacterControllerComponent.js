@@ -56,6 +56,7 @@ Abstract:
             var body = this.attachedEntity.getBody();
             this._jumpCheckComponent.update();
 
+            console.log
             // x-axis
             if (this._input._keyStates.left) force.x = -1;
             else if (this._input._keyStates.right) force.x = 1;

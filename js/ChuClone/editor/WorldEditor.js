@@ -35,31 +35,40 @@
         this.setupMouseEvents();
         this.setupKeyboardEvents();
         this.setupGui();
+
         //this.onShouldCreate();
     };
 
     ChuClone.editor.WorldEditor.prototype = {
         /**
-         * @type {ChuClone.WorldController}
+         * @type {ChuClone.physics.WorldController}
          */
-        _worldController    : null,
+        _worldController: null,
         /**
          * @type {ChuClone.GameViewController}
          */
-        _gameView           : null,
+        _gameView       : null,
         /**
          * @type {Box2D.Common.Math.b2Vec2}
          */
-        _mousePosition      : null,
+        _mousePosition  : null,
         /**
          * The currently edited b2Body
          * @type {Box2D.Dynamics.b2Body}
          */
-        _currentBody        : null,
+        _currentBody    : null,
         /**
          * @type {DAT.GUI}
          */
-        _guiModification    : null,
+        _guiModification   : null,
+        /**
+         * @type {DAT.GUI}
+         */
+        _guiCreation    : null,
+        /**
+         * @type {ChuClone.editor.CameraGUI}
+         */
+        _guiCamera      : null,
         /**
          * We modify this not the b2Body directly
          */
@@ -136,6 +145,9 @@
 
             this._guiCreation.close();
 //            this._guiCreation.open();
+
+            this._guiCamera = new ChuClone.editor.CameraGUI( this._gameView.getCamera() );
+            this._guiCamera.setDebugDraw( this._worldController.getDebugDraw() );
         },
 
         /**

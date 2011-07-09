@@ -96,7 +96,13 @@
                 that.onPlayerCreated( aPlayer );
             });
 
-             ChuClone.Events.Dispatcher.addListener(ChuClone.editor.LevelManager.prototype.EVENTS.WORLD_CREATED, function( aLevelModel ) {
+            // WORLD CREATED
+            ChuClone.Events.Dispatcher.addListener(ChuClone.editor.LevelManager.prototype.EVENTS.WORLD_CREATED, function( aLevelModel ) {
+                that._worldController.createBox2dWorld();
+            });
+
+            // LEVEL DESTROYED
+            ChuClone.Events.Dispatcher.addListener(ChuClone.editor.LevelManager.prototype.EVENTS.LEVEL_DESTROYED, function( aLevelModel ) {
                 that._worldController.createBox2dWorld();
             });
         },
@@ -187,24 +193,7 @@
                     entity.update();
             }
 
-//            if( this.player ) {
-//                this.worldController.setDebugDrawOffset( -this.player.getBody().GetPosition().x+25, 5);
-                this._worldController.update(); 
-//            }
-
-            if (this._player && this._player.getView()) {
-                this._gameView._camera.target.position.x = this._player.view.position.x + 700;
-                this._gameView._camera.target.position.y = this._player.view.position.y - 100;
-                this._gameView._camera.target.position.z = this._player.view.position.z;
-                this._gameView._camera.position.x = this._player.view.position.x - 700;
-
-//                if(this._gameView.spacesuit) {
-////                    this._player.view.visible = false;
-//                    this._gameView.spacesuit.scale.x  = this._gameView.spacesuit.scale.y = this._gameView.spacesuit.scale.z = 15;
-//                    this._gameView.spacesuit.position = this._player.view.position.clone();
-//                    this._gameView.spacesuit.position.y -= 20;
-//                }
-            }
+            this._worldController.update();
             this._gameView.update( Date.now() );
         }
     };

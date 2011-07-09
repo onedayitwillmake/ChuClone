@@ -10,3 +10,7 @@ The editor supports panning, and zooming, levels are saved via HTML5 localstorag
 ![screenshot02](http://farm6.static.flickr.com/5240/5900437294_b7bcccb8ab_b.jpg "ChuClone03")  
 ![screenshot02](http://farm6.static.flickr.com/5108/5886054305_1744105dfe_b.jpg "ChuClone02")
 ![screenshot01](http://farm6.static.flickr.com/5306/5874855377_5c7bb58ef1_b.jpg "ChuClone01")
+
+### License
+Creative Commons Attribution-NonCommercial-ShareAlike
+http://creativecommons.org/licenses/by-nc-sa/3.0/
