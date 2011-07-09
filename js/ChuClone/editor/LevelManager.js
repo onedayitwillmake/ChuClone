@@ -104,7 +104,7 @@
         loadLevelFromURL: function( aURL ) {
             this.clearLevel();
             
-            var url = window.location.href + "assets/levels/HelloWorld.json";
+            var url = window.location.href + "assets/levels/Start.json";
             var request = new XMLHttpRequest();
             var that = this;
             request.onreadystatechange = function() {

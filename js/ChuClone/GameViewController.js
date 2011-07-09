@@ -210,7 +210,7 @@
         update: function( gameClock ) {
             this.updateCameraPosition();
             this.updateSceneEditor();
-            this._renderer.render( this._scene, this._camera );
+            this._renderer.render( this._scene  , this._camera );
         },
 
         /**
@@ -220,7 +220,7 @@
             var aRadius = 1000;
             this._camera.update();
 
-            this._camera.position.x += Math.cos( this._mousePosition.x ) * aRadius;
+//            this._camera.position.x += Math.cos( this._mousePosition.x ) * aRadius;
             //noinspection JSSuspiciousNameCombinationInspection
             this._camera.position.y = Math.sin( this._mousePosition.y ) * aRadius + 100;
         },
@@ -245,7 +245,7 @@
             var geometry = new THREE.CubeGeometry( width, height, depth );
             var mesh = new THREE.Mesh( geometry, [new THREE.MeshLambertMaterial( {
                 color: 0xFFFFFF, shading: THREE.SmoothShading,
-                map : THREE.ImageUtils.loadTexture( "assets/images/game/floor.png" )
+                map : THREE.ImageUtils.loadTexture( "assets/images/game/floorred.png" )
             })] );
             mesh.dynamic = true;
 

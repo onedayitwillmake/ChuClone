@@ -1,0 +1,235 @@
+{
+	"editingInfo": {
+		"author": "mario gonzalez",
+		"levelName": "Start",
+		"creationDate": 1310193022204,
+		"modificationDate": 1310193022204
+	},
+	"worldSettings": {
+		"PTM_RATIO": 64
+	},
+	"playerInfo": null,
+	"bodyList": [
+		{
+			"x": 77.45803233634933,
+			"y": -0.556571075653687,
+			"dimensions": {
+				"width": 640,
+				"height": 51.2,
+				"depth": 320
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 0
+			},
+			"entityType": 0,
+			"components": []
+		},
+		{
+			"x": 57.13923557444601,
+			"y": 1.050540890419966,
+			"dimensions": {
+				"width": 640,
+				"height": 6.4,
+				"depth": 320
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 0
+			},
+			"entityType": 0,
+			"components": [
+				{
+					"displayName": "JumpPadComponent",
+					"textureSource": "assets/images/game/jumppad.png"
+				}
+			]
+		},
+		{
+			"x": 43.86289960229224,
+			"y": 4.366312483396078,
+			"dimensions": {
+				"width": 192,
+				"height": 192,
+				"depth": 640
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 0
+			},
+			"entityType": 0,
+			"components": []
+		},
+		{
+			"x": 37.46013483970287,
+			"y": 4.717309354070228,
+			"dimensions": {
+				"width": 192,
+				"height": 192,
+				"depth": 192
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 0
+			},
+			"entityType": 0,
+			"components": []
+		},
+		{
+			"x": 13.531299315600453,
+			"y": 4.625323127856593,
+			"dimensions": {
+				"width": 192,
+				"height": 192,
+				"depth": 192
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 0
+			},
+			"entityType": 0,
+			"components": []
+		},
+		{
+			"x": 33.77641997444642,
+			"y": 4.703545227730036,
+			"dimensions": {
+				"width": 19.2,
+				"height": 224,
+				"depth": 192
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 0
+			},
+			"entityType": 0,
+			"components": []
+		},
+		{
+			"x": 17.224695836515377,
+			"y": 4.617338331178312,
+			"dimensions": {
+				"width": 19.2,
+				"height": 224,
+				"depth": 192
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 0
+			},
+			"entityType": 0,
+			"components": []
+		},
+		{
+			"x": 32.8,
+			"y": 4.7,
+			"dimensions": {
+				"width": 19.2,
+				"height": 256,
+				"depth": 192
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 0
+			},
+			"entityType": 0,
+			"components": []
+		},
+		{
+			"x": 18.2,
+			"y": 4.7,
+			"dimensions": {
+				"width": 19.2,
+				"height": 256,
+				"depth": 192
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 0
+			},
+			"entityType": 0,
+			"components": []
+		},
+		{
+			"x": 25.5,
+			"y": 4.7,
+			"dimensions": {
+				"width": 425.6,
+				"height": 256,
+				"depth": 192
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 0
+			},
+			"entityType": 0,
+			"components": []
+		},
+		{
+			"x": 10,
+			"y": 4.598435122245184,
+			"dimensions": {
+				"width": 16,
+				"height": 192,
+				"depth": 192
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 0
+			},
+			"entityType": 0,
+			"components": []
+		},
+		{
+			"x": 6.548698582999727,
+			"y": 4.616165618699087,
+			"dimensions": {
+				"width": 192,
+				"height": 192,
+				"depth": 192
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 0
+			},
+			"entityType": 0,
+			"components": []
+		}
+	]
+}

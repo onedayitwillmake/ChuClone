@@ -79,7 +79,7 @@
 
 
 //            this.debugSetupRandomBlocks();
-//            this.debugSetupPlayer();
+            this.debugSetupPlayer();
 
 
             // MAIN LOOP
@@ -103,6 +103,13 @@
 
             // LEVEL DESTROYED
             ChuClone.Events.Dispatcher.addListener(ChuClone.editor.LevelManager.prototype.EVENTS.LEVEL_DESTROYED, function( aLevelModel ) {
+
+                // Remove any components the camera had attached
+                // TODO: LET FAIL LOUDLY IF CAMERA HAS NO PROPERTY NAMED COMPONENTS?
+                if( that._gameView.getCamera().hasOwnProperty("components") ) {
+                    that._gameView.getCamera().removeAllComponents();
+                }
+                
                 that._worldController.createBox2dWorld();
             });
         },
@@ -148,14 +155,14 @@
             var y = -300;
             var boxSize = 30;
             var body = this._worldController.createRect( x, y, Math.random() * 6, boxSize, boxSize, false);
-            var view = this.view.createEntityView( x, y, boxSize * 2, boxSize*2, boxSize * 2);
+            var view = this._gameView.createEntityView( x, y, boxSize * 2, boxSize*2, boxSize * 2);
             view.materials[0] = new THREE.MeshPhongMaterial( { opacity: 0.5, ambient: 0x111111, color: 0x666666, specular: 0xDDDDDD, shininess:1, shading: THREE.FlatShading } );
 
             var entity = new ChuClone.PlayerEntity();
             entity.setBody( body );
             entity.setView( view );
 
-            this._gameView.addEntity( entity.view );
+            this._gameView.addObjectToScene( entity.view );
             this._player = entity;
         },
 
