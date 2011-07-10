@@ -1,50 +1,61 @@
 /**
 File:
-	ChaseTrait.js
+	GoalBlockComponent.js
 Created By:
 	Mario Gonzalez
 Project	:
-	RealtimeMultiplayerNodeJS
+	ChuClone
 Abstract:
- 	This trait will cause an entity to chase a target
+ 	When collision with player, fires a GoalBlockComponent.events.DID_REACH_GOAL event
+
  Basic Usage:
 
-  License:
-    Creative Commons Attribution-NonCommercial-ShareAlike
-    http://creativecommons.org/licenses/by-nc-sa/3.0/
+ License:
+   Creative Commons Attribution-NonCommercial-ShareAlike
+   http://creativecommons.org/licenses/by-nc-sa/3.0/
+
 */
 (function(){
     "use strict";
     
 	ChuClone.namespace("ChuClone.components");
 
-	ChuClone.components.JumpPadComponent = function() {
-		ChuClone.components.JumpPadComponent.superclass.constructor.call(this);
+	ChuClone.components.GoalPadComponent = function() {
+		ChuClone.components.GoalPadComponent.superclass.constructor.call(this);
 
 	};
 
-	ChuClone.components.JumpPadComponent.prototype = {
-		displayName						: "JumpPadComponent",					// Unique string name for this Trait
+	ChuClone.components.GoalPadComponent.prototype = {
+		displayName						: "GoalPadComponent",					// Unique string name for this Trait
 
-        _textureSource                  : "assets/images/game/jumppad.png",
-        _force                          : 1500,
+        _textureSource                  : "assets/images/game/floorgreen.png",
         _previousMaterial               : null,
 
         _inactiveDelay                  : 1000,
         _isReady                        : true,
         _isReadyTimeout                 : null,
 
+
+        EVENTS: {
+            GOAL_REACHED    : "GoalPadComponent.events.goalReached"
+        },
+
+        /**
+         * @type {ChuClone.components.GoalPadComponent}
+         */
+        CURRENT_RESPAWN : null,
+
 		/**
 		 * @inheritDoc
 		 */
 		attach: function(anEntity) {
-			ChuClone.components.JumpPadComponent.superclass.attach.call(this, anEntity);
+			ChuClone.components.GoalPadComponent.superclass.attach.call(this, anEntity);
             // Intercept collision
             this.intercept(['onCollision']);
 		},
 
         execute: function() {
-            ChuClone.components.JumpPadComponent.superclass.execute.call(this);
+            ChuClone.components.GoalPadComponent.superclass.execute.call(this);
 
             var view = this.attachedEntity.getView();
             var body = this.attachedEntity.getBody();
@@ -62,12 +73,9 @@ Abstract:
                 return;
             
             this.interceptedProperties.onCollision.call(this.attachedEntity, otherActor );
-
             if( !this._isReady ) return;
 
-            var vel = otherActor.getBody().GetLinearVelocity();
-            vel.y -= Math.abs(vel.y) + this._force / ChuClone.Constants.PTM_RATIO;
-
+            ChuClone.Events.Dispatcher.emit( ChuClone.components.GoalPadComponent.prototype.EVENTS.GOAL_REACHED, this );
             this.startWaitingForIsReady()
         },
 
@@ -80,7 +88,7 @@ Abstract:
             clearTimeout( this._isReadyTimeout );
             this._isReadyTimeout = setTimeout( function(){
                 that._isReady = true;
-            }, this._inactiveDelay);
+            }, this._inactiveDelay );
         },
         
         getIsReady: function() {
@@ -92,15 +100,16 @@ Abstract:
          */
         detach: function() {
             this.attachedEntity.getView().materials[0] = this._previousMaterial;
-            ChuClone.components.JumpPadComponent.superclass.detach.call(this);
+            ChuClone.components.GoalPadComponent.superclass.detach.call(this);
         },
 
         /**
          * @inheritDoc
          */
         getModel: function() {
-            var returnObject = ChuClone.components.JumpPadComponent.superclass.getModel.call(this);
+            var returnObject = ChuClone.components.GoalPadComponent.superclass.getModel.call(this);
             returnObject.textureSource = this._textureSource;
+            returnObject.inactiveDelay = this._inactiveDelay;
 
             return returnObject;
         },
@@ -109,7 +118,7 @@ Abstract:
          * @inheritDoc
          */
         fromModel: function( data ) {
-            ChuClone.components.JumpPadComponent.superclass.fromModel.call(this, data);
+            ChuClone.components.GoalPadComponent.superclass.fromModel.call(this, data);
             this._textureSource = data.textureSource;
             this._inactiveDelay = data.inactiveDelay;
 
@@ -117,5 +126,5 @@ Abstract:
 
 	};
 
-    ChuClone.extend( ChuClone.components.JumpPadComponent, ChuClone.components.BaseComponent );
+    ChuClone.extend( ChuClone.components.GoalPadComponent, ChuClone.components.BaseComponent );
 })();

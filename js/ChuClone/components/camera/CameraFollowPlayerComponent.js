@@ -38,12 +38,8 @@ Abstract:
         /**
          * @type {THREE.Vector3}
          */
-        _offset                         : null,
-        
-        /**
-         * @type {Number}
-         */
-        _maxSpeed                       : new Box2D.Common.Math.b2Vec2(0.5, 0.5),
+        _offset     : null,
+        _damping    : 0.3,
 
         attach: function( anEntity ) {
             ChuClone.components.camera.CameraFollowPlayerComponent.superclass.attach.call(this, anEntity);
@@ -55,11 +51,30 @@ Abstract:
 
         update: function() {
             var PTM_RATIO = ChuClone.Constants.PTM_RATIO;
-            this.attachedEntity.target.position.x = this._player.view.position.x + 700;
-            this.attachedEntity.target.position.y = this._player.view.position.y - 100;
+            this.attachedEntity.target.position.x -= (this.attachedEntity.target.position.x - (this._player.view.position.x + 700)) * this._damping;
+            this.attachedEntity.target.position.y -= (this.attachedEntity.target.position.y - (this._player.view.position.y - 700)) * this._damping;
             this.attachedEntity.target.position.z = this._player.view.position.z;
-            this.attachedEntity.position.x = this._player.view.position.x - 700;
-            this.attachedEntity.position.y = 500 + this._player.view.position.y * 0.01;
+            this.attachedEntity.position.x = this._player.view.position.x + 400;
+            this.attachedEntity.position.y = 300 + this._player.view.position.y * 0.1;
+        },
+
+        /**
+         * @inheritDoc
+         */
+        getModel: function() {
+            var returnObject = ChuClone.components.camera.CameraFollowPlayerComponent.superclass.getModel.call(this);
+            returnObject.damping = this._damping;
+
+            return returnObject;
+        },
+
+        /**
+         * @inheritDoc
+         */
+        fromModel: function( data ) {
+            ChuClone.components.camera.CameraFollowPlayerComponent.superclass.fromModel.call(this, data);
+            this._damping = data.damping;
+
         },
 
         /**
@@ -90,6 +105,8 @@ Abstract:
         setPlayer: function( aPlayer ) {
             this._player = aPlayer;
         }
+
+
 	};
 
     ChuClone.extend( ChuClone.components.camera.CameraFollowPlayerComponent, ChuClone.components.BaseComponent );

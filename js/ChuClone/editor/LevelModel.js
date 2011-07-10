@@ -7,6 +7,23 @@
     ChuClone
  Abstract:
     This class represents a level in ChuClone, it knows how to parse a level from JSON, and convert one to JSON
+
+ Data Structure:
+    levelmodel
+    AUTHOR
+    CREATION_DATE
+    MODIFICATION_DATE
+    PTM_RATIO
+    bodyList
+        body
+            type - {RECTANGLE|TRIANGLE}
+            x
+            y
+            w
+            h
+            density
+            restitution
+            friction
  Basic Usage:
 
  Version:
@@ -23,24 +40,6 @@
     };
 
     ChuClone.editor.LevelModel.prototype = {
-        /*
-        levelmodel
-	AUTHOR
-	CREATION_DATE
-	MODIFICATION_DATE
-	PTM_RATIO
-	bodyList
-		body
-			type - {RECTANGLE|TRIANGLE}
-			x
-			y
-			w
-			h
-			density
-			restitution
-			friction
-         */
-
         /**
          * @type {String}
          */

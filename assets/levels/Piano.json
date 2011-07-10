@@ -1,0 +1,272 @@
+{
+	"editingInfo": {
+		"author": "mario gonzalez",
+		"levelName": "Piano",
+		"creationDate": 1310289948743,
+		"modificationDate": 1310289948743
+	},
+	"worldSettings": {
+		"PTM_RATIO": 64
+	},
+	"playerInfo": null,
+	"bodyList": [
+		{
+			"x": 54.967657535475695,
+			"y": 6.379499354369778,
+			"dimensions": {
+				"width": 217.6,
+				"height": 64,
+				"depth": 192
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 0
+			},
+			"entityType": 0,
+			"components": [
+				{
+					"displayName": "GoalPadComponent",
+					"textureSource": "assets/images/game/floorgreen.png",
+					"inactiveDelay": 1000
+				}
+			]
+		},
+		{
+			"x": 5.520833333333334,
+			"y": 6.354166666666664,
+			"dimensions": {
+				"width": 64,
+				"height": 64,
+				"depth": 192
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 0
+			},
+			"entityType": 0,
+			"components": []
+		},
+		{
+			"x": 42.49133741458185,
+			"y": 6.362612683573116,
+			"dimensions": {
+				"width": 160,
+				"height": 64,
+				"depth": 192
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 0
+			},
+			"entityType": 0,
+			"components": []
+		},
+		{
+			"x": 7.812499999999999,
+			"y": 6.354166666666664,
+			"dimensions": {
+				"width": 64,
+				"height": 64,
+				"depth": 192
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 0
+			},
+			"entityType": 0,
+			"components": []
+		},
+		{
+			"x": 10.208333333333332,
+			"y": 6.354166666666663,
+			"dimensions": {
+				"width": 70.4,
+				"height": 64,
+				"depth": 192
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 0
+			},
+			"entityType": 0,
+			"components": []
+		},
+		{
+			"x": 12.812499999999998,
+			"y": 6.354166666666663,
+			"dimensions": {
+				"width": 76.8,
+				"height": 64,
+				"depth": 192
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 0
+			},
+			"entityType": 0,
+			"components": []
+		},
+		{
+			"x": 15.5,
+			"y": 6.354166666666664,
+			"dimensions": {
+				"width": 83.2,
+				"height": 64,
+				"depth": 192
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 0
+			},
+			"entityType": 0,
+			"components": []
+		},
+		{
+			"x": 18.5,
+			"y": 6.354166666666664,
+			"dimensions": {
+				"width": 89.6,
+				"height": 64,
+				"depth": 192
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 0
+			},
+			"entityType": 0,
+			"components": []
+		},
+		{
+			"x": 21.7,
+			"y": 6.354166666666664,
+			"dimensions": {
+				"width": 96,
+				"height": 64,
+				"depth": 192
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 0
+			},
+			"entityType": 0,
+			"components": []
+		},
+		{
+			"x": 25.1,
+			"y": 6.354166666666664,
+			"dimensions": {
+				"width": 115.2,
+				"height": 64,
+				"depth": 192
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 0
+			},
+			"entityType": 0,
+			"components": []
+		},
+		{
+			"x": 37.38717074791519,
+			"y": 6.362612683573116,
+			"dimensions": {
+				"width": 140.8,
+				"height": 64,
+				"depth": 192
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 0
+			},
+			"entityType": 0,
+			"components": []
+		},
+		{
+			"x": 48.220504081248514,
+			"y": 6.362612683573116,
+			"dimensions": {
+				"width": 185.6,
+				"height": 64,
+				"depth": 192
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 0
+			},
+			"entityType": 0,
+			"components": []
+		},
+		{
+			"x": 28.925990868809027,
+			"y": 6.379499354369778,
+			"dimensions": {
+				"width": 115.2,
+				"height": 64,
+				"depth": 192
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 0
+			},
+			"entityType": 0,
+			"components": []
+		},
+		{
+			"x": 32.98849086880903,
+			"y": 6.379499354369778,
+			"dimensions": {
+				"width": 121.6,
+				"height": 64,
+				"depth": 192
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 0
+			},
+			"entityType": 0,
+			"components": []
+		}
+	]
+}

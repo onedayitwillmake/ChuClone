@@ -49,8 +49,14 @@ Abstract:
             var PTM_RATIO = ChuClone.Constants.PTM_RATIO;
             var zero = new THREE.Vector3(this.attachedEntity.position.x - 5, -100,0);
             this.attachedEntity.target.position = zero;
+
+//            this._debugDraw.GetDrawScale()
+//            this._debugDraw.GetSprite().canvas.width;
+
+            //console.log(this._debugDraw.GetSprite())
+//            console.log(this._debugDraw.GetSprite().canvas.width/2 / this._debugDraw.GetDrawScale(), PTM_RATIO)
             this.attachedEntity.position.x = this._debugDraw.offsetX * -PTM_RATIO;
-            this.attachedEntity.position.y = this._debugDraw.offsetY * -PTM_RATIO + 1000;
+            this.attachedEntity.position.y = this._debugDraw.offsetY * PTM_RATIO;
         },
 
         /**

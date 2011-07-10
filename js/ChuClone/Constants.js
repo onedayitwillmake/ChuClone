@@ -40,7 +40,8 @@
         },
 
         EDITOR: {
-            PANEL_WIDTH     : 190
+            PANEL_DOMELEMENT : document.getElementById("guiContainer"),
+            PANEL_WIDTH         : 190
         },
         
         ENTITY_DEFAULTS: {

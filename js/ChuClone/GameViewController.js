@@ -74,7 +74,7 @@
         /**
          * @type {Boolean}
          */
-        _isFullScreen: false,
+        _isFullScreen: true,
 
         /**
          * @type {Number}
@@ -106,6 +106,7 @@
             this._renderer.setClearColor(new THREE.Color(0xFFFFFF), 1);
             this._renderer.setSize( this.getDimensions().x, this.getDimensions().y );
 
+            this._renderer.domElement.tabIndex = "1";
             this._domElement.appendChild( this._renderer.domElement );
         },
 
@@ -116,6 +117,7 @@
             this._camera = new THREE.Camera( 70, 900/400, 1, 30000 );
             this._camera.position.y = 100;
             this._camera.position.z = 1300;
+//            this._camera._isFullScreen = this._isFullScreen;
             this._camera.name = "camera";
         },
 

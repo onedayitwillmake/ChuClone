@@ -1,50 +1,54 @@
 /**
 File:
-	ChaseTrait.js
+	CameraFollowEditorComponent.js
 Created By:
 	Mario Gonzalez
 Project	:
-	RealtimeMultiplayerNodeJS
+	ChuClone
 Abstract:
- 	This trait will cause an entity to chase a target
+ 	Allows a player to respawn at this point in the level.
+    A lot of the ideas here are taken from the Unity ThirdPersonPlatformer tutorial
+
  Basic Usage:
 
-  License:
-    Creative Commons Attribution-NonCommercial-ShareAlike
-    http://creativecommons.org/licenses/by-nc-sa/3.0/
+ License:
+   Creative Commons Attribution-NonCommercial-ShareAlike
+   http://creativecommons.org/licenses/by-nc-sa/3.0/
+
 */
 (function(){
     "use strict";
     
 	ChuClone.namespace("ChuClone.components");
 
-	ChuClone.components.JumpPadComponent = function() {
-		ChuClone.components.JumpPadComponent.superclass.constructor.call(this);
+	ChuClone.components.RespawnComponent = function() {
+		ChuClone.components.RespawnComponent.superclass.constructor.call(this);
 
 	};
 
-	ChuClone.components.JumpPadComponent.prototype = {
-		displayName						: "JumpPadComponent",					// Unique string name for this Trait
+	ChuClone.components.RespawnComponent.prototype = {
+		displayName						: "RespawnComponent",					// Unique string name for this Trait
+        _textureSource                  : "assets/images/game/flooraqua.png",
 
-        _textureSource                  : "assets/images/game/jumppad.png",
-        _force                          : 1500,
-        _previousMaterial               : null,
 
-        _inactiveDelay                  : 1000,
-        _isReady                        : true,
-        _isReadyTimeout                 : null,
+        _respawnState   : 0,
+
+        /**
+         * @type {ChuClone.components.RespawnComponent}
+         */
+        CURRENT_RESPAWN : null,
 
 		/**
 		 * @inheritDoc
 		 */
 		attach: function(anEntity) {
-			ChuClone.components.JumpPadComponent.superclass.attach.call(this, anEntity);
+			ChuClone.components.RespawnComponent.superclass.attach.call(this, anEntity);
             // Intercept collision
             this.intercept(['onCollision']);
 		},
 
         execute: function() {
-            ChuClone.components.JumpPadComponent.superclass.execute.call(this);
+            ChuClone.components.RespawnComponent.superclass.execute.call(this);
 
             var view = this.attachedEntity.getView();
             var body = this.attachedEntity.getBody();
@@ -60,6 +64,8 @@ Abstract:
         onCollision: function( otherActor ) {
             if( otherActor._type != ChuClone.Constants.ENTITY_TYPES.PLAYER )
                 return;
+
+            console.log("A")
             
             this.interceptedProperties.onCollision.call(this.attachedEntity, otherActor );
 
@@ -80,7 +86,7 @@ Abstract:
             clearTimeout( this._isReadyTimeout );
             this._isReadyTimeout = setTimeout( function(){
                 that._isReady = true;
-            }, this._inactiveDelay);
+            }, 1000);
         },
         
         getIsReady: function() {
@@ -92,30 +98,20 @@ Abstract:
          */
         detach: function() {
             this.attachedEntity.getView().materials[0] = this._previousMaterial;
-            ChuClone.components.JumpPadComponent.superclass.detach.call(this);
+            ChuClone.components.RespawnComponent.superclass.detach.call(this);
         },
 
         /**
          * @inheritDoc
          */
         getModel: function() {
-            var returnObject = ChuClone.components.JumpPadComponent.superclass.getModel.call(this);
+            var returnObject = ChuClone.components.RespawnComponent.superclass.getModel.call(this);
             returnObject.textureSource = this._textureSource;
 
             return returnObject;
-        },
-
-        /**
-         * @inheritDoc
-         */
-        fromModel: function( data ) {
-            ChuClone.components.JumpPadComponent.superclass.fromModel.call(this, data);
-            this._textureSource = data.textureSource;
-            this._inactiveDelay = data.inactiveDelay;
-
         }
 
 	};
 
-    ChuClone.extend( ChuClone.components.JumpPadComponent, ChuClone.components.BaseComponent );
+    ChuClone.extend( ChuClone.components.RespawnComponent, ChuClone.components.BaseComponent );
 })();

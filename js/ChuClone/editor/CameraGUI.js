@@ -68,13 +68,15 @@
             this._controls['type'].options.apply( this._controls['type'], camTypeNames);
             this._controls['type'].onChange( function() {
                 var selected = this.domElement.childNodes[1].selectedIndex;
-//                console.log(this.domElement.onblur())
-//                console.log(this.domElement.childNodes[1].onblur())
-//                this.domElement.childNodes[1].onblur();
-//                document.body.focus();
-                console.log( document.getElementsByTagName("canvas")[0].focus()  )
+
+                // Remove focus from the elemnt otherwise
+                document.getElementsByTagName("canvas")[0].focus();
                 that.onCamTypeChange( selected );
             });
+
+//            this._controls['type'] = this._gui.add(this, '_isFullScreen').onChange( function(){
+//                this.gam
+//            }).name("FullScreen");
 
             this._gui.close();
             this._gui.open();

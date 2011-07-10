@@ -69,6 +69,17 @@
             this._gui.close();
         },
 
+        /**
+         * Loads the last level saved
+         */
+        loadLatestLevel: function() {
+            try {
+                this.loadLevelFromSlot(parseInt(localStorage.getItem("lastSlot")));
+            } catch (error) {
+                console.log("LevelManager.loadLatestLevel - Load failed")
+            }
+        },
+
 
 
         /**
@@ -81,7 +92,6 @@
 
             localStorage.setItem(slot, data);
             localStorage.setItem("lastSlot", this._currentSlot);
-
         },
 
         /**
@@ -104,7 +114,7 @@
         loadLevelFromURL: function( aURL ) {
             this.clearLevel();
             
-            var url = window.location.href + "assets/levels/Start.json";
+            var url = window.location.href + "assets/levels/Piano.json";
             var request = new XMLHttpRequest();
             var that = this;
             request.onreadystatechange = function() {

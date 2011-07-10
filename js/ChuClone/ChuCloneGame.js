@@ -24,11 +24,15 @@
     ChuClone.namespace("ChuClone");
     ChuClone.ChuCloneGame = function() {
         this.listenForReady();
-        this.setupEvents();
+
     };
 
     ChuClone.ChuCloneGame.prototype = {
 
+        /**
+         * @type {Boolean}
+         */
+        _hasFocus   : true,
         /**
          * @type {ChuClone.GameViewController}
          */
@@ -72,10 +76,13 @@
          * @type {Event}    'DOMContentLoaded' event
          */
         onReady: function(e) {
+            ChuClone.Constants.EDITOR.PANEL_DOMELEMENT = document.getElementById("guiContainer");
+
+            this.setupEvents();
             this.setupView();
             this.setupWorldController();
             this.setupLevelManager();
-            this._levelManager.loadLevelFromURL("");
+
 
 
 //            this.debugSetupRandomBlocks();
@@ -112,6 +119,21 @@
                 
                 that._worldController.createBox2dWorld();
             });
+
+            // GOAL REACHED
+            ChuClone.Events.Dispatcher.addListener(ChuClone.components.GoalPadComponent.prototype.EVENTS.GOAL_REACHED, function( aGoalComponent ) {
+                console.log("GOAL REACHED YO!")
+            });
+
+            window.addEventListener("focus", function(e) {
+                console.log("GAINED FOCUS");
+                that._hasFocus = true;
+            }, false);
+            window.addEventListener("blur", function(e) {
+                console.log("LOST FOCUS");
+                that._hasFocus = false;
+            }, false);
+
         },
 
         /**
@@ -120,6 +142,8 @@
         setupLevelManager: function() {
             this._levelManager = new ChuClone.editor.LevelManager( this._worldController, this._gameView );
             this._levelManager.setupGui();
+            this._levelManager.loadLevelFromURL()
+//            this._levelManager.loadLatestLevel();
         },
 
         setupView: function() {
@@ -173,7 +197,6 @@
          onPlayerCreated: function(aPlayer) {
              var x = 50;
              var y = -300;
-
              aPlayer.getBody().SetPosition( new Box2D.Common.Math.b2Vec2(x / ChuClone.Constants.PTM_RATIO, y / ChuClone.Constants.PTM_RATIO) );
              aPlayer.getView().materials[0] = ChuClone.Constants.PLAYER.MATERIAL;
              aPlayer.setDimensions(ChuClone.Constants.PLAYER.WIDTH, ChuClone.Constants.PLAYER.HEIGHT, ChuClone.Constants.PLAYER.DEPTH);
@@ -183,8 +206,11 @@
              aPlayer.addComponentAndExecute( new ChuClone.components.PhysicsVelocityLimitComponent() );
              this._player = aPlayer;
          },
-        
+
         update: function() {
+            if(!this._hasFocus)
+                return;
+            
             /**
              * @type {Box2D.Dynamics.b2Body}
              */

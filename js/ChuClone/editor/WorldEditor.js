@@ -72,7 +72,7 @@
         /**
          * We modify this not the b2Body directly
          */
-        _propProxy          : {x: 5, y: 5, width: 3, height:3, depth: 3, jumpPad: false },
+        _propProxy          : {x: 5, y: 5, width: 3, height:3, depth: 3, jumpPad: false, respawnPoint: false, goalPad: false },
         _controllers        : {},
 
                             // Store reference for remval later: HACK?
@@ -119,18 +119,40 @@
          * Setup DAT.GUI controllers
          */
         setupGui: function() {
+
             var that = this;
+            var container = ChuClone.Constants.EDITOR.PANEL_DOMELEMENT;
+//            DAT.GUI.autoPlace = false;
+
             this._guiModification = new DAT.GUI({width: ChuClone.Constants.EDITOR.PANEL_WIDTH});
             this._guiModification.name("Modification");
             this._guiModification.autoListen = false;
+
+            // Do some custom styles ...
+//            this._guiModification.domElement.style.position = 'absolute';
+//            this._guiModification.domElement.style.top = '0px';
+//            this._guiModification.domElement.style.left = '0px';
+//
+//            container.style.textAlign = "right"
+//            container.appendChild( this._guiModification.domElement );
 
             this.addControllerWithTimeout(this._guiModification, "x", this._propProxy.x).step(0.1);
             this.addControllerWithTimeout(this._guiModification, "y", this._propProxy.y).step(0.1);
             this.addControllerWithTimeout(this._guiModification, "width", this._propProxy.width).min(0.01).max(Math.round(5000/PTM_RATIO)).step(0.05);
             this.addControllerWithTimeout(this._guiModification, "height", this._propProxy.height).min(0.01).max(Math.round(5000/PTM_RATIO)).step(0.05);
-            this.addControllerWithTimeout(this._guiModification, "depth", this._propProxy.depth).min(0.01).max(5000/PTM_RATIO).step(0.05);
+            this.addControllerWithTimeout(this._guiModification, "depth", this._propProxy.depth).min(0.01).max(2000/PTM_RATIO).step(0.05);
+
+            // Toggle JumpPadComponent
             this._controllers['jumpPad'] = this._guiModification.add(this._propProxy, "jumpPad");
             this._controllers['jumpPad'].onChange( function(aValue){ that.toggleJumpPad(aValue); } );
+
+            // Toggle GoalPadComponent
+            this._controllers['respawnPoint'] = this._guiModification.add(this._propProxy, "respawnPoint");
+            this._controllers['respawnPoint'].onChange( function(aValue){ that.toggleRespawnPoint(aValue); } );
+
+            this._controllers['goalPad'] = this._guiModification.add(this._propProxy, "goalPad");
+            this._controllers['goalPad'].onChange( function(aValue){ that.toggleGoalPad(aValue); } );
+
             this._guiModification.close();
 //            this._guiModification.open();
 
@@ -138,6 +160,11 @@
             this._guiCreation = new DAT.GUI({width: ChuClone.Constants.EDITOR.PANEL_WIDTH});
             this._guiCreation.name("Creation");
             this._guiCreation.autoListen = false;
+//            this._guiCreation.domElement.style.position = 'absolute';
+//            this._guiCreation.domElement.style.top = '0px';
+//            this._guiCreation.domElement.style.left = '0px';
+//
+//            container.appendChild( this._guiCreation.domElement );
 
             this._controllers['onShouldCreate'] = this._guiCreation.add(this, 'onShouldCreate').name("Create Entity");
             this._controllers['onShouldClone'] = this._guiCreation.add(this, 'onShouldCloneEntity').name("Clone Entity")
@@ -170,6 +197,47 @@
                 entity.addComponentAndExecute( jumpPadComponent );
             }
         },
+
+        /**
+         * If _currentBody, toggles the GoalPadComponent
+         * @param {Boolean} wantsToBeGoalPad
+         */
+        toggleGoalPad: function( wantsToBeGoalPad ) {
+            if(!this._currentBody) {
+                console.error("ChuClone.WorldEditor.toggleGoalPad- _currentBody is null!");
+                return;
+            }
+
+            var entity = this._currentBody.GetUserData();
+            if( !wantsToBeGoalPad ) {
+                entity.removeComponentWithName( ChuClone.components.GoalPadComponent.prototype.displayName );
+            } else {
+                var goalPadComponent = new ChuClone.components.GoalPadComponent();
+                entity.addComponentAndExecute( goalPadComponent );
+            }
+        },
+
+        /**
+         * If _currentBody, toggles the RespawnComponent
+         * @param {Boolean} wantsToBeRespawnPoint
+         */
+        toggleRespawnPoint: function( wantsToBeRespawnPoint ) {
+            if(!this._currentBody) {
+                console.error("ChuClone.WorldEditor.toggleRespawnPoint - _currentBody is null!");
+                return;
+            }
+
+            var entity = this._currentBody.GetUserData();
+
+            if( !wantsToBeRespawnPoint ) {
+                entity.removeComponentWithName( ChuClone.components.RespawnComponent.prototype.displayName );
+            } else {
+                var respawnComponent = new ChuClone.components.RespawnComponent();
+                entity.addComponentAndExecute( respawnComponent );
+            }
+        },
+
+
 
         /**
          * Create a new body using lastMousePosition and propProxy data
@@ -230,11 +298,40 @@
          * Clones the _currentBody
          */
         onShouldCloneEntity: function(){
+            if(!this._currentBody) {
+                console.error("WorldEditor::onShouldCloneEntity - _currentBody is null!");
+                return;
+            }
+
+            // Clone components
+            /**
+             * @type {ChuClone.GameEntity}
+             */
+            var clonedEntity = this._currentBody.GetUserData();
+
             this._mousePosition.x = this._currentBody.GetPosition().x;
             this._mousePosition.y = this._currentBody.GetPosition().y;
             this._mousePosition.Multiply( this._worldController.getDebugDraw().GetDrawScale() );
 
             this.onShouldCreate(null);
+
+            // Clone previous entities components
+            for(var j = clonedEntity.components.length - 1; j >= 0 ; j--) {
+                /**
+                 * Use the factory to create the components
+                 * @type {ChuClone.components.BaseComponent}
+                 */
+                var componentInstance = ChuClone.components.ComponentFactory.getComponentByName( clonedEntity.components[j].displayName );
+                if(!componentInstance) {
+                    console.log("ComponentFactory does not contain '" + clonedEntity.components[j].displayName + "'");
+                    continue;
+                }
+                // Allow the component to set any special properties
+                componentInstance.fromModel( clonedEntity.components[j].getModel() );
+
+                // Attach it to the entity
+                this._currentBody.GetUserData().addComponentAndExecute( componentInstance );
+            }
         },
 
         /**
@@ -364,23 +461,9 @@
             this._controllers['width'].setValue( this._currentBody.GetUserData().getDimensions().width / PTM_RATIO );
             this._controllers['height'].setValue( this._currentBody.GetUserData().getDimensions().height / PTM_RATIO );
             this._controllers['depth'].setValue( this._currentBody.GetUserData().getDimensions().depth / PTM_RATIO );
-            this._controllers['jumpPad'].setValue( this._currentBody.GetUserData().getComponentWithName( ChuClone.components.JumpPadComponent.prototype.displayName) )
-        },
-
-
-        /**
-         * Clones a box2d body
-         */
-        cloneBody: function() {
-            // Create a new using current body's data
-            var newBody = this._worldController.createRect(
-                this._currentBody.GetPosition.x * PTM_RATIO,
-                this._currentBody.GetPosition.y * PTM_RATIO,
-                this._currentBody.GetAngle(),
-                this._currentBody.GetUserData().getDimensions().width / PTM_RATIO,
-                this._currentBody.GetUserData().getDimensions().height / PTM_RATIO,
-                this._currentBody.GetType() == Box2D.Dynamics.b2Body.b2_dynamicBody
-            );
+            this._controllers['jumpPad'].setValue( this._currentBody.GetUserData().getComponentWithName( ChuClone.components.JumpPadComponent.prototype.displayName) );
+            this._controllers['respawnPoint'].setValue( this._currentBody.GetUserData().getComponentWithName( ChuClone.components.RespawnComponent.prototype.displayName) );
+            this._controllers['goalPad'].setValue( this._currentBody.GetUserData().getComponentWithName( ChuClone.components.GoalPadComponent.prototype.displayName) );
         },
 
         /**
