@@ -114,7 +114,7 @@
         loadLevelFromURL: function( aURL ) {
             this.clearLevel();
             
-            var url = window.location.href + "assets/levels/Piano.json";
+            var url = ChuClone.utils.getCWD() + "/assets/levels/Piano.json";
             var request = new XMLHttpRequest();
             var that = this;
             request.onreadystatechange = function() {
@@ -135,8 +135,10 @@
             var model = new ChuClone.editor.LevelModel();
             model.fromJsonString( JSONString,  this._worldController,  this._gameView );
 
-            // Set the current name, and emit the loaded event
-            this._controllers['name'].setValue( model.levelName );
+            if( this._controllers.length ) {
+                // Set the current name, and emit the loaded event
+                this._controllers['name'].setValue( model.levelName );
+            }
             ChuClone.Events.Dispatcher.emit( ChuClone.editor.LevelManager.prototype.EVENTS.WORLD_CREATED, model );
         },
 

@@ -34,16 +34,20 @@ p {
   text-align: center;
 }
 
+.levelThumbnail {
+    font-size: 16px;
+}
+
 .container_12,
 .container_16,
 .container_24 {
-  background-color: #fff;
+  background-color: #111111;
   background-repeat: repeat-y;
   margin-bottom: 20px;
 }
 
 .container_12 {
-  background-image: url(../../images/page/12_col.gif);
+  /*background-image: url(../../images/page/12_col.gif);*/
 }
 
 .container_16 {
@@ -52,4 +56,11 @@ p {
 
 .container_24 {
   background-image: url(../img/24_col.gif);
+}
+
+#gameContainer {
+    height: 900px;
+}
+:focus {
+    outline: 0;
 }

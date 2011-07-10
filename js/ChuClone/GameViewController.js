@@ -91,8 +91,14 @@
          * Sets up the HTMLElement that will contain our renderer
          */
         setupContainer: function() {
-            this._domElement = document.createElement( 'div' );
-            document.body.appendChild( this._domElement );
+
+            // Create the container if none exist
+            if( !document.getElementById("gameContainer") ) {
+                this._domElement = document.createElement( 'div' );
+                document.body.appendChild( this._domElement );
+            } else {
+                this._domElement = document.getElementById("gameContainer");
+            }
         },
 
         /**

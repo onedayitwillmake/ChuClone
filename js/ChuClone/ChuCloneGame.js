@@ -24,7 +24,6 @@
     ChuClone.namespace("ChuClone");
     ChuClone.ChuCloneGame = function() {
         this.listenForReady();
-
     };
 
     ChuClone.ChuCloneGame.prototype = {
@@ -139,8 +138,8 @@
          */
         setupLevelManager: function() {
             this._levelManager = new ChuClone.editor.LevelManager( this._worldController, this._gameView );
-            this._levelManager.setupGui();
-            this._levelManager.loadLevelFromURL()
+//            this._levelManager.setupGui();
+            this._levelManager.loadLevelFromURL();
 //            this._levelManager.loadLatestLevel();
         },
 
@@ -151,7 +150,9 @@
 
         setupWorldController: function() {
             this._worldController = new ChuClone.physics.WorldController();
-            this._worldController.setupEditor( this._gameView );
+            this._worldController.setDebugDraw();
+
+//            this._worldController.setupEditor( this._gameView );
         },
 
         debugSetupRandomBlocks: function() {

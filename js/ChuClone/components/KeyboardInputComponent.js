@@ -76,6 +76,8 @@ Abstract:
             else if(  e.keyCode == ChuClone.Constants.KEYS.RIGHT || e.keyCode == ChuClone.Constants.KEYS.D ) this._keyStates.right = true;
             if( e.keyCode == ChuClone.Constants.KEYS.UP || e.keyCode == ChuClone.Constants.KEYS.W ) this._keyStates.up = true;
             else if( e.keyCode == ChuClone.Constants.KEYS.DOWN || e.keyCode == ChuClone.Constants.KEYS.S ) this._keyStates.down = true;
+
+            e.preventDefault();
         },
 
         handleKeyUp: function(e) {
@@ -83,6 +85,8 @@ Abstract:
             else if(  e.keyCode == ChuClone.Constants.KEYS.RIGHT || e.keyCode == ChuClone.Constants.KEYS.D ) this._keyStates.right = false;
             if( e.keyCode == ChuClone.Constants.KEYS.UP || e.keyCode == ChuClone.Constants.KEYS.W ) this._keyStates.up = false;
             else if( e.keyCode == ChuClone.Constants.KEYS.DOWN || e.keyCode == ChuClone.Constants.KEYS.S ) this._keyStates.down = false;
+
+            e.preventDefault();
         },
 
         /**

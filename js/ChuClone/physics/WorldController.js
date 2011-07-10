@@ -34,7 +34,6 @@
 
     ChuClone.physics.WorldController = function() {
         this.setupBox2d();
-        this.setDebugDraw();
     };
 
     ChuClone.physics.WorldController.prototype = {
@@ -234,24 +233,36 @@
          */
         setDebugDraw: function(canvas) {
             if( !canvas ) {
-                var container = document.createElement( 'div' );
-                container.style.position = "absolute";
-                container.style.top = ChuClone.Constants.GAME_HEIGHT + 5 + "px";
-                container.style.backgroundColor = "#000000";
-                container.style.opacity = 0.75;
-                document.body.appendChild( container );
 
+                var container = null;
                 var debugCanvas = document.createElement('canvas');
-                container.appendChild( debugCanvas );
 
-                canvas = debugCanvas;
-                canvas.width = ChuClone.Constants.GAME_WIDTH;
-                canvas.height = ChuClone.Constants.GAME_HEIGHT - 100;
+                // Create the container if none exist
+                if( !document.getElementById("editorContainer") ) {
+                    container = document.createElement( 'div' );
+                    container.style.position = "absolute";
+                    container.style.top = ChuClone.Constants.GAME_HEIGHT + 5 + "px";
+                    container.style.backgroundColor = "#000000";
+                    container.style.opacity = 0.75;
+                    document.body.appendChild( container );
+
+                    debugCanvas.width = ChuClone.Constants.GAME_WIDTH;
+                    debugCanvas.height = ChuClone.Constants.GAME_HEIGHT - 100;
+
+                } else {
+                    container = document.getElementById("editorContainer");
+
+                    debugCanvas.width = ChuClone.Constants.GAME_WIDTH;
+                    debugCanvas.height = parseInt( document.getElementById("editorContainer").style.height );
+                }
+
+
+                container.appendChild( debugCanvas );
             }
 
             //setup debug draw
             var debugDraw = new b2DebugDraw();
-            debugDraw.SetSprite( canvas.getContext("2d") );
+            debugDraw.SetSprite( debugCanvas.getContext("2d") );
             debugDraw.SetDrawScale(10);
             debugDraw.SetFillAlpha(0.3);
             debugDraw.SetLineThickness(0.5);
