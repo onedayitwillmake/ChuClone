@@ -26,6 +26,7 @@
         this.setupCamera();
         this.setupLights();
         this.setupEvents();
+        this.setupBackgroundParticleManager();
 
         this.onSetupComplete();
     };
@@ -63,6 +64,11 @@
         _ambientLight: null,
 
         /**
+         * @type {ChuClone.view.BackgroundParticleManager}
+         */
+        _backgroundParticleManager: null,
+
+        /**
          * @type {THREE.Vector2}
          */
         _mousePosition: new THREE.Vector2(0, 0),
@@ -74,7 +80,7 @@
         /**
          * @type {Boolean}
          */
-        _isFullScreen: true,
+        _isFullScreen: false,
 
         /**
          * @type {Number}
@@ -142,6 +148,17 @@
             window.addEventListener( 'resize', function(e) { that.onResize(e); }, false);
             document.addEventListener( 'mousemove', function(e){ that.onDocumentMouseMove(e)}, false );
         },
+
+        /**
+         * Setup event callback bindings
+         */
+        setupBackgroundParticleManager: function() {
+            this._backgroundParticleManager = new ChuClone.view.BackgroundParticleManager();
+            for( var i = 0; i < this._backgroundParticleManager.getSystems().length; i++ ) {
+                this._scene.addObject( this._backgroundParticleManager.getSystems()[i] );
+            }
+        },
+
 
         /**
          * Called internally after all individual setup functions have been called.

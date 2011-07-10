@@ -126,11 +126,9 @@
             });
 
             window.addEventListener("focus", function(e) {
-                console.log("GAINED FOCUS");
                 that._hasFocus = true;
             }, false);
             window.addEventListener("blur", function(e) {
-                console.log("LOST FOCUS");
                 that._hasFocus = false;
             }, false);
 
