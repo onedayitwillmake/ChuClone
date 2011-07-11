@@ -29,14 +29,30 @@ h2 {
 }
 
 p {
-  border: 1px solid #666;
-  overflow: hidden;
-  padding: 5px 0;
-  text-align: center;
+    border: 1px solid #666;
+    overflow: hidden;
+    padding: 5px 0;
+    text-align: center;
 }
 
 .levelThumbnail {
+    border: 1px inset #666;
+    margin-left: -1px;
+    margin-right: 19px;
+    width: 19px;
+    height: 50px;
     font-size: 16px;
+    cursor: pointer;
+}
+.levelThumbnail p {
+    border: none;
+    padding: 0;
+}
+
+.levelThumbnailEOL {
+    margin-right: 0;
+    margin-left: -2px;
+    background-color: red;
 }
 
 .container_12,
@@ -48,7 +64,7 @@ p {
 }
 
 .container_12 {
-  /*background-image: url(../../images/page/12_col.gif);*/
+  background-image: url(../../images/page/12_col.gif);
 }
 
 .container_16 {

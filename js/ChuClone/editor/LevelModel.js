@@ -34,9 +34,21 @@
     http://creativecommons.org/licenses/by-nc-sa/3.0/
  */
 (function(){
+
+    var instance;
+
     ChuClone.namespace("ChuClone.editor");
     ChuClone.editor.LevelModel = function() {
+
+        if(instance == null) {
+            instance = this;
+        }
+
         this.setupEvents();
+    };
+
+    ChuClone.editor.LevelModel.getInstance = function() {
+        return instance;
     };
 
     ChuClone.editor.LevelModel.prototype = {
@@ -80,10 +92,20 @@
             ChuClone.Events.Dispatcher.addListener(ChuClone.components.RespawnComponent.prototype.EVENTS.DESTROYED, function( aRespawnPoint) { that.onRespawnPointDestroyed(aRespawnPoint); });
         },
 
+        /**
+         * Called when a respawn point is created
+         * @param {ChuClone.components.RespawnComponent} aRespawnPoint
+         */
         onRespawnPointCreated: function( aRespawnPoint ) {
             this.respawnPoints.push( aRespawnPoint );
         },
 
+
+        /**
+         * Called when a respawn point is destroyed, removes it from the respawnPoints array
+         * This is usually called from from the editor
+         * @param {ChuClone.components.RespawnComponent} aRespawnPoint
+         */
         onRespawnPointDestroyed: function( aRespawnPoint ) {
             var respawnPointIndex = this.respawnPoints.indexOf(aRespawnPoint);
             if( respawnPointIndex === -1 ) return;

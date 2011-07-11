@@ -43,6 +43,8 @@
     <script type="text/javascript" src="js/ChuClone/Constants.js"></script>
     <script type="text/javascript" src="js/ChuClone/Utils.js"></script>
 
+    <script type="text/javascript" src="js/ChuClone/gui/LevelListing.js"></script>
+
     <script type="text/javascript" src="js/ChuClone/components/BaseComponent.js"></script>
     <script type="text/javascript" src="js/ChuClone/components/JumpPadComponent.js"></script>
     <script type="text/javascript" src="js/ChuClone/components/RespawnPointComponent.js"></script>
@@ -97,39 +99,51 @@
     <div class="clear"></div>
     <div id="gameContainer" class="grid_12">
     </div>
-    <div id="editorContainer" class="grid_12" style="height: 540px;">
-    </div>
+<!--    <div id="editorContainer" class="grid_12" style="height: 540px;">-->
+<!--    </div>-->
     <div class="clear"></div>
     <div class="grid_6">
         <p>
             Select Level
         </p>
-    </div>
-    <div class="grid_6">
-        <p>
-            Level Information
-        </p>
-    </div>
-    <div class="clear"></div>
 
 <!--    LIST LEVELS-->
     <?php
-        $path = getcwd() . "/assets/levels/";
+        $suffix = "assets/levels/";         // Append to every elvel
+        $path = getcwd() . "/" . $suffix;   // Prefix to every url
         $dir_handle = @opendir($path) or die("Unable to open $path");
+
+        $count = 0;
+        $perRow = 6;            // These are the last columns in our set, enable special class for end these
 
         // Loop through the files
         while ($file = readdir($dir_handle)) {
             if ($file == "." || $file == ".." || $file == "index.php")
                 continue;
+
+            $count++;
+            $extraClass = ($count % $perRow) == 0 ? "levelThumbnailEOL" : "";
+
+            $location = $suffix . $file;
             $template = <<<EOD
-            <div class="grid_2 levelThumbnail">
-                <p>$file</p>
+            <div data-location="$location" class="grid_1 levelThumbnail $extraClass">
+                <p>lvl $count</p>
             </div>
 EOD;
             echo $template;
         }
         closedir($dir_handle);
     ?>
+    </div>
+    <div class="grid_6">
+        <p>
+            Level Information
+        </p>
+        <div class="grid_6 levelThumbnail">
+                <p>Some Level details go here</p>
+            </div>
+    </div>
+    <div class="clear"></div>
 </div>
 
 </body>

@@ -152,9 +152,8 @@
 
         setupWorldController: function() {
             this._worldController = new ChuClone.physics.WorldController();
-            this._worldController.setDebugDraw();
-
-            this._worldController.setupEditor( this._gameView );
+//            this._worldController.setDebugDraw();
+//            this._worldController.setupEditor( this._gameView );
         },
 
         debugSetupRandomBlocks: function() {
@@ -208,6 +207,9 @@
              this._player = aPlayer;
          },
 
+        /**
+         * Main loop for game engine
+         */
         update: function() {
             if(!this._hasFocus)
                 return;
