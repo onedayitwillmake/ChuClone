@@ -103,7 +103,7 @@
             // Check if we already have this component, if we do - make sure the component allows stacking
             var existingVersionOfComponent = this.getComponentWithName(aComponent.displayName);
             if (existingVersionOfComponent && !existingVersionOfComponent.canStack) {
-                console.debug("GameEntity::addComponent - Not adding '" + aComponent.displayName + "', already exist and canStack = false.");
+                //console.debug("GameEntity::addComponent - Not adding '" + aComponent.displayName + "', already exist and canStack = false.");
                 return false;
             }
 

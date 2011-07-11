@@ -86,6 +86,7 @@
 
 //            this.debugSetupRandomBlocks();
             this.debugSetupPlayer();
+//            this.spawnPlayer();
 
 
             // MAIN LOOP
@@ -138,8 +139,9 @@
          */
         setupLevelManager: function() {
             this._levelManager = new ChuClone.editor.LevelManager( this._worldController, this._gameView );
-//            this._levelManager.setupGui();
-            this._levelManager.loadLevelFromURL();
+            this._levelManager.setupGui();
+//            this._levelManager.loadLevelFromURL("/assets/levels/Piano.json");
+            this._levelManager.loadLevelFromURL("/assets/levels/HelloWorld.json");
 //            this._levelManager.loadLatestLevel();
         },
 
@@ -152,7 +154,7 @@
             this._worldController = new ChuClone.physics.WorldController();
             this._worldController.setDebugDraw();
 
-//            this._worldController.setupEditor( this._gameView );
+            this._worldController.setupEditor( this._gameView );
         },
 
         debugSetupRandomBlocks: function() {

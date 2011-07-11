@@ -67,8 +67,8 @@ Abstract:
                 else if( e.type === "keydown") that.handleKeyDown(e);
             };
 
-            window.addEventListener('keydown', this._callback, false);
-            window.addEventListener('keyup', this._callback, false);
+            ChuClone.DOM_ELEMENT.addEventListener('keydown', this._callback, false);
+            ChuClone.DOM_ELEMENT.addEventListener('keyup', this._callback, false);
         },
 
         handleKeyDown: function( e ) {
@@ -93,8 +93,8 @@ Abstract:
          * Restore material and restitution
          */
         detach: function() {
-            document.removeEventListener('keydown', this._callback, false);
-            document.removeEventListener('keyup', this._callback, false);
+            ChuClone.DOM_ELEMENT.removeEventListener('keydown', this._callback, false);
+            ChuClone.DOM_ELEMENT.removeEventListener('keyup', this._callback, false);
             this._callback = null;
 
            ChuClone.components.KeyboardInputComponent.superclass.detach.call(this);

@@ -74,12 +74,11 @@
                 that.onCamTypeChange( selected );
             });
 
-//            this._controls['type'] = this._gui.add(this, '_isFullScreen').onChange( function(){
-//                this.gam
-//            }).name("FullScreen");
 
             this._gui.close();
             this._gui.open();
+
+
         },
 
         onCamTypeChange: function( selectedIndex ) {

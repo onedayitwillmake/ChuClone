@@ -36,7 +36,7 @@
 (function(){
     ChuClone.namespace("ChuClone.editor");
     ChuClone.editor.LevelModel = function() {
-
+        this.setupEvents();
     };
 
     ChuClone.editor.LevelModel.prototype = {
@@ -69,6 +69,27 @@
          * @type {Array}
          */
         bodyList: null,
+
+        respawnPoints: [],
+
+        setupEvents: function() {
+
+            // Listen for respawn points
+            var that = this;
+            ChuClone.Events.Dispatcher.addListener(ChuClone.components.RespawnComponent.prototype.EVENTS.CREATED, function( aRespawnPoint) { that.onRespawnPointCreated(aRespawnPoint); });
+            ChuClone.Events.Dispatcher.addListener(ChuClone.components.RespawnComponent.prototype.EVENTS.DESTROYED, function( aRespawnPoint) { that.onRespawnPointDestroyed(aRespawnPoint); });
+        },
+
+        onRespawnPointCreated: function( aRespawnPoint ) {
+            this.respawnPoints.push( aRespawnPoint );
+        },
+
+        onRespawnPointDestroyed: function( aRespawnPoint ) {
+            var respawnPointIndex = this.respawnPoints.indexOf(aRespawnPoint);
+            if( respawnPointIndex === -1 ) return;
+            
+            this.respawnPoints.splice( respawnPointIndex, 1 );
+        },
 
         /**
          * Parses the current game world
@@ -139,7 +160,8 @@
 
             //
             var aJSONString = JSON.stringify( returnObject, null, "\t" );
-            console.log( aJSONString );
+//            console.log( aJSONString );
+            console.log( this.respawnPoints );
             return aJSONString;
         },
 

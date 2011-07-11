@@ -18,7 +18,8 @@ a:hover {
 h1 {
 	font-size: 48px;
 	font-weight: 700;
-  padding-top: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   text-align: center;
 }
 
@@ -30,7 +31,7 @@ h2 {
 p {
   border: 1px solid #666;
   overflow: hidden;
-  padding: 10px 0;
+  padding: 5px 0;
   text-align: center;
 }
 
@@ -41,7 +42,7 @@ p {
 .container_12,
 .container_16,
 .container_24 {
-  background-color: #111111;
+  background-color: #eaeaea;
   background-repeat: repeat-y;
   margin-bottom: 20px;
 }
@@ -59,7 +60,17 @@ p {
 }
 
 #gameContainer {
-    height: 900px;
+    width: 1000px;
+    border:  1px solid #666;
+    margin-left: -20px;
+}
+
+#editorContainer {
+    width: 1000px;
+    border:  1px solid #666;
+    margin-left: -20px;
+    margin-top: 2px;
+    margin-bottom: 20px;
 }
 :focus {
     outline: 0;

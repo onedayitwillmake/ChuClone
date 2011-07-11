@@ -92,6 +92,7 @@
 
             localStorage.setItem(slot, data);
             localStorage.setItem("lastSlot", this._currentSlot);
+            this._levelModel = model;
         },
 
         /**
@@ -114,7 +115,7 @@
         loadLevelFromURL: function( aURL ) {
             this.clearLevel();
             
-            var url = ChuClone.utils.getCWD() + "/assets/levels/Piano.json";
+            var url = ChuClone.utils.getCWD() + aURL;
             var request = new XMLHttpRequest();
             var that = this;
             request.onreadystatechange = function() {
@@ -130,6 +131,7 @@
          * Creates a model object and loads a level into it.
          * This is the ultimate end call for loadLevelFromSlot & loadLevelFromURL
          * @param {String} JSONString
+         * @return {ChuClone.editor.LevelModel}
          */
         loadLevelFromJSONString: function( JSONString ) {
             var model = new ChuClone.editor.LevelModel();
@@ -140,6 +142,8 @@
                 this._controllers['name'].setValue( model.levelName );
             }
             ChuClone.Events.Dispatcher.emit( ChuClone.editor.LevelManager.prototype.EVENTS.WORLD_CREATED, model );
+            this._levelModel = model;
+            return model;
         },
 
         /**

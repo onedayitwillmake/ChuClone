@@ -33,6 +33,12 @@ Abstract:
 
         _respawnState   : 0,
 
+        EVENTS: {
+            CREATED     : "ChuClone.components.RespawnComponent.events.CREATED",
+            DESTROYED   : "ChuClone.components.RespawnComponent.events.DESTROYED"
+        },
+
+
         /**
          * @type {ChuClone.components.RespawnComponent}
          */
@@ -45,6 +51,7 @@ Abstract:
 			ChuClone.components.RespawnComponent.superclass.attach.call(this, anEntity);
             // Intercept collision
             this.intercept(['onCollision']);
+            ChuClone.Events.Dispatcher.emit(ChuClone.components.RespawnComponent.prototype.EVENTS.CREATED, this);
 		},
 
         execute: function() {
@@ -98,6 +105,8 @@ Abstract:
          */
         detach: function() {
             this.attachedEntity.getView().materials[0] = this._previousMaterial;
+            ChuClone.Events.Dispatcher.emit(ChuClone.components.RespawnComponent.prototype.EVENTS.DESTROYED, this);
+
             ChuClone.components.RespawnComponent.superclass.detach.call(this);
         },
 

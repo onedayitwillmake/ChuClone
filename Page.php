@@ -95,7 +95,7 @@
         </p>
     </div>
     <div class="clear"></div>
-    <div id="gameContainer" class="grid_12" style="height: 540px;">
+    <div id="gameContainer" class="grid_12">
     </div>
     <div id="editorContainer" class="grid_12" style="height: 540px;">
     </div>
@@ -111,40 +111,25 @@
         </p>
     </div>
     <div class="clear"></div>
-    <div class="grid_2 levelThumbnail">
-        <p>LVL</p>
-    </div>
-    <div class="grid_2 levelThumbnail">
-        <p>LVL</p>
-    </div>
-    <div class="grid_2 levelThumbnail">
-        <p>LVL</p>
-    </div>
 
-    <div class="grid_6 levelThumbnail">
-     <p>LVL</p>
-    </div>
-    <div class="clear"></div>
-        <div class="grid_2 levelThumbnail">
-        <p>LVL</p>
-    </div>
-    <div class="grid_2 levelThumbnail">
-        <p>LVL</p>
-    </div>
-    <div class="grid_2 levelThumbnail">
-        <p>LVL</p>
-    </div>
+<!--    LIST LEVELS-->
+    <?php
+        $path = getcwd() . "/assets/levels/";
+        $dir_handle = @opendir($path) or die("Unable to open $path");
 
-     <div class="clear"></div>
-        <div class="grid_2 levelThumbnail">
-        <p>LVL</p>
-    </div>
-    <div class="grid_2 levelThumbnail">
-        <p>LVL</p>
-    </div>
-    <div class="grid_2 levelThumbnail">
-        <p>LVL</p>
-    </div>
+        // Loop through the files
+        while ($file = readdir($dir_handle)) {
+            if ($file == "." || $file == ".." || $file == "index.php")
+                continue;
+            $template = <<<EOD
+            <div class="grid_2 levelThumbnail">
+                <p>$file</p>
+            </div>
+EOD;
+            echo $template;
+        }
+        closedir($dir_handle);
+    ?>
 </div>
 
 </body>

@@ -22,9 +22,10 @@
 
     ChuClone.namespace("ChuClone");
     ChuClone.Constants = {
-        GAME_WIDTH				: 940,
+        GAME_WIDTH				: 1000,
         GAME_HEIGHT				: 500,
         PTM_RATIO               : 64,
+        DOM_ELEMENT             : null,
         KEYS: {
             LEFT: 37,
             UP: 38,
