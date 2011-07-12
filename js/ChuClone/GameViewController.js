@@ -16,9 +16,8 @@
  */
 (function() {
     "use strict";
-
     var postprocessing1 = {};
-    
+
     ChuClone.namespace("ChuClone");
     ChuClone.GameViewController = function() {
 
@@ -491,5 +490,5 @@
         GET_NEXT_VIEW_ID: function() {
             return ChuClone.GameViewController.prototype.NEXT_VIEW_UUID++;
         }
-    }
+    };
 })();

@@ -21,6 +21,7 @@
     var PTM_RATIO = ChuClone.Constants.PTM_RATIO;
     var WAIT_TIMEOUT = 0;
 
+	var instance = null;
     ChuClone.namespace("ChuClone.editor");
 
     /**
@@ -30,6 +31,13 @@
     ChuClone.editor.WorldEditor = function( aWorldController, aGameView ) {
         this._worldController = aWorldController;
         this._gameView = aGameView;
+
+		if(instance == null) {
+			instance = this;
+		} else {
+			console.error("ChuClone.editor.WorldEditor - Instance already exist!");
+		}
+
         this._mousePosition = new Box2D.Common.Math.b2Vec2(0,0);
 
         this.setupMouseEvents();
@@ -38,6 +46,8 @@
 
         //this.onShouldCreate();
     };
+
+
 
     ChuClone.editor.WorldEditor.prototype = {
         /**
@@ -578,6 +588,27 @@
             this._worldController = null;
             this._guiCamera = null;
             this._guiPlayer = null;
-        }
-}
+        },
+
+		///// ACCESSORS
+		/**
+		 * @return {ChuClone.physics.WorldController}
+		 */
+		getWorldController: function() { return this._worldController; },
+		/**
+		 * @return {ChuClone.GameViewController}
+		 */
+		getViewController: function() { return this._gameView; }
+	};
+
+	ChuClone.editor.WorldEditor.getInstance = function() {
+
+		if( instance == null ) {
+			debugger;
+			throw new Error("ChuClone.editor.WorldEditor.getInstance - No instance!");
+		}
+
+		return instance;
+	}
+
 })();

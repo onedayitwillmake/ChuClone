@@ -49,6 +49,7 @@ Abstract:
 		 */
 		attach: function(anEntity) {
 			ChuClone.components.RespawnComponent.superclass.attach.call(this, anEntity);
+
             // Intercept collision
             this.intercept(['onCollision']);
             ChuClone.Events.Dispatcher.emit(ChuClone.components.RespawnComponent.prototype.EVENTS.CREATED, this);
@@ -72,8 +73,6 @@ Abstract:
             if( otherActor._type != ChuClone.Constants.ENTITY_TYPES.PLAYER )
                 return;
 
-            console.log("A")
-            
             this.interceptedProperties.onCollision.call(this.attachedEntity, otherActor );
 
             if( !this._isReady ) return;

@@ -49,7 +49,7 @@
         _saveSlots          : null,
 
         EVENTS              : {
-            WORLD_CREATED   : "LevelManager.Events.WorldCreated",
+            LEVEL_CREATED   : "LevelManager.Events.WorldCreated",
             LEVEL_DESTROYED : "LevelManager.Events.LevelDestroyed"
         },
 
@@ -143,8 +143,9 @@
                 // Set the current name, and emit the loaded event
                 this._controllers['name'].setValue( model.levelName );
             }
-            ChuClone.Events.Dispatcher.emit( ChuClone.editor.LevelManager.prototype.EVENTS.WORLD_CREATED, model );
+
             this._levelModel = model;
+			ChuClone.Events.Dispatcher.emit( ChuClone.editor.LevelManager.prototype.EVENTS.LEVEL_CREATED, this );
             return model;
         },
 
@@ -183,7 +184,7 @@
                 this._worldController.getWorld().DestroyBody(b);
             }
 
-           ChuClone.Events.Dispatcher.emit( ChuClone.editor.LevelManager.prototype.EVENTS.LEVEL_DESTROYED );
+           ChuClone.Events.Dispatcher.emit( ChuClone.editor.LevelManager.prototype.EVENTS.LEVEL_DESTROYED, this );
         }
 
 

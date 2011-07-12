@@ -69,8 +69,30 @@
                 that.onReady()
             }, false);
         },
+        
+        setupEvents: function() {
+            var that = this;
+			var dispatch = ChuClone.Events.Dispatcher;
 
-        /**
+			// Listen for PLAYER created/destroyed
+            dispatch.addListener(ChuClone.PlayerEntity.prototype.EVENTS.CREATED, function( aPlayer ) { that.onPlayerCreated(aPlayer); });
+            dispatch.addListener(ChuClone.PlayerEntity.prototype.EVENTS.DESTROYED, function( aPlayer ) { that.onPlayerDestroyed(aPlayer); });
+
+			// Listen for LEVEL created/destroyed
+            dispatch.addListener(ChuClone.editor.LevelManager.prototype.EVENTS.LEVEL_CREATED, function( aLevelManager ) { that.onLevelCreated( aLevelManager ); });
+            dispatch.addListener(ChuClone.editor.LevelManager.prototype.EVENTS.LEVEL_DESTROYED, function( aLevelManager ) { that.onLevelDestroyed( aLevelManager); });
+
+            // Listen for GOAL reached
+            dispatch.addListener(ChuClone.components.GoalPadComponent.prototype.EVENTS.GOAL_REACHED, function( aGoalComponent ) {
+                console.log("GOAL REACHED YO!")
+            });
+
+            // LISTEN FOR ON FOCUS
+            window.addEventListener("focus", function(e) {that._hasFocus = true; }, false);
+            window.addEventListener("blur", function(e) { that._hasFocus = false; }, false);
+        },
+
+		/**
          * Dispatched when 'DOMContentLoaded' event is fired
          * @type {Event}    'DOMContentLoaded' event
          */
@@ -82,13 +104,6 @@
             this.setupWorldController();
             this.setupLevelManager();
 
-
-
-//            this.debugSetupRandomBlocks();
-            this.debugSetupPlayer();
-//            this.spawnPlayer();
-
-
             // MAIN LOOP
             var that = this;
             (function loop() {
@@ -96,43 +111,33 @@
                 window.requestAnimationFrame( loop, null );
             })();
         },
-        
-        setupEvents: function() {
-            var that = this;
-            ChuClone.Events.Dispatcher.addListener(ChuClone.PlayerEntity.prototype.EVENTS.CREATED, function( aPlayer ) {
-                that.onPlayerCreated( aPlayer );
-            });
 
-            // WORLD CREATED
-            ChuClone.Events.Dispatcher.addListener(ChuClone.editor.LevelManager.prototype.EVENTS.WORLD_CREATED, function( aLevelModel ) {
-//                that._worldController.createBox2dWorld();
-                that.onBeforeStart( aLevelModel );
-            });
+		/**
+		 * Called when a player is created
+		 * @param aPlayer
+		 */
+		onPlayerCreated: function( aPlayer ) {
+			console.log("ChuCloneGame.onPlayerCreated:", aPlayer);
+		},
 
-            // LEVEL DESTROYED
-            ChuClone.Events.Dispatcher.addListener(ChuClone.editor.LevelManager.prototype.EVENTS.LEVEL_DESTROYED, function( aLevelModel ) {
+		/**
+		 * Called when a player is destroyed
+		 * @param aPlayer
+		 */
+		onPlayerDestroyed: function( aPlayer ) {
+			console.log("ChuCloneGame.onPlayerDestroyed:", aPlayer);
+		},
 
-                // Remove any components the camera had attached
-                // TODO: LET FAIL LOUDLY IF CAMERA HAS NO PROPERTY NAMED COMPONENTS?
-                if( that._gameView.getCamera().hasOwnProperty("components") ) {
-                    console.log(that._gameView.getCamera());
+		onLevelCreated: function( aLevelManager ) {
+			this._worldController.createBox2dWorld();
+			console.log("ChuCloneGame.onLevelCreated:", aLevelManager);
+		},
 
-
-                }
-
-                that._gameView.getCamera().removeAllComponents();
-//                that._worldController.createBox2dWorld();
-            });
-
-            // GOAL REACHED
-            ChuClone.Events.Dispatcher.addListener(ChuClone.components.GoalPadComponent.prototype.EVENTS.GOAL_REACHED, function( aGoalComponent ) {
-                console.log("GOAL REACHED YO!")
-            });
-
-            // LISTEN FOR ON FOCUS
-            window.addEventListener("focus", function(e) {that._hasFocus = true; }, false);
-            window.addEventListener("blur", function(e) { that._hasFocus = false; }, false);
-        },
+		onLevelDestroyed: function( aLevelManager ) {
+			console.log("ChuCloneGame.onLevelDestroyed:", aLevelManager);
+			this._gameView.getCamera().removeAllComponents();
+			this._worldController.createBox2dWorld();
+		},
 
         /**
          * Sets up the LevelManager
@@ -141,37 +146,25 @@
             this._levelManager = new ChuClone.editor.LevelManager( this._worldController, this._gameView );
             this._levelManager.setupGui();
 //            this._levelManager.loadLevelFromURL("/assets/levels/Piano.json");
-            this._levelManager.loadLevelFromURL("/assets/levels/HelloWorld.json");
+//            this._levelManager.loadLevelFromURL("/assets/levels/HelloWorld.json");
 //            this._levelManager.loadLatestLevel();
         },
 
+		/**
+		 * Sets up the GameViewController
+		 */
         setupView: function() {
             this._gameView = new ChuClone.GameViewController();
             this._gameView.onResize( null );
         },
 
+		/**
+		 * Sets up the WorldController
+		 */
         setupWorldController: function() {
             this._worldController = new ChuClone.physics.WorldController();
             this._worldController.setDebugDraw();
             this._worldController.setupEditor( this._gameView );
-        },
-
-        debugSetupRandomBlocks: function() {
-            for ( var i = 0; i < 100; i ++ ) {
-                var w = Math.random() * 300 + 200;
-                var h = Math.random() * 300;
-
-                var x = i*(w*2);
-                var y = i*h;//Math.abs(Math.sin(i/10))*-150 + Math.random() * 200 + 300;
-                var body = this._worldController.createRect( x, y, 0, w, h, true );
-                var view = this.view.createEntityView( x, y, w*2, h*2, 500  );
-                var entity = new ChuClone.GameEntity();
-                entity.setBody( body );
-                entity.setView( view );
-                entity.setDimensions( w, h, 1000 );
-
-                this.view.addEntity( entity.view );
-            }
         },
 
         /**
@@ -181,11 +174,6 @@
          */
         onBeforeStart: function( aLevelModel ) {
             this._worldController.createBox2dWorld();
-
-            // Check if levelmodel has a player
-            var player = aLevelModel.getPlayers();
-
-            console.log( player );
         },
 
 

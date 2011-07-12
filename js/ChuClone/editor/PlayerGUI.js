@@ -21,6 +21,9 @@
     "use strict";
     ChuClone.namespace("ChuClone.editor.PlayerGUI");
     ChuClone.editor.PlayerGUI = function( aGameView, aWorldController ) {
+
+				console.log(ChuClone.editor.WorldEditor.getInstance());
+
         this._worldController = aWorldController;
         this._gameView = aGameView;
         this.setupGUI()
@@ -76,8 +79,41 @@
             });
         },
 
+		/**
+		 * Creates a player instance.
+		 * This function should only be called while editing.
+		 */
         createPlayer: function() {
+			var x = 0;
+			var y = -300;
+			var boxSize = 30;
 
+			/**
+			 * @type {ChuClone.editor.WorldEditor}
+			 */
+			var worldEditor = ChuClone.editor.WorldEditor.getInstance();
+
+			if( !worldEditor ) {
+				console.error("ChuClone.editor.PlayerGUI.createPlayer should only be called in editing mode!");
+				return null;
+			}
+
+			var body = worldEditor.getWorldController().createRect(x, y, Math.random() * 6, boxSize, boxSize, false);
+			var view = worldEditor.getViewController().createEntityView(x, y, boxSize * 2, boxSize * 2, boxSize * 2);
+
+			var entity = new ChuClone.PlayerEntity();
+			entity.setBody(body);
+			entity.setView(view);
+
+			body.SetPosition(new Box2D.Common.Math.b2Vec2(x / ChuClone.Constants.PTM_RATIO, y / ChuClone.Constants.PTM_RATIO));
+			view.materials[0] = ChuClone.Constants.PLAYER.MATERIAL;
+			entity.setDimensions(ChuClone.Constants.PLAYER.WIDTH, ChuClone.Constants.PLAYER.HEIGHT, ChuClone.Constants.PLAYER.DEPTH);
+
+
+			entity.addComponentAndExecute(new ChuClone.components.CharacterControllerComponent());
+			entity.addComponentAndExecute(new ChuClone.components.PhysicsVelocityLimitComponent());
+
+			worldEditor.getViewController().addObjectToScene(entity.view);
         },
 
         destroyPlayer: function() {
