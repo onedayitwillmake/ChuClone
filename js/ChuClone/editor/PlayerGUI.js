@@ -20,12 +20,7 @@
 (function(){
     "use strict";
     ChuClone.namespace("ChuClone.editor.PlayerGUI");
-    ChuClone.editor.PlayerGUI = function( aGameView, aWorldController ) {
-
-				console.log(ChuClone.editor.WorldEditor.getInstance());
-
-        this._worldController = aWorldController;
-        this._gameView = aGameView;
+    ChuClone.editor.PlayerGUI = function() {
         this.setupGUI()
     };
 
@@ -34,16 +29,6 @@
          * @type {ChuClone.PlayerEntity}
          */
         _player: null,
-
-        /**
-         * @type {ChuClone.GameViewController}
-         */
-        _gameView: null,
-
-        /**
-         * @type {ChuClone.physics.WorldController}
-         */
-        _worldController: null,
 
         /**
          * @type {DAT.GUI}
@@ -66,8 +51,6 @@
 
             this._gui.close();
             this._gui.open();
-
-
         },
 
 
@@ -84,9 +67,6 @@
 		 * This function should only be called while editing.
 		 */
         createPlayer: function() {
-			var x = 0;
-			var y = -300;
-			var boxSize = 30;
 
 			/**
 			 * @type {ChuClone.editor.WorldEditor}
@@ -98,14 +78,22 @@
 				return null;
 			}
 
-			var body = worldEditor.getWorldController().createRect(x, y, Math.random() * 6, boxSize, boxSize, false);
-			var view = worldEditor.getViewController().createEntityView(x, y, boxSize * 2, boxSize * 2, boxSize * 2);
+			var respawnPoint = this.getRespawnPoint();
+
+			if( !respawnPoint ) {
+				console.error("ChuClone.editor.PlayerGUI.createPlayer Create at least one RespawnComponent first!!");
+				return null;
+			}
+
+
+			var body = worldEditor.getWorldController().createRect(1, 1, 0, 1, 1, false);
+			var view = worldEditor.getViewController().createEntityView(0, 0, ChuClone.Constants.PLAYER.WIDTH, ChuClone.Constants.PLAYER.HEIGHT, ChuClone.Constants.PLAYER.DEPTH);
 
 			var entity = new ChuClone.PlayerEntity();
 			entity.setBody(body);
 			entity.setView(view);
 
-			body.SetPosition(new Box2D.Common.Math.b2Vec2(x / ChuClone.Constants.PTM_RATIO, y / ChuClone.Constants.PTM_RATIO));
+			body.SetPosition(new Box2D.Common.Math.b2Vec2( respawnPoint.getBody().GetPosition().x, respawnPoint.getBody().GetPosition().y ));
 			view.materials[0] = ChuClone.Constants.PLAYER.MATERIAL;
 			entity.setDimensions(ChuClone.Constants.PLAYER.WIDTH, ChuClone.Constants.PLAYER.HEIGHT, ChuClone.Constants.PLAYER.DEPTH);
 
@@ -114,17 +102,42 @@
 			entity.addComponentAndExecute(new ChuClone.components.PhysicsVelocityLimitComponent());
 
 			worldEditor.getViewController().addObjectToScene(entity.view);
+
+			this._player = entity;
         },
 
         destroyPlayer: function() {
 
         },
 
+		getRespawnPoint: function() {
+
+			/**
+             * @type {Box2D.Dynamics.b2Body}
+             */
+            var node = ChuClone.editor.WorldEditor.getInstance().getWorldController().getWorld().GetBodyList();
+            while(node) {
+                var b = node;
+                node = node.GetNext();
+                /**
+                 * @type {ChuClone.GameEntity}
+                 */
+                var entity = b.GetUserData();
+				if( (entity instanceof ChuClone.GameEntity) === false )
+					continue;
+
+				var respawnComponent = entity.getComponentWithName( ChuClone.components.RespawnComponent.prototype.displayName )
+				if( respawnComponent  ) {
+					return entity;
+				}
+            }
+		},
+
         /**
          * Deallocate resources
          */
         dealloc: function() {
             this._player = null;
-        },
+        }
     }
 })();

@@ -53,39 +53,51 @@
      */
     ChuClone.extend = function(subc, superc, overrides)
     {
-        /**
-         * @constructor
-         */
-        var F = function() {};
-        var i;
+       var subcp = subc.prototype;
 
-        if (overrides) {
-            F.prototype = superc.prototype;
-            subc.prototype = new F();
-            subc.prototype.constructor = subc;
-            subc.superclass = superc.prototype;
-            if (superc.prototype.constructor == Object.prototype.constructor)   {
-                superc.prototype.constructor = superc;
-            }
-            for (i in overrides) {
-                if (overrides.hasOwnProperty(i)) {
-                    subc.prototype[i] = overrides[i];
-                }
-            }
-        } else {
+		var F = function()
+		{
+		};
+		F.prototype = superc.prototype;
 
-            subc.prototype.constructor = subc;
-            subc.superclass= superc.prototype;
-            if (superc.prototype.constructor == Object.prototype.constructor)   {
-                superc.prototype.constructor = superc;
-            }
-            for( i in superc.prototype ) {
-                if ( false==subc.prototype.hasOwnProperty(i)) {
-                    subc.prototype[i]= superc.prototype[i];
-                }
-            }
+		subc.prototype = new F();       // chain prototypes.
+		subc.superclass = superc.prototype;
+		subc.prototype.constructor = subc;
 
-        }
+		if (superc.prototype.constructor === Object.prototype.constructor)
+		{
+			superc.prototype.constructor = superc;
+		}
+
+		// los metodos de superc, que no esten en esta clase, crear un metodo que
+		// llama al metodo de superc.
+		for (var method in subcp)
+		{
+			if (subcp.hasOwnProperty(method))
+			{
+				subc.prototype[method] = subcp[method];
+				/*
+				 // tenemos en super un metodo con igual nombre.
+				 if ( superc.prototype[method]) {
+				 subc.prototype[method]= (function(fn, fnsuper) {
+				 return function() {
+				 var prevMethod= this.__super;
+
+				 this.__super= fnsuper;
+
+				 var retValue= fn.apply(
+				 this,
+				 Array.prototype.slice.call(arguments) );
+
+				 this.__super= prevMethod;
+
+				 return retValue;
+				 };
+				 })(subc.prototype[method], superc.prototype[method]);
+				 }
+				 */
+			}
+		}
     };
 
     if ( !window.requestAnimationFrame ) {

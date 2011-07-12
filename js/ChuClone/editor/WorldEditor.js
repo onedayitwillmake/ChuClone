@@ -154,9 +154,9 @@
 
             this.addControllerWithTimeout(this._guiModification, "x", this._propProxy.x).step(0.1);
             this.addControllerWithTimeout(this._guiModification, "y", this._propProxy.y).step(0.1);
-            this.addControllerWithTimeout(this._guiModification, "width", this._propProxy.width).min(0.01).max(Math.round(5000/PTM_RATIO)).step(0.05);
-            this.addControllerWithTimeout(this._guiModification, "height", this._propProxy.height).min(0.01).max(Math.round(5000/PTM_RATIO)).step(0.05);
-            this.addControllerWithTimeout(this._guiModification, "depth", this._propProxy.depth).min(0.01).max(2000/PTM_RATIO).step(0.05);
+            this.addControllerWithTimeout(this._guiModification, "width", this._propProxy.width).min(0.01).max(Math.round(1000/PTM_RATIO)).step(0.05);
+            this.addControllerWithTimeout(this._guiModification, "height", this._propProxy.height).min(0.01).max(Math.round(1000/PTM_RATIO)).step(0.05);
+            this.addControllerWithTimeout(this._guiModification, "depth", this._propProxy.depth).min(0.01).max(1000/PTM_RATIO).step(0.05);
 
             // Toggle JumpPadComponent
             this._controllers['jumpPad'] = this._guiModification.add(this._propProxy, "jumpPad");
@@ -601,6 +601,10 @@
 		getViewController: function() { return this._gameView; }
 	};
 
+
+	/**
+	 * @return {ChuClone.editor.WorldEditor}
+	 */
 	ChuClone.editor.WorldEditor.getInstance = function() {
 
 		if( instance == null ) {

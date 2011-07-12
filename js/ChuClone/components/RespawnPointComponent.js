@@ -55,6 +55,9 @@ Abstract:
             ChuClone.Events.Dispatcher.emit(ChuClone.components.RespawnComponent.prototype.EVENTS.CREATED, this);
 		},
 
+		/**
+		 * @inheritDoc
+		 */
         execute: function() {
             ChuClone.components.RespawnComponent.superclass.execute.call(this);
 
@@ -69,6 +72,9 @@ Abstract:
             });
         },
 
+		/**
+		 * @inheritDoc
+		 */
         onCollision: function( otherActor ) {
             if( otherActor._type != ChuClone.Constants.ENTITY_TYPES.PLAYER )
                 return;
