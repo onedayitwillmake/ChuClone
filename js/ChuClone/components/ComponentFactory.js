@@ -40,6 +40,9 @@
     lookup[ChuClone.components.KeyboardInputComponent.prototype.displayName] = ChuClone.components.KeyboardInputComponent;
     lookup[ChuClone.components.PhysicsVelocityLimitComponent.prototype.displayName] = ChuClone.components.PhysicsVelocityLimitComponent;
     lookup[ChuClone.components.CheckIsJumpingComponent.prototype.displayName] = ChuClone.components.CheckIsJumpingComponent;
+    lookup[ChuClone.components.camera.CameraFocusRadiusComponent.prototype.displayName] = ChuClone.components.camera.CameraFocusRadiusComponent;
+    lookup[ChuClone.components.camera.CameraFollowEditorComponent.prototype.displayName] = ChuClone.components.camera.CameraFollowEditorComponent;
+    lookup[ChuClone.components.camera.CameraFollowPlayerComponent.prototype.displayName] = ChuClone.components.camera.CameraFollowPlayerComponent;
 
 
     ChuClone.components.ComponentFactory = {

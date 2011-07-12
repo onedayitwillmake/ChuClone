@@ -53,12 +53,19 @@
          * @type {Array}
          */
         _controls: [],
-		_fullScreen: false,
 
+		/**
+         * We modify this not the b2Body directly
+         */
+        _propProxy          : {x: 5, y: 5, z: 3, radius:3, fullscreen: false},
+		_cameraFocusRadiusComponent: null,
+
+		// Camera type
         _type   : 0,
         _camTypes: [null, ChuClone.components.camera.CameraFollowEditorComponent, ChuClone.components.camera.CameraFollowPlayerComponent],
 
         setupGUI: function() {
+
             var that = this;
 			this._fullScreen = false;//ChuClone.editor.WorldEditor.getInstance().getWorldController().getViewController().getFullscreen();
 
@@ -78,10 +85,18 @@
                 that.onCamTypeChange( selected );
             });
 
+			// Radius component
 			// Fullscreen
-			this._controls['fullscreen'] = this._gui.add(this, '_fullScreen').name("Fullscreen").onChange(function( aValue ) {
+			this._controls['fullscreen'] = this._gui.add(this._propProxy, 'fullscreen').name("Fullscreen").onChange(function( aValue ) {
 				ChuClone.editor.WorldEditor.getInstance().getViewController().setFullscreen( aValue );
 			});
+
+
+			var maxRadius = 4000;
+			this._gui.add(this._propProxy, 'radius').onChange( function( aValue ) {
+				var focusRadiusComponent = that._camera.getComponentWithName( ChuClone.components.camera.CameraFocusRadiusComponent.prototype.displayName );
+				focusRadiusComponent.setRadius( aValue );
+			}).min(-maxRadius).max(maxRadius);
 
             this._gui.close();
             this._gui.open();
@@ -106,6 +121,9 @@
             } else if ( selectedIndex == 2 ) {
                 component.setPlayer( this._player );
             }
+
+			// Add radius component
+			this._camera.addComponentAndExecute( new ChuClone.components.camera.CameraFocusRadiusComponent() );
         },
 
         setupEvents: function() {
