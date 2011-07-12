@@ -69,6 +69,12 @@
          * @type {ChuClone.editor.CameraGUI}
          */
         _guiCamera      : null,
+
+        /**
+         * @type {ChuClone.editor.PlayerGUI}
+         */
+        _guiPlayer      : null,
+
         /**
          * We modify this not the b2Body directly
          */
@@ -154,7 +160,7 @@
             this._controllers['goalPad'].onChange( function(aValue){ that.toggleGoalPad(aValue); } );
 
             this._guiModification.close();
-//            this._guiModification.open();
+            this._guiModification.open();
 
             // Creation gui
             this._guiCreation = new DAT.GUI({width: ChuClone.Constants.EDITOR.PANEL_WIDTH});
@@ -171,10 +177,12 @@
             this._controllers['onShouldDelete'] = this._guiCreation.add(this, 'onShouldDelete').name("Destroy Entity");
 
             this._guiCreation.close();
-//            this._guiCreation.open();
+            this._guiCreation.open();
 
             this._guiCamera = new ChuClone.editor.CameraGUI( this._gameView.getCamera() );
             this._guiCamera.setDebugDraw( this._worldController.getDebugDraw() );
+
+            this._guiPlayer = new ChuClone.editor.PlayerGUI();
         },
 
         /**
@@ -568,6 +576,8 @@
             this._currentBody = null;
             this._mousePosition = null;
             this._worldController = null;
+            this._guiCamera = null;
+            this._guiPlayer = null;
         }
 }
 })();

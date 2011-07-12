@@ -66,7 +66,9 @@
             this._controllers['loadLevelFromSlot'] = this._gui.add(this, 'loadLevelFromSlot').name("Load Level");
             this._controllers['resetLevel'] = this._gui.add(this, 'clearLevel').name("Clear Level");
 
+
             this._gui.close();
+            this._gui.open();
         },
 
         /**
@@ -181,7 +183,12 @@
                 this._worldController.getWorld().DestroyBody(b);
             }
 
-            ChuClone.Events.Dispatcher.emit( ChuClone.editor.LevelManager.prototype.EVENTS.LEVEL_DESTROYED );
+           ChuClone.Events.Dispatcher.emit( ChuClone.editor.LevelManager.prototype.EVENTS.LEVEL_DESTROYED );
         }
+
+
+        ///// ACCESSORS
+
+
     }
 })();

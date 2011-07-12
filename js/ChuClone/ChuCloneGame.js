@@ -105,7 +105,8 @@
 
             // WORLD CREATED
             ChuClone.Events.Dispatcher.addListener(ChuClone.editor.LevelManager.prototype.EVENTS.WORLD_CREATED, function( aLevelModel ) {
-                that._worldController.createBox2dWorld();
+//                that._worldController.createBox2dWorld();
+                that.onBeforeStart( aLevelModel );
             });
 
             // LEVEL DESTROYED
@@ -114,10 +115,13 @@
                 // Remove any components the camera had attached
                 // TODO: LET FAIL LOUDLY IF CAMERA HAS NO PROPERTY NAMED COMPONENTS?
                 if( that._gameView.getCamera().hasOwnProperty("components") ) {
-                    that._gameView.getCamera().removeAllComponents();
+                    console.log(that._gameView.getCamera());
+
+
                 }
-                
-                that._worldController.createBox2dWorld();
+
+                that._gameView.getCamera().removeAllComponents();
+//                that._worldController.createBox2dWorld();
             });
 
             // GOAL REACHED
@@ -125,13 +129,9 @@
                 console.log("GOAL REACHED YO!")
             });
 
-            window.addEventListener("focus", function(e) {
-                that._hasFocus = true;
-            }, false);
-            window.addEventListener("blur", function(e) {
-                that._hasFocus = false;
-            }, false);
-
+            // LISTEN FOR ON FOCUS
+            window.addEventListener("focus", function(e) {that._hasFocus = true; }, false);
+            window.addEventListener("blur", function(e) { that._hasFocus = false; }, false);
         },
 
         /**
@@ -152,8 +152,8 @@
 
         setupWorldController: function() {
             this._worldController = new ChuClone.physics.WorldController();
-//            this._worldController.setDebugDraw();
-//            this._worldController.setupEditor( this._gameView );
+            this._worldController.setDebugDraw();
+            this._worldController.setupEditor( this._gameView );
         },
 
         debugSetupRandomBlocks: function() {
@@ -174,38 +174,20 @@
             }
         },
 
-        debugSetupPlayer: function() {
-            var x = 0;
-            var y = -300;
-            var boxSize = 30;
-            var body = this._worldController.createRect( x, y, Math.random() * 6, boxSize, boxSize, false);
-            var view = this._gameView.createEntityView( x, y, boxSize * 2, boxSize*2, boxSize * 2);
-            view.materials[0] = new THREE.MeshPhongMaterial( { opacity: 0.5, ambient: 0x111111, color: 0x666666, specular: 0xDDDDDD, shininess:1, shading: THREE.FlatShading } );
+        /**
+         * Called when a level is about to start
+         * For example a level has been loaded or like whatever
+         * @param {ChuClone.editor.LevelModel} aLevelModel
+         */
+        onBeforeStart: function( aLevelModel ) {
+            this._worldController.createBox2dWorld();
 
-            var entity = new ChuClone.PlayerEntity();
-            entity.setBody( body );
-            entity.setView( view );
+            // Check if levelmodel has a player
+            var player = aLevelModel.getPlayers();
 
-            this._gameView.addObjectToScene( entity.view );
-            this._player = entity;
+            console.log( player );
         },
 
-         /**
-         * Dispatched when the player is created
-         * @param aPlayer
-         */
-         onPlayerCreated: function(aPlayer) {
-             var x = 50;
-             var y = -300;
-             aPlayer.getBody().SetPosition( new Box2D.Common.Math.b2Vec2(x / ChuClone.Constants.PTM_RATIO, y / ChuClone.Constants.PTM_RATIO) );
-             aPlayer.getView().materials[0] = ChuClone.Constants.PLAYER.MATERIAL;
-             aPlayer.setDimensions(ChuClone.Constants.PLAYER.WIDTH, ChuClone.Constants.PLAYER.HEIGHT, ChuClone.Constants.PLAYER.DEPTH);
-
-             
-             aPlayer.addComponentAndExecute( new ChuClone.components.CharacterControllerComponent() );
-             aPlayer.addComponentAndExecute( new ChuClone.components.PhysicsVelocityLimitComponent() );
-             this._player = aPlayer;
-         },
 
         /**
          * Main loop for game engine

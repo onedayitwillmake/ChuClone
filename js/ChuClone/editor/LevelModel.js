@@ -183,7 +183,7 @@
             //
             var aJSONString = JSON.stringify( returnObject, null, "\t" );
 //            console.log( aJSONString );
-            console.log( this.respawnPoints );
+//            console.log( this.respawnPoints );
             return aJSONString;
         },
 
@@ -201,6 +201,7 @@
             this.creationDate = levelObject.editingInfo.creationDate;
             this.modificationDate = levelObject.editingInfo.modificationDate;
             this.ptmRatio = levelObject.worldSettings.PTM_RATIO;
+            this.bodyList = [];
             ChuClone.Constants.PTM_RATIO = levelObject.worldSettings.PTM_RATIO;
 
             var len = levelObject.bodyList.length;
@@ -225,6 +226,7 @@
                     entityInfo.dimensions.height*2,
                     entityInfo.dimensions.depth*2);
 
+                console.log(entityInfo.entityType)
                 // TODO: TEMP HACK - CHECK IF COMPONENTS > 1, ASSUME PLAYER
                 var entity = (entityInfo.components.length > 1) ? new ChuClone.PlayerEntity() : new ChuClone.GameEntity();
                 entity.setBody( body );
@@ -244,8 +246,33 @@
                     entity.addComponentAndExecute( componentInstance ); // Attach it to the entity
                 }
 
-//                aGameView.addEntity( entity.view );
+                this.bodyList.push( body );
             }
+        },
+
+        /**
+         * Looks through our object list for any player entities
+         * @return {Array}  An array of players - usually will contain only 1, but I didn't want to put that limitation on the level creation
+         */
+        getPlayers: function() {
+            var playersFound = [];
+
+            for(var i = 0; i < this.bodyList.length; i++ ) {
+                /**
+                 * @type {Box2D.Dynamics.b2Body}
+                 */
+                var body = this.bodyList[i];
+                /**
+                 * @type {ChuClone.GameEntity}
+                 */
+                var entity = body.GetUserData();
+                if (!entity) continue;
+
+
+//                console.log(entity)
+//                console.log(ChuClone.Constants.ENTITY_TYPES.PLAYER, entity.getType())
+            }
+            return playersFound;
         },
 
         /**

@@ -61,6 +61,7 @@
     <script type="text/javascript" src="js/ChuClone/editor/LevelModel.js"></script>
     <script type="text/javascript" src="js/ChuClone/editor/LevelManager.js"></script>
     <script type="text/javascript" src="js/ChuClone/editor/CameraGUI.js"></script>
+    <script type="text/javascript" src="js/ChuClone/editor/PlayerGUI.js"></script>
     <script type="text/javascript" src="js/ChuClone/editor/WorldEditor.js"></script>
     <script type="text/javascript" src="js/ChuClone/physics/ContactListener.js"></script>
     <script type="text/javascript" src="js/ChuClone/physics/WorldController.js"></script>
@@ -99,8 +100,8 @@
     <div class="clear"></div>
     <div id="gameContainer" class="grid_12">
     </div>
-<!--    <div id="editorContainer" class="grid_12" style="height: 540px;">-->
-<!--    </div>-->
+    <div id="editorContainer" class="grid_12" style="height: 540px;">
+    </div>
     <div class="clear"></div>
     <div class="grid_6">
         <p>
@@ -114,8 +115,7 @@
         $dir_handle = @opendir($path) or die("Unable to open $path");
 
         $count = 0;
-        $perRow = 6;            // These are the last columns in our set, enable special class for end these
-
+        $perRow = 6;            // These are the last columns in our set, enable special class for end
         // Loop through the files
         while ($file = readdir($dir_handle)) {
             if ($file == "." || $file == ".." || $file == "index.php")

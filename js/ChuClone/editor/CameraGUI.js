@@ -106,6 +106,11 @@
                 that._player = aPlayer;
 //                that.onPlayerCreated( aPlayer );
             });
+
+            // LEVEL DESTROYED
+            ChuClone.Events.Dispatcher.addListener(ChuClone.editor.LevelManager.prototype.EVENTS.LEVEL_DESTROYED, function( aLevelModel ) {
+                that._controls['type'].domElement.childNodes[1].selectedIndex = 0;
+            });
         },
 
         /**

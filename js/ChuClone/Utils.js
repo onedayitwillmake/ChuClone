@@ -25,13 +25,16 @@
          * @return {String} Current URL path
          */
         getCWD: function() {
-            var parts = window.location.href.split("/");
 
-            var end = parts[ parts.length -1 ];
-            if(end.indexOf(".")) parts.pop();
+            //TODO : REPLACE WITH REG EX
+            var parts = window.location.href.replace(/[^\/]*$/i,'');
 
-
-            return parts.join("/");
+//            var end = parts[ parts.length -1 ];
+//            if(end.indexOf(".")) parts.pop();
+//
+//
+//            return parts.join("/");
+            return parts;
         }
     };
 })();

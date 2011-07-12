@@ -120,7 +120,7 @@
          */
         setupRenderer: function() {
             this._renderer = new THREE.WebGLRenderer();
-            this._renderer.autoClear = false;
+//            this._renderer.autoClear = false;
             this._renderer.sortObjects = false;
             this._renderer.setClearColor(new THREE.Color(0xFFFFFF), 1);
             this._renderer.setSize( this.getDimensions().x, this.getDimensions().y );
@@ -247,7 +247,7 @@
          * Allows a chance for final initialization safely assuming various properties exist in correct state
          */
         onSetupComplete: function() {
-//            this.loadSpaceSuit();
+//            this.loadSpacesuit();
         },
 
         loadSpacesuit: function() {
@@ -256,10 +256,13 @@
             var loader = new THREE.JSONLoader();
             var onLoadedCallback = function(geometry) {
                 spacesuit = new THREE.Mesh(geometry,
-                    new THREE.MeshBasicMaterial({ color:0x000000, wireframe: true})
+                    new THREE.MeshBasicMaterial({ color:0x000000})
                 );
 
                 that.addObjectToScene(spacesuit);
+//                console.log(spacesuit)
+                spacesuit.scale.x = spacesuit.scale.y = spacesuit.scale.z = 100;
+
                 that.spacesuit = spacesuit;
             };
             loader.load({ model: "assets/geometry/spacesuit.js", callback: onLoadedCallback });
@@ -312,6 +315,9 @@
             this.updateCameraPosition();
             this.updateSceneEditor();
 
+            if(this.spacesuit)
+                this.spacesuit.rotation.y += 0.1;
+            
             this._renderer.render( this._scene  , this._camera );
 //            this.applyBloom();
 
