@@ -83,7 +83,7 @@
         /**
          * @type {Boolean}
          */
-        _isFullScreen: false,
+        _isFullScreen: true,
 
         /**
          * @type {Number}
@@ -476,6 +476,18 @@
             
             return this._dimensions;
         },
+		/**
+		 * @return {Boolean}
+		 */
+		getFullscreen: function() { return this._isFullScreen; },
+		/**
+		 * @type {Boolean}
+		 */
+		setFullscreen: function( aValue ) {
+			this._isFullScreen = aValue;
+			this._renderer.setSize( this.getDimensions().x, this.getDimensions().y );
+			this.onResize();
+		},
 
         /**
          * @return {THREE.Camera}

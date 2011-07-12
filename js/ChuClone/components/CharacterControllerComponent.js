@@ -18,7 +18,6 @@ Abstract:
     
 	ChuClone.namespace("ChuClone.components");
 
-    var SUPERREF;
 	ChuClone.components.CharacterControllerComponent = function() {
 		ChuClone.components.CharacterControllerComponent.superclass.constructor.call(this);
         this.requiresUpdate = true;
@@ -56,7 +55,6 @@ Abstract:
             var body = this.attachedEntity.getBody();
             this._jumpCheckComponent.update();
 
-            console.log
             // x-axis
             if (this._input._keyStates.left) force.x = -1;
             else if (this._input._keyStates.right) force.x = 1;

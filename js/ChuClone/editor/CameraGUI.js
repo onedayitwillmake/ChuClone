@@ -53,16 +53,20 @@
          * @type {Array}
          */
         _controls: [],
+		_fullScreen: false,
 
         _type   : 0,
         _camTypes: [null, ChuClone.components.camera.CameraFollowEditorComponent, ChuClone.components.camera.CameraFollowPlayerComponent],
 
         setupGUI: function() {
             var that = this;
+			this._fullScreen = false;//ChuClone.editor.WorldEditor.getInstance().getWorldController().getViewController().getFullscreen();
+
             this._gui = new DAT.GUI({width: ChuClone.Constants.EDITOR.PANEL_WIDTH});
             this._gui.name("Camera");
             this._gui.autoListen = false;
 
+			// Cam type
             var camTypeNames = ["None", "Follow Editor", "Follow Player"];
             this._controls['type'] = this._gui.add(this, '_type');
             this._controls['type'].options.apply( this._controls['type'], camTypeNames);
@@ -74,6 +78,10 @@
                 that.onCamTypeChange( selected );
             });
 
+			// Fullscreen
+			this._controls['fullscreen'] = this._gui.add(this, '_fullScreen').name("Fullscreen").onChange(function( aValue ) {
+				ChuClone.editor.WorldEditor.getInstance().getViewController().setFullscreen( aValue );
+			});
 
             this._gui.close();
             this._gui.open();
