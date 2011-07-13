@@ -32,6 +32,9 @@
          * @type {Boolean}
          */
         _hasFocus   : true,
+
+        _stateMachine   : null,
+        
         /**
          * @type {ChuClone.GameViewController}
          */
@@ -71,6 +74,7 @@
         },
         
         setupEvents: function() {
+
             var that = this;
 			var dispatch = ChuClone.Events.Dispatcher;
 
@@ -103,6 +107,18 @@
             this.setupView();
             this.setupWorldController();
             this.setupLevelManager();
+
+            this._stateMachine = new ChuClone.model.FSM.StateMachine();
+
+            // HACKY FOR NOW but just stuff our props in there
+
+            var editState = new ChuClone.states.EditState();
+            editState._worldController = this._worldController;
+            editState._gameView = this._gameView;
+            editState._levelManager = this._levelManager;
+            editState._player = this._player;
+            
+            this._stateMachine.setInitialState( editState );
 
             // MAIN LOOP
             var that = this;
@@ -183,24 +199,8 @@
         update: function() {
             if(!this._hasFocus)
                 return;
-            
-            /**
-             * @type {Box2D.Dynamics.b2Body}
-             */
-            var node = this._worldController.getWorld().GetBodyList();
-            while(node) {
-                var b = node;
-                node = node.GetNext();
-                /**
-                 * @type {ChuClone.GameEntity}
-                 */
-                var entity = b.GetUserData();
-                if(entity)
-                    entity.update();
-            }
 
-            this._worldController.update();
-            this._gameView.update( Date.now() );
+            this._stateMachine.update();
         }
     };
 }());

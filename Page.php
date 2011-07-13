@@ -24,52 +24,10 @@
         }
     </style>
 
-    <script type="text/javascript" src="js/lib/DAT.GUI.js"></script>
+    <?php
+        include("build.php");
+    ?>
 
-    <script type="text/javascript" src="js/lib/three.js/build/Three.js"></script>
-    <script type="text/javascript" src="js/lib/three.js/examples/js/RequestAnimationFrame.js"></script>
-    <script type="text/javascript" src="js/lib/three.js/examples/js/Stats.js"></script>
-    <!--<script type="text/javascript" src="three.js/src/extras/sceneplotter/SceneEditor.js"></script>-->
-    <!--<script type="text/javascript" src="three.js/src/extras/sceneplotter/SortedLookupTable.js"></script>-->
-    <!--<script type="text/javascript" src="three.js/src/extras/sceneplotter/SceneWindow.js"></script>-->
-    <!--<script type="text/javascript" src="three.js/src/extras/sceneplotter/ScenePlotterDot.js"></script>-->
-
-    <script type="text/javascript" src="js/lib/Box2DWeb.js"></script>
-    <script type="text/javascript" src="js/lib/EventEmitter.js"></script>
-    <script type="text/javascript" src="assets/geometry/Bird.js"></script>
-    <!--<script type="text/javascript" src="assets/geometry/spacesuit.js"></script>-->
-
-    <script type="text/javascript" src="js/ChuClone/namespace.js"></script>
-    <script type="text/javascript" src="js/ChuClone/Constants.js"></script>
-    <script type="text/javascript" src="js/ChuClone/Utils.js"></script>
-
-    <script type="text/javascript" src="js/ChuClone/gui/LevelListing.js"></script>
-
-    <script type="text/javascript" src="js/ChuClone/components/BaseComponent.js"></script>
-    <script type="text/javascript" src="js/ChuClone/components/JumpPadComponent.js"></script>
-    <script type="text/javascript" src="js/ChuClone/components/RespawnPointComponent.js"></script>
-    <script type="text/javascript" src="js/ChuClone/components/GoalPadComponent.js"></script>
-    <script type="text/javascript" src="js/ChuClone/components/KeyboardInputComponent.js"></script>
-    <script type="text/javascript" src="js/ChuClone/components/CheckIsJumpingComponent.js"></script>
-    <script type="text/javascript" src="js/ChuClone/components/CharacterControllerComponent.js"></script>
-    <script type="text/javascript" src="js/ChuClone/components/PhysicsVelocityLimitComponent.js"></script>
-    <script type="text/javascript" src="js/ChuClone/components/camera/CameraFollowEditorComponent.js"></script>
-    <script type="text/javascript" src="js/ChuClone/components/camera/CameraFollowPlayerComponent.js"></script>
-    <script type="text/javascript" src="js/ChuClone/components/ComponentFactory.js"></script>
-
-    <script type="text/javascript" src="js/ChuClone/Dispatcher.js"></script>
-    <script type="text/javascript" src="js/ChuClone/editor/LevelModel.js"></script>
-    <script type="text/javascript" src="js/ChuClone/editor/LevelManager.js"></script>
-    <script type="text/javascript" src="js/ChuClone/editor/CameraGUI.js"></script>
-    <script type="text/javascript" src="js/ChuClone/editor/PlayerGUI.js"></script>
-    <script type="text/javascript" src="js/ChuClone/editor/WorldEditor.js"></script>
-    <script type="text/javascript" src="js/ChuClone/physics/ContactListener.js"></script>
-    <script type="text/javascript" src="js/ChuClone/physics/WorldController.js"></script>
-    <script type="text/javascript" src="js/ChuClone/view/BackgroundParticleManager.js"></script>
-    <script type="text/javascript" src="js/ChuClone/GameViewController.js"></script>
-    <script type="text/javascript" src="js/ChuClone/GameEntity.js"></script>
-    <script type="text/javascript" src="js/ChuClone/PlayerEntity.js"></script>
-    <script type="text/javascript" src="js/ChuClone/ChuCloneGame.js"></script>
     <script type="text/javascript">
         var game = new ChuClone.ChuCloneGame();
     </script>
