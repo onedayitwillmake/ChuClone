@@ -18,19 +18,11 @@ Abstract:
 
 	ChuClone.namespace("ChuClone.states");
 
-	ChuClone.states.PlayLevelState = function() {
-		ChuClone.states.PlayLevelState.superclass.constructor.call(this);
+	ChuClone.states.EndLevelState = function() {
+		ChuClone.states.EndLevelState.superclass.constructor.call(this);
 	};
 
-	ChuClone.states.PlayLevelState.prototype = {
-
-        /**
-         * @type {Number}
-         */
-        _currentTime    : 0,
-        _previousTime   : 0,
-        _elapsedTime    : 0,
-        
+	ChuClone.states.EndLevelState.prototype = {
         /**
          * @type {ChuClone.GameViewController}
          */
@@ -46,31 +38,26 @@ Abstract:
          */
         _player         : null,
 
-        // Internal state
-        _beatLevel      : false,
-
 		/**
 		 * @inheritDoc
 		 */
 		enter: function() {
-			ChuClone.states.PlayLevelState.superclass.enter.call(this);
-
-            this._beatLevel = false;
-            this._previousTime = Date.now();
+			ChuClone.states.EndLevelState.superclass.enter.call(this);
             this.setupEvents();
 		},
 
         setupEvents: function() {
+            console.log("setting up events")
             var that = this;
-            this.addListener( ChuClone.components.GoalPadComponent.prototype.EVENTS.GOAL_REACHED, function( aGoalPad ) { that.onGoalReached( aGoalPad ) } );
+            this.addListener( ChuClone.components.GoalPadComponent.prototype.EVENTS.GOAL_REACHED, function( aGoalPad ) { console.log("ABC");
+                that.onGoalReached( aGoalPad ) } );
         },
 
         /**
          * @inheritDoc
          */
         update: function() {
-            ChuClone.states.PlayLevelState.superclass.update.call(this);
-            this.updateTime();
+            ChuClone.states.EndLevelState.superclass.update.call(this);
 
             /**
              * @type {Box2D.Dynamics.b2Body}
@@ -88,17 +75,7 @@ Abstract:
             }
 
             this._worldController.update();
-            this._gameView.update( this._currentTime );
-            ChuClone.gui.HUDController.setTimeInSeconds( this._elapsedTime );
-        },
-
-        updateTime: function() {
-            if( this._beatLevel )
-                return;
-            
-            this._currentTime = Date.now();
-            this._elapsedTime += this._currentTime - this._previousTime;
-            this._previousTime = this._currentTime;
+            this._gameView.update( Date.now() );
         },
 
          /**
@@ -106,7 +83,7 @@ Abstract:
 		 * @param {ChuClone.components.GoalPadComponent} aGoalComponent
 		 */
 		onGoalReached: function( aGoalComponent ) {
-			console.log("ChuClone.states.PlayLevelState:", aGoalComponent);
+			console.log("ChuClone.states.EndLevelState:", aGoalComponent);
 
 		},
 
@@ -114,12 +91,7 @@ Abstract:
          * @inheritDoc
          */
         exit: function() {
-
-            console.log("Exiting PlayLevelState!");
-            ChuClone.states.PlayLevelState.superclass.exit.call(this);
-
-            this.removeListener( ChuClone.components.GoalPadComponent.prototype.EVENTS.GOAL_REACHED );
-
+            ChuClone.states.EndLevelState.superclass.exit.call(this);
             this.dealloc();
         },
 
@@ -127,11 +99,9 @@ Abstract:
          * @inheritDoc
          */
         dealloc: function() {
-            this._worldController = null;
-            this._gameView = null;
-            this._player = null;
+
         }
 	};
 
-    ChuClone.extend( ChuClone.states.PlayLevelState, ChuClone.model.FSM.State );
+    ChuClone.extend( ChuClone.states.EndLevelState, ChuClone.model.FSM.State );
 })();

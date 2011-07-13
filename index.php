@@ -34,5 +34,6 @@
 </head>
 <body>
     <div id="guiContainer"></div>
+    <div id="HUDTime">00:00 secs</div>
 </body>
 </html>

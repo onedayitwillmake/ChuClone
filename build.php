@@ -1,6 +1,6 @@
 <?php
 /**
- * This file simply contains all the imports needed to run the game, in order, in one place
+ * This file simply contains all the imports needed to run the game, in depencency order, in one place
  */
 embed("js/lib/DAT.GUI.js");
 embed("js/lib/three.js/build/Three.js");
@@ -19,6 +19,8 @@ embed("js/ChuClone/Constants.js");
 embed("js/ChuClone/Utils.js");
 
 embed("js/ChuClone/gui/LevelListing.js");
+embed("js/ChuClone/gui/HUDController.js");
+
 
 embed("js/ChuClone/components/BaseComponent.js");
 embed("js/ChuClone/components/JumpPadComponent.js");

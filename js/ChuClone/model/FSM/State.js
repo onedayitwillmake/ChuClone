@@ -41,7 +41,7 @@
          * @param eventName
          */
         removeListener: function( eventName ) {
-            ChuClone.Events.Dispatcher.removeEventListener( eventName, this._closures[eventName] );
+            ChuClone.Events.Dispatcher.removeListener( eventName, this._closures[eventName] );
         }
     }
 })();

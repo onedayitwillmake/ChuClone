@@ -58,7 +58,7 @@
             this._controllers['saveLevelToSlot'] = this._gui.add(this, 'saveLevelToSlot').name("Save Level");
             this._controllers['loadLevelFromSlot'] = this._gui.add(this, 'loadLevelFromSlot').name("Load Level");
             this._controllers['resetLevel'] = this._gui.add(this, 'resetLevel').name("Clear Level");
-            this._controllers['playtestLevel'] = this._gui.add(this, 'playtestLevel').name("Playtest Level");
+            this._controllers['playtestLevel'] = this._gui.add(this, 'playtestLevel').name("START");
 
 			// DROP DOWN FOR ASSET LEVELS
 			var url = ChuClone.utils.getCWD() + "assets/levels/index.php";
@@ -211,14 +211,16 @@
              */
             var FSM = ChuClone.model.FSM.StateMachine.getInstance();
             if( FSM._currentState instanceof ChuClone.states.PlayLevelState ) {
-                console.log("Already in playtest, ignoring...");
-                return;
+                FSM.gotoPreviousState();
+                return
             }
 
             var playLevelState = new ChuClone.states.PlayLevelState( this._world);
             playLevelState._gameView = ChuClone.editor.WorldEditor.getInstance().getViewController();
             playLevelState._worldController = ChuClone.editor.WorldEditor.getInstance().getWorldController();
             FSM.changeState( playLevelState );
+
+            this._controllers['playtestLevel'].name("STOP");
         },
 
 
