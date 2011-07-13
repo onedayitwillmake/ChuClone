@@ -57,7 +57,7 @@
 		/**
          * We modify this not the b2Body directly
          */
-        _propProxy          : {x: 5, y: 5, z: 3, radius:3, fullscreen: false},
+        _propProxy          : {x: 5, y: 5, z: 3, radius: 3000, fullscreen: false},
 		_cameraFocusRadiusComponent: null,
 
 		// Camera type
@@ -86,17 +86,16 @@
             });
 
 			// Radius component
+			var maxRadius = 7000;
+			this._gui.add(this._propProxy, 'radius').onChange( function( aValue ) {
+				var focusRadiusComponent = that._camera.getComponentWithName( ChuClone.components.camera.CameraFocusRadiusComponent.prototype.displayName );
+				focusRadiusComponent.setRadius( aValue );
+			}).min(0).max(maxRadius);
+
 			// Fullscreen
 			this._controls['fullscreen'] = this._gui.add(this._propProxy, 'fullscreen').name("Fullscreen").onChange(function( aValue ) {
 				ChuClone.editor.WorldEditor.getInstance().getViewController().setFullscreen( aValue );
 			});
-
-
-			var maxRadius = 4000;
-			this._gui.add(this._propProxy, 'radius').onChange( function( aValue ) {
-				var focusRadiusComponent = that._camera.getComponentWithName( ChuClone.components.camera.CameraFocusRadiusComponent.prototype.displayName );
-				focusRadiusComponent.setRadius( aValue );
-			}).min(-maxRadius).max(maxRadius);
 
             this._gui.close();
             this._gui.open();
@@ -124,6 +123,7 @@
 
 			// Add radius component
 			this._camera.addComponentAndExecute( new ChuClone.components.camera.CameraFocusRadiusComponent() );
+			this._camera.getComponentWithName( ChuClone.components.camera.CameraFocusRadiusComponent.prototype.displayName ).setRadius( this._propProxy.radius );
         },
 
         setupEvents: function() {

@@ -86,7 +86,7 @@
 			}
 
 
-			var body = worldEditor.getWorldController().createRect(1, 1, 0, 1, 1, false);
+			var body = worldEditor.getWorldController().createRect( 0, 0, 0, ChuClone.Constants.PLAYER.WIDTH, ChuClone.Constants.PLAYER.HEIGHT, false);
 			var view = worldEditor.getViewController().createEntityView(0, 0, ChuClone.Constants.PLAYER.WIDTH, ChuClone.Constants.PLAYER.HEIGHT, ChuClone.Constants.PLAYER.DEPTH);
 
 			var entity = new ChuClone.PlayerEntity();

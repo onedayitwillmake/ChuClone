@@ -66,8 +66,8 @@ Abstract:
 		 * @inheritDoc
 		 */
         update: function() {
-//            this.attachedEntity.position.x += Math.cos( this._mousePosition.x ) * this._radius;
-//            this.attachedEntity.position.z += Math.sin( this._mousePosition.x) * this._radius;
+//            this.attachedEntity.position.x += Math.cos( this._mousePosition.x * -Math.PI ) * this._radius;
+            this.attachedEntity.position.z = this._radius;//Math.sin( this._mousePosition.y) * this._radius;
         },
 
 		/**

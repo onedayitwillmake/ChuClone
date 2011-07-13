@@ -111,6 +111,10 @@
 				aWorldController = ChuClone.editor.WorldEditor.getInstance().getWorldController();
 			}
 
+			var confirm = window.confirm("Save will overwrite existin data.\nAre you sure?");
+			if(!confirm)
+				return;
+
             var model = new ChuClone.editor.LevelModel();
             var data = model.parseLevel( aWorldController, this._currentName );
             var slot = "slot"+this._currentSlot;
@@ -189,6 +193,10 @@
          * Clears the level and dispatches the recreate event
          */
         resetLevel: function() {
+
+			var confirm = window.confirm("Clear all level data?");
+			if(!confirm) return;
+
             this.clearLevel( ChuClone.editor.WorldEditor.getInstance().getWorldController(), ChuClone.editor.WorldEditor.getInstance().getViewController() );
         },
         /**
