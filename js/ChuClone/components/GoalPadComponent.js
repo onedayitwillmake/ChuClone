@@ -75,6 +75,7 @@ Abstract:
             this.interceptedProperties.onCollision.call(this.attachedEntity, otherActor );
             if( !this._isReady ) return;
 
+            console.log("GOAL!");
             ChuClone.Events.Dispatcher.emit( ChuClone.components.GoalPadComponent.prototype.EVENTS.GOAL_REACHED, this );
             this.startWaitingForIsReady()
         },

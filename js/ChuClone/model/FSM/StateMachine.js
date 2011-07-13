@@ -1,7 +1,10 @@
 (function(){
     ChuClone.namespace("ChuClone.model.FSM");
-    ChuClone.model.FSM.StateMachine = function() {
 
+    var instance = null;
+    ChuClone.model.FSM.StateMachine = function() {
+        if(instance == null) instance = this;
+        else console.error("ChuClone.model.FSM.StateMachine - Instance already exist!");
     };
 
     ChuClone.model.FSM.StateMachine.prototype = {
@@ -62,5 +65,18 @@
                 this._currentState.update();
             }
         }
-    }
+    };
+
+    /**
+	 * @return {ChuClone.editor.WorldEditor}
+	 */
+	ChuClone.model.FSM.StateMachine.getInstance = function() {
+
+		if( instance == null ) {
+			debugger;
+			throw new Error("ChuClone.model.FSM.StateMachine - No instance!");
+		}
+
+		return instance;
+	}
 })();

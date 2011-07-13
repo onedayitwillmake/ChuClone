@@ -51,6 +51,7 @@ embed("js/ChuClone/GameEntity.js");
 embed("js/ChuClone/PlayerEntity.js");
 
 embed("js/ChuClone/states/EditState.js");
+embed("js/ChuClone/states/PlayLevelState.js");
 embed("js/ChuClone/ChuCloneGame.js");
 
 function embed($src) {

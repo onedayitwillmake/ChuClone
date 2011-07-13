@@ -43,19 +43,30 @@ Abstract:
          */
         _player         : null,
 
-        /**
-         * Container of closures used in event callbacks
-         * @type {Object}
-         */
-        _closures   : {},
-
 		/**
 		 * @inheritDoc
 		 */
 		enter: function() {
 			ChuClone.states.EditState.superclass.enter.call(this);
+            this.setupEvents();
 		},
 
+        setupEvents: function() {
+            var that = this;
+            var dispatch = ChuClone.Events.Dispatcher;
+
+			// Listen for PLAYER created/destroyed
+            this.addListener(ChuClone.PlayerEntity.prototype.EVENTS.CREATED, function( aPlayer ) { that.onPlayerCreated(aPlayer); });
+            this.addListener(ChuClone.PlayerEntity.prototype.EVENTS.REMOVED, function( aPlayer ) { that.onPlayerDestroyed(aPlayer); });
+
+			// Listen for LEVEL created/destroyed
+            this.addListener(ChuClone.editor.LevelManager.prototype.EVENTS.LEVEL_CREATED, function( aLevelManager ) { that.onLevelCreated( aLevelManager ); });
+            this.addListener(ChuClone.editor.LevelManager.prototype.EVENTS.LEVEL_DESTROYED, function( aLevelManager ) { that.onLevelDestroyed( aLevelManager); });
+        },
+
+        /**
+         * @inheritDoc
+         */
         update: function() {
             ChuClone.states.EditState.superclass.update.call(this);
 
@@ -78,10 +89,45 @@ Abstract:
             this._gameView.update( Date.now() );
         },
 
+        /**
+         * @inheritDoc
+         */
         exit: function() {
             ChuClone.states.EditState.superclass.exit.call(this);
+
+
         },
 
+        /**
+		 * Called when a player is created
+		 * @param aPlayer
+		 */
+		onPlayerCreated: function( aPlayer ) {
+			console.log("ChuCloneGame.onPlayerCreated:", aPlayer);
+		},
+
+		/**
+		 * Called when a player is destroyed
+		 * @param aPlayer
+		 */
+		onPlayerDestroyed: function( aPlayer ) {
+			console.log("ChuCloneGame.onPlayerDestroyed:", aPlayer);
+		},
+
+		onLevelCreated: function( aLevelManager ) {
+			this._worldController.createBox2dWorld();
+			console.log("ChuCloneGame.onLevelCreated:", aLevelManager);
+		},
+
+		onLevelDestroyed: function( aLevelManager ) {
+			console.log("ChuCloneGame.onLevelDestroyed:", aLevelManager);
+			this._gameView.getCamera().removeAllComponents();
+			this._worldController.createBox2dWorld();
+		},
+
+        /**
+         * @inheritDoc
+         */
         dealloc: function() {
 
         }

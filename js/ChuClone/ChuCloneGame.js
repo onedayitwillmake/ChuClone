@@ -72,25 +72,10 @@
                 that.onReady()
             }, false);
         },
-        
+
         setupEvents: function() {
-
             var that = this;
-			var dispatch = ChuClone.Events.Dispatcher;
-
-			// Listen for PLAYER created/destroyed
-            dispatch.addListener(ChuClone.PlayerEntity.prototype.EVENTS.CREATED, function( aPlayer ) { that.onPlayerCreated(aPlayer); });
-            dispatch.addListener(ChuClone.PlayerEntity.prototype.EVENTS.DESTROYED, function( aPlayer ) { that.onPlayerDestroyed(aPlayer); });
-
-			// Listen for LEVEL created/destroyed
-            dispatch.addListener(ChuClone.editor.LevelManager.prototype.EVENTS.LEVEL_CREATED, function( aLevelManager ) { that.onLevelCreated( aLevelManager ); });
-            dispatch.addListener(ChuClone.editor.LevelManager.prototype.EVENTS.LEVEL_DESTROYED, function( aLevelManager ) { that.onLevelDestroyed( aLevelManager); });
-
-            // Listen for GOAL reached
-            dispatch.addListener(ChuClone.components.GoalPadComponent.prototype.EVENTS.GOAL_REACHED, function( aGoalComponent ) {
-                console.log("GOAL REACHED YO!")
-            });
-
+            
             // LISTEN FOR ON FOCUS
             window.addEventListener("focus", function(e) {that._hasFocus = true; }, false);
             window.addEventListener("blur", function(e) { that._hasFocus = false; }, false);
@@ -127,33 +112,6 @@
                 window.requestAnimationFrame( loop, null );
             })();
         },
-
-		/**
-		 * Called when a player is created
-		 * @param aPlayer
-		 */
-		onPlayerCreated: function( aPlayer ) {
-			console.log("ChuCloneGame.onPlayerCreated:", aPlayer);
-		},
-
-		/**
-		 * Called when a player is destroyed
-		 * @param aPlayer
-		 */
-		onPlayerDestroyed: function( aPlayer ) {
-			console.log("ChuCloneGame.onPlayerDestroyed:", aPlayer);
-		},
-
-		onLevelCreated: function( aLevelManager ) {
-			this._worldController.createBox2dWorld();
-			console.log("ChuCloneGame.onLevelCreated:", aLevelManager);
-		},
-
-		onLevelDestroyed: function( aLevelManager ) {
-			console.log("ChuCloneGame.onLevelDestroyed:", aLevelManager);
-			this._gameView.getCamera().removeAllComponents();
-			this._worldController.createBox2dWorld();
-		},
 
         /**
          * Sets up the LevelManager
