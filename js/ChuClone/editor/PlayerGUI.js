@@ -21,6 +21,7 @@
     "use strict";
     ChuClone.namespace("ChuClone.editor.PlayerGUI");
     ChuClone.editor.PlayerGUI = function() {
+		this.setupEvents();
         this.setupGUI()
     };
 
@@ -48,6 +49,7 @@
 
             this._controls['Create'] = this._gui.add(this, 'createPlayer').name("Create");
             this._controls['Destroy'] = this._gui.add(this, 'destroyPlayer').name("Destroy");
+            this._controls['Reset'] = this._gui.add(this, 'resetPlayer').name("Reset");
 
             this._gui.close();
             this._gui.open();
@@ -57,8 +59,7 @@
         setupEvents: function() {
             var that = this;
             ChuClone.Events.Dispatcher.addListener(ChuClone.PlayerEntity.prototype.EVENTS.CREATED, function( aPlayer ) {
-//                that._player = aPlayer;
-                that.onPlayerCreated( aPlayer );
+                that._player = aPlayer;
             });
         },
 
@@ -108,6 +109,24 @@
 
         destroyPlayer: function() {
 
+        },
+
+		/**
+		 * Resets the player object to the first respawn point
+		 */
+		resetPlayer: function() {
+			if( !this._player ) {
+				console.error("ChuClone.editor.PlayerGUI.resetPlayer - '_player' is null!");
+				return null;
+			}
+
+			var respawnPoint = this.getRespawnPoint();
+			if( !respawnPoint ) {
+				console.error("ChuClone.editor.PlayerGUI.resetPlayer - Create at least one RespawnComponent first!");
+				return null;
+			}
+
+			this._player.getBody().SetPosition(new Box2D.Common.Math.b2Vec2( respawnPoint.getBody().GetPosition().x, respawnPoint.getBody().GetPosition().y ));
         },
 
 		getRespawnPoint: function() {

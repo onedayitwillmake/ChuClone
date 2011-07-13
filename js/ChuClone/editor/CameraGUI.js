@@ -57,7 +57,7 @@
 		/**
          * We modify this not the b2Body directly
          */
-        _propProxy          : {x: 5, y: 5, z: 3, radius: 3000, fullscreen: false},
+        _propProxy          : {x: 5, y: 5, z: 3, radius: new THREE.Vector3(400, 0, 3220), fullscreen: false},
 		_cameraFocusRadiusComponent: null,
 
 		// Camera type
@@ -87,10 +87,9 @@
 
 			// Radius component
 			var maxRadius = 7000;
-			this._gui.add(this._propProxy, 'radius').onChange( function( aValue ) {
-				var focusRadiusComponent = that._camera.getComponentWithName( ChuClone.components.camera.CameraFocusRadiusComponent.prototype.displayName );
-				focusRadiusComponent.setRadius( aValue );
-			}).min(0).max(maxRadius);
+			this._gui.add(this._propProxy.radius, 'x').onChange( function( aValue ) { that.onRadiusChange(this); }).min(0).max(maxRadius);
+			this._gui.add(this._propProxy.radius, 'y').onChange( function( aValue ) { that.onRadiusChange(this); }).min(0).max(maxRadius);
+			this._gui.add(this._propProxy.radius, 'z').onChange( function( aValue ) { that.onRadiusChange(this); }).min(0).max(maxRadius);
 
 			// Fullscreen
 			this._controls['fullscreen'] = this._gui.add(this._propProxy, 'fullscreen').name("Fullscreen").onChange(function( aValue ) {
@@ -122,9 +121,21 @@
             }
 
 			// Add radius component
-			this._camera.addComponentAndExecute( new ChuClone.components.camera.CameraFocusRadiusComponent() );
-			this._camera.getComponentWithName( ChuClone.components.camera.CameraFocusRadiusComponent.prototype.displayName ).setRadius( this._propProxy.radius );
+			var focusComponent = new ChuClone.components.camera.CameraFocusRadiusComponent();
+			this._camera.addComponentAndExecute( focusComponent );
+			focusComponent.getRadius().x = this._propProxy.radius.x;
+			focusComponent.getRadius().y = this._propProxy.radius.y;
+			focusComponent.getRadius().z = this._propProxy.radius.z;
         },
+
+		/**
+		 * Modifies the radius for the CameraFocusRadiusComponent
+		 * @param {DAT.GUI.Controller} guiController Controller that called this function
+		 */
+		onRadiusChange: function( guiController ) {
+			var focusRadiusComponent = this._camera.getComponentWithName( ChuClone.components.camera.CameraFocusRadiusComponent.prototype.displayName );
+				focusRadiusComponent.getRadius()[guiController.propertyName] = guiController.getValue();
+		},
 
         setupEvents: function() {
             var that = this;

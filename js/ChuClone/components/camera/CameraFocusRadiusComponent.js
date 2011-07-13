@@ -43,9 +43,9 @@ Abstract:
         _mousePosition: new THREE.Vector2(0, 0),
 
         /**
-         * @type {Number}
+         * @type {THREE.Vector3}
          */
-        _radius			: 1000,
+        _radius			: new THREE.Vector3(0, 0, 0),
 		_mouseCallback	: null,
 
 		/**
@@ -67,7 +67,9 @@ Abstract:
 		 */
         update: function() {
 //            this.attachedEntity.position.x += Math.cos( this._mousePosition.x * -Math.PI ) * this._radius;
-            this.attachedEntity.position.z = this._radius;//Math.sin( this._mousePosition.y) * this._radius;
+            this.attachedEntity.position.x += Math.cos( this._mousePosition.x * Math.PI ) * this._radius.x;
+            this.attachedEntity.position.y += Math.sin( this._mousePosition.y * Math.PI ) * this._radius.y;
+            this.attachedEntity.position.z = this._radius.z;//Math.sin( this._mousePosition.y) * this._radius;
         },
 
 		/**
@@ -76,15 +78,14 @@ Abstract:
          */
         onDocumentMouseMove: function( event ) {
             event.preventDefault();
-            this._mousePosition.x = ( event.clientX / ChuClone.DOM_ELEMENT.offsetWidth ) * 2 - 1;
-            this._mousePosition.y = - ( event.clientY / ChuClone.DOM_ELEMENT.offsetHeight ) * 2 + 1;
+            this._mousePosition.x = event.clientX / ChuClone.DOM_ELEMENT.offsetWidth;
+            this._mousePosition.y = (event.clientY / ChuClone.DOM_ELEMENT.offsetHeight);
         },
 
         /**
          * @inheritDoc
    	      */
         detach: function() {
-			console.log("DETACH");
             ChuClone.components.camera.CameraFocusRadiusComponent.superclass.detach.call(this);
             document.removeEventListener( 'mousemove', this._mouseCallback, false );
         },
@@ -112,11 +113,15 @@ Abstract:
 
 		/**
 		 * Sets the radius of this component
-		 * @param {Number} aRadius
+		 * @param {THREE.Vector3} aRadius
 		 */
 		setRadius: function( aRadius ) {
 			this._radius = aRadius;
-		}
+		},
+		/**
+		 * @return {THREE.Vector3}
+		 */
+		getRadius: function() { return this._radius; }
 	};
 
     ChuClone.extend( ChuClone.components.camera.CameraFocusRadiusComponent, ChuClone.components.BaseComponent );
