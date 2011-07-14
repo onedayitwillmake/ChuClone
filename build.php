@@ -12,7 +12,7 @@ embed("assets/geometry/Bird.js");
 embed("assets/geometry/spacesuit.js");
 
 embed("js/lib/Box2DWeb.js");
-embed("js/lib/EventEmitter.js");
+//embed("js/lib/EventEmitter.js");
 
 
 embed("js/ChuClone/namespace.js");
