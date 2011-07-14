@@ -57,7 +57,7 @@
 		/**
          * We modify this not the b2Body directly
          */
-        _propProxy          : {TIME: 0, x: 5, y: 5, z: 3, radius: new THREE.Vector3(400, 0, 3220), fullscreen: false},
+        _propProxy          : {x: 5, y: 5, z: 3, radius: new THREE.Vector3(400, 0, 3220), fullscreen: false},
 		_cameraFocusRadiusComponent: null,
 
 		// Camera type
@@ -90,7 +90,6 @@
 			this._gui.add(this._propProxy.radius, 'x').onChange( function( aValue ) { that.onRadiusChange(this); }).min(0).max(maxRadius);
 			this._gui.add(this._propProxy.radius, 'y').onChange( function( aValue ) { that.onRadiusChange(this); }).min(0).max(maxRadius);
 			this._gui.add(this._propProxy.radius, 'z').onChange( function( aValue ) { that.onRadiusChange(this); }).min(0).max(maxRadius);
-			window.TIMEGUI = this._gui.add(this._propProxy, 'TIME');
 
 			// Fullscreen
 			this._controls['fullscreen'] = this._gui.add(this._propProxy, 'fullscreen').name("Fullscreen").onChange(function( aValue ) {
