@@ -56,5 +56,5 @@ embed("js/ChuClone/states/PlayLevelState.js");
 embed("js/ChuClone/ChuCloneGame.js");
 
 function embed($src) {
-    echo "<script type='text/javascript' src='{$src}'></script>\n";
+    echo "\t<script type='text/javascript' src='{$src}'></script>\n";
 }

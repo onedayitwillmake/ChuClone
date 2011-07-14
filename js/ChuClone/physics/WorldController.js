@@ -241,7 +241,7 @@
                 if( !document.getElementById("editorContainer") ) {
                     container = document.createElement( 'div' );
                     container.style.position = "absolute";
-                    container.style.top = ChuClone.Constants.GAME_HEIGHT + 5 + "px";
+                    container.style.top = ChuClone.Constants.GAME_HEIGHT + 55 + "px";
                     container.style.backgroundColor = "#000000";
                     container.style.opacity = 0.75;
                     document.body.appendChild( container );

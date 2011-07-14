@@ -57,6 +57,7 @@
             this._controllers['saveLevelToSlot'] = this._gui.add(this, 'saveLevelToSlot').name("Save Level");
             this._controllers['loadLevelFromSlot'] = this._gui.add(this, 'loadLevelFromSlot').name("Load Level");
             this._controllers['resetLevel'] = this._gui.add(this, 'resetLevel').name("Clear Level");
+            this._controllers['pasteLevel'] = this._gui.add(this, 'pasteLevel').name("Paste Level");
             this._controllers['playtestLevel'] = this._gui.add(this, 'playtestLevel').name("START");
 
 			// DROP DOWN FOR ASSET LEVELS
@@ -78,6 +79,7 @@
 						// Remove focus from the element otherwise it interferes with the kb
                 		document.getElementsByTagName("canvas")[0].focus();
 					});
+                    that._controllers['level'].name("LEVELS DIR")
 
 					that._gui.close();
 					that._gui.open();
@@ -176,6 +178,7 @@
          * @return {ChuClone.editor.LevelModel}
          */
         loadLevelFromJSONString: function( aWorldController, gameViewController, JSONString ) {
+            console.log("JSONSTRING");
             var model = new ChuClone.editor.LevelModel();
             model.fromJsonString( JSONString, aWorldController, gameViewController);
 
@@ -193,11 +196,20 @@
          * Clears the level and dispatches the recreate event
          */
         resetLevel: function() {
-
 			var confirm = window.confirm("Clear all level data?");
 			if(!confirm) return;
 
             this.clearLevel( ChuClone.editor.WorldEditor.getInstance().getWorldController(), ChuClone.editor.WorldEditor.getInstance().getViewController() );
+        },
+
+        pasteLevel: function() {
+            var pastedText = window.prompt("PasteLevel:");
+            try {
+
+                this.loadLevelFromJSONString( ChuClone.editor.WorldEditor.getInstance().getWorldController(), ChuClone.editor.WorldEditor.getInstance().getViewController(), pastedText );
+            } catch( e ) {
+                console.error(e);
+            }
         },
 
         /**

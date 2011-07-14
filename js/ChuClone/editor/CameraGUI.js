@@ -58,7 +58,6 @@
          * We modify this not the b2Body directly
          */
         _propProxy          : {x: 5, y: 5, z: 3, radius: new THREE.Vector3(400, 0, 3220), fullscreen: false},
-		_cameraFocusRadiusComponent: null,
 
 		// Camera type
         _type   : 0,
@@ -82,6 +81,7 @@
 
                 // Remove focus from the elemnt otherwise
                 document.getElementsByTagName("canvas")[0].focus();
+                document.getElementsByTagName("canvas")[1].focus();
                 that.onCamTypeChange( selected );
             });
 

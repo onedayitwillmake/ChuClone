@@ -120,7 +120,7 @@
             this._levelManager = new ChuClone.editor.LevelManager();
             this._levelManager.setupGui();
 //            this._levelManager.loadLevelFromURL("/assets/levels/Piano.json");
-//            this._levelManager.loadLevelFromURL("/assets/levels/HelloWorld.json");
+//            this._levelManager.loadLevelFromURL(this._worldController, this._gameView, "/assets/levels/HelloWorld.json");
 //            this._levelManager.loadLatestLevel();
         },
 
