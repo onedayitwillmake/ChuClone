@@ -9,10 +9,10 @@ embed("js/lib/three.js/examples/js/RequestAnimationFrame.js");
 embed("js/lib/three.js/examples/js/Stats.js");
 
 embed("assets/geometry/Bird.js");
-embed("assets/geometry/spacesuit.js");
+//embed("assets/geometry/spacesuit.js");
 
 embed("js/lib/Box2DWeb.js");
-//embed("js/lib/EventEmitter.js");
+embed("js/lib/EventEmitter.js");
 
 
 embed("js/ChuClone/namespace.js");
