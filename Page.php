@@ -51,9 +51,7 @@
         &nbsp;
     </div>
     <div class="grid_4">
-        <p>
-            00:00 secs
-        </p>
+        <div id="HUDTime">00:00 secs</div>
     </div>
     <div class="clear"></div>
     <div id="gameContainer" class="grid_12">

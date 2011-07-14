@@ -1,12 +1,13 @@
 /**
 File:
-	CharacterControllerComponent.js
+	PlayLevelState.js
 Created By:
 	Mario Gonzalez
 Project	:
 	ChuClone
 Abstract:
- 	This component will allow an entity to be controlled as a 'character'
+ 	Gameplaying state
+ 
  Basic Usage:
 
  License:
@@ -42,6 +43,11 @@ Abstract:
         _worldController: null,
 
         /**
+         * @type {ChuClone.editor.LevelManager}
+         */
+        _levelManager: null,
+
+        /**
          * @type {ChuClone.PlayerEntity}
          */
         _player         : null,
@@ -54,7 +60,7 @@ Abstract:
 		 */
 		enter: function() {
 			ChuClone.states.PlayLevelState.superclass.enter.call(this);
-
+            
             this._beatLevel = false;
             this._previousTime = Date.now();
             this.setupEvents();

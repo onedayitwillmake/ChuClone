@@ -23,8 +23,8 @@ Abstract:
         onDomReady: function(e) {
             window.removeEventListener('DOMContentLoaded', ChuClone.gui.HUDController.onDomReady, false);
             domElementTime = document.getElementById("HUDTime");
-            domElementTime.style.position = "position-fixed";
-            domElementTime.style.width = "150px";
+            domElementTime.style.position = "fixed";
+            domElementTime.style.width = "220px";
             domElementTime.style.backgroundColor = "#cccccc";
             domElementTime.style.textAlign = "center";
 
