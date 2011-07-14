@@ -59,6 +59,7 @@
         setupEvents: function() {
             var that = this;
             ChuClone.Events.Dispatcher.addListener(ChuClone.PlayerEntity.prototype.EVENTS.CREATED, function( aPlayer ) {
+                that.destroyPlayer();
                 that._player = aPlayer;
             });
         },
@@ -94,7 +95,7 @@
 			entity.setBody(body);
 			entity.setView(view);
 
-			body.SetPosition(new Box2D.Common.Math.b2Vec2( respawnPoint.getBody().GetPosition().x, respawnPoint.getBody().GetPosition().y ));
+			body.SetPosition(new Box2D.Common.Math.b2Vec2( respawnPoint.getBody().GetPosition().x, respawnPoint.getBody().GetPosition().y - 2 ));
 			view.materials[0] = ChuClone.Constants.PLAYER.MATERIAL;
 			entity.setDimensions(ChuClone.Constants.PLAYER.WIDTH, ChuClone.Constants.PLAYER.HEIGHT, ChuClone.Constants.PLAYER.DEPTH);
 
@@ -108,13 +109,22 @@
         },
 
         destroyPlayer: function() {
+            if( !this._player )
+                return;
 
+            ChuClone.editor.WorldEditor.getInstance().getViewController().removeObjectFromScene( this._player.getView() );
+
+            // Store ref to body, and deallocate player
+            var playerbody = this._player.getBody();
+            this._player.dealloc();
+            ChuClone.editor.WorldEditor.getInstance().getWorldController().getWorld().DestroyBody( playerbody );
         },
 
 		/**
 		 * Resets the player object to the first respawn point
 		 */
 		resetPlayer: function() {
+            console.log( this );
 			if( !this._player ) {
 				console.error("ChuClone.editor.PlayerGUI.resetPlayer - '_player' is null!");
 				return null;
@@ -126,7 +136,7 @@
 				return null;
 			}
 
-			this._player.getBody().SetPosition(new Box2D.Common.Math.b2Vec2( respawnPoint.getBody().GetPosition().x, respawnPoint.getBody().GetPosition().y ));
+			this._player.getBody().SetPosition(new Box2D.Common.Math.b2Vec2( respawnPoint.getBody().GetPosition().x, respawnPoint.getBody().GetPosition().y + 1));
         },
 
 		getRespawnPoint: function() {

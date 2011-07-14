@@ -27,7 +27,7 @@
     <div class="grid_4 lineBorder omega" id="HUDTime">00.0 secs</div>
     <div class="clear"></div>
     <div id="gameContainer" class="grid_12"></div>
-    <div id="editorContainer" class="grid_12" style="height: 540px;"></div>
+<!--    <div id="editorContainer" class="grid_12" style="height: 540px;"></div>-->
     <div class="clear"></div>
     <div class="grid_12" style="height: 20px"></div>
     <div class="clear"></div>

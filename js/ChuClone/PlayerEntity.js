@@ -61,12 +61,6 @@
             ChuClone.PlayerEntity.superclass.setBody.call( this, aBody );
             
             aBody.GetFixtureList().m_filter.groupIndex = ChuClone.PlayerEntity.prototype.GROUP;
-//            aBody.GetFixtureList().categoryBits = ChuClone.Constants.PHYSICS.GROUPS.PLAYER;
-//            aBody.GetFixtureList().maskBits = ChuClone.Constants.PHYSICS.GROUPS.PLATFORM;
-
-
-//            aBody.GetFixtureList.filter.categoryBits = 0x0002;
-            
         },
 
         /**

@@ -97,7 +97,7 @@
 
             // HACKY FOR NOW but just stuff our props in there
 
-            var editState = new ChuClone.states.EditState();
+            var editState = new ChuClone.states.PlayLevelState();
             editState._worldController = this._worldController;
             editState._gameView = this._gameView;
             editState._levelManager = this._levelManager;
@@ -118,9 +118,9 @@
          */
         setupLevelManager: function() {
             this._levelManager = new ChuClone.editor.LevelManager();
-            this._levelManager.setupGui();
+//            this._levelManager.setupGui();
 //            this._levelManager.loadLevelFromURL("/assets/levels/Piano.json");
-//            this._levelManager.loadLevelFromURL(this._worldController, this._gameView, "/assets/levels/HelloWorld.json");
+            this._levelManager.loadLevelFromURL(this._worldController, this._gameView, "/assets/levels/Start.json");
 //            this._levelManager.loadLatestLevel();
         },
 
@@ -137,8 +137,8 @@
 		 */
         setupWorldController: function() {
             this._worldController = new ChuClone.physics.WorldController();
-            this._worldController.setDebugDraw();
-            this._worldController.setupEditor( this._gameView );
+//            this._worldController.setDebugDraw();
+//            this._worldController.setupEditor( this._gameView );
         },
 
         /**

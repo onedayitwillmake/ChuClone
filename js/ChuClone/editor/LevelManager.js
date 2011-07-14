@@ -22,6 +22,9 @@
     
     ChuClone.namespace("ChuClone.editor");
     ChuClone.editor.LevelManager = function() {
+
+        // TEMP HACK FOR NOW TO ACCESS FROM JS ON CLICK
+        ChuClone.editor.LevelManager.INSTANCE = this;
     };
 
     ChuClone.editor.LevelManager.prototype = {
@@ -52,7 +55,9 @@
             this._gui.autoListen = false;
 
             this._controllers['slot'] = this._gui.add(this, '_currentSlot').options([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]).name("Save Slot");
-            this._controllers['slot'].domElement.childNodes[1].selectedIndex = parseInt( localStorage.getItem("lastSlot") );
+            var slotIndex = parseInt( localStorage.getItem("lastSlot") );
+            this._controllers['slot'].domElement.childNodes[1].selectedIndex = slotIndex;
+            this._controllers['slot'].setValue( slotIndex )
             this._controllers['name'] = this._gui.add(this, '_currentName').name("Level Name").onFinishChange(function(){ });
             this._controllers['saveLevelToSlot'] = this._gui.add(this, 'saveLevelToSlot').name("Save Level");
             this._controllers['loadLevelFromSlot'] = this._gui.add(this, 'loadLevelFromSlot').name("Load Level");
@@ -75,11 +80,11 @@
 						var selected = this.domElement.childNodes[1].selectedIndex;
 						 that.loadLevelFromURL( ChuClone.editor.WorldEditor.getInstance().getWorldController(),
 								 ChuClone.editor.WorldEditor.getInstance().getViewController(),
-								 "assets/levels/" + levelList[selected] );
+								 "assets/levels/" + levelList[selected] + "?r"+Math.floor(Math.random() * 9999) );
 						// Remove focus from the element otherwise it interferes with the kb
                 		document.getElementsByTagName("canvas")[0].focus();
 					});
-                    that._controllers['level'].name("LEVELS DIR")
+                    that._controllers['level'].name("LEVELS DIR");
 
 					that._gui.close();
 					that._gui.open();
@@ -87,6 +92,18 @@
 			};
             request.open("GET", url );
             request.send(null);
+
+//
+//            this.domElement = document.createElement( 'div' );
+//            this.domElement.style.position = "absolute";
+//            this.domElement.style.position = "absolute";
+//
+//            this.domElement.style.fontFamily = 'Helvetica, Arial, sans-serif';
+//            this.domElement.style.textAlign = 'left';
+//            this.domElement.style.fontSize = '9px';
+//            this.domElement.style.padding = '2px 0px 3px 0px';
+//            this.domElement.innerHTML = "ABC1234123123";
+//            document.body.appendChild( this.domElement );
         },
 
         /**
@@ -123,6 +140,8 @@
 
             localStorage.setItem(slot, data);
             localStorage.setItem("lastSlot", this._currentSlot);
+
+            console.log("\n" + data);
             this._levelModel = model;
         },
 
@@ -178,7 +197,6 @@
          * @return {ChuClone.editor.LevelModel}
          */
         loadLevelFromJSONString: function( aWorldController, gameViewController, JSONString ) {
-            console.log("JSONSTRING");
             var model = new ChuClone.editor.LevelModel();
             model.fromJsonString( JSONString, aWorldController, gameViewController);
 
@@ -273,7 +291,5 @@
 
 
         ///// ACCESSORS
-
-
     }
 })();

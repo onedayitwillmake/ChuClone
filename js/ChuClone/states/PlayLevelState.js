@@ -71,6 +71,26 @@ Abstract:
         setupEvents: function() {
             var that = this;
             this.addListener( ChuClone.components.GoalPadComponent.prototype.EVENTS.GOAL_REACHED, function( aGoalPad ) { that.onGoalReached( aGoalPad ) } );
+            this.addListener( ChuClone.editor.LevelManager.prototype.EVENTS.LEVEL_CREATED, function( aLevelManager ) { that.onLevelLoaded( aLevelManager ) } );
+            ChuClone.Events.Dispatcher.addListener(ChuClone.PlayerEntity.prototype.EVENTS.CREATED, function( aPlayer ) {
+                that._player = aPlayer;
+
+                var gameCamera = that._gameView.getCamera();
+                ChuClone.editor.CameraGUI.prototype.augmentCamera.call( this, gameCamera );
+
+
+                var followPlayerComponent = new ChuClone.components.camera.CameraFollowPlayerComponent();
+                followPlayerComponent.setPlayer( that._player );
+                gameCamera.addComponentAndExecute( followPlayerComponent );
+
+
+                var focusComponent = new ChuClone.components.camera.CameraFocusRadiusComponent();
+                gameCamera.addComponentAndExecute(focusComponent);
+                focusComponent.getRadius().x = 2500;
+                focusComponent.getRadius().y = 1000;
+                focusComponent.getRadius().z = 2000;
+
+            });
         },
 
         /**
@@ -113,6 +133,14 @@ Abstract:
             this._elapsedTime += this._currentTime - this._previousTime;
             this._previousTime = this._currentTime;
         },
+
+        /**
+		 * Called when a goal is hit
+		 * @param {ChuClone.editor.LevelManager} aLevelManager
+		 */
+		onLevelLoaded: function( aLevelManager ) {
+            this._worldController.createBox2dWorld()
+		},
 
          /**
 		 * Called when a goal is hit

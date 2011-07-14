@@ -22,7 +22,7 @@
     ChuClone.namespace("ChuClone.editor.CameraGUI");
     ChuClone.editor.CameraGUI = function( aCamera ) {
         this._camera = aCamera;
-        this.augmentCamera();
+        this.augmentCamera( this._camera );
 
         this.setupGUI();
         this.setupEvents();
@@ -57,7 +57,7 @@
 		/**
          * We modify this not the b2Body directly
          */
-        _propProxy          : {x: 5, y: 5, z: 3, radius: new THREE.Vector3(400, 0, 3220), fullscreen: false},
+        _propProxy          : {x: 5, y: 5, z: 3, radius: new THREE.Vector3(5400, 1680, 4500), fullscreen: false},
 
 		// Camera type
         _type   : 0,
@@ -87,8 +87,8 @@
 
 			// Radius component
 			var maxRadius = 7000;
-			this._gui.add(this._propProxy.radius, 'x').onChange( function( aValue ) { that.onRadiusChange(this); }).min(0).max(maxRadius);
-			this._gui.add(this._propProxy.radius, 'y').onChange( function( aValue ) { that.onRadiusChange(this); }).min(0).max(maxRadius);
+			this._gui.add(this._propProxy.radius, 'x').onChange( function( aValue ) { that.onRadiusChange(this); }).min(-maxRadius).max(maxRadius);
+			this._gui.add(this._propProxy.radius, 'y').onChange( function( aValue ) { that.onRadiusChange(this); }).min(-maxRadius/2).max(maxRadius/2);
 			this._gui.add(this._propProxy.radius, 'z').onChange( function( aValue ) { that.onRadiusChange(this); }).min(0).max(maxRadius);
 
 			// Fullscreen
@@ -152,9 +152,10 @@
 
         /**
          * Adds component stuff from GameEntity to the camera, bit of a hack
+         * @param {THREE.Camera}
          */
-        augmentCamera: function() {
-            this._camera.components = [];
+        augmentCamera: function( aCamera ) {
+            aCamera.components = [];
             for(var prop in ChuClone.GameEntity.prototype) {
                 if(! ChuClone.GameEntity.prototype.hasOwnProperty(prop) ) return;
 
@@ -163,13 +164,13 @@
                     ChuClone.GameEntity.prototype[prop] instanceof Function) {
 
                     // Throw error if camera already has such a property, probably something has gone wrong
-                    this._camera[prop] = ChuClone.GameEntity.prototype[prop];
+                    aCamera[prop] = ChuClone.GameEntity.prototype[prop];
                 }
             }
 
             // Augment the update function
-            this._camera.superUpdate = this._camera.update;
-            this._camera.update = function() {
+            aCamera.superUpdate = aCamera.update;
+            aCamera.update = function() {
 
                 var len = this.components.length;
                 for(var i = 0; i < len; ++i ) {
