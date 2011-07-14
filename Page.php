@@ -6,23 +6,9 @@
     <link rel="stylesheet" href="assets/css/960/reset.css"/>
     <link rel="stylesheet" href="assets/css/960/text.css"/>
     <link rel="stylesheet" href="assets/css/960/960.css"/>
-    <link rel="stylesheet" href="assets/css/960/demo.css"/>
+    <link rel="stylesheet" href="assets/css/ChuClone.css"/>
 
     <link href="http://fonts.googleapis.com/css?family=Jura:300,400,500,600&v1" rel="stylesheet" type="text/css">
-    <style>
-        body {
-            font-family: 'Jura', serif;
-            font-size: 36px;
-            font-style: normal;
-            font-weight: 400;
-            text-shadow: none;
-            text-decoration: none;
-            text-transform: none;
-            letter-spacing: 0em;
-            word-spacing: 0em;
-            line-height: 1.2;
-        }
-    </style>
 
     <?php
         include("build.php");
@@ -50,8 +36,7 @@
     <div class="grid_4">
         &nbsp;
     </div>
-    <div class="grid_4" id="HUDTime">ABC
-    </div>
+    <div class="grid_4 lineBorder omega" id="HUDTime">00.0 secs</div>
     <div class="clear"></div>
     <div id="gameContainer" class="grid_12"></div>
     <div id="editorContainer" class="grid_12" style="height: 540px;">
@@ -69,7 +54,7 @@
         $dir_handle = @opendir($path) or die("Unable to open $path");
 
         $count = 0;
-        $perRow = 6;            // These are the last columns in our set, enable special class for end
+        $perRow = 3;            // These are the last columns in our set, enable special class for end
         // Loop through the files
         while ($file = readdir($dir_handle)) {
             if ($file == "." || $file == ".." || $file == "index.php")
@@ -79,9 +64,11 @@
             $extraClass = ($count % $perRow) == 0 ? "levelThumbnailEOL" : "";
 
             $location = $suffix . $file;
+            $levelName = str_replace(".json", "", $file);
+            
             $template = <<<EOD
-            <div data-location="$location" class="grid_1 levelThumbnail $extraClass">
-                <p>lvl $count</p>
+            <div data-location="$location" class="grid_2 levelThumbnail $extraClass">
+                $levelName
             </div>
 EOD;
             echo $template;

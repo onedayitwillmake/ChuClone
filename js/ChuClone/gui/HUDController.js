@@ -25,21 +25,13 @@ Abstract:
             window.removeEventListener('DOMContentLoaded', ChuClone.gui.HUDController.onDomReady, false);
             ChuClone.gui.HUDController.createTimeCanvas();
 
-//            domElementTime = document.getElementById("HUDTime");
-//            domElementTime.style.position = "fixed";
-            
-//            domElementTime.style.backgroundColor = "#cccccc";
-//            domElementTime.style.textAlign = "center";
-
-
-
-            ChuClone.gui.HUDController.setTimeInSeconds( 123 )
+            // TODO: TEMP HACK TO ALLOW THE FONT TO LOAD
+            setTimeout(ChuClone.gui.HUDController.setTimeInSeconds, 500, 999 * 1000 );
         },
 
         createTimeCanvas: function() {
             var container = document.getElementById("HUDTime");
-            container.style.width = "220px";
-            container.style.height = container.offsetHeight + "px";
+            container.style.height = 50 + "px";
             container.textContent = "";
 
             var timeCanvas = document.createElement('canvas');
@@ -49,7 +41,7 @@ Abstract:
 
             var context = timeCanvas.getContext("2d");
             context.font = "48px Jura";
-            context.textAlign = "left";
+            context.textAlign = "right";
             context.textBaseline = "top";
             context.fillStyle = "rgba(32, 45, 21, " + 1 + ")";
 
@@ -65,10 +57,9 @@ Abstract:
          * @param aTime
          */
         setTimeInSeconds: function( aTime ) {
-            var timeString = Math.round(aTime/60*10)/100;// + " secs";
-
+            var seconds = Math.round(aTime/1000*10)/10 + " secs";
             timeContext.clearRect(0, 0, timeContext.width, timeContext.height);
-            timeContext.fillText(timeString, 0, 0);
+            timeContext.fillText(seconds, timeContext.width - 40, 0);
         }
     };
 

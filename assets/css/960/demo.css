@@ -35,12 +35,6 @@ p {
     text-align: center;
 }
 
-/*div*/
-/*{*/
-    /*margin-right: -10px;*/
-    /*border: 1px solid #ff0080;*/
-/*}*/
-
 .levelThumbnail {
     border: 1px inset #666;
     margin-left: -1px;
@@ -65,7 +59,7 @@ p {
 .container_12,
 .container_16,
 .container_24 {
-    background-color: #eaeaea;
+    /*background-color: #eaeaea;*/
     background-repeat: repeat-y;
     margin-bottom: 20px;
 }
@@ -82,6 +76,10 @@ p {
     background-image: url(../img/24_col.gif);
 }
 
+.lineBorder {
+    border: 1px solid #666;
+}
+
 #gameContainer {
     width: 1000px;
     border: 1px solid #666;
@@ -94,6 +92,11 @@ p {
     margin-left: -20px;
     margin-top: 2px;
     margin-bottom: 20px;
+}
+
+#HUDTime {
+    padding: 5px 0;
+    text-align: center;
 }
 
 :focus {

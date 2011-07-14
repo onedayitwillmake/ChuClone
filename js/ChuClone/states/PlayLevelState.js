@@ -99,7 +99,7 @@ Abstract:
             this._gameView.update( this._currentTime );
 
 
-            if( this._currentTime - this._lastTextUpdate > 32 ) {
+            if( this._currentTime - this._lastTextUpdate > 64 ) {
                 this._lastTextUpdate = this._currentTime;
                 ChuClone.gui.HUDController.setTimeInSeconds( this._elapsedTime );
             }

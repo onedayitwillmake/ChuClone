@@ -22,7 +22,6 @@ embed("js/ChuClone/Utils.js");
 embed("js/ChuClone/gui/LevelListing.js");
 embed("js/ChuClone/gui/HUDController.js");
 
-
 embed("js/ChuClone/components/BaseComponent.js");
 embed("js/ChuClone/components/JumpPadComponent.js");
 embed("js/ChuClone/components/RespawnPointComponent.js");
