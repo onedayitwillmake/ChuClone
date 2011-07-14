@@ -27,7 +27,6 @@ embed("js/ChuClone/components/BaseComponent.js");
 embed("js/ChuClone/components/JumpPadComponent.js");
 embed("js/ChuClone/components/RespawnPointComponent.js");
 embed("js/ChuClone/components/GoalPadComponent.js");
-embed("js/ChuClone/components/RespawnPointComponent.js");
 embed("js/ChuClone/components/CheckIsJumpingComponent.js");
 embed("js/ChuClone/components/KeyboardInputComponent.js");
 embed("js/ChuClone/components/CharacterControllerComponent.js");
