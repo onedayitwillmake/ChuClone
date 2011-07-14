@@ -17,7 +17,7 @@ body {
     line-height: 1.2;
 }
 a {
-    color: #fff;
+    color: #333;
     text-decoration: none;
 }
 
@@ -53,6 +53,11 @@ p {
     width: 19px;
     height: 50px;
     font-size: 16px;
+    cursor: pointer;
+}
+
+.doMore {
+    font-size: 12px;
     cursor: pointer;
 }
 

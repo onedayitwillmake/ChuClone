@@ -31,7 +31,7 @@ Abstract:
 
         createTimeCanvas: function() {
             var container = document.getElementById("HUDTime");
-            container.style.height = 50 + "px";
+            container.style.height = 43 + "px";
             container.textContent = "";
 
             var timeCanvas = document.createElement('canvas');
@@ -59,7 +59,7 @@ Abstract:
         setTimeInSeconds: function( aTime ) {
             var seconds = Math.round(aTime/1000*10)/10 + " secs";
             timeContext.clearRect(0, 0, timeContext.width, timeContext.height);
-            timeContext.fillText(seconds, timeContext.width - 40, 0);
+            timeContext.fillText(seconds, timeContext.width - 40, -4);
         }
     };
 

@@ -95,15 +95,23 @@
 
             this._stateMachine = new ChuClone.model.FSM.StateMachine();
 
-            // HACKY FOR NOW but just stuff our props in there
+            var initialState = null;
+            if( ChuClone.Constants.IS_EDIT_MODE() ) {
+                this._worldController.setDebugDraw();
+                this._worldController.setupEditor( this._gameView );
+                this._levelManager.setupGui();
+                initialState = new ChuClone.states.EditState();
+            } else {
 
-            var editState = new ChuClone.states.PlayLevelState();
-            editState._worldController = this._worldController;
-            editState._gameView = this._gameView;
-            editState._levelManager = this._levelManager;
-            editState._player = this._player;
-            
-            this._stateMachine.setInitialState( editState );
+                document.getElementById("editorContainer").parentNode.removeChild(document.getElementById("editorContainer")); // Remove the editcontainer
+                initialState = new ChuClone.states.PlayLevelState();
+            }
+
+            initialState._worldController = this._worldController;
+            initialState._gameView = this._gameView;
+            initialState._levelManager = this._levelManager;
+            initialState._player = this._player;
+            this._stateMachine.setInitialState( initialState );
 
             // MAIN LOOP
             var that = this;
@@ -118,8 +126,7 @@
          */
         setupLevelManager: function() {
             this._levelManager = new ChuClone.editor.LevelManager();
-//            this._levelManager.setupGui();
-//            this._levelManager.loadLevelFromURL("/assets/levels/Piano.json");
+            //            this._levelManager.loadLevelFromURL("/assets/levels/Piano.json");
             this._levelManager.loadLevelFromURL(this._worldController, this._gameView, "/assets/levels/Start.json");
 //            this._levelManager.loadLatestLevel();
         },

@@ -26,6 +26,9 @@
         GAME_HEIGHT				: 500,
         PTM_RATIO               : 64,
         DOM_ELEMENT             : null,
+        IS_EDIT_MODE            : function(){
+            return window.location.href.toLowerCase().indexOf("edit") != -1;
+        },
         KEYS: {
             LEFT: 37,
             UP: 38,
