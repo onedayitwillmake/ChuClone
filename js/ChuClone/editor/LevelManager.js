@@ -37,7 +37,6 @@
 
         _currentSlot        : 0,
         _currentName        : "NONAME",
-        _saveSlots          : null,
 		_prebuiltLevels		: 0,
 
         EVENTS              : {
@@ -180,11 +179,11 @@
             var model = new ChuClone.editor.LevelModel();
             model.fromJsonString( JSONString, aWorldController, gameViewController);
 
-            if( this._controllers.length ) {
+            if( this._controllers.hasOwnProperty('name') ) {
                 // Set the current name, and emit the loaded event
                 this._controllers['name'].setValue( model.levelName );
             }
-
+            
             this._levelModel = model;
 			ChuClone.Events.Dispatcher.emit( ChuClone.editor.LevelManager.prototype.EVENTS.LEVEL_CREATED, this );
             return model;
@@ -212,6 +211,7 @@
             var FSM = ChuClone.model.FSM.StateMachine.getInstance();
             if( FSM._currentState instanceof ChuClone.states.PlayLevelState ) {
                 FSM.gotoPreviousState();
+                this._controllers['playtestLevel'].name("START");
                 return
             }
 

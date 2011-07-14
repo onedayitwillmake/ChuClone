@@ -31,6 +31,8 @@ Abstract:
         _currentTime    : 0,
         _previousTime   : 0,
         _elapsedTime    : 0,
+
+        _lastTextUpdate : 0,
         
         /**
          * @type {ChuClone.GameViewController}
@@ -95,7 +97,12 @@ Abstract:
 
             this._worldController.update();
             this._gameView.update( this._currentTime );
-            ChuClone.gui.HUDController.setTimeInSeconds( this._elapsedTime );
+
+
+            if( this._currentTime - this._lastTextUpdate > 32 ) {
+                this._lastTextUpdate = this._currentTime;
+                ChuClone.gui.HUDController.setTimeInSeconds( this._elapsedTime );
+            }
         },
 
         updateTime: function() {

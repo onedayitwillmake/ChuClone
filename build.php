@@ -3,6 +3,7 @@
  * This file simply contains all the imports needed to run the game, in depencency order, in one place
  */
 embed("js/lib/DAT.GUI.js");
+embed("js/lib/Stats.js");
 embed("js/lib/three.js/build/Three.js");
 embed("js/lib/three.js/examples/js/RequestAnimationFrame.js");
 embed("js/lib/three.js/examples/js/Stats.js");

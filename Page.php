@@ -50,12 +50,10 @@
     <div class="grid_4">
         &nbsp;
     </div>
-    <div class="grid_4">
-        <div id="HUDTime">00:00 secs</div>
+    <div class="grid_4" id="HUDTime">ABC
     </div>
     <div class="clear"></div>
-    <div id="gameContainer" class="grid_12">
-    </div>
+    <div id="gameContainer" class="grid_12"></div>
     <div id="editorContainer" class="grid_12" style="height: 540px;">
     </div>
     <div class="clear"></div>

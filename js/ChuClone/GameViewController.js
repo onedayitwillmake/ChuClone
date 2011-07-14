@@ -29,7 +29,8 @@
         this.setupLights();
         this.setupEvents();
         this.setupBackgroundParticleManager();
-        this.setupBloom();
+//        this.setupBloom();
+        this.setupStats();
 
         this.onSetupComplete();
     };
@@ -83,7 +84,7 @@
         /**
          * @type {Boolean}
          */
-        _isFullScreen: true,
+        _isFullScreen: false,
 
         /**
          * @type {Number}
@@ -169,6 +170,18 @@
             for( var i = 0; i < this._backgroundParticleManager.getSystems().length; i++ ) {
                 this._scene.addObject( this._backgroundParticleManager.getSystems()[i] );
             }
+        },
+
+        /**
+         * Creates a Stats.js instance and adds it to the page
+         */
+        setupStats: function() {
+            var container = document.createElement( 'div' );
+            this.stats = new Stats();
+            this.stats.domElement.style.position = 'absolute';
+            this.stats.domElement.style.top = '0px';
+            container.appendChild( this.stats.domElement );
+            this._domElement.appendChild( container );
         },
 
         setupBloom: function() {
@@ -318,6 +331,7 @@
                 this.spacesuit.rotation.y += 0.1;
             
             this._renderer.render( this._scene  , this._camera );
+            this.stats.update();
 //            this.applyBloom();
 
         },
