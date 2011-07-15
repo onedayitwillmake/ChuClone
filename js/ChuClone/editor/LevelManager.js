@@ -234,7 +234,6 @@
          * Clears the level and dispatches the recreate event
          */
         playtestLevel: function() {
-            // TODO: CHECK IF ALREADY PLAYING?
             /**
              * @type {ChuClone.model.FSM.StateMachine}
              */

@@ -513,7 +513,6 @@
 
         /**
          * Returns the body at a point, point should be scaled relative position already (@see Box2D.Dynamics.b2DebugDraw.GetDrawScale())
-         * // TODO: IMPLEMENT FILTERING?
          * @param {Box2D.Common.Math.b2Vec2} pos
          * @return {Box2D.Dynamics.b2Body}
          */

@@ -237,8 +237,14 @@
         getView: function() { return this.view; },
 
         getDimensions: function() { return {width: this.width, height: this.height, depth: this.depth }; },
-        // TODO: NORMALIZE BY ALWAYS PASSING FULL WIDTH AND DIVIDING INTERNALLY
-        // CURRENTLY WE ARE PASSING EXTENTS NOT WIDTH
+
+		/**
+		 * Sets the dimensions for this view.
+		 * Assumes view has cubic geometry
+		 * @param {Number} aWidth
+		 * @param {Number} aHeight
+		 * @param {Number} aDepth
+		 */
         setDimensions: function(aWidth, aHeight, aDepth) {
             this.width = aWidth;
             this.height = aHeight;
@@ -261,6 +267,7 @@
         },
 
         getType: function() {
+			// TODO: ALWAYS RETURNS ZERO?
             return this._type;
         }
     }

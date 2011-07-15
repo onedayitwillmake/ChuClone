@@ -28,7 +28,7 @@
         this.setupCamera();
         this.setupLights();
         this.setupEvents();
-        this.setupBackgroundParticleManager();
+//        this.setupBackgroundParticleManager();
 //        this.setupBloom();
         this.setupStats();
 

@@ -25,16 +25,18 @@
          * @return {String} Current URL path
          */
         getCWD: function() {
-
-            //TODO : REPLACE WITH REG EX
             var parts = window.location.href.replace(/[^\/]*$/i,'');
-
-//            var end = parts[ parts.length -1 ];
-//            if(end.indexOf(".")) parts.pop();
-//
-//
-//            return parts.join("/");
             return parts;
-        }
+        },
+
+		/**
+		 * Returns a random float between min and max
+		 * @param {Number} min
+		 * @param {Number} max
+		 * @return {Number}
+		 */
+		randFloat: function( min, max ) {
+			return (Math.random() * (max - min)) + min;
+		}
     };
 })();

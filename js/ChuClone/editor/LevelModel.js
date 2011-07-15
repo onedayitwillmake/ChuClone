@@ -182,8 +182,6 @@
 
             //
             var aJSONString = JSON.stringify( returnObject, null, "\t" );
-//            console.log( aJSONString );
-//            console.log( this.respawnPoints );
             return aJSONString;
         },
 
@@ -226,7 +224,6 @@
                     entityInfo.dimensions.height*2,
                     entityInfo.dimensions.depth*2);
 
-                console.log(entityInfo.entityType)
                 // TODO: TEMP HACK - CHECK IF COMPONENTS > 1, ASSUME PLAYER
                 var entity = (entityInfo.components.length > 1) ? new ChuClone.PlayerEntity() : new ChuClone.GameEntity();
                 entity.setBody( body );

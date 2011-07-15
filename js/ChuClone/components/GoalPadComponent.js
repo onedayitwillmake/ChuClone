@@ -22,7 +22,6 @@ Abstract:
 
 	ChuClone.components.GoalPadComponent = function() {
 		ChuClone.components.GoalPadComponent.superclass.constructor.call(this);
-
 	};
 
 	ChuClone.components.GoalPadComponent.prototype = {
@@ -52,6 +51,10 @@ Abstract:
 			ChuClone.components.GoalPadComponent.superclass.attach.call(this, anEntity);
             // Intercept collision
             this.intercept(['onCollision']);
+
+			var particleEmitterComponent = new ChuClone.components.effect.ParticleEmitterComponent();
+			this.attachedEntity.addComponentAndExecute( particleEmitterComponent );
+			this.attachedEntity.getView().parent.addChild( particleEmitterComponent._system );
 		},
 
         execute: function() {
@@ -101,6 +104,7 @@ Abstract:
          */
         detach: function() {
             this.attachedEntity.getView().materials[0] = this._previousMaterial;
+			this.attachedEntity.removeComponentWithName( ChuClone.components.effect.ParticleEmitterComponent.prototype.displayName );
             ChuClone.components.GoalPadComponent.superclass.detach.call(this);
         },
 

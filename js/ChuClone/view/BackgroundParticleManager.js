@@ -19,7 +19,7 @@
     "use strict";
     ChuClone.namespace("ChuClone.view");
     ChuClone.view.BackgroundParticleManager = function() {
-//        this.setupGeometry();
+        this.setupGeometry();
     },
 
     ChuClone.view.BackgroundParticleManager.prototype = {
@@ -38,7 +38,7 @@
             var halfRadius = radius/2;
 
             for( var i = 0; i < this._amount; i++) {
-                var vector = new THREE.Vector3( 1000, Math.random() * radius - halfRadius, Math.random() * radius - halfRadius );
+                var vector = new THREE.Vector3( Math.random() * 10000, Math.random() * radius - halfRadius, Math.random() * radius - halfRadius );
                 this._geometry.vertices.push( new THREE.Vertex( vector ) );
             }
 
