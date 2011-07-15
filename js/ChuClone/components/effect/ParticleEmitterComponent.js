@@ -96,10 +96,11 @@
          * Restore material and restitution
          */
         detach: function() {
-            ChuClone.components.effect.ParticleEmitterComponent.superclass.detach.call(this);
 			this._system.parent.removeChild( this._system );
 			this._geometry = null;
 			this._color = null;
+
+			ChuClone.components.effect.ParticleEmitterComponent.superclass.detach.call(this);
         },
 
 

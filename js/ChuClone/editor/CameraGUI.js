@@ -155,6 +155,11 @@
          * @param {THREE.Camera}
          */
         augmentCamera: function( aCamera ) {
+
+			if( aCamera.hasOwnProperty('components') ) {
+				console.error("CameraGUI.augmentCamera - Attempting to augment camera that already contains 'components' property ");
+				return;
+			}
             aCamera.components = [];
             for(var prop in ChuClone.GameEntity.prototype) {
                 if(! ChuClone.GameEntity.prototype.hasOwnProperty(prop) ) return;
@@ -171,7 +176,6 @@
             // Augment the update function
             aCamera.superUpdate = aCamera.update;
             aCamera.update = function() {
-
                 var len = this.components.length;
                 for(var i = 0; i < len; ++i ) {
                     if( this.components[i].requiresUpdate ) {

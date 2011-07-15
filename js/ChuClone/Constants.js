@@ -29,12 +29,9 @@
         IS_EDIT_MODE            : function(){
             return window.location.href.toLowerCase().indexOf("edit") != -1;
         },
+
+//		WASD controls
         KEYS: {
-            LEFT: 37,
-            UP: 38,
-            RIGHT: 39,
-            DOWN: 40,
-            // WASD
             A: 65,
             W: 87,
             D: 68,
@@ -44,12 +41,6 @@
         EDITOR: {
             PANEL_DOMELEMENT : document.getElementById("guiContainer"),
             PANEL_WIDTH         : 190
-        },
-        
-        ENTITY_DEFAULTS: {
-            DEFAULT_WIDTH   : 300,
-            DEFAULT_HEIGHT  : 100,
-            DEFAULT_DEPTH   : 1000
         },
 
         ENTITY_TYPES: {
@@ -62,14 +53,7 @@
             WIDTH: 30,
             HEIGHT: 30,
             DEPTH: 30,
-            MATERIAL: new THREE.MeshPhongMaterial( { ambient: 0x111111, color: 0x666666, specular: 0xDDDDDD, shininess:1, shading: THREE.FlatShading } )
-        },
-
-        PHYSICS: {
-            GROUPS: {
-                PLAYER: 0x0001,
-                PLATFORM: 0x0002
-            }
+            MATERIAL: new THREE.MeshPhongMaterial( { ambient: 0xff, color: 0x666666, specular: 0xDDDDDD, shininess:1, shading: THREE.FlatShading } )
         }
     }
 })();

@@ -19,7 +19,7 @@
     "use strict";
     ChuClone.namespace("ChuClone.view");
     ChuClone.view.BackgroundParticleManager = function() {
-        this.setupGeometry();
+//        this.setupGeometry();
     },
 
     ChuClone.view.BackgroundParticleManager.prototype = {

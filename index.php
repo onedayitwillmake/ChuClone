@@ -61,7 +61,7 @@
             $levelName = str_replace(".json", "", $file);
             
             $template = <<<EOD
-\t<div data-location="$location" class="grid_2 levelThumbnail $extraClass">\t$levelName\t</div>\n
+\t<div data-location="$levelName" class="grid_2 levelThumbnail $extraClass">\t$levelName\t</div>\n
 EOD;
             echo $template;
         }

@@ -61,6 +61,10 @@ p {
     cursor: pointer;
 }
 
+.levelThumbnail {
+	text-align: center;
+	padding-top: 5px;
+}
 .levelThumbnail p {
     border: none;
     padding: 0;
