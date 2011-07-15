@@ -148,7 +148,8 @@ Abstract:
 		 */
 		onGoalReached: function( aGoalComponent ) {
 			console.log("ChuClone.states.PlayLevelState:", aGoalComponent);
-
+			 ChuClone.gui.HUDController.setTimeInSeconds( this._elapsedTime );
+			 this._beatLevel = true;
 		},
 
         /**

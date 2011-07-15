@@ -30,7 +30,7 @@ Abstract:
         _force                          : 1500,
         _previousMaterial               : null,
 
-        _inactiveDelay                  : 1000,
+        _inactiveDelay                  : 500,
         _isReady                        : true,
         _isReadyTimeout                 : null,
 
@@ -68,6 +68,8 @@ Abstract:
             var vel = otherActor.getBody().GetLinearVelocity();
             vel.y -= Math.abs(vel.y) + this._force / ChuClone.Constants.PTM_RATIO;
 
+			otherActor.getBody().m_xf.R.Set(200);
+//			otherActor.getBody().SetAngle( otherActor.getBody().GetAngle() + 200 );
             this.startWaitingForIsReady()
         },
 
@@ -77,6 +79,7 @@ Abstract:
         startWaitingForIsReady: function() {
             var that = this;
             this._isReady = false;
+
             clearTimeout( this._isReadyTimeout );
             this._isReadyTimeout = setTimeout( function(){
                 that._isReady = true;
@@ -101,6 +104,7 @@ Abstract:
         getModel: function() {
             var returnObject = ChuClone.components.JumpPadComponent.superclass.getModel.call(this);
             returnObject.textureSource = this._textureSource;
+			returnObject.inactiveDelay = this._inactiveDelay;
 
             return returnObject;
         },
@@ -112,7 +116,6 @@ Abstract:
             ChuClone.components.JumpPadComponent.superclass.fromModel.call(this, data);
             this._textureSource = data.textureSource;
             this._inactiveDelay = data.inactiveDelay;
-
         }
 
 	};

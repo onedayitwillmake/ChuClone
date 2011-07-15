@@ -79,6 +79,7 @@ Abstract:
             if( !this._isReady ) return;
 
             console.log("GOAL!");
+			debugger;
             ChuClone.Events.Dispatcher.emit( ChuClone.components.GoalPadComponent.prototype.EVENTS.GOAL_REACHED, this );
             this.startWaitingForIsReady()
         },
