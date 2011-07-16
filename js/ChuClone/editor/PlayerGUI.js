@@ -94,8 +94,7 @@
 				return null;
 			}
 
-			var respawnPoint = this.getRespawnPoint();
-
+			var respawnPoint = ChuClone.components.RespawnComponent.prototype.GET_CURRENT_RESPAWNPOINT();
 			if( !respawnPoint ) {
 				console.error("ChuClone.editor.PlayerGUI.createPlayer Create at least one RespawnComponent first!!");
 				return null;
@@ -133,6 +132,8 @@
             var playerbody = this._player.getBody();
             this._player.dealloc();
             ChuClone.editor.WorldEditor.getInstance().getWorldController().getWorld().DestroyBody( playerbody );
+
+			this._player = null;
         },
 
 		/**
@@ -144,40 +145,14 @@
 				return null;
 			}
 
-			var respawnPoint = this.getRespawnPoint();
+			var respawnPoint = ChuClone.components.RespawnComponent.prototype.GET_CURRENT_RESPAWNPOINT();
 			if( !respawnPoint ) {
 				console.error("ChuClone.editor.PlayerGUI.resetPlayer - Create at least one RespawnComponent first!");
 				return null;
 			}
 
-			this._player.getBody().SetPosition(new Box2D.Common.Math.b2Vec2( respawnPoint.getBody().GetPosition().x, respawnPoint.getBody().GetPosition().y + 1));
+			this._player.getBody().SetPosition(new Box2D.Common.Math.b2Vec2( respawnPoint.attachedEntity.getBody().GetPosition().x, respawnPoint.attachedEntity.getBody().GetPosition().y - 1));
         },
-
-		/**
-		 * Returns the first respawn point found
-		 * // TODO: This method is returns the first found, not the nearest or any specific order
-		 */
-		getRespawnPoint: function() {
-			/**
-             * @type {Box2D.Dynamics.b2Body}
-             */
-            var node = ChuClone.editor.WorldEditor.getInstance().getWorldController().getWorld().GetBodyList();
-            while(node) {
-                var b = node;
-                node = node.GetNext();
-                /**
-                 * @type {ChuClone.GameEntity}
-                 */
-                var entity = b.GetUserData();
-				if( (entity instanceof ChuClone.GameEntity) === false )
-					continue;
-
-				var respawnComponent = entity.getComponentWithName( ChuClone.components.RespawnComponent.prototype.displayName )
-				if( respawnComponent  ) {
-					return entity;
-				}
-            }
-		},
 
         /**
          * Deallocate resources

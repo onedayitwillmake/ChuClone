@@ -18,8 +18,46 @@ Abstract:
 */
 (function(){
     "use strict";
-    
 	ChuClone.namespace("ChuClone.components");
+
+	// TRACK RESPAWN POINTS INTERNALLY
+	/**
+	 * @type {Array}
+	 */
+	var __respawnPoints = [];
+	/**
+	 * @type {ChuClone.components.RespawnComponent}
+	 */
+	var __currentRespawnPoint = null;
+	/**
+	 *  Removes a respawnpoint
+	 *  @param {ChuClone.components.RespawnComponent}
+	 */
+	var __removeRespawnPoint = function( aRespawnPoint ) {
+		var len = __respawnPoints.length;
+		for (var i = 0; i < len; ++i) {
+			if (__respawnPoints[i] === aRespawnPoint) {
+				__respawnPoints.splice(i, 1);
+				return;
+			}
+		}
+	};
+	/**
+	 * Adds a respawn point to our internal array
+	 * @param {ChuClone.components.RespawnComponent} aRespawnPoint
+	 */
+	var __addRespawnPoint = function( aRespawnPoint ) {
+		__respawnPoints.push(aRespawnPoint);
+		__respawnPoints.sort( function( a, b ) {
+			var posA = a.attachedEntity.getBody().GetPosition().x;
+			var posB = b.attachedEntity.getBody().GetPosition().x;
+
+			if(posA < posB) return -1;
+			else if (posA > posB) return 1;
+			else return 0;
+		});
+	};
+
 
 	ChuClone.components.RespawnComponent = function() {
 		ChuClone.components.RespawnComponent.superclass.constructor.call(this);
@@ -27,8 +65,8 @@ Abstract:
 	};
 
 	ChuClone.components.RespawnComponent.prototype = {
-		displayName						: "RespawnComponent",					// Unique string name for this Trait
-        _textureSource                  : "assets/images/game/flooraqua.png",
+		displayName		: "RespawnComponent",					// Unique string name for this Trait
+        _textureSource	: "assets/images/game/flooraqua.png",
 
 
         _respawnState   : 0,
@@ -38,17 +76,12 @@ Abstract:
             DESTROYED   : "ChuClone.components.RespawnComponent.events.DESTROYED"
         },
 
-
-        /**
-         * @type {ChuClone.components.RespawnComponent}
-         */
-        CURRENT_RESPAWN : null,
-
 		/**
 		 * @inheritDoc
 		 */
 		attach: function(anEntity) {
 			ChuClone.components.RespawnComponent.superclass.attach.call(this, anEntity);
+			__addRespawnPoint( this );
 
             // Intercept collision
             this.intercept(['onCollision']);
@@ -80,38 +113,16 @@ Abstract:
                 return;
 
             this.interceptedProperties.onCollision.call(this.attachedEntity, otherActor );
-
-            if( !this._isReady ) return;
-
-            var vel = otherActor.getBody().GetLinearVelocity();
-            vel.y -= Math.abs(vel.y) + this._force / ChuClone.Constants.PTM_RATIO;
-
-            this.startWaitingForIsReady()
-        },
-
-        /**
-         * Once set _isReady is locked for N milliseconds
-         */
-        startWaitingForIsReady: function() {
-            var that = this;
-            this._isReady = false;
-            clearTimeout( this._isReadyTimeout );
-            this._isReadyTimeout = setTimeout( function(){
-                that._isReady = true;
-            }, 1000);
-        },
-        
-        getIsReady: function() {
-            return this._isReady;
+			__currentRespawnPoint = this;
         },
 
         /**
          * Restore material and restitution
          */
         detach: function() {
+			__removeRespawnPoint( this );
             this.attachedEntity.getView().materials[0] = this._previousMaterial;
             ChuClone.Events.Dispatcher.emit(ChuClone.components.RespawnComponent.prototype.EVENTS.DESTROYED, this);
-
             ChuClone.components.RespawnComponent.superclass.detach.call(this);
         },
 
@@ -123,8 +134,33 @@ Abstract:
             returnObject.textureSource = this._textureSource;
 
             return returnObject;
-        }
+        },
 
+		/**
+		 * @inheritDoc
+		 */
+		fromModel: function( data ) {
+			ChuClone.components.RespawnComponent.superclass.fromModel.call(this, data);
+            this._textureSource = data.textureSource;
+		},
+
+
+		/**
+		 * Returns all respawnpoints (Static function)
+		 * @return {Array} An Array of respawn points
+		 */
+		GET_ALL_RESPAWNPOINTS: function() {
+			return __respawnPoints;
+		},
+
+		GET_CURRENT_RESPAWNPOINT: function() {
+			console.log( "GET", __currentRespawnPoint );
+			if( !__currentRespawnPoint ) {
+				console.log("RespawnPointComponent.GET_CURRENT_RESPAWNPOINT - Warning, no current respawn point exist! - returning first");
+				return __respawnPoints[0];
+			}
+			return __currentRespawnPoint;
+		}
 	};
 
     ChuClone.extend( ChuClone.components.RespawnComponent, ChuClone.components.BaseComponent );
