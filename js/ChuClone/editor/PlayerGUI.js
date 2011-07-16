@@ -23,15 +23,15 @@
     ChuClone.editor.PlayerGUI = function() {
 
 
-		var playa;
-		ChuClone.editor.PlayerGUI.prototype.__defineGetter__("_player", function() {
-			debugger;
-			return playa;
-		});
-		ChuClone.editor.PlayerGUI.prototype.__defineSetter__("_player", function(y) {
-			debugger;
-			playa = y;
-		});
+//		var playa;
+//		ChuClone.editor.PlayerGUI.prototype.__defineGetter__("_player", function() {
+//			debugger;
+//			return playa;
+//		});
+//		ChuClone.editor.PlayerGUI.prototype.__defineSetter__("_player", function(y) {
+//			debugger;
+//			playa = y;
+//		});
 		this.setupEvents();
         this.setupGUI()
     };
@@ -68,13 +68,14 @@
         },
 
 
+		/**
+		 * Setup events
+		 */
         setupEvents: function() {
             var that = this;
             ChuClone.Events.Dispatcher.addListener(ChuClone.PlayerEntity.prototype.EVENTS.CREATED, function( aPlayer ) {
-				console.log( that._player === aPlayer )
-//				console.log(that._player)
-//                that.destroyPlayer();
-//                that._player = aPlayer;
+                that.destroyPlayer();
+                that._player = aPlayer;
             });
         },
 
@@ -83,7 +84,6 @@
 		 * This function should only be called while editing.
 		 */
         createPlayer: function() {
-
 			/**
 			 * @type {ChuClone.editor.WorldEditor}
 			 */
@@ -109,7 +109,7 @@
 			entity.setBody(body);
 			entity.setView(view);
 
-			body.SetPosition(new Box2D.Common.Math.b2Vec2( respawnPoint.getBody().GetPosition().x, respawnPoint.getBody().GetPosition().y ));
+			body.SetPosition(new Box2D.Common.Math.b2Vec2( respawnPoint.getBody().GetPosition().x, respawnPoint.getBody().GetPosition().y - 1));
 			view.materials[0] = ChuClone.Constants.PLAYER.MATERIAL;
 			entity.setDimensions(ChuClone.Constants.PLAYER.WIDTH, ChuClone.Constants.PLAYER.HEIGHT, ChuClone.Constants.PLAYER.DEPTH);
 
@@ -118,10 +118,11 @@
 			entity.addComponentAndExecute(new ChuClone.components.PhysicsVelocityLimitComponent());
 
 			worldEditor.getViewController().addObjectToScene(entity.view);
-
-			this._player = entity;
         },
 
+		/**
+		 * Destroys the current player instance
+		 */
         destroyPlayer: function() {
             if( !this._player )
                 return;
@@ -152,8 +153,11 @@
 			this._player.getBody().SetPosition(new Box2D.Common.Math.b2Vec2( respawnPoint.getBody().GetPosition().x, respawnPoint.getBody().GetPosition().y + 1));
         },
 
+		/**
+		 * Returns the first respawn point found
+		 * // TODO: This method is returns the first found, not the nearest or any specific order
+		 */
 		getRespawnPoint: function() {
-
 			/**
              * @type {Box2D.Dynamics.b2Body}
              */

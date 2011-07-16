@@ -58,9 +58,7 @@
          * @inheritDoc
          */
         setBody: function( aBody ) {
-			debugger;
             ChuClone.PlayerEntity.superclass.setBody.call( this, aBody );
-            
             aBody.GetFixtureList().m_filter.groupIndex = ChuClone.PlayerEntity.prototype.GROUP;
         },
 
@@ -68,7 +66,6 @@
          * @inheritDoc
          */
         dealloc: function() {
-			debugger;
             ChuClone.Events.Dispatcher.emit( ChuClone.PlayerEntity.prototype.EVENTS.REMOVED, this);
             ChuClone.PlayerEntity.superclass.dealloc.call(this);
         }

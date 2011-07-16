@@ -106,8 +106,10 @@
             var didNotHaveWorld = (this._world == null);
             this._world = this._world || new b2World( new b2Vec2(0, 30), true );
 
-            if(didNotHaveWorld)
-              this._world.SetContactListener( new ChuClone.physics.ContactListener() );
+            if(didNotHaveWorld) {
+				this._world.SetContactListener( new ChuClone.physics.ContactListener() );
+				//this._world.SetDestructionListener( new ChuClone.physics.DestructionListener() );
+			}
 
             this.createWorldBoundary();
             this._world.DestroyBody( this._wallRight );

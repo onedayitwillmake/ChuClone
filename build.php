@@ -46,6 +46,7 @@ embed("js/ChuClone/editor/CameraGUI.js");
 embed("js/ChuClone/editor/PlayerGUI.js");
 embed("js/ChuClone/editor/WorldEditor.js");
 embed("js/ChuClone/physics/ContactListener.js");
+embed("js/ChuClone/physics/DestructionListener.js");
 embed("js/ChuClone/physics/WorldController.js");
 embed("js/ChuClone/view/BackgroundParticleManager.js");
 embed("js/ChuClone/GameViewController.js");
