@@ -1,6 +1,6 @@
 /**
 File:
-	CameraFollowEditorComponent.js
+	RespawnPointComponent.js
 Created By:
 	Mario Gonzalez
 Project	:
@@ -83,6 +83,7 @@ Abstract:
 			ChuClone.components.RespawnComponent.superclass.attach.call(this, anEntity);
 			__addRespawnPoint( this );
 
+			this.attachedEntity.getBody().GetFixtureList().SetSensor( true );
             // Intercept collision
             this.intercept(['onCollision']);
             ChuClone.Events.Dispatcher.emit(ChuClone.components.RespawnComponent.prototype.EVENTS.CREATED, this);

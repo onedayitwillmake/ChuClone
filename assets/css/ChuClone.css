@@ -127,6 +127,12 @@ p {
     text-align: center;
 }
 
+#levelClipboard {
+    font-family: sans;
+	font-size: 1px;
+	padding: 5px;
+}
+
 :focus {
     outline: 0;
 }

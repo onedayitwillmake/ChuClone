@@ -1,20 +1,21 @@
 /**
  File:
- ContactListener.js
+ 	DestructionListener.js
  Created By:
- Mario Gonzalez - mariogonzalez@gmail.com
+ 	Mario Gonzalez - mariogonzalez@gmail.com
  Project:
- ChuClone
+ 	ChuClone
  Abstract:
- Proxy for collisions between Box2D world, and ChuClone game entities
+ 	Proxy for listening when objects are destroyed in Box2D
+	Used mostly when debugging
  Basic Usage:
 
  Version:
- 1.0
+ 	1.0
 
  License:
- Creative Commons Attribution-NonCommercial-ShareAlike
- http://creativecommons.org/licenses/by-nc-sa/3.0/
+	 Creative Commons Attribution-NonCommercial-ShareAlike
+	 http://creativecommons.org/licenses/by-nc-sa/3.0/
  */
 (function()
 {

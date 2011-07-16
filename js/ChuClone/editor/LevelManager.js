@@ -142,9 +142,37 @@
             localStorage.setItem(slot, data);
             localStorage.setItem("lastSlot", this._currentSlot);
 
-            console.log("\n" + data);
+            this.saveLevelToServer(model);
             this._levelModel = model;
         },
+
+		/**
+		 * Saves a level to levels/local
+		 */
+		saveLevelToServer: function(model) {
+			console.log( model );
+			var url = ChuClone.utils.getCWD() + ChuClone.model.Constants.EDITOR.PATH_SERVER_LOCAL_SAVE;
+
+			/**
+			 * @s
+			 */
+			var formData = new FormData();
+			formData.append("data", model.levelJSONString);
+			formData.append("levelName", model.levelName);
+
+			var request = new XMLHttpRequest();
+			var that = this;
+			request.onreadystatechange = function() {
+				if( request.readyState == 4 ) {
+                    console.log(request.responseText);
+                }
+
+				console.log(request.readyState)
+			};
+
+			request.open("POST", url);
+			request.send( formData );
+		},
 
         /**
          * Loads the level at the '_currentSlot'
@@ -176,7 +204,7 @@
          */
         loadLevelFromURL: function( aWorldController, gameViewController, aURL ) {
             this.clearLevel(  aWorldController, gameViewController );
-            
+
             var url = ChuClone.utils.getCWD() + aURL;
             var request = new XMLHttpRequest();
             var that = this;

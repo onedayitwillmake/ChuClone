@@ -63,7 +63,7 @@ EOF;
         $perRow = 3;            // These are the last columns in our set, enable special class for end
         // Loop through the files
         while ($file = readdir($dir_handle)) {
-            if ($file == "." || $file == ".." || $file == "index.php")
+            if ($file == "." || $file == ".." || $file == "index.php" || $file == "local")
                 continue;
 
             $count++;

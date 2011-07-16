@@ -110,13 +110,14 @@
             window.addEventListener( 'mouseup', this._closures['mouseup'], false );
 
             this._worldController.getDebugDraw().GetSprite().canvas.addEventListener( 'mousewheel', function(e){
-
                 var speed = (e.wheelDelta < 0) ? -1 : 1;
                 speed *= 0.1;
 
                 var scale = that._worldController.getDebugDraw().GetDrawScale();
                 scale += speed;
                 that._worldController.getDebugDraw().SetDrawScale( scale );
+
+				e.preventDefault();
             }, false );
         },
 
@@ -447,6 +448,7 @@
                     var scale = (that._worldController.getDebugDraw().GetDrawScale() * 1.5);
                     that._worldController.getDebugDraw().offsetX = initialOffsetPosition.x + (initialMousePosition.x - that._mousePosition.x) / scale;
                     that._worldController.getDebugDraw().offsetY = initialOffsetPosition.y + (initialMousePosition.y - that._mousePosition.y) / scale;
+					e.preventDefault();
                 };
 
                 this._worldController.getDebugDraw().GetSprite().canvas.addEventListener( 'mousemove', this._closures['pan'], false );

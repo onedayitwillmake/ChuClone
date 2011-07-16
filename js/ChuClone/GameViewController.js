@@ -112,7 +112,7 @@
          */
         setupScene: function() {
             this._scene = new THREE.Scene();
-            this._scene.fog = new THREE.FogExp2( 0x000000, 0.00001 );
+            this._scene.fog = new THREE.FogExp2( 0xFFFFFF, 0.00005 );
         },
 
         /**

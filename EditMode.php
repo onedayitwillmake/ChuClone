@@ -24,8 +24,7 @@
     <div id="gameContainer" class="grid_12"></div>
     <div id="editorContainer" class="grid_12" style="height: 540px;"></div>
 	<div class="clear"></div>
-
-	    <div class="grid_4 lineBorder" id="HUDTime" style="margin-top:-10px">00.0 secs</div>
+	<div class="grid_4 lineBorder" id="HUDTime" style="margin-top:-10px">00.0 secs</div>
 </div>
 </body>
 </html>

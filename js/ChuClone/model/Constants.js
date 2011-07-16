@@ -40,7 +40,8 @@
 
         EDITOR: {
             PANEL_DOMELEMENT : document.getElementById("guiContainer"),
-            PANEL_WIDTH         : 190
+            PANEL_WIDTH         : 190,
+			PATH_SERVER_LOCAL_SAVE	: "assets/levels/local/save.php"
         },
 
         ENTITY_TYPES: {

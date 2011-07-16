@@ -82,35 +82,17 @@
          */
         bodyList: null,
 
-        respawnPoints: [],
+		/**
+		 * JSON String representation of level
+		 * @type {String}
+		 */
+		levelJSONString: null,
 
+		/**
+		 * Listen for respawn points
+		 */
         setupEvents: function() {
-
-            // Listen for respawn points
             var that = this;
-            ChuClone.Events.Dispatcher.addListener(ChuClone.components.RespawnComponent.prototype.EVENTS.CREATED, function( aRespawnPoint) { that.onRespawnPointCreated(aRespawnPoint); });
-            ChuClone.Events.Dispatcher.addListener(ChuClone.components.RespawnComponent.prototype.EVENTS.DESTROYED, function( aRespawnPoint) { that.onRespawnPointDestroyed(aRespawnPoint); });
-        },
-
-        /**
-         * Called when a respawn point is created
-         * @param {ChuClone.components.RespawnComponent} aRespawnPoint
-         */
-        onRespawnPointCreated: function( aRespawnPoint ) {
-            this.respawnPoints.push( aRespawnPoint );
-        },
-
-
-        /**
-         * Called when a respawn point is destroyed, removes it from the respawnPoints array
-         * This is usually called from from the editor
-         * @param {ChuClone.components.RespawnComponent} aRespawnPoint
-         */
-        onRespawnPointDestroyed: function( aRespawnPoint ) {
-            var respawnPointIndex = this.respawnPoints.indexOf(aRespawnPoint);
-            if( respawnPointIndex === -1 ) return;
-            
-            this.respawnPoints.splice( respawnPointIndex, 1 );
         },
 
         /**
@@ -181,8 +163,11 @@
 
 
             //
-            var aJSONString = JSON.stringify( returnObject, null, "\t" );
-            return aJSONString;
+			this.levelJSONString = JSON.stringify( returnObject, null, "\t" );
+			this.author = returnObject.editingInfo.author;
+			this.levelName = returnObject.editingInfo.levelName;
+
+            return this.levelJSONString;
         },
 
 
@@ -193,6 +178,7 @@
          * @param {ChuClone.GameViewController} aGameView
          */
         fromJsonString: function( aJsonString, aWorldController, aGameView ) {
+			this.levelJSONString = aJsonString;
             var levelObject = JSON.parse(aJsonString);
             this.author = levelObject.editingInfo.author;
             this.levelName = levelObject.editingInfo.levelName;

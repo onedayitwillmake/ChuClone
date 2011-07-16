@@ -34,7 +34,10 @@
     };
 
     ChuClone.gui.LevelListing.prototype = {
-        _items    : [],
+        _items		: [],
+		EVENTS		: {
+			SHOULD_CHANGE_LEVEL: "ChuClone.gui.LevelListing.shouldChangeLevel"
+		},
 
         onReady: function() {
             this.setupDivs();
@@ -54,6 +57,7 @@
 
         onLevelClicked: function() {
             window.location.hash = this.getAttribute("data-location");
+			ChuClone.Events.Dispatcher.emit( ChuClone.gui.LevelListing.prototype.EVENTS.SHOULD_CHANGE_LEVEL, this.getAttribute("data-location"));
         },
 
         /**
