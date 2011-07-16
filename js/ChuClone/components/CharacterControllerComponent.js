@@ -32,7 +32,7 @@ Abstract:
         /**
          * @type {Number}
          */
-        _moveSpeed                       : new Box2D.Common.Math.b2Vec2(0.01, 0.15),
+        _moveSpeed                       : new Box2D.Common.Math.b2Vec2(0.009, 0.15),
 
 		/**
 		 * @inheritDoc
@@ -100,9 +100,17 @@ Abstract:
          */
         getModel: function() {
             var returnObject = ChuClone.components.CharacterControllerComponent.superclass.getModel.call(this);
-            returnObject.moveSpeed = {x:0.1, y:0.3};
+//            returnObject.moveSpeed = {x: this._moveSpeed.x, y: this._moveSpeed.y };
             
             return returnObject;
+        },
+
+		/**
+         * @inheritDoc
+         */
+        fromModel: function( data ) {
+            ChuClone.components.JumpPadComponent.superclass.fromModel.call(this, data);
+//            this._moveSpeed = new Box2D.Common.Math.b2Vec2(data.moveSpeed.y, data.moveSpeed.y)
         }
 	};
 

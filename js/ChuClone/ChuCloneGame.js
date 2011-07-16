@@ -100,10 +100,11 @@
                 this._worldController.setupEditor( this._gameView );
                 this._levelManager.setupGui();
                 initialState = new ChuClone.states.EditState();
+				this._levelManager.loadLatestLevel();
             } else {
-
                 document.getElementById("editorContainer").parentNode.removeChild(document.getElementById("editorContainer")); // Remove the editcontainer
                 initialState = new ChuClone.states.PlayLevelState();
+				this._levelManager.loadLevelFromURL(this._worldController, this._gameView, "/assets/levels/Start.json");
             }
 
             initialState._worldController = this._worldController;
@@ -125,9 +126,7 @@
          */
         setupLevelManager: function() {
             this._levelManager = new ChuClone.editor.LevelManager();
-            //            this._levelManager.loadLevelFromURL("/assets/levels/Piano.json");
-            this._levelManager.loadLevelFromURL(this._worldController, this._gameView, "/assets/levels/Start.json");
-//            this._levelManager.loadLatestLevel();
+//            this._levelManager.loadLevelFromURL("/assets/levels/Piano.json");
         },
 
 		/**

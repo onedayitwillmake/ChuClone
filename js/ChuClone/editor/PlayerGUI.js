@@ -21,6 +21,17 @@
     "use strict";
     ChuClone.namespace("ChuClone.editor.PlayerGUI");
     ChuClone.editor.PlayerGUI = function() {
+
+
+		var playa;
+		ChuClone.editor.PlayerGUI.prototype.__defineGetter__("_player", function() {
+			debugger;
+			return playa;
+		});
+		ChuClone.editor.PlayerGUI.prototype.__defineSetter__("_player", function(y) {
+			debugger;
+			playa = y;
+		});
 		this.setupEvents();
         this.setupGUI()
     };
@@ -30,6 +41,7 @@
          * @type {ChuClone.PlayerEntity}
          */
         _player: null,
+
 
         /**
          * @type {DAT.GUI}
@@ -59,8 +71,10 @@
         setupEvents: function() {
             var that = this;
             ChuClone.Events.Dispatcher.addListener(ChuClone.PlayerEntity.prototype.EVENTS.CREATED, function( aPlayer ) {
-                that.destroyPlayer();
-                that._player = aPlayer;
+				console.log( that._player === aPlayer )
+//				console.log(that._player)
+//                that.destroyPlayer();
+//                that._player = aPlayer;
             });
         },
 
@@ -95,7 +109,7 @@
 			entity.setBody(body);
 			entity.setView(view);
 
-			body.SetPosition(new Box2D.Common.Math.b2Vec2( respawnPoint.getBody().GetPosition().x, respawnPoint.getBody().GetPosition().y - 2 ));
+			body.SetPosition(new Box2D.Common.Math.b2Vec2( respawnPoint.getBody().GetPosition().x, respawnPoint.getBody().GetPosition().y ));
 			view.materials[0] = ChuClone.Constants.PLAYER.MATERIAL;
 			entity.setDimensions(ChuClone.Constants.PLAYER.WIDTH, ChuClone.Constants.PLAYER.HEIGHT, ChuClone.Constants.PLAYER.DEPTH);
 
@@ -124,7 +138,6 @@
 		 * Resets the player object to the first respawn point
 		 */
 		resetPlayer: function() {
-            console.log( this );
 			if( !this._player ) {
 				console.error("ChuClone.editor.PlayerGUI.resetPlayer - '_player' is null!");
 				return null;

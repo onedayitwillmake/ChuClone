@@ -140,11 +140,6 @@
         setupGui: function() {
 
             var that = this;
-            var container = document.getElementById("guiContainer");
-			if( !container ) {
-				throw "guiContainer element id not found!";
-				return;
-			}
 //            DAT.GUI.autoPlace = false;
 
             this._guiModification = new DAT.GUI({width: ChuClone.Constants.EDITOR.PANEL_WIDTH});
@@ -200,6 +195,7 @@
             this._guiCamera.setDebugDraw( this._worldController.getDebugDraw() );
 
             this._guiPlayer = new ChuClone.editor.PlayerGUI();
+//			DAT.GUI.autoPlace = false;
         },
 
         /**

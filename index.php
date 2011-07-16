@@ -25,7 +25,7 @@
 	for ($i = 1; $i <= 12; $i++) {
 	$color = rand(0, 360);
 		$template = <<<EOF
-\t<div class="grid_1 headerGrid" style="background-color: hsl({$color},90%, 96%);"></div>\n
+\t<div class="grid_1 headerGrid" style="background-color: hsl({$color},50%, 93%);"></div>\n
 EOF;
 	echo $template;
 

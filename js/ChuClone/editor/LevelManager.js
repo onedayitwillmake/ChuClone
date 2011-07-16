@@ -111,9 +111,10 @@
          */
         loadLatestLevel: function() {
             try {
-                this.loadLevelFromSlot(parseInt(localStorage.getItem("lastSlot")));
+				this._currentSlot = parseInt(localStorage.getItem("lastSlot"));
+                this.loadLevelFromSlot(null, null);
             } catch (error) {
-                console.log("LevelManager.loadLatestLevel - Load failed")
+                console.warn("LevelManager.loadLatestLevel - Load failed", error)
             }
         },
 
@@ -121,7 +122,7 @@
 
         /**
          * Saves the current level a save slot from HTML5 local storage
-		 * @type {ChuClone.physics.WorldController}	The WorldController that will be parsed
+		 * @param {ChuClone.physics.WorldController} aWorldController
          */
         saveLevelToSlot: function( aWorldController) {
 
@@ -148,8 +149,8 @@
         /**
          * Loads the level at the '_currentSlot'
          * Will call 'loadLevelFromJSONString'
-		 * @type {ChuClone.physics.WorldController}	The WorldController that will be parsed
-		 * @type {ChuClone.GameViewController}	a GameViewController
+		 * @param {ChuClone.physics.WorldController} aWorldController
+		 * @param {ChuClone.GameViewController}	gameViewController
          */
         loadLevelFromSlot: function( aWorldController, gameViewController ) {
 
@@ -169,8 +170,8 @@
         /**
          * Retrieves a level from a URL
          * Will call 'loadLevelFromJSONString'
-		 * @type {ChuClone.physics.WorldController}	The WorldController that the level will load into
-		 * @type {ChuClone.GameViewController}	a GameViewController
+		 * @param {ChuClone.physics.WorldController} aWorldController
+		 * @param {ChuClone.GameViewController}	gameViewController
          * @param {String} aURL
          */
         loadLevelFromURL: function( aWorldController, gameViewController, aURL ) {
@@ -191,8 +192,8 @@
         /**
          * Creates a model object and loads a level into it.
          * This is the ultimate end call for loadLevelFromSlot & loadLevelFromURL
-		 * @type {ChuClone.physics.WorldController}	The WorldController that the level will load into
-		 * @type {ChuClone.GameViewController}	a GameViewController
+		 * @param {ChuClone.physics.WorldController} aWorldController
+		 * @param {ChuClone.GameViewController}	gameViewController
          * @param {String} JSONString
          * @return {ChuClone.editor.LevelModel}
          */
@@ -255,8 +256,8 @@
 
         /**
          * Clears a level
-		 * @type {ChuClone.physics.WorldController}	The WorldController instance that will be cleared
-		 * @type {ChuClone.GameViewController}	a GameViewController
+		 * @param {ChuClone.physics.WorldController} aWorldController The WorldController instance that will be cleared
+		 * @param {ChuClone.GameViewController}	gameViewController
          */
         clearLevel: function( aWorldController, gameViewController ) {
 

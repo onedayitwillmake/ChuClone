@@ -21,7 +21,6 @@ Abstract:
 
 	ChuClone.components.KeyboardInputComponent = function() {
 		ChuClone.components.KeyboardInputComponent.superclass.constructor.call(this);
-        this._maxSpeed = this._maxSpeed * ChuClone.Constants.PTM_RATIO;
 	};
 
 	ChuClone.components.KeyboardInputComponent.prototype = {
@@ -34,11 +33,6 @@ Abstract:
          * @type {Function}
          */
         _callback                       :null,
-
-        /**
-         * @type {Number}
-         */
-        _maxSpeed                       : 0.5,
 
         /**
          * Stores current status of each key

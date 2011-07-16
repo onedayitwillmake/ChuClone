@@ -38,7 +38,7 @@ Abstract:
         /**
          * @type {Number}
          */
-        _maxSpeed                       : new Box2D.Common.Math.b2Vec2(24, 0.4),
+        _maxSpeed                       : new Box2D.Common.Math.b2Vec2(25, 0.4),
 
         update: function() {
             var PTM_RATIO = ChuClone.Constants.PTM_RATIO;
