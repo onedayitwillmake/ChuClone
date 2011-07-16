@@ -159,7 +159,7 @@
         setupEvents: function() {
             var that = this;
             window.addEventListener( 'resize', function(e) { that.onResize(e); }, false);
-            document.addEventListener( 'mousemove', function(e){ that.onDocumentMouseMove(e)}, false );
+//            this._domElement.addEventListener( 'mousemove', function(e){ that.onDocumentMouseMove(e)}, false );
         },
 
         /**
@@ -181,7 +181,7 @@
             this.stats.domElement.style.position = 'absolute';
             this.stats.domElement.style.top = '0px';
             container.appendChild( this.stats.domElement );
-            this._domElement.appendChild( container );
+            document.body.appendChild( container );
         },
 
         setupBloom: function() {
@@ -259,6 +259,7 @@
          * Allows a chance for final initialization safely assuming various properties exist in correct state
          */
         onSetupComplete: function() {
+			this._domElement.firstChild.focus();
 //            this.loadSpacesuit();
         },
 

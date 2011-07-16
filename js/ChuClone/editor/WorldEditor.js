@@ -140,7 +140,11 @@
         setupGui: function() {
 
             var that = this;
-            var container = ChuClone.Constants.EDITOR.PANEL_DOMELEMENT;
+            var container = document.getElementById("guiContainer");
+			if( !container ) {
+				throw "guiContainer element id not found!";
+				return;
+			}
 //            DAT.GUI.autoPlace = false;
 
             this._guiModification = new DAT.GUI({width: ChuClone.Constants.EDITOR.PANEL_WIDTH});

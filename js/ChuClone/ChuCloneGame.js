@@ -71,6 +71,7 @@
                 window.removeEventListener('DOMContentLoaded', callback, false);
                 that.onReady()
             }, false);
+
         },
 
         setupEvents: function() {
@@ -86,8 +87,6 @@
          * @type {Event}    'DOMContentLoaded' event
          */
         onReady: function(e) {
-            ChuClone.Constants.EDITOR.PANEL_DOMELEMENT = document.getElementById("guiContainer");
-
             this.setupEvents();
             this.setupView();
             this.setupWorldController();
@@ -144,8 +143,6 @@
 		 */
         setupWorldController: function() {
             this._worldController = new ChuClone.physics.WorldController();
-//            this._worldController.setDebugDraw();
-//            this._worldController.setupEditor( this._gameView );
         },
 
         /**

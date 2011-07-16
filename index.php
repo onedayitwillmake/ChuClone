@@ -21,6 +21,18 @@
 <body>
 <h1> ChuClone </h1>
 <div class="container_12">
+<?php
+	for ($i = 1; $i <= 12; $i++) {
+	$color = rand(0, 360);
+		$template = <<<EOF
+\t<div class="grid_1 headerGrid" style="background-color: hsl({$color},90%, 96%);"></div>\n
+EOF;
+	echo $template;
+
+	}
+?>
+	<div class="clear"></div>
+
     <div class="grid_4">
         <p> Level Name </p>
     </div>

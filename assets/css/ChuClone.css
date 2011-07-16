@@ -41,7 +41,7 @@ h2 {
 
 p {
     border: 1px solid #666;
-    overflow: hidden;
+    /*overflow: hidden;*/
     padding: 5px 0;
     text-align: center;
 }
@@ -73,7 +73,14 @@ p {
 .levelThumbnailEOL {
     margin-right: 0;
     margin-left: -2px;
+	background-image: url(../images/page/12_col_stripes.gif);
     /*background-color: red;*/
+}
+
+.headerGrid {
+	/*background-image: url(../images/page/12_col_stripes.gif);*/
+	height: 2px;
+	margin-bottom: 20px;
 }
 
 .container_12,
@@ -85,7 +92,7 @@ p {
 }
 
 .container_12 {
-    background-image: url(../images/page/12_col.gif);
+    /*background-image: url(../images/page/12_col_stripes.gif);*/
 }
 
 .container_16 {
@@ -102,6 +109,7 @@ p {
 
 #gameContainer {
     width: 1000px;
+	height: 500px;
     border: 1px solid #666;
     margin-left: -20px;
 }
