@@ -28,12 +28,12 @@
     http://creativecommons.org/licenses/by-nc-sa/3.0/
  */
 (function() {
-    var PTM_RATIO = ChuClone.Constants.PTM_RATIO;
+    var PTM_RATIO = ChuClone.model.Constants.PTM_RATIO;
     ChuClone.namespace("ChuClone");
 
     ChuClone.PlayerEntity = function() {
         ChuClone.PlayerEntity.superclass.constructor.call(this);
-        this._type = ChuClone.Constants.ENTITY_TYPES.PLAYER;
+        this._type = ChuClone.model.Constants.ENTITY_TYPES.PLAYER;
         this.dispatchCreatedEvent();
     };
 

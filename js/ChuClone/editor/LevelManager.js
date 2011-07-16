@@ -50,7 +50,7 @@
         setupGui: function() {
 			var that = this;
              // Creation gui
-            this._gui = new DAT.GUI({width: ChuClone.Constants.EDITOR.PANEL_WIDTH + 50});
+            this._gui = new DAT.GUI({width: ChuClone.model.Constants.EDITOR.PANEL_WIDTH + 50});
             this._gui.name("LevelManager");
             this._gui.autoListen = false;
 

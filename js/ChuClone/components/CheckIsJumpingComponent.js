@@ -16,7 +16,7 @@
 (function(){
     "use strict";
     
-    var PTM_RATIO = ChuClone.Constants.PTM_RATIO;
+    var PTM_RATIO = ChuClone.model.Constants.PTM_RATIO;
     
 	ChuClone.namespace("ChuClone.components");
 	ChuClone.components.CheckIsJumpingComponent = function() {

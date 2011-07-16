@@ -21,7 +21,7 @@
     ChuClone.namespace("ChuClone");
     ChuClone.GameViewController = function() {
 
-        this.setDimensions( ChuClone.Constants.GAME_WIDTH, ChuClone.Constants.GAME_HEIGHT );
+        this.setDimensions( ChuClone.model.Constants.GAME_WIDTH, ChuClone.model.Constants.GAME_HEIGHT );
         this.setupContainer();
         this.setupScene();
         this.setupRenderer();

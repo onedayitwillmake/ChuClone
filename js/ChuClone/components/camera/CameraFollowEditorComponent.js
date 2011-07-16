@@ -46,7 +46,7 @@ Abstract:
         _maxSpeed                       : new Box2D.Common.Math.b2Vec2(0.5, 0.5),
 
         update: function() {
-            var PTM_RATIO = ChuClone.Constants.PTM_RATIO;
+            var PTM_RATIO = ChuClone.model.Constants.PTM_RATIO;
             var zero = new THREE.Vector3(this.attachedEntity.position.x - 5, -100,0);
             this.attachedEntity.target.position = zero;
 

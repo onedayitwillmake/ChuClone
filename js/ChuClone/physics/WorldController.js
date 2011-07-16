@@ -20,7 +20,7 @@
     http://creativecommons.org/licenses/by-nc-sa/3.0/
  */
 (function(){
-    var PTM_RATIO = ChuClone.Constants.PTM_RATIO;
+    var PTM_RATIO = ChuClone.model.Constants.PTM_RATIO;
     var b2Vec2 = Box2D.Common.Math.b2Vec2;
     var b2BodyDef = Box2D.Dynamics.b2BodyDef;
     var b2Body = Box2D.Dynamics.b2Body;
@@ -124,27 +124,27 @@
             var wallBd = new b2BodyDef();
 
             // Left
-            wallBd.position.Set(-1.5, ChuClone.Constants.GAME_HEIGHT/2);
-            wall.SetAsBox(1, ChuClone.Constants.GAME_HEIGHT*10);
+            wallBd.position.Set(-1.5, ChuClone.model.Constants.GAME_HEIGHT/2);
+            wall.SetAsBox(1, ChuClone.model.Constants.GAME_HEIGHT*10);
             this._wallLeft = this._world.CreateBody(wallBd);
             this._wallLeft.CreateFixture2(wall);
             // Right
-            wallBd.position.Set(ChuClone.Constants.GAME_WIDTH + 0.55, ChuClone.Constants.GAME_HEIGHT/2);
-            wall.SetAsBox(1, ChuClone.Constants.GAME_HEIGHT*10);
+            wallBd.position.Set(ChuClone.model.Constants.GAME_WIDTH + 0.55, ChuClone.model.Constants.GAME_HEIGHT/2);
+            wall.SetAsBox(1, ChuClone.model.Constants.GAME_HEIGHT*10);
             this._wallRight = this._world.CreateBody(wallBd);
             this._wallRight.CreateFixture2(wall);
             // BOTTOM
             wall = new b2PolygonShape();
             wallBd = new b2BodyDef();
-            wallBd.position.Set(ChuClone.Constants.GAME_WIDTH/2, 1);
-            wall.SetAsBox(ChuClone.Constants.GAME_WIDTH / PTM_RATIO * 8 , 1 / PTM_RATIO);
+            wallBd.position.Set(ChuClone.model.Constants.GAME_WIDTH/2, 1);
+            wall.SetAsBox(ChuClone.model.Constants.GAME_WIDTH / PTM_RATIO * 8 , 1 / PTM_RATIO);
             this._wallTop = this._world.CreateBody(wallBd);
             this._wallTop.CreateFixture2(wall);
             // TOP
             wall = new b2PolygonShape();
             wallBd = new b2BodyDef();
-            wallBd.position.Set(ChuClone.Constants.GAME_WIDTH/2 / PTM_RATIO, ChuClone.Constants.GAME_HEIGHT / PTM_RATIO );
-            wall.SetAsBox(ChuClone.Constants.GAME_WIDTH/2 * 100, 1/PTM_RATIO);
+            wallBd.position.Set(ChuClone.model.Constants.GAME_WIDTH/2 / PTM_RATIO, ChuClone.model.Constants.GAME_HEIGHT / PTM_RATIO );
+            wall.SetAsBox(ChuClone.model.Constants.GAME_WIDTH/2 * 100, 1/PTM_RATIO);
             this._wallBottom = this._world.CreateBody(wallBd);
             this._wallBottom.CreateFixture2(wall);
             this._wallBottom.GetFixtureList().SetFriction(1.2)
@@ -243,18 +243,18 @@
                 if( !document.getElementById("editorContainer") ) {
                     container = document.createElement( 'div' );
                     container.style.position = "absolute";
-                    container.style.top = ChuClone.Constants.GAME_HEIGHT + 55 + "px";
+                    container.style.top = ChuClone.model.Constants.GAME_HEIGHT + 55 + "px";
                     container.style.backgroundColor = "#000000";
                     container.style.opacity = 0.75;
                     document.body.appendChild( container );
 
-                    debugCanvas.width = ChuClone.Constants.GAME_WIDTH;
-                    debugCanvas.height = ChuClone.Constants.GAME_HEIGHT - 100;
+                    debugCanvas.width = ChuClone.model.Constants.GAME_WIDTH;
+                    debugCanvas.height = ChuClone.model.Constants.GAME_HEIGHT - 100;
 
                 } else {
                     container = document.getElementById("editorContainer");
 
-                    debugCanvas.width = ChuClone.Constants.GAME_WIDTH;
+                    debugCanvas.width = ChuClone.model.Constants.GAME_WIDTH;
                     debugCanvas.height = parseInt( document.getElementById("editorContainer").style.height );
                 }
 

@@ -16,7 +16,7 @@ embed("js/lib/EventEmitter.js");
 
 
 embed("js/ChuClone/namespace.js");
-embed("js/ChuClone/Constants.js");
+embed("js/ChuClone/model/Constants.js");
 embed("js/ChuClone/Utils.js");
 
 embed("js/ChuClone/gui/LevelListing.js");

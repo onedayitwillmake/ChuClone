@@ -55,7 +55,7 @@
 
         setupGUI: function() {
             var that = this;
-            this._gui = new DAT.GUI({width: ChuClone.Constants.EDITOR.PANEL_WIDTH});
+            this._gui = new DAT.GUI({width: ChuClone.model.Constants.EDITOR.PANEL_WIDTH});
             this._gui.name("Player");
             this._gui.autoListen = false;
 
@@ -106,16 +106,16 @@
 			}
 
 
-			var body = worldEditor.getWorldController().createRect( 0, 0, 0, ChuClone.Constants.PLAYER.WIDTH, ChuClone.Constants.PLAYER.HEIGHT, false);
-			var view = worldEditor.getViewController().createEntityView(0, 0, ChuClone.Constants.PLAYER.WIDTH, ChuClone.Constants.PLAYER.HEIGHT, ChuClone.Constants.PLAYER.DEPTH);
+			var body = worldEditor.getWorldController().createRect( 0, 0, 0, ChuClone.model.Constants.PLAYER.WIDTH, ChuClone.model.Constants.PLAYER.HEIGHT, false);
+			var view = worldEditor.getViewController().createEntityView(0, 0, ChuClone.model.Constants.PLAYER.WIDTH, ChuClone.model.Constants.PLAYER.HEIGHT, ChuClone.model.Constants.PLAYER.DEPTH);
 
 			var entity = new ChuClone.PlayerEntity();
 			entity.setBody(body);
 			entity.setView(view);
 
 			body.SetPosition(new Box2D.Common.Math.b2Vec2( respawnPoint.attachedEntity.getBody().GetPosition().x, respawnPoint.attachedEntity.getBody().GetPosition().y - 1));
-			view.materials[0] = ChuClone.Constants.PLAYER.MATERIAL;
-			entity.setDimensions(ChuClone.Constants.PLAYER.WIDTH, ChuClone.Constants.PLAYER.HEIGHT, ChuClone.Constants.PLAYER.DEPTH);
+			view.materials[0] = ChuClone.model.Constants.PLAYER.MATERIAL;
+			entity.setDimensions(ChuClone.model.Constants.PLAYER.WIDTH, ChuClone.model.Constants.PLAYER.HEIGHT, ChuClone.model.Constants.PLAYER.DEPTH);
 
 
 			entity.addComponentAndExecute(new ChuClone.components.CharacterControllerComponent());

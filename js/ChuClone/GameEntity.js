@@ -29,7 +29,7 @@
  */
 (function(){
     "use strict";
-    var PTM_RATIO = ChuClone.Constants.PTM_RATIO;
+    var PTM_RATIO = ChuClone.model.Constants.PTM_RATIO;
     ChuClone.GameEntity = function() {
         this.components = [];
     };
@@ -62,7 +62,7 @@
         /**
          * @type {Number}
          */
-        _type       : ChuClone.Constants.ENTITY_TYPES.PLATFORM,
+        _type       : ChuClone.model.Constants.ENTITY_TYPES.PLATFORM,
 
 
 

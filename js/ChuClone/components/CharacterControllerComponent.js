@@ -51,7 +51,7 @@ Abstract:
 
         update: function() {
             var force = new Box2D.Common.Math.b2Vec2(0, 0);
-            var PTM_RATIO = ChuClone.Constants.PTM_RATIO;
+            var PTM_RATIO = ChuClone.model.Constants.PTM_RATIO;
             var body = this.attachedEntity.getBody();
             this._jumpCheckComponent.update();
 

@@ -58,7 +58,7 @@ Abstract:
         },
 
         onCollision: function( otherActor ) {
-            if( otherActor._type != ChuClone.Constants.ENTITY_TYPES.PLAYER )
+            if( otherActor._type != ChuClone.model.Constants.ENTITY_TYPES.PLAYER )
                 return;
             
             this.interceptedProperties.onCollision.call(this.attachedEntity, otherActor );
@@ -66,7 +66,7 @@ Abstract:
             if( !this._isReady ) return;
 
             var vel = otherActor.getBody().GetLinearVelocity();
-            vel.y -= Math.abs(vel.y) + this._force / ChuClone.Constants.PTM_RATIO;
+            vel.y -= Math.abs(vel.y) + this._force / ChuClone.model.Constants.PTM_RATIO;
 
 //			otherActor.getBody().m_xf.R.Set(200);
 //			otherActor.getBody().SetAngle( otherActor.getBody().GetAngle() + 200 );

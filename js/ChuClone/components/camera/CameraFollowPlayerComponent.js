@@ -50,7 +50,7 @@ Abstract:
         },
 
         update: function() {
-            var PTM_RATIO = ChuClone.Constants.PTM_RATIO;
+            var PTM_RATIO = ChuClone.model.Constants.PTM_RATIO;
             this.attachedEntity.target.position.x -= (this.attachedEntity.target.position.x - (this._player.view.position.x + 700)) * this._damping;
             this.attachedEntity.target.position.y -= (this.attachedEntity.target.position.y - (this._player.view.position.y - 700)) * this._damping;
             this.attachedEntity.target.position.z = this._player.view.position.z;

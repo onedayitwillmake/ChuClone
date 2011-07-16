@@ -121,7 +121,7 @@
          */
         parseLevel: function( aWorldController, aLevelName ) {
             var returnObject = {};
-            var PTM_RATIO = ChuClone.Constants.PTM_RATIO;
+            var PTM_RATIO = ChuClone.model.Constants.PTM_RATIO;
 
             returnObject.editingInfo = {
                 author: "mario gonzalez",
@@ -130,7 +130,7 @@
                 modificationDate: new Date().getTime()
             };
             returnObject.worldSettings = {
-                PTM_RATIO: ChuClone.Constants.PTM_RATIO
+                PTM_RATIO: ChuClone.model.Constants.PTM_RATIO
             };
 
             returnObject.playerInfo = null;
@@ -200,7 +200,7 @@
             this.modificationDate = levelObject.editingInfo.modificationDate;
             this.ptmRatio = levelObject.worldSettings.PTM_RATIO;
             this.bodyList = [];
-            ChuClone.Constants.PTM_RATIO = levelObject.worldSettings.PTM_RATIO;
+            ChuClone.model.Constants.PTM_RATIO = levelObject.worldSettings.PTM_RATIO;
 
             var len = levelObject.bodyList.length;
             // Create all Box2D bodies which contain an entity
@@ -267,7 +267,7 @@
 
 
 //                console.log(entity)
-//                console.log(ChuClone.Constants.ENTITY_TYPES.PLAYER, entity.getType())
+//                console.log(ChuClone.model.Constants.ENTITY_TYPES.PLAYER, entity.getType())
             }
             return playersFound;
         },

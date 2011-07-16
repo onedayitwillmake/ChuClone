@@ -66,19 +66,19 @@ Abstract:
         },
 
         handleKeyDown: function( e ) {
-            if( e.keyCode == ChuClone.Constants.KEYS.A ) this._keyStates.left = true;
-            else if(  e.keyCode == ChuClone.Constants.KEYS.D ) this._keyStates.right = true;
-            if( e.keyCode == ChuClone.Constants.KEYS.W ) this._keyStates.up = true;
-            else if( e.keyCode == ChuClone.Constants.KEYS.S ) this._keyStates.down = true;
+            if( e.keyCode == ChuClone.model.Constants.KEYS.A ) this._keyStates.left = true;
+            else if(  e.keyCode == ChuClone.model.Constants.KEYS.D ) this._keyStates.right = true;
+            if( e.keyCode == ChuClone.model.Constants.KEYS.W ) this._keyStates.up = true;
+            else if( e.keyCode == ChuClone.model.Constants.KEYS.S ) this._keyStates.down = true;
 
             e.preventDefault();
         },
 
         handleKeyUp: function(e) {
-            if( e.keyCode == ChuClone.Constants.KEYS.A ) this._keyStates.left = false;
-            else if( e.keyCode == ChuClone.Constants.KEYS.D ) this._keyStates.right = false;
-            if( e.keyCode == ChuClone.Constants.KEYS.W ) this._keyStates.up = false;
-            else if( e.keyCode == ChuClone.Constants.KEYS.S ) this._keyStates.down = false;
+            if( e.keyCode == ChuClone.model.Constants.KEYS.A ) this._keyStates.left = false;
+            else if( e.keyCode == ChuClone.model.Constants.KEYS.D ) this._keyStates.right = false;
+            if( e.keyCode == ChuClone.model.Constants.KEYS.W ) this._keyStates.up = false;
+            else if( e.keyCode == ChuClone.model.Constants.KEYS.S ) this._keyStates.down = false;
 
             e.preventDefault();
         },

@@ -20,8 +20,8 @@
 (function(){
     "use strict";
 
-    ChuClone.namespace("ChuClone");
-    ChuClone.Constants = {
+    ChuClone.namespace("ChuClone.model");
+    ChuClone.model.Constants = {
         GAME_WIDTH				: 1000,
         GAME_HEIGHT				: 500,
         PTM_RATIO               : 64,

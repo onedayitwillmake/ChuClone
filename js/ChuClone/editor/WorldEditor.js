@@ -18,7 +18,7 @@
     http://creativecommons.org/licenses/by-nc-sa/3.0/
  */
 (function() {
-    var PTM_RATIO = ChuClone.Constants.PTM_RATIO;
+    var PTM_RATIO = ChuClone.model.Constants.PTM_RATIO;
     var WAIT_TIMEOUT = 0;
 
 	var instance = null;
@@ -142,7 +142,7 @@
             var that = this;
 //            DAT.GUI.autoPlace = false;
 
-            this._guiModification = new DAT.GUI({width: ChuClone.Constants.EDITOR.PANEL_WIDTH});
+            this._guiModification = new DAT.GUI({width: ChuClone.model.Constants.EDITOR.PANEL_WIDTH});
             this._guiModification.name("Modification");
             this._guiModification.autoListen = false;
 
@@ -180,7 +180,7 @@
             this._guiModification.open();
 
             // Creation gui
-            this._guiCreation = new DAT.GUI({width: ChuClone.Constants.EDITOR.PANEL_WIDTH});
+            this._guiCreation = new DAT.GUI({width: ChuClone.model.Constants.EDITOR.PANEL_WIDTH});
             this._guiCreation.name("Creation");
             this._guiCreation.autoListen = false;
 //            this._guiCreation.domElement.style.position = 'absolute';

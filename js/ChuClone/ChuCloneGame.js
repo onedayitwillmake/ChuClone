@@ -20,7 +20,7 @@
 (function(){
     "use strict";
     
-    var PTM_RATIO = ChuClone.Constants.PTM_RATIO;
+    var PTM_RATIO = ChuClone.model.Constants.PTM_RATIO;
     ChuClone.namespace("ChuClone");
     ChuClone.ChuCloneGame = function() {
         this.listenForReady();
@@ -95,7 +95,7 @@
             this._stateMachine = new ChuClone.model.FSM.StateMachine();
 
             var initialState = null;
-            if( ChuClone.Constants.IS_EDIT_MODE() ) {
+            if( ChuClone.model.Constants.IS_EDIT_MODE() ) {
                 this._worldController.setDebugDraw();
                 this._worldController.setupEditor( this._gameView );
                 this._levelManager.setupGui();
