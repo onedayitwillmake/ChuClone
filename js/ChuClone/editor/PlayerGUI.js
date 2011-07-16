@@ -77,6 +77,11 @@
                 that.destroyPlayer();
                 that._player = aPlayer;
             });
+
+			ChuClone.Events.Dispatcher.addListener(ChuClone.PlayerEntity.prototype.EVENTS.REMOVED, function( aPlayer ) {
+				if( aPlayer == that._player )
+					that._player = null;
+            });
         },
 
 		/**
@@ -108,7 +113,7 @@
 			entity.setBody(body);
 			entity.setView(view);
 
-			body.SetPosition(new Box2D.Common.Math.b2Vec2( respawnPoint.getBody().GetPosition().x, respawnPoint.getBody().GetPosition().y - 1));
+			body.SetPosition(new Box2D.Common.Math.b2Vec2( respawnPoint.attachedEntity.getBody().GetPosition().x, respawnPoint.attachedEntity.getBody().GetPosition().y - 1));
 			view.materials[0] = ChuClone.Constants.PLAYER.MATERIAL;
 			entity.setDimensions(ChuClone.Constants.PLAYER.WIDTH, ChuClone.Constants.PLAYER.HEIGHT, ChuClone.Constants.PLAYER.DEPTH);
 
