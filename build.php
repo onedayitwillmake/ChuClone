@@ -24,6 +24,7 @@ embed("js/ChuClone/gui/HUDController.js");
 
 embed("js/ChuClone/components/BaseComponent.js");
 embed("js/ChuClone/components/JumpPadComponent.js");
+embed("js/ChuClone/components/FrictionPadComponent.js");
 embed("js/ChuClone/components/RespawnPointComponent.js");
 embed("js/ChuClone/components/GoalPadComponent.js");
 embed("js/ChuClone/components/CheckIsJumpingComponent.js");

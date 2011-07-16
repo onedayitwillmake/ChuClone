@@ -45,9 +45,9 @@
         this.setupGui();
 
         // Little hack to prevent accidently leaving the page
-        window.onbeforeunload = function(e) {
-            return "Exiting page will lose unsaved changes!";
-        };
+//        window.onbeforeunload = function(e) {
+//            return "Exiting page will lose unsaved changes!";
+//        };
     };
 
 
@@ -91,7 +91,7 @@
         /**
          * We modify this not the b2Body directly
          */
-        _propProxy          : {x: 5, y: 5, width: 3, height:3, depth: 3, jumpPad: false, respawnPoint: false, goalPad: false },
+        _propProxy          : {x: 5, y: 5, width: 3, height:3, depth: 3, jumpPad: false, respawnPoint: false, goalPad: false, frictionPad: false },
         _controllers        : {},
 
                             // Store reference for remval later: HACK?
@@ -164,12 +164,17 @@
             this._controllers['jumpPad'] = this._guiModification.add(this._propProxy, "jumpPad");
             this._controllers['jumpPad'].onChange( function(aValue){ that.toggleJumpPad(aValue); } );
 
-            // Toggle GoalPadComponent
+            // Toggle RespawnPoint
             this._controllers['respawnPoint'] = this._guiModification.add(this._propProxy, "respawnPoint");
             this._controllers['respawnPoint'].onChange( function(aValue){ that.toggleRespawnPoint(aValue); } );
 
+			// Toggle GoalPadComponent
             this._controllers['goalPad'] = this._guiModification.add(this._propProxy, "goalPad");
             this._controllers['goalPad'].onChange( function(aValue){ that.toggleGoalPad(aValue); } );
+
+			// Toggle SlowDownPad
+			this._controllers['frictionPad'] = this._guiModification.add(this._propProxy, "frictionPad");
+            this._controllers['frictionPad'].onChange( function(aValue){ that.toggleFrictionPad(aValue); } );
 
             this._guiModification.close();
             this._guiModification.open();
@@ -214,8 +219,7 @@
             if( !wantsJumpPad ) {
                 entity.removeComponentWithName( ChuClone.components.JumpPadComponent.prototype.displayName );
             } else {
-                var jumpPadComponent = new ChuClone.components.JumpPadComponent();
-                entity.addComponentAndExecute( jumpPadComponent );
+                entity.addComponentAndExecute( new ChuClone.components.JumpPadComponent() );
             }
         },
 
@@ -233,8 +237,7 @@
             if( !wantsToBeGoalPad ) {
                 entity.removeComponentWithName( ChuClone.components.GoalPadComponent.prototype.displayName );
             } else {
-                var goalPadComponent = new ChuClone.components.GoalPadComponent();
-                entity.addComponentAndExecute( goalPadComponent );
+                entity.addComponentAndExecute( new ChuClone.components.GoalPadComponent() );
             }
         },
 
@@ -253,8 +256,25 @@
             if( !wantsToBeRespawnPoint ) {
                 entity.removeComponentWithName( ChuClone.components.RespawnComponent.prototype.displayName );
             } else {
-                var respawnComponent = new ChuClone.components.RespawnComponent();
-                entity.addComponentAndExecute( respawnComponent );
+                entity.addComponentAndExecute( new ChuClone.components.RespawnComponent() );
+            }
+        },
+
+		/**
+         * If _currentBody, toggles the FrictionPadComponent
+         * @param {Boolean} wantsFrictionPadComponent
+         */
+        toggleFrictionPad: function( wantsFrictionPadComponent ) {
+            if(!this._currentBody) {
+                console.error("ChuClone.WorldEditor.toggleGoalPad- _currentBody is null!");
+                return;
+            }
+
+            var entity = this._currentBody.GetUserData();
+            if( !wantsFrictionPadComponent ) {
+                entity.removeComponentWithName( ChuClone.components.FrictionPadComponent.prototype.displayName );
+            } else {
+                entity.addComponentAndExecute( new ChuClone.components.FrictionPadComponent() );
             }
         },
 
@@ -484,6 +504,7 @@
             this._controllers['jumpPad'].setValue( this._currentBody.GetUserData().getComponentWithName( ChuClone.components.JumpPadComponent.prototype.displayName) );
             this._controllers['respawnPoint'].setValue( this._currentBody.GetUserData().getComponentWithName( ChuClone.components.RespawnComponent.prototype.displayName) );
             this._controllers['goalPad'].setValue( this._currentBody.GetUserData().getComponentWithName( ChuClone.components.GoalPadComponent.prototype.displayName) );
+            this._controllers['frictionPad'].setValue( this._currentBody.GetUserData().getComponentWithName( ChuClone.components.FrictionPadComponent.prototype.displayName) );
         },
 
         /**

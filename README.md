@@ -7,8 +7,9 @@ The editor supports panning, and zooming, levels are saved via HTML5 localstorag
 
 #### Development screenshots *(reverse chronological order)*  
 
+![Page](http://farm7.static.flickr.com/6018/5943735026_ca42533404_b.jpg "Page")
 ![JumpStart01](http://farm7.static.flickr.com/6002/5917370801_399f8b9556_b.jpg "JumpStart")
-![screenshot02](http://farm6.static.flickr.com/5240/5900437294_b7bcccb8ab_b.jpg "ChuClone03")  
+![screenshot02](http://farm6.static.flickr.com/5240/5900437294_b7bcccb8ab_b.jpg "ChuClone03")
 ![screenshot02](http://farm6.static.flickr.com/5108/5886054305_1744105dfe_b.jpg "ChuClone02")
 ![screenshot01](http://farm6.static.flickr.com/5306/5874855377_5c7bb58ef1_b.jpg "ChuClone01")
 

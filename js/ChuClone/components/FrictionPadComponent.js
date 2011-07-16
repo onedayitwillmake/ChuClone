@@ -1,50 +1,56 @@
 /**
 File:
-	ChaseTrait.js
+	GoalBlockComponent.js
 Created By:
 	Mario Gonzalez
 Project	:
-	RealtimeMultiplayerNodeJS
+	ChuClone
 Abstract:
- 	This trait will cause an entity to chase a target
+ 	When collision with player, fires a GoalBlockComponent.events.DID_REACH_GOAL event
+
  Basic Usage:
 
-  License:
-    Creative Commons Attribution-NonCommercial-ShareAlike
-    http://creativecommons.org/licenses/by-nc-sa/3.0/
+ License:
+   Creative Commons Attribution-NonCommercial-ShareAlike
+   http://creativecommons.org/licenses/by-nc-sa/3.0/
+
 */
 (function(){
     "use strict";
     
 	ChuClone.namespace("ChuClone.components");
 
-	ChuClone.components.JumpPadComponent = function() {
-		ChuClone.components.JumpPadComponent.superclass.constructor.call(this);
-
+	ChuClone.components.FrictionPadComponent = function() {
+		ChuClone.components.FrictionPadComponent.superclass.constructor.call(this);
 	};
 
-	ChuClone.components.JumpPadComponent.prototype = {
-		displayName						: "JumpPadComponent",					// Unique string name for this Trait
+	ChuClone.components.FrictionPadComponent.prototype = {
+		displayName						: "FrictionPadComponent",					// Unique string name for this Trait
 
-        _textureSource                  : "assets/images/game/jumppad.png",
-        _force                          : 1500,
+        _textureSource                  : "assets/images/game/floorred.png",
         _previousMaterial               : null,
+		_damping						: 0.25,
 
-        _inactiveDelay                  : 500,
+        _inactiveDelay                  : 250,
         _isReady                        : true,
         _isReadyTimeout                 : null,
+
+
+        EVENTS: {
+            ON_COLLISION    : "FrictionPadComponent.events.onCollision"
+        },
 
 		/**
 		 * @inheritDoc
 		 */
 		attach: function(anEntity) {
-			ChuClone.components.JumpPadComponent.superclass.attach.call(this, anEntity);
+			ChuClone.components.FrictionPadComponent.superclass.attach.call(this, anEntity);
             // Intercept collision
             this.intercept(['onCollision']);
 		},
 
         execute: function() {
-            ChuClone.components.JumpPadComponent.superclass.execute.call(this);
+            ChuClone.components.FrictionPadComponent.superclass.execute.call(this);
 
             var view = this.attachedEntity.getView();
             var body = this.attachedEntity.getBody();
@@ -62,14 +68,13 @@ Abstract:
                 return;
             
             this.interceptedProperties.onCollision.call(this.attachedEntity, otherActor );
-
             if( !this._isReady ) return;
 
-            var vel = otherActor.getBody().GetLinearVelocity();
-            vel.y -= Math.abs(vel.y) + this._force / ChuClone.Constants.PTM_RATIO;
+			var vel = otherActor.getBody().GetLinearVelocity();
+            vel.x *= this._damping;
+            vel.y *= this._damping;
 
-//			otherActor.getBody().m_xf.R.Set(200);
-//			otherActor.getBody().SetAngle( otherActor.getBody().GetAngle() + 200 );
+            ChuClone.Events.Dispatcher.emit( ChuClone.components.FrictionPadComponent.prototype.EVENTS.ON_COLLISION, this );
             this.startWaitingForIsReady()
         },
 
@@ -79,11 +84,10 @@ Abstract:
         startWaitingForIsReady: function() {
             var that = this;
             this._isReady = false;
-
             clearTimeout( this._isReadyTimeout );
             this._isReadyTimeout = setTimeout( function(){
                 that._isReady = true;
-            }, this._inactiveDelay);
+            }, this._inactiveDelay );
         },
         
         getIsReady: function() {
@@ -95,16 +99,17 @@ Abstract:
          */
         detach: function() {
             this.attachedEntity.getView().materials[0] = this._previousMaterial;
-            ChuClone.components.JumpPadComponent.superclass.detach.call(this);
+            ChuClone.components.FrictionPadComponent.superclass.detach.call(this);
         },
 
         /**
          * @inheritDoc
          */
         getModel: function() {
-            var returnObject = ChuClone.components.JumpPadComponent.superclass.getModel.call(this);
+            var returnObject = ChuClone.components.FrictionPadComponent.superclass.getModel.call(this);
             returnObject.textureSource = this._textureSource;
-			returnObject.inactiveDelay = this._inactiveDelay;
+            returnObject.inactiveDelay = this._inactiveDelay;
+            returnObject.damping = this._damping;
 
             return returnObject;
         },
@@ -113,12 +118,13 @@ Abstract:
          * @inheritDoc
          */
         fromModel: function( data ) {
-            ChuClone.components.JumpPadComponent.superclass.fromModel.call(this, data);
+            ChuClone.components.FrictionPadComponent.superclass.fromModel.call(this, data);
             this._textureSource = data.textureSource;
             this._inactiveDelay = data.inactiveDelay;
+            this._damping = data.damping;
         }
 
 	};
 
-    ChuClone.extend( ChuClone.components.JumpPadComponent, ChuClone.components.BaseComponent );
+    ChuClone.extend( ChuClone.components.FrictionPadComponent, ChuClone.components.BaseComponent );
 })();
