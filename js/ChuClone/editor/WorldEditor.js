@@ -90,8 +90,21 @@
 
         /**
          * We modify this not the b2Body directly
+		 * @type {Object}
          */
-        _propProxy          : {x: 5, y: 5, width: 3, height:3, depth: 3, jumpPad: false, respawnPoint: false, goalPad: false, frictionPad: false, autoRotation: false},
+        _propProxy          : {x: 5, y: 5, width: 3, height:3, depth: 3},
+
+		/**
+         * Components we want to be able to toggle with the editor
+		 * @see {ChuClone.editor.WorldEditor.prototype.addComponentsToGui}
+		 * @type {Object}
+         */
+		_toggableComponents	: {},
+
+		/**
+		 * All {DAT.GUI.Controllers}
+		 * @type {Object}
+		 */
         _controllers        : {},
 
                             // Store reference for remval later: HACK?
@@ -162,25 +175,7 @@
             this.addControllerWithTimeout(this._guiModification, "depth", this._propProxy.depth).min(0.01).max(3000/PTM_RATIO).step(0.05);
 
 
-            // Toggle JumpPadComponent
-            this._controllers['jumpPad'] = this._guiModification.add(this._propProxy, "jumpPad");
-            this._controllers['jumpPad'].onChange( function(aValue){ that.toggleJumpPad(aValue); } );
-
-            // Toggle RespawnPoint
-            this._controllers['respawnPoint'] = this._guiModification.add(this._propProxy, "respawnPoint");
-            this._controllers['respawnPoint'].onChange( function(aValue){ that.toggleRespawnPoint(aValue); } );
-
-			// Toggle GoalPadComponent
-            this._controllers['goalPad'] = this._guiModification.add(this._propProxy, "goalPad");
-            this._controllers['goalPad'].onChange( function(aValue){ that.toggleGoalPad(aValue); } );
-
-			// Toggle SlowDownPad
-			this._controllers['frictionPad'] = this._guiModification.add(this._propProxy, "frictionPad");
-            this._controllers['frictionPad'].onChange( function(aValue){ that.toggleFrictionPad(aValue); } );
-
-			// Toggle SlowDownPad
-			this._controllers['autoRotation'] = this._guiModification.add(this._propProxy, "autoRotation");
-            this._controllers['autoRotation'].onChange( function(aValue){ that.toggleAutoRotationComponent(aValue); } );
+			this.addComponentsToGui();
 
             this._guiModification.close();
             this._guiModification.open();
@@ -209,100 +204,69 @@
 //			DAT.GUI.autoPlace = false;
         },
 
-        /**
-         * If _currentBody, toggles the JumpPadComponent
-         * @param wantsJumpPad
-         */
-        toggleJumpPad: function( wantsJumpPad ) {
-            if(!this._currentBody) {
-                console.error("ChuClone.WorldEditor.toggleJumpPad - _currentBody is null!");
-                return;
-            }
+		/**
+		 * Adds certain components to the GUI controls
+		 */
+		addComponentsToGui: function() {
+			var that = this;
+			// Store interesting components in to a container
+			this._toggableComponents[ChuClone.components.JumpPadComponent.prototype.displayName] = ChuClone.components.JumpPadComponent;
+			this._toggableComponents[ChuClone.components.RespawnComponent.prototype.displayName] = ChuClone.components.RespawnComponent;
+			this._toggableComponents[ChuClone.components.GoalPadComponent.prototype.displayName] = ChuClone.components.GoalPadComponent;
+			this._toggableComponents[ChuClone.components.FrictionPadComponent.prototype.displayName] = ChuClone.components.FrictionPadComponent;
+			this._toggableComponents[ChuClone.components.AutoRotationComponent.prototype.displayName] = ChuClone.components.AutoRotationComponent;
 
-            var entity = this._currentBody.GetUserData();
-            var hasJumpPad = entity.getComponentWithName( ChuClone.components.JumpPadComponent.prototype.displayName ) == null;
+			// Add a gui control for each component
+			for(var aComponentType in this._toggableComponents) {
+				if(!this._toggableComponents.hasOwnProperty( aComponentType )) continue;
 
-            if( !wantsJumpPad ) {
-                entity.removeComponentWithName( ChuClone.components.JumpPadComponent.prototype.displayName );
-            } else {
-                entity.addComponentAndExecute( new ChuClone.components.JumpPadComponent() );
-            }
-        },
+				this._propProxy[aComponentType] = false;
+				this._controllers[aComponentType] = this._guiModification.add( this._propProxy, aComponentType );
+				this._controllers[aComponentType].onChange( function(aValue){ that.toggleComponent(this, aValue); } );
+			}
+			/*
 
-        /**
-         * If _currentBody, toggles the GoalPadComponent
-         * @param {Boolean} wantsToBeGoalPad
-         */
-        toggleGoalPad: function( wantsToBeGoalPad ) {
-            if(!this._currentBody) {
-                console.error("ChuClone.WorldEditor.toggleGoalPad- _currentBody is null!");
-                return;
-            }
+            // Toggle JumpPadComponent
+            this._controllers['jumpPad'] = this._guiModification.add(this._propProxy, "jumpPad");
+            this._controllers['jumpPad'].onChange( function(aValue){ that.toggleJumpPad(aValue); } );
 
-            var entity = this._currentBody.GetUserData();
-            if( !wantsToBeGoalPad ) {
-                entity.removeComponentWithName( ChuClone.components.GoalPadComponent.prototype.displayName );
-            } else {
-                entity.addComponentAndExecute( new ChuClone.components.GoalPadComponent() );
-            }
-        },
+            // Toggle RespawnPoint
+            this._controllers['respawnPoint'] = this._guiModification.add(this._propProxy, "respawnPoint");
+            this._controllers['respawnPoint'].onChange( function(aValue){ that.toggleRespawnPoint(aValue); } );
 
-        /**
-         * If _currentBody, toggles the RespawnComponent
-         * @param {Boolean} wantsToBeRespawnPoint
-         */
-        toggleRespawnPoint: function( wantsToBeRespawnPoint ) {
-            if(!this._currentBody) {
-                console.error("ChuClone.WorldEditor.toggleRespawnPoint - _currentBody is null!");
-                return;
-            }
+			// Toggle GoalPadComponent
+            this._controllers['goalPad'] = this._guiModification.add(this._propProxy, "goalPad");
+            this._controllers['goalPad'].onChange( function(aValue){ that.toggleGoalPad(aValue); } );
 
-            var entity = this._currentBody.GetUserData();
+			// Toggle SlowDownPad
+			this._controllers['frictionPad'] = this._guiModification.add(this._propProxy, "frictionPad");
+            this._controllers['frictionPad'].onChange( function(aValue){ that.toggleFrictionPad(aValue); } );
 
-            if( !wantsToBeRespawnPoint ) {
-                entity.removeComponentWithName( ChuClone.components.RespawnComponent.prototype.displayName );
-            } else {
-                entity.addComponentAndExecute( new ChuClone.components.RespawnComponent() );
-            }
-        },
+			// Toggle SlowDownPad
+			this._controllers['autoRotation'] = this._guiModification.add(this._propProxy, "autoRotation");
+            this._controllers['autoRotation'].onChange( function(aValue){ that.toggleAutoRotationComponent(aValue); } );
+			 */
+		},
 
 		/**
-         * If _currentBody, toggles the FrictionPadComponent
-         * @param {Boolean} wantsFrictionPadComponent
-         */
-        toggleFrictionPad: function( wantsFrictionPadComponent ) {
-            if(!this._currentBody) {
-                console.error("ChuClone.WorldEditor.toggleGoalPad- _currentBody is null!");
+		 * Toggles a component for the current entity
+		 * @param {DAT.GUI.Controller} aController The controller that called this function
+		 * @param {Boolean} aValue  Whether to add or remove this component
+		 */
+		toggleComponent: function( aController, aValue ) {
+			var aComponentType = aController.propertyName;
+			if(!this._currentBody) {
+                console.error("ChuClone.WorldEditor.toggleComponent - _currentBody is null!");
                 return;
             }
 
-            var entity = this._currentBody.GetUserData();
-            if( !wantsFrictionPadComponent ) {
-                entity.removeComponentWithName( ChuClone.components.FrictionPadComponent.prototype.displayName );
-            } else {
-                entity.addComponentAndExecute( new ChuClone.components.FrictionPadComponent() );
-            }
-        },
-
-		/**
-         * If _currentBody, toggles the FrictionPadComponent
-         * @param {Boolean} wantsAutoRotationComponent
-         */
-        toggleAutoRotationComponent: function( wantsAutoRotationComponent ) {
-            if(!this._currentBody) {
-                console.error("ChuClone.WorldEditor.toggleAutoRotation- _currentBody is null!");
-                return;
-            }
-
-            var entity = this._currentBody.GetUserData();
-            if( !wantsAutoRotationComponent ) {
-                entity.removeComponentWithName( ChuClone.components.AutoRotationComponent.prototype.displayName );
-            } else {
-                entity.addComponentAndExecute( new ChuClone.components.AutoRotationComponent() );
-            }
-        },
-
-
+			var entity = this._currentBody.GetUserData();
+			if( !aValue ) {
+				entity.removeComponentWithName( aComponentType );
+			} else {
+				 entity.addComponentAndExecute( ChuClone.components.ComponentFactory.getComponentByName( aComponentType ) );
+			}
+		},
 
         /**
          * Create a new body using lastMousePosition and propProxy data
@@ -489,9 +453,12 @@
         },
 
 
+		/**
+		 * Updates the entity to match the new values
+		 * @param {Number} newValue Whatever property was changed, this is not explicitely use. We just change all properties to match 'propProxy'
+		 */
         onControllerWasChanged: function( newValue ) {
             if(this._currentBody == null) return;
-
 
             // Create a new using current body's data
             var newBody = this._worldController.createRect(
@@ -525,11 +492,11 @@
             this._controllers['width'].setValue( this._currentBody.GetUserData().getDimensions().width / PTM_RATIO );
             this._controllers['height'].setValue( this._currentBody.GetUserData().getDimensions().height / PTM_RATIO );
             this._controllers['depth'].setValue( this._currentBody.GetUserData().getDimensions().depth / PTM_RATIO );
-            this._controllers['jumpPad'].setValue( this._currentBody.GetUserData().getComponentWithName( ChuClone.components.JumpPadComponent.prototype.displayName) );
-            this._controllers['respawnPoint'].setValue( this._currentBody.GetUserData().getComponentWithName( ChuClone.components.RespawnComponent.prototype.displayName) );
-            this._controllers['goalPad'].setValue( this._currentBody.GetUserData().getComponentWithName( ChuClone.components.GoalPadComponent.prototype.displayName) );
-            this._controllers['frictionPad'].setValue( this._currentBody.GetUserData().getComponentWithName( ChuClone.components.FrictionPadComponent.prototype.displayName) );
-            this._controllers['autoRotation'].setValue( this._currentBody.GetUserData().getComponentWithName( ChuClone.components.AutoRotationComponent.prototype.displayName) );
+
+			// Update component information
+			for( var aComponentType in this._toggableComponents ) {
+				this._controllers[aComponentType].setValue( this._currentBody.GetUserData().getComponentWithName(aComponentType) );
+			}
         },
 
         /**
