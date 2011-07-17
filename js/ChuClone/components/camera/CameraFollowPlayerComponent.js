@@ -55,7 +55,7 @@ Abstract:
             this.attachedEntity.target.position.y -= (this.attachedEntity.target.position.y - (this._player.view.position.y - 700)) * this._damping;
             this.attachedEntity.target.position.z = this._player.view.position.z;
             this.attachedEntity.position.x = this._player.view.position.x + 400;
-            this.attachedEntity.position.y = 300 + this._player.view.position.y * 0.1;
+            this.attachedEntity.position.y = this._player.view.position.y;
         },
 
         /**

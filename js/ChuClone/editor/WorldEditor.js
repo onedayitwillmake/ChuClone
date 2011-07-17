@@ -91,7 +91,7 @@
         /**
          * We modify this not the b2Body directly
          */
-        _propProxy          : {x: 5, y: 5, width: 3, height:3, depth: 3, jumpPad: false, respawnPoint: false, goalPad: false, frictionPad: false },
+        _propProxy          : {x: 5, y: 5, width: 3, height:3, depth: 3, jumpPad: false, respawnPoint: false, goalPad: false, frictionPad: false, autoRotation: false},
         _controllers        : {},
 
                             // Store reference for remval later: HACK?
@@ -157,9 +157,10 @@
 
             this.addControllerWithTimeout(this._guiModification, "x", this._propProxy.x).step(0.1);
             this.addControllerWithTimeout(this._guiModification, "y", this._propProxy.y).step(0.1);
-            this.addControllerWithTimeout(this._guiModification, "width", this._propProxy.width).min(0.01).max(Math.round(1000/PTM_RATIO)).step(0.05);
-            this.addControllerWithTimeout(this._guiModification, "height", this._propProxy.height).min(0.01).max(Math.round(1000/PTM_RATIO)).step(0.05);
-            this.addControllerWithTimeout(this._guiModification, "depth", this._propProxy.depth).min(0.01).max(1000/PTM_RATIO).step(0.05);
+            this.addControllerWithTimeout(this._guiModification, "width", this._propProxy.width).min(0.01).max(Math.round(3000/PTM_RATIO)).step(0.05);
+            this.addControllerWithTimeout(this._guiModification, "height", this._propProxy.height).min(0.01).max(Math.round(3000/PTM_RATIO)).step(0.05);
+            this.addControllerWithTimeout(this._guiModification, "depth", this._propProxy.depth).min(0.01).max(3000/PTM_RATIO).step(0.05);
+
 
             // Toggle JumpPadComponent
             this._controllers['jumpPad'] = this._guiModification.add(this._propProxy, "jumpPad");
@@ -176,6 +177,10 @@
 			// Toggle SlowDownPad
 			this._controllers['frictionPad'] = this._guiModification.add(this._propProxy, "frictionPad");
             this._controllers['frictionPad'].onChange( function(aValue){ that.toggleFrictionPad(aValue); } );
+
+			// Toggle SlowDownPad
+			this._controllers['autoRotation'] = this._guiModification.add(this._propProxy, "autoRotation");
+            this._controllers['autoRotation'].onChange( function(aValue){ that.toggleAutoRotationComponent(aValue); } );
 
             this._guiModification.close();
             this._guiModification.open();
@@ -276,6 +281,24 @@
                 entity.removeComponentWithName( ChuClone.components.FrictionPadComponent.prototype.displayName );
             } else {
                 entity.addComponentAndExecute( new ChuClone.components.FrictionPadComponent() );
+            }
+        },
+
+		/**
+         * If _currentBody, toggles the FrictionPadComponent
+         * @param {Boolean} wantsAutoRotationComponent
+         */
+        toggleAutoRotationComponent: function( wantsAutoRotationComponent ) {
+            if(!this._currentBody) {
+                console.error("ChuClone.WorldEditor.toggleAutoRotation- _currentBody is null!");
+                return;
+            }
+
+            var entity = this._currentBody.GetUserData();
+            if( !wantsAutoRotationComponent ) {
+                entity.removeComponentWithName( ChuClone.components.AutoRotationComponent.prototype.displayName );
+            } else {
+                entity.addComponentAndExecute( new ChuClone.components.AutoRotationComponent() );
             }
         },
 
@@ -447,8 +470,7 @@
 
                     var scale = (that._worldController.getDebugDraw().GetDrawScale() * 1.5);
                     that._worldController.getDebugDraw().offsetX = initialOffsetPosition.x + (initialMousePosition.x - that._mousePosition.x) / scale;
-                    that._worldController.getDebugDraw().offsetY = initialOffsetPosition.y + (initialMousePosition.y - that._mousePosition.y) / scale;
-					e.preventDefault();
+                    that._worldController.getDebugDraw().offsetY = initialOffsetPosition.y + (initialMousePosition.y - that._mousePosition.y) / scale;	1
                 };
 
                 this._worldController.getDebugDraw().GetSprite().canvas.addEventListener( 'mousemove', this._closures['pan'], false );
@@ -507,6 +529,7 @@
             this._controllers['respawnPoint'].setValue( this._currentBody.GetUserData().getComponentWithName( ChuClone.components.RespawnComponent.prototype.displayName) );
             this._controllers['goalPad'].setValue( this._currentBody.GetUserData().getComponentWithName( ChuClone.components.GoalPadComponent.prototype.displayName) );
             this._controllers['frictionPad'].setValue( this._currentBody.GetUserData().getComponentWithName( ChuClone.components.FrictionPadComponent.prototype.displayName) );
+            this._controllers['autoRotation'].setValue( this._currentBody.GetUserData().getComponentWithName( ChuClone.components.AutoRotationComponent.prototype.displayName) );
         },
 
         /**

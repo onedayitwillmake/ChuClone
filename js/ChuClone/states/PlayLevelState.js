@@ -62,7 +62,7 @@ Abstract:
 		 */
 		enter: function() {
 			ChuClone.states.PlayLevelState.superclass.enter.call(this);
-            
+
             this._beatLevel = false;
             this._previousTime = Date.now();
             this.setupEvents();
@@ -74,6 +74,9 @@ Abstract:
             this.addListener( ChuClone.editor.LevelManager.prototype.EVENTS.LEVEL_CREATED, function( aLevelManager ) { that.onLevelLoaded( aLevelManager ) } );
             ChuClone.Events.Dispatcher.addListener(ChuClone.PlayerEntity.prototype.EVENTS.CREATED, function( aPlayer ) {
                 that._player = aPlayer;
+
+				var respawnPoint = ChuClone.components.RespawnComponent.prototype.GET_CURRENT_RESPAWNPOINT();
+				respawnPoint.setSpawnedEntityPosition( that._player );
 
                 var gameCamera = that._gameView.getCamera();
                 ChuClone.editor.CameraGUI.prototype.augmentCamera.call( this, gameCamera );
@@ -125,6 +128,9 @@ Abstract:
             }
         },
 
+		/**
+		 * Updates elapsed time until level is completed
+		 */
         updateTime: function() {
             if( this._beatLevel )
                 return;

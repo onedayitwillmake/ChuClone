@@ -5,3 +5,4 @@ workspace.xml
 /js/lib/three.js/utils/exporters/spacesuit.obj
 /.idea/workspace.xml
 .DS_Store
+*_t.json

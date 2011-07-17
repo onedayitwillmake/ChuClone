@@ -90,6 +90,14 @@ Abstract:
 		},
 
 		/**
+		 * Sets the position of another entity relative to this respawn point
+		 * @param {ChuClone.GameEntity} spawnedEntity
+		 */
+		setSpawnedEntityPosition: function( spawnedEntity ) {
+			spawnedEntity.getBody().SetPosition(new Box2D.Common.Math.b2Vec2( this.attachedEntity.getBody().GetPosition().x, this.attachedEntity.getBody().GetPosition().y - 1));
+		},
+
+		/**
 		 * @inheritDoc
 		 */
         execute: function() {
@@ -101,8 +109,11 @@ Abstract:
             // Swap materials
             this._previousMaterial = view.materials[0];
             view.materials[0] = new THREE.MeshLambertMaterial( {
-                color: 0xFFFFFF, shading: THREE.SmoothShading,
-                map : THREE.ImageUtils.loadTexture( this._textureSource )
+//						color: 0xFFFFFF,
+						opacity: 0.75,
+						transparent: true,
+						shading: THREE.SmoothShading,
+						map : THREE.ImageUtils.loadTexture( this._textureSource )
             });
         },
 

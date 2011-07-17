@@ -106,7 +106,7 @@
                 this._worldController.setupEditor( this._gameView );
                 this._levelManager.setupGui();
                 initialState = new ChuClone.states.EditState();
-				this._levelManager.loadLatestLevel();
+//				this._levelManager.loadLatestLevel();
             } else {
                 document.getElementById("editorContainer").parentNode.removeChild(document.getElementById("editorContainer")); // Remove the editcontainer
                 initialState = new ChuClone.states.PlayLevelState();

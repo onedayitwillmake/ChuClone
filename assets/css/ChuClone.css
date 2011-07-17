@@ -46,25 +46,24 @@ p {
     text-align: center;
 }
 
-.levelThumbnail {
-    border: 1px inset #666;
-    margin-left: -1px;
-    margin-right: 19px;
-    width: 19px;
-    height: 50px;
-    font-size: 16px;
-    cursor: pointer;
-}
 
 .doMore {
     font-size: 12px;
     cursor: pointer;
 }
 
+
 .levelThumbnail {
-	text-align: center;
-	padding-top: 5px;
+    border: 1px inset #666;
+    margin-left: -1px;
+    margin-right: 19px;
+	margin-bottom: 20px;
+    width: 19px;
+    height: 80px;
+    font-size: 16px;
+    cursor: pointer;
 }
+
 .levelThumbnail p {
     border: none;
     padding: 0;
@@ -73,8 +72,29 @@ p {
 .levelThumbnailEOL {
     margin-right: 0;
     margin-left: -2px;
+}
+
+.levelCurrent {
+
+}
+
+.levelCompleted {
+
+}
+
+.levelThumbnailInner {
+	position: absolute;
+	top: 0;
+	left: 0;
+    margin: auto;
+}
+
+.levelAvailable {
 	background-image: url(../images/page/12_col_stripes.gif);
-    /*background-color: red;*/
+}
+
+.levelUnavailable {
+
 }
 
 .headerGrid {

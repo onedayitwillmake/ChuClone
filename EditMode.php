@@ -17,6 +17,11 @@
     <script type="text/javascript">
         var game = new ChuClone.ChuCloneGame();
     </script>
+	<style>
+		body {
+			overflow-y: hidden;
+		}
+	</style>
 </head>
 <body>
 <div class="container_12">
