@@ -56,6 +56,8 @@
         },
 
         onLevelClicked: function() {
+//			console.log("ChuClone.editor.LevelManager.INSTANCE:", ChuClone.editor.LevelManager.INSTANCE)
+//			ChuClone.editor.LevelManager.INSTANCE.clearLevel();
             window.location.hash = this.getAttribute("data-location");
 			ChuClone.Events.Dispatcher.emit( ChuClone.gui.LevelListing.prototype.EVENTS.SHOULD_CHANGE_LEVEL, this.getAttribute("data-location"));
         },

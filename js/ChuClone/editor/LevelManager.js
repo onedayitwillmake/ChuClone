@@ -281,7 +281,6 @@
             this._controllers['playtestLevel'].name("STOP");
         },
 
-
         /**
          * Clears a level
 		 * @param {ChuClone.physics.WorldController} aWorldController The WorldController instance that will be cleared

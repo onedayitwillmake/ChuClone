@@ -68,6 +68,9 @@ Abstract:
             this.setupEvents();
 		},
 
+		/**
+		 * Setup events related to this state
+		 */
         setupEvents: function() {
             var that = this;
             this.addListener( ChuClone.components.GoalPadComponent.prototype.EVENTS.GOAL_REACHED, function( aGoalPad ) { that.onGoalReached( aGoalPad ) } );
@@ -76,6 +79,7 @@ Abstract:
                 that._player = aPlayer;
 
 				var respawnPoint = ChuClone.components.RespawnComponent.prototype.GET_CURRENT_RESPAWNPOINT();
+				console.log("respawnPoint", respawnPoint)
 				respawnPoint.setSpawnedEntityPosition( that._player );
 
                 var gameCamera = that._gameView.getCamera();
@@ -178,7 +182,18 @@ Abstract:
             this._worldController = null;
             this._gameView = null;
             this._player = null;
-        }
+        },
+
+
+		/**
+		 * Sets the current _playerEntity
+		 * @param {ChuClone.GameEntity} aPlayer
+		 */
+		setPlayer: function( aPlayer ) {
+			var respawnPoint = ChuClone.components.RespawnComponent.prototype.GET_CURRENT_RESPAWNPOINT();
+			respawnPoint.setSpawnedEntityPosition( aPlayer );
+			this._player = aPlayer;
+		}
 	};
 
     ChuClone.extend( ChuClone.states.PlayLevelState, ChuClone.model.FSM.State );

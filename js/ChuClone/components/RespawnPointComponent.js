@@ -42,6 +42,10 @@ Abstract:
 			}
 		}
 	};
+
+	// TODO: TEMP HACK TO SEND THE FIRST RESPAWN POINT ON THE FIRST CALL
+	var __firstCall = true;
+
 	/**
 	 * Adds a respawn point to our internal array
 	 * @param {ChuClone.components.RespawnComponent} aRespawnPoint
@@ -166,11 +170,12 @@ Abstract:
 		},
 
 		GET_CURRENT_RESPAWNPOINT: function() {
-			console.log( "GET", __currentRespawnPoint );
-			if( !__currentRespawnPoint ) {
+			if( !__currentRespawnPoint || __firstCall ) {
 				console.log("RespawnPointComponent.GET_CURRENT_RESPAWNPOINT - Warning, no current respawn point exist! - returning first");
+				__firstCall = false;
 				return __respawnPoints[0];
 			}
+
 			return __currentRespawnPoint;
 		}
 	};

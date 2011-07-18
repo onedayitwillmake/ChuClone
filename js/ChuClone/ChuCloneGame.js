@@ -82,7 +82,9 @@
             window.addEventListener("blur", function(e) { that._hasFocus = false; }, false);
 
 			ChuClone.Events.Dispatcher.addListener(ChuClone.gui.LevelListing.prototype.EVENTS.SHOULD_CHANGE_LEVEL, function( levelFile ) {
-				that._levelManager.loadLevelFromURL( that._worldController, that._gameView, "/assets/levels/"+levelFile+".json");
+				that._gameView.getCamera().removeAllComponents();
+				that._levelManager.clearLevel( that._worldController, that._gameView );
+				that._levelManager.loadLevelFromURL( that._worldController, that._gameView, "/assets/levels/"+levelFile+".json?r="+Math.floor(Math.random()*1000));
             });
 
         },
@@ -116,7 +118,7 @@
             initialState._worldController = this._worldController;
             initialState._gameView = this._gameView;
             initialState._levelManager = this._levelManager;
-            initialState._player = this._player;
+//            initialState.setPlayer( this._player );
             this._stateMachine.setInitialState( initialState );
 
             // MAIN LOOP

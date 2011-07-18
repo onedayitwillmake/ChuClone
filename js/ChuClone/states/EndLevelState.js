@@ -99,8 +99,18 @@ Abstract:
          * @inheritDoc
          */
         dealloc: function() {
+			this._gameView = null;
+			this._player = null;
+			this._worldController = null;
+        },
 
-        }
+		/**
+		 * Sets the current _playerEntity
+		 * @param {ChuClone.GameEntity} aPlayer
+		 */
+		setPlayer: function( aPlayer ) {
+			this._player = aPlayer;
+		}
 	};
 
     ChuClone.extend( ChuClone.states.EndLevelState, ChuClone.model.FSM.State );
