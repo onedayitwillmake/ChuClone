@@ -34,6 +34,10 @@ Abstract:
 			// TODO: USING MAGIC NUMBER TO REPRESENT FLOOR
 			if(this.attachedEntity.getBody().GetPosition().y > 7) {
 			   var respawnPoint = ChuClone.components.RespawnComponent.prototype.GET_CURRENT_RESPAWNPOINT().setSpawnedEntityPosition( this.attachedEntity );
+
+                var flippedVelocity = this.attachedEntity.getBody().GetLinearVelocity().Copy();
+                flippedVelocity.Multiply( -3 );
+                this.attachedEntity.getBody().SetLinearVelocity( flippedVelocity );
 			}
 		},
 

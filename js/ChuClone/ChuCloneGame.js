@@ -120,7 +120,7 @@
 //            initialState.setPlayer( this._player );
             this._stateMachine.setInitialState( initialState );
 
-			this._levelManager.loadLevelFromURL(this._worldController, this._gameView, "/assets/levels/SpeedUp_t.json");
+//			this._levelManager.loadLevelFromURL(this._worldController, this._gameView, "/assets/levels/SpeedUp_t.json");
 
             // MAIN LOOP
             var that = this;

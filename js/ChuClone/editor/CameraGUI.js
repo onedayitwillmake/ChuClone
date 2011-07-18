@@ -57,7 +57,7 @@
 		/**
          * We modify this not the b2Body directly
          */
-        _propProxy          : {x: 5, y: 5, z: 3, radius: new THREE.Vector3(5400, 1680, 4500), fullscreen: false},
+        _propProxy          : {x: 5, y: 5, z: 3, radius: new THREE.Vector3(1000, 1000, 3000), fullscreen: false},
 
 		// Camera type
         _type   : 0,
@@ -135,6 +135,10 @@
 			focusComponent.getRadius().x = this._propProxy.radius.x;
 			focusComponent.getRadius().y = this._propProxy.radius.y;
 			focusComponent.getRadius().z = this._propProxy.radius.z;
+
+            if( this._player ) {
+                this._camera.position = this._player.getView().position.clone();
+            }
         },
 
 		/**

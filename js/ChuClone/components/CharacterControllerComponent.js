@@ -63,6 +63,7 @@ Abstract:
             // Attach sensor to check if jumping
             this._jumpCheckComponent = new ChuClone.components.CheckIsJumpingComponent();
             this.attachedEntity.addComponentAndExecute( this._jumpCheckComponent );
+            this.attachedEntity.addComponentAndExecute( new ChuClone.components.BoundsYCheckComponent() );
 
 			this.dispatchCreatedEvent();
 		},
