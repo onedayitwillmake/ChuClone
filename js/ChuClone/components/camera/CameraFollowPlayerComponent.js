@@ -31,7 +31,7 @@ Abstract:
 		displayName						: "CameraFollowPlayerComponent",					// Unique string name for this Trait
 
         /**
-         * @type {ChuClone.PlayerEntity}
+         * @type {ChuClone.GameEntity}
          */
         _player                      : null,
 
@@ -44,7 +44,7 @@ Abstract:
         attach: function( anEntity ) {
             ChuClone.components.camera.CameraFollowPlayerComponent.superclass.attach.call(this, anEntity);
 
-//            ChuClone.Events.Dispatcher.addListener(ChuClone.PlayerEntity.prototype.EVENTS.CREATED, function( aPlayer ) {
+//            ChuClone.Events.Dispatcher.addListener(ChuClone.components.CharacterControllerComponent.prototype.EVENTS.CREATED, function( aPlayer ) {
 //                that.onPlayerCreated( aPlayer );
 //            });
         },
@@ -86,21 +86,21 @@ Abstract:
         },
 
         /**
-         * @param {ChuClone.PlayerEntity} aPlayer
+         * @param {ChuClone.GameEntity} aPlayer
          */
         onPlayerCreated: function( aPlayer ) {
             this.setPlayer( aPlayer );
         },
 
         /**
-         * @param {ChuClone.PlayerEntity} aPlayer
+         * @param {ChuClone.GameEntity} aPlayer
          */
         onPlayerDestroyed: function( aPlayer ) {
             this.setPlayer( aPlayer );
         },
 
         /**
-         * @param {ChuClone.PlayerEntity} aPlayer
+         * @param {ChuClone.GameEntity} aPlayer
          */
         setPlayer: function( aPlayer ) {
             this._player = aPlayer;

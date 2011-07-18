@@ -34,7 +34,7 @@ Abstract:
         _worldController: null,
 
         /**
-         * @type {ChuClone.PlayerEntity}
+         * @type {ChuClone.GameEntity}
          */
         _player         : null,
 

@@ -211,7 +211,7 @@
                     entityInfo.dimensions.depth*2);
 
                 // TODO: TEMP HACK - CHECK IF COMPONENTS > 1, ASSUME PLAYER
-                var entity = (entityInfo.components.length > 1) ? new ChuClone.PlayerEntity() : new ChuClone.GameEntity();
+                var entity = new ChuClone.GameEntity();
                 entity.setBody( body );
                 entity.setView( view );
                 entity.setDimensions( entityInfo.dimensions.width, entityInfo.dimensions.height, entityInfo.dimensions.depth );

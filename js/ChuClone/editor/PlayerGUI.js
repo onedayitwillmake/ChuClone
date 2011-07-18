@@ -38,7 +38,7 @@
 
     ChuClone.editor.PlayerGUI.prototype = {
         /**
-         * @type {ChuClone.PlayerEntity}
+         * @type {ChuClone.GameEntity}
          */
         _player: null,
 
@@ -73,12 +73,12 @@
 		 */
         setupEvents: function() {
             var that = this;
-            ChuClone.Events.Dispatcher.addListener(ChuClone.PlayerEntity.prototype.EVENTS.CREATED, function( aPlayer ) {
+            ChuClone.Events.Dispatcher.addListener(ChuClone.components.CharacterControllerComponent.prototype.EVENTS.CREATED, function( aPlayer ) {
                 that.destroyPlayer();
                 that._player = aPlayer;
             });
 
-			ChuClone.Events.Dispatcher.addListener(ChuClone.PlayerEntity.prototype.EVENTS.REMOVED, function( aPlayer ) {
+			ChuClone.Events.Dispatcher.addListener(ChuClone.components.CharacterControllerComponent.prototype.EVENTS.REMOVED, function( aPlayer ) {
 				if( aPlayer == that._player )
 					that._player = null;
             });
@@ -109,7 +109,7 @@
 			var body = worldEditor.getWorldController().createRect( 0, 0, 0, ChuClone.model.Constants.PLAYER.WIDTH, ChuClone.model.Constants.PLAYER.HEIGHT, false);
 			var view = worldEditor.getViewController().createEntityView(0, 0, ChuClone.model.Constants.PLAYER.WIDTH, ChuClone.model.Constants.PLAYER.HEIGHT, ChuClone.model.Constants.PLAYER.DEPTH);
 
-			var entity = new ChuClone.PlayerEntity();
+			var entity = new ChuClone.GameEntity();
 			entity.setBody(body);
 			entity.setView(view);
 

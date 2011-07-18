@@ -69,8 +69,7 @@
         // Maybe you wanna handle it differently but for this example, we're going to simply use our global object (see previous post)
         // To store the gamescene where these bodies exist and tell it they collided
 //        [[Global instance]._gameScene onActorDidStartContact:actorA against:actorB at:worldManifold];
-    }
-    //ChuClone.extend( ChuClone.PlayerEntity, ChuClone.GameEntity, null );
+    };
 
     ChuClone.extend( ChuClone.physics.ContactListener, Box2D.Dynamics.b2ContactListener )
 })();

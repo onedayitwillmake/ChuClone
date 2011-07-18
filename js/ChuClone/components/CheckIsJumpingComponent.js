@@ -54,7 +54,7 @@
 
             var fixture = entityBody.CreateFixture(fixtureDef);
             fixture.SetSensor(true);
-            fixture.m_filter.groupIndex = ChuClone.PlayerEntity.prototype.GROUP;
+            fixture.m_filter.groupIndex = ChuClone.components.CharacterControllerComponent.prototype.GROUP;
 
             this._sensor = fixture;
             this._sensor.SetUserData( this );

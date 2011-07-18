@@ -39,7 +39,7 @@ Abstract:
         _levelManager: null,
 
         /**
-         * @type {ChuClone.PlayerEntity}
+         * @type {ChuClone.GameEntity}
          */
         _player         : null,
 
@@ -56,8 +56,8 @@ Abstract:
             var dispatch = ChuClone.Events.Dispatcher;
 
 			// Listen for PLAYER created/destroyed
-            this.addListener(ChuClone.PlayerEntity.prototype.EVENTS.CREATED, function( aPlayer ) { that.onPlayerCreated(aPlayer); });
-            this.addListener(ChuClone.PlayerEntity.prototype.EVENTS.REMOVED, function( aPlayer ) { that.onPlayerDestroyed(aPlayer); });
+            this.addListener(ChuClone.components.CharacterControllerComponent.prototype.EVENTS.CREATED, function( aPlayer ) { that.onPlayerCreated(aPlayer); });
+            this.addListener(ChuClone.components.CharacterControllerComponent.prototype.EVENTS.REMOVED, function( aPlayer ) { that.onPlayerDestroyed(aPlayer); });
 
 			// Listen for LEVEL created/destroyed
             this.addListener(ChuClone.editor.LevelManager.prototype.EVENTS.LEVEL_CREATED, function( aLevelManager ) { that.onLevelCreated( aLevelManager ); });

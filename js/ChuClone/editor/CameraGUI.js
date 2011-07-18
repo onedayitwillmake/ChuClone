@@ -35,7 +35,7 @@
         _camera: null,
 
         /**
-         * @type {ChuClone.PlayerEntity}
+         * @type {ChuClone.GameEntity}
          */
         _player: null,
 
@@ -148,7 +148,7 @@
 
         setupEvents: function() {
             var that = this;
-            ChuClone.Events.Dispatcher.addListener(ChuClone.PlayerEntity.prototype.EVENTS.CREATED, function( aPlayer ) {
+            ChuClone.Events.Dispatcher.addListener(ChuClone.components.CharacterControllerComponent.prototype.EVENTS.CREATED, function( aPlayer ) {
                 that._player = aPlayer;
 //                that.onPlayerCreated( aPlayer );
             });
