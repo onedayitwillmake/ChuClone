@@ -117,6 +117,8 @@ Abstract:
             this.attachedEntity.removeComponentWithName( ChuClone.components.KeyboardInputComponent.prototype.displayName );
             this._input = null;
 
+            this._jumpCheckComponent = null;
+
 			ChuClone.Events.Dispatcher.emit( ChuClone.components.CharacterControllerComponent.prototype.EVENTS.REMOVED, this.attachedEntity);
             ChuClone.components.CharacterControllerComponent.superclass.detach.call(this);
         },

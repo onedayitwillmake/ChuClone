@@ -79,7 +79,6 @@ Abstract:
                 that._player = aPlayer;
 
 				var respawnPoint = ChuClone.components.RespawnComponent.prototype.GET_CURRENT_RESPAWNPOINT();
-				console.log("respawnPoint", respawnPoint)
 				respawnPoint.setSpawnedEntityPosition( that._player );
 
                 var gameCamera = that._gameView.getCamera();
@@ -90,12 +89,15 @@ Abstract:
                 followPlayerComponent.setPlayer( that._player );
                 gameCamera.addComponentAndExecute( followPlayerComponent );
 
-
                 var focusComponent = new ChuClone.components.camera.CameraFocusRadiusComponent();
                 gameCamera.addComponentAndExecute(focusComponent);
                 focusComponent.getRadius().x = 2500;
                 focusComponent.getRadius().y = 1000;
                 focusComponent.getRadius().z = 2000;
+
+
+				that._player.addComponentAndExecute(new ChuClone.components.BoundsYCheckComponent());
+
 
             });
         },

@@ -112,7 +112,6 @@
             } else {
                 document.getElementById("editorContainer").parentNode.removeChild(document.getElementById("editorContainer")); // Remove the editcontainer
                 initialState = new ChuClone.states.PlayLevelState();
-				this._levelManager.loadLevelFromURL(this._worldController, this._gameView, "/assets/levels/SpeedUp_t.json");
             }
 
             initialState._worldController = this._worldController;
@@ -120,6 +119,8 @@
             initialState._levelManager = this._levelManager;
 //            initialState.setPlayer( this._player );
             this._stateMachine.setInitialState( initialState );
+
+			this._levelManager.loadLevelFromURL(this._worldController, this._gameView, "/assets/levels/SpeedUp_t.json");
 
             // MAIN LOOP
             var that = this;

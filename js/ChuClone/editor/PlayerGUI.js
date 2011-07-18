@@ -120,6 +120,7 @@
 
 			entity.addComponentAndExecute(new ChuClone.components.CharacterControllerComponent());
 			entity.addComponentAndExecute(new ChuClone.components.PhysicsVelocityLimitComponent());
+			entity.addComponentAndExecute(new ChuClone.components.BoundsYCheckComponent());
 
 			worldEditor.getViewController().addObjectToScene(entity.view);
         },
