@@ -102,11 +102,20 @@
 
         },
 
+		/**
+		 * Called when the camera type has been changed
+		 * @param {Number} selectedIndex Drop down item index
+		 */
         onCamTypeChange: function( selectedIndex ) {
 
-            // TODO: REMOVE ONLY THE TWO CAM TYPES
-            this._camera.removeAllComponents();
-            if( !this._camTypes[selectedIndex] ) return; // NULL was selected
+			// Reset camera
+			for(var i = 0; i < this._camTypes.length; i++) {
+				if(!this._camTypes[i]) continue;
+				this._camera.removeComponentWithName( this._camTypes[i].prototype.displayName );
+			}
+
+			// NULL was selected
+            if( !this._camTypes[selectedIndex] ) return;
 
             /**
              * @type {ChuClone.components.BaseComponent}

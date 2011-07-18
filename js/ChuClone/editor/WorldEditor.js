@@ -211,9 +211,9 @@
 			var that = this;
 			// Store interesting components in to a container
 			this._toggableComponents[ChuClone.components.JumpPadComponent.prototype.displayName] = ChuClone.components.JumpPadComponent;
+			this._toggableComponents[ChuClone.components.FrictionPadComponent.prototype.displayName] = ChuClone.components.FrictionPadComponent;
 			this._toggableComponents[ChuClone.components.RespawnComponent.prototype.displayName] = ChuClone.components.RespawnComponent;
 			this._toggableComponents[ChuClone.components.GoalPadComponent.prototype.displayName] = ChuClone.components.GoalPadComponent;
-			this._toggableComponents[ChuClone.components.FrictionPadComponent.prototype.displayName] = ChuClone.components.FrictionPadComponent;
 			this._toggableComponents[ChuClone.components.AutoRotationComponent.prototype.displayName] = ChuClone.components.AutoRotationComponent;
 
 			// Add a gui control for each component
@@ -224,28 +224,6 @@
 				this._controllers[aComponentType] = this._guiModification.add( this._propProxy, aComponentType );
 				this._controllers[aComponentType].onChange( function(aValue){ that.toggleComponent(this, aValue); } );
 			}
-			/*
-
-            // Toggle JumpPadComponent
-            this._controllers['jumpPad'] = this._guiModification.add(this._propProxy, "jumpPad");
-            this._controllers['jumpPad'].onChange( function(aValue){ that.toggleJumpPad(aValue); } );
-
-            // Toggle RespawnPoint
-            this._controllers['respawnPoint'] = this._guiModification.add(this._propProxy, "respawnPoint");
-            this._controllers['respawnPoint'].onChange( function(aValue){ that.toggleRespawnPoint(aValue); } );
-
-			// Toggle GoalPadComponent
-            this._controllers['goalPad'] = this._guiModification.add(this._propProxy, "goalPad");
-            this._controllers['goalPad'].onChange( function(aValue){ that.toggleGoalPad(aValue); } );
-
-			// Toggle SlowDownPad
-			this._controllers['frictionPad'] = this._guiModification.add(this._propProxy, "frictionPad");
-            this._controllers['frictionPad'].onChange( function(aValue){ that.toggleFrictionPad(aValue); } );
-
-			// Toggle SlowDownPad
-			this._controllers['autoRotation'] = this._guiModification.add(this._propProxy, "autoRotation");
-            this._controllers['autoRotation'].onChange( function(aValue){ that.toggleAutoRotationComponent(aValue); } );
-			 */
 		},
 
 		/**
@@ -259,12 +237,11 @@
                 console.error("ChuClone.WorldEditor.toggleComponent - _currentBody is null!");
                 return;
             }
-
 			var entity = this._currentBody.GetUserData();
 			if( !aValue ) {
 				entity.removeComponentWithName( aComponentType );
-			} else {
-				 entity.addComponentAndExecute( ChuClone.components.ComponentFactory.getComponentByName( aComponentType ) );
+			} else if( !entity.getComponentWithName( aComponentType ) ) { // Add only if we don't have it
+				entity.addComponentAndExecute( ChuClone.components.ComponentFactory.getComponentByName( aComponentType ) );
 			}
 		},
 
@@ -495,7 +472,7 @@
 
 			// Update component information
 			for( var aComponentType in this._toggableComponents ) {
-				this._controllers[aComponentType].setValue( this._currentBody.GetUserData().getComponentWithName(aComponentType) );
+				//this._controllers[aComponentType].setValue( this._currentBody.GetUserData().getComponentWithName(aComponentType) );
 			}
         },
 

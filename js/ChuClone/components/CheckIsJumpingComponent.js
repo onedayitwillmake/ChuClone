@@ -61,12 +61,6 @@
         },
 
 		/**
-		 * Empty for now, but i think some checks should go in here
-		 * TODO: Remove if continues to be unused
-		 */
-		update: function(){},
-
-		/**
 		 * When a collision is deteched, allow jumping
 		 * @param {ChuClone.GameEntity} otherActor
 		 */

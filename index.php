@@ -63,9 +63,13 @@ EOF;
         $perRow = 3;            // These are the last columns in our set, enable special class for end
         // Loop through the files
         while ($file = readdir($dir_handle)) {
-            if ($file == "." || $file == ".." || $file == "index.php" || $file == "local")
+            if ($file == "." || $file == ".." || $file == "index.php" || $file == "save.php" || $file == ".DS_Store")
                 continue;
 
+			// Don't show temp levels
+			if(strrpos($file, "_t.json")) {
+				continue;
+			}
             $count++;
             $extraClass = ($count % $perRow) == 0 ? "levelThumbnailEOL" : "";
 

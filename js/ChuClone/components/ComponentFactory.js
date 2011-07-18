@@ -55,17 +55,7 @@
                 return new lookup[displayName]();
             }
 
-
             return null;
         },
-
-        /**
-         * Registers a component with the ComponentFactory.
-         * This should be called by all components 
-         * @param aComponent
-         */
-        registerComponent: function( aComponent ) {
-            // TODO: REGISTERING COMPONENTS
-        }
     };
 })();

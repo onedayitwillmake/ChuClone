@@ -7,7 +7,7 @@
  * To change this template use File | Settings | File Templates.
  */
 // TIMESTAMP - (removed) - date('ymdGis')
-	$fileName = "../" . $_POST['levelName'] . "_t.json";
+	$fileName = $_POST['levelName'] . "_t.json";
 	$fileHandler = fopen($fileName, 'w');
 	$levelData = str_replace("\\", "", $_POST['data']); // replace weird \ issue
 	fwrite($fileHandler, $levelData);
