@@ -30,14 +30,15 @@ Abstract:
 
 		_minY							: 0.006,
 
+		/**
+		 * Checks if the entity is below what is considered the floor
+		 * // TODO: USING MAGIC NUMBER TO REPRESENT FLOOR
+		 */
 		update: function() {
-			// TODO: USING MAGIC NUMBER TO REPRESENT FLOOR
-			if(this.attachedEntity.getBody().GetPosition().y > 7) {
-			   var respawnPoint = ChuClone.components.RespawnComponent.prototype.GET_CURRENT_RESPAWNPOINT().setSpawnedEntityPosition( this.attachedEntity );
 
-                var flippedVelocity = this.attachedEntity.getBody().GetLinearVelocity().Copy();
-                flippedVelocity.Multiply( -3 );
-                this.attachedEntity.getBody().SetLinearVelocity( flippedVelocity );
+			if(this.attachedEntity.getBody().GetPosition().y > 7) {
+				var respawnPoint = ChuClone.components.RespawnComponent.prototype.GET_CURRENT_RESPAWNPOINT().setSpawnedEntityPosition( this.attachedEntity );
+				this.attachedEntity.getBody().SetLinearVelocity( new Box2D.Common.Math.b2Vec2(0, 0) );
 			}
 		},
 

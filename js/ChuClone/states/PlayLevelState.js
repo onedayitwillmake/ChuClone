@@ -65,9 +65,29 @@ Abstract:
 
             this._beatLevel = false;
             this._previousTime = Date.now();
+			this.setupCamera();
             this.setupEvents();
 		},
 
+		/**
+		 * Sets up the camera
+		 */
+		setupCamera: function() {
+			// Attach a few gameplay related components to the camera
+			var gameCamera = this._gameView.getCamera();
+
+			// Follow the player
+			var followPlayerComponent = new ChuClone.components.camera.CameraFollowPlayerComponent();
+			if( this._player ) followPlayerComponent.setPlayer( this._player );
+			gameCamera.addComponentAndExecute( followPlayerComponent );
+
+			// Allow rotation about target
+			var focusComponent = new ChuClone.components.camera.CameraFocusRadiusComponent();
+			gameCamera.addComponentAndExecute(focusComponent);
+			focusComponent.getRadius().x = 1000;
+			focusComponent.getRadius().y = 1000;
+			focusComponent.getRadius().z = 2000;
+		},
 		/**
 		 * Setup events related to this state
 		 */
@@ -78,27 +98,19 @@ Abstract:
             ChuClone.Events.Dispatcher.addListener(ChuClone.components.CharacterControllerComponent.prototype.EVENTS.CREATED, function( aPlayer ) {
                 that._player = aPlayer;
 
-				var respawnPoint = ChuClone.components.RespawnComponent.prototype.GET_CURRENT_RESPAWNPOINT();
-				respawnPoint.setSpawnedEntityPosition( that._player );
-
-                var gameCamera = that._gameView.getCamera();
-                ChuClone.editor.CameraGUI.prototype.augmentCamera.call( this, gameCamera );
-
-
-                var followPlayerComponent = new ChuClone.components.camera.CameraFollowPlayerComponent();
-                followPlayerComponent.setPlayer( that._player );
-                gameCamera.addComponentAndExecute( followPlayerComponent );
-
-                var focusComponent = new ChuClone.components.camera.CameraFocusRadiusComponent();
-                gameCamera.addComponentAndExecute(focusComponent);
-                focusComponent.getRadius().x = 2500;
-                focusComponent.getRadius().y = 1000;
-                focusComponent.getRadius().z = 2000;
-
-
+				// Add component to check the players boundary
 				that._player.addComponentAndExecute(new ChuClone.components.BoundsYCheckComponent());
 
 
+				// Set the player target for the follow player component
+				that._gameView.getCamera()
+						.getComponentWithName( ChuClone.components.camera.CameraFollowPlayerComponent.prototype.displayName )
+						.setPlayer( that._player );
+
+
+				// Respawn at nearest respawnpoint
+				var respawnPoint = ChuClone.components.RespawnComponent.prototype.GET_CURRENT_RESPAWNPOINT();
+				respawnPoint.setSpawnedEntityPosition( that._player );
             });
         },
 
@@ -168,9 +180,10 @@ Abstract:
          * @inheritDoc
          */
         exit: function() {
-
-            console.log("Exiting PlayLevelState!");
             ChuClone.states.PlayLevelState.superclass.exit.call(this);
+
+			this._gameView.getCamera().removeComponentWithName( ChuClone.components.camera.CameraFollowPlayerComponent.prototype.displayName );
+			this._gameView.getCamera().removeComponentWithName( ChuClone.components.camera.CameraFocusRadiusComponent.prototype.displayName );
 
             this.removeListener( ChuClone.components.GoalPadComponent.prototype.EVENTS.GOAL_REACHED );
 

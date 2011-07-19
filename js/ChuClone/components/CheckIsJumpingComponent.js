@@ -45,12 +45,13 @@
             var entityBody = anEntity.getBody();
             var x = entityBody.GetPosition().x;
             var y = entityBody.GetPosition().y;
-            var width = anEntity.getDimensions().width / PTM_RATIO + 1;
-            var height = anEntity.getDimensions().height / PTM_RATIO + 0.5;
+            var width = anEntity.getDimensions().width / PTM_RATIO;
+            var height = anEntity.getDimensions().height / PTM_RATIO;
+			var buffer = 0.1;
 
             var fixtureDef = new Box2D.Dynamics.b2FixtureDef();
             fixtureDef.shape = new Box2D.Collision.Shapes.b2PolygonShape();
-            fixtureDef.shape.SetAsEdge(new Box2D.Common.Math.b2Vec2(-1, -1), new Box2D.Common.Math.b2Vec2(1, 1));
+            fixtureDef.shape.SetAsEdge(new Box2D.Common.Math.b2Vec2(-width-buffer, -width-buffer), new Box2D.Common.Math.b2Vec2(width+buffer, width+buffer));
 
             var fixture = entityBody.CreateFixture(fixtureDef);
             fixture.SetSensor(true);
