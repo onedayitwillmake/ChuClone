@@ -45,9 +45,8 @@
         },
 
         ENTITY_TYPES: {
-            PLAYER: 0 << 1,
-            PLATFORM: 0 << 2,
-            JUMPPAD: 0 << 3
+            PLAYER: 1 << 1,
+            PLATFORM: 1 << 2,
         },
 
         PLAYER: {

@@ -355,7 +355,6 @@
 
             if(selectedBody) {
                 this._currentBody = selectedBody;
-
                 this._worldController.getDebugDraw().GetSprite().canvas.removeEventListener( 'mousemove', this._closures['mousemove'], false );
                 this._worldController.getDebugDraw().GetSprite().canvas.addEventListener( 'mousemove', this._closures['mousemove'], false );
             } else {
@@ -472,7 +471,7 @@
 
 			// Update component information
 			for( var aComponentType in this._toggableComponents ) {
-				//this._controllers[aComponentType].setValue( this._currentBody.GetUserData().getComponentWithName(aComponentType) );
+				this._controllers[aComponentType].setValue( this._currentBody.GetUserData().getComponentWithName(aComponentType) );
 			}
         },
 
@@ -517,7 +516,7 @@
             var selectedBody = null;
             that._worldController.getWorld().QueryAABB(function getBodyCB(fixture) {
                 // Only level objects
-                if(fixture.GetBody().GetUserData() instanceof ChuClone.GameEntity) {
+                if(fixture.GetBody().GetUserData() instanceof ChuClone.GameEntity && fixture.GetBody().GetUserData().getType() != ChuClone.model.Constants.ENTITY_TYPES.PLAYER) {
                     selectedBody = fixture.GetBody();
                     return true;
                 }

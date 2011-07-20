@@ -267,7 +267,6 @@
         },
 
         getType: function() {
-			// TODO: ALWAYS RETURNS ZERO?
             return this._type;
         }
     }

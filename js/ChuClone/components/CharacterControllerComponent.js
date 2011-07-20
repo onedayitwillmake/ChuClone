@@ -110,6 +110,10 @@ Abstract:
             aBody.GetFixtureList().m_filter.groupIndex = ChuClone.components.CharacterControllerComponent.prototype.GROUP;
         },
 
+		getType: function() {
+			return 123;
+		},
+
         /**
          * Restore material and restitution
          */

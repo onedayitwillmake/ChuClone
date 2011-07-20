@@ -144,7 +144,7 @@
                     this.attachedEntity[aKey] = (function(){
                         var myKey = aKey; // 'aKey' will always point to the last value of arrayOfProperties, so store the current value of it - e.g. i after a forloop
                         return function() {
-                             that[myKey].apply(that, arguments);
+                             return that[myKey].apply(that, arguments);
                         }
                     })();
                 } else {
