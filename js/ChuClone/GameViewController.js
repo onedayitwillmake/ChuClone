@@ -500,6 +500,17 @@
 		 */
 		setFullscreen: function( aValue ) {
 			this._isFullScreen = aValue;
+
+            if( this._isFullScreen ) {
+                this._domElement.style.position = "absolute";
+                this._domElement.style.top = 0;
+                this._domElement.style.left = 0;
+                
+            } else {
+                this._domElement.style.top = "";
+                this._domElement.style.left = "";
+                this._domElement.style.position = "static";
+            }
 			this._renderer.setSize( this.getDimensions().x, this.getDimensions().y );
 			this.onResize();
 		},
