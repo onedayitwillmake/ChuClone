@@ -182,6 +182,7 @@
 			 throw new Error("BaseComponent 'onEditablePropertyWasChanged' method has been called. Overwrite!")
 		},
 
+
         /**
          * A chance for a component to store any extra information it might need when recreating itself
          */

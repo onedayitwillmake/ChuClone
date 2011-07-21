@@ -17,10 +17,7 @@ Abstract:
 */
 (function(){
     "use strict";
-
 	ChuClone.namespace("ChuClone.components");
-
-	var angle = 0;
 	ChuClone.components.MovingPlatformComponent = function() {
 		ChuClone.components.MovingPlatformComponent.superclass.constructor.call(this);
 		this.requiresUpdate = true;
@@ -50,7 +47,7 @@ Abstract:
 		/**
 		 * Overwrite to allow component specific GUI
 		 */
-		_editableProperties: {rangeX: 0, rangeY: 0, speed: 0},
+		_editableProperties: {rangeX: 5, rangeY: 0, speed: {value: 0, max: 1, min: 0}},
 
 		/**
 		 * @inheritDoc
@@ -78,11 +75,20 @@ Abstract:
          * Restore material and restitution
          */
         detach: function() {
-            ChuClone.components.MovingPlatformComponent.superclass.detach.call(this);
-			this.attachedEntity = this._initialPosition.Copy();
+			this.attachedEntity.getBody().SetPosition( this._initialPosition.Copy() );
 			this._initialPosition = null;
 			this._position = null;
+			ChuClone.components.MovingPlatformComponent.superclass.detach.call(this);
         },
+
+		/**
+		 * @inheritDoc
+		 */
+		onEditablePropertyWasChanged: function() {
+			this._range.x = this._editableProperties.rangeX;
+			this._range.y = this._editableProperties.rangeY;
+			this._speed = this._editableProperties.speed.value;
+		},
 
         /**
          * @inheritDoc
@@ -90,7 +96,7 @@ Abstract:
         getModel: function() {
             var returnObject = ChuClone.components.MovingPlatformComponent.superclass.getModel.call(this);
             returnObject.range = {x: this._range.x, y: this._range.y};
-            returnObject.speed = this.speed;
+            returnObject.speed = this._speed;
             return returnObject;
         },
 

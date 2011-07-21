@@ -185,6 +185,8 @@
             this._controllers['currentComponent'].options.apply( this._controllers['currentComponent'], [	]);
             this._controllers['currentComponent'].onChange( function( selectedIndex ) {
 				var optionsValue = that._controllers['currentComponent'].domElement.lastChild.value;
+//				console.log("ON CHANGE", console.trace())
+				console.log("OptionsValue", optionsValue);
 				// TODO: HIDE COMPONENT
 				if( optionsValue === "" ) {
 					that._guiComponent.hideAll();
@@ -255,17 +257,27 @@
 		 * @param {Boolean} aValue  Whether to add or remove this component
 		 */
 		toggleComponent: function( aController, aValue ) {
+
 			var aComponentType = aController.propertyName;
 			if(!this._currentBody) {
                 console.error("ChuClone.WorldEditor.toggleComponent - _currentBody is null!");
                 return;
             }
 			var entity = this._currentBody.GetUserData();
+			var hasComponent = entity.getComponentWithName( aComponentType ) != null;
+
+			// State has not changed
+			if( aValue === hasComponent )
+				return;
+
 			if( !aValue ) {
 				entity.removeComponentWithName( aComponentType );
 			} else if( !entity.getComponentWithName( aComponentType ) ) { // Add only if we don't have it
 				entity.addComponentAndExecute( ChuClone.components.ComponentFactory.getComponentByName( aComponentType ) );
 			}
+
+			// Do special stuff if we didn't have the component
+			this.populateComponentGUI();
 		},
 
         /**
@@ -493,7 +505,7 @@
 
 			// Update component information
 			for( var aComponentType in this._toggableComponents ) {
-				this._controllers[aComponentType].setValue( this._currentBody.GetUserData().getComponentWithName(aComponentType) );
+				this._controllers[aComponentType].setValue( this._currentBody.GetUserData().getComponentWithName(aComponentType) != null );
 			}
         },
 
@@ -501,6 +513,7 @@
 		 * Called when a new b2Body is selected, modifies the component dropdown to display a list of the components this entity has
 		 */
 		populateComponentGUI: function() {
+			console.log("populateComponentGUI");
 			var componentGUI = this._controllers['currentComponent'];
 
 			// Remove all current 'options' from the HTMLSelect element
@@ -516,8 +529,15 @@
 			// For each component this entity has - add an HTMLOptionElement to the drop down
 			var allComponents = this._currentBody.GetUserData().components;
 			var len = allComponents.length;
+			var selectedIndex = 0;
 			for( var i = 0; i < len; ++i ) {
 				var aComponent = allComponents[i];
+
+				// Set to last component that has editable properties
+				if( Object.keys(aComponent._editableProperties).length !== 0 ) {
+					selectedIndex = i;
+				}
+
 				/**
 				 * @type {HTMLOptionElement}
 				 */
@@ -532,7 +552,7 @@
 			}
 
 			// Trigger on change event
-			componentGUI.setValue(0);
+			componentGUI.setValue(selectedIndex);
 		},
 
         /**
