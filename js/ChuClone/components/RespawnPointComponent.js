@@ -88,8 +88,9 @@ Abstract:
 			__addRespawnPoint( this );
 
 			this.attachedEntity.getBody().GetFixtureList().SetSensor( true );
+            
             // Intercept collision
-            this.intercept(['onCollision']);
+            this.intercept(['onCollision', 'setBody']);
             ChuClone.Events.Dispatcher.emit(ChuClone.components.RespawnComponent.prototype.EVENTS.CREATED, this);
 		},
 
@@ -122,7 +123,7 @@ Abstract:
         },
 
 		/**
-		 * @inheritDoc
+		 * Override oncollision to set this as the current respawn point
 		 */
         onCollision: function( otherActor ) {
             if( otherActor._type != ChuClone.model.Constants.ENTITY_TYPES.PLAYER )
@@ -130,6 +131,15 @@ Abstract:
 
             this.interceptedProperties.onCollision.call(this.attachedEntity, otherActor );
 			__currentRespawnPoint = this;
+        },
+
+        /**
+         * Override the setBody function of the entity, to turn this entity's b2Body into a 'sensor' type
+         * @param aBody
+         */
+        setBody: function( aBody ) {
+            this.interceptedProperties.setBody.call(this.attachedEntity, aBody );
+            this.attachedEntity.getBody().GetFixtureList().SetSensor( true );
         },
 
         /**

@@ -65,53 +65,18 @@ Abstract:
 
             this._beatLevel = false;
             this._previousTime = Date.now();
-			this.setupCamera();
             this.setupEvents();
 		},
 
-		/**
-		 * Sets up the camera
-		 */
-		setupCamera: function() {
-			// Attach a few gameplay related components to the camera
-			var gameCamera = this._gameView.getCamera();
-
-			// Follow the player
-			var followPlayerComponent = new ChuClone.components.camera.CameraFollowPlayerComponent();
-			if( this._player ) followPlayerComponent.setPlayer( this._player );
-			gameCamera.addComponentAndExecute( followPlayerComponent );
-
-			// Allow rotation about target
-			var focusComponent = new ChuClone.components.camera.CameraFocusRadiusComponent();
-			gameCamera.addComponentAndExecute(focusComponent);
-			focusComponent.getRadius().x = 1000;
-			focusComponent.getRadius().y = 1000;
-			focusComponent.getRadius().z = 2000;
-		},
 		/**
 		 * Setup events related to this state
 		 */
         setupEvents: function() {
             var that = this;
-            this.addListener( ChuClone.components.GoalPadComponent.prototype.EVENTS.GOAL_REACHED, function( aGoalPad ) { that.onGoalReached( aGoalPad ) } );
             this.addListener( ChuClone.editor.LevelManager.prototype.EVENTS.LEVEL_CREATED, function( aLevelManager ) { that.onLevelLoaded( aLevelManager ) } );
-            ChuClone.Events.Dispatcher.addListener(ChuClone.components.CharacterControllerComponent.prototype.EVENTS.CREATED, function( aPlayer ) {
-                that._player = aPlayer;
-
-				// Add component to check the players boundary
-				that._player.addComponentAndExecute(new ChuClone.components.BoundsYCheckComponent());
-
-
-				// Set the player target for the follow player component
-				that._gameView.getCamera()
-						.getComponentWithName( ChuClone.components.camera.CameraFollowPlayerComponent.prototype.displayName )
-						.setPlayer( that._player );
-
-
-				// Respawn at nearest respawnpoint
-				var respawnPoint = ChuClone.components.RespawnComponent.prototype.GET_CURRENT_RESPAWNPOINT();
-				respawnPoint.setSpawnedEntityPosition( that._player );
-            });
+            this.addListener( ChuClone.components.CharacterControllerComponent.prototype.EVENTS.CREATED, function( aPlayer ) { that.onPlayerCreated(aPlayer) } );
+            this.addListener( ChuClone.components.CharacterControllerComponent.prototype.EVENTS.REMOVED, function( aPlayer ) { that.onPlayerDestroyed(aPlayer) } );
+            this.addListener( ChuClone.components.GoalPadComponent.prototype.EVENTS.GOAL_REACHED, function( aGoalPad ) { that.onGoalReached( aGoalPad ) } );
         },
 
         /**
@@ -163,7 +128,28 @@ Abstract:
 		 * @param {ChuClone.editor.LevelManager} aLevelManager
 		 */
 		onLevelLoaded: function( aLevelManager ) {
-            this._worldController.createBox2dWorld()
+            this.setupCamera();
+            this._worldController.createBox2dWorld();
+		},
+
+        /**
+		 * Sets up the camera
+		 */
+		setupCamera: function() {
+			// Attach a few gameplay related components to the camera
+			var gameCamera = this._gameView.getCamera();
+
+			// Follow the player
+			var followPlayerComponent = new ChuClone.components.camera.CameraFollowPlayerComponent();
+			if( this._player ) followPlayerComponent.setPlayer( this._player );
+			gameCamera.addComponentAndExecute( followPlayerComponent );
+
+			// Allow rotation about target
+			var focusComponent = new ChuClone.components.camera.CameraFocusRadiusComponent();
+			gameCamera.addComponentAndExecute(focusComponent);
+			focusComponent.getRadius().x = 1000;
+			focusComponent.getRadius().y = 1000;
+			focusComponent.getRadius().z = 2000;
 		},
 
          /**
@@ -175,6 +161,30 @@ Abstract:
 			 ChuClone.gui.HUDController.setTimeInSeconds( this._elapsedTime );
 			 this._beatLevel = true;
 		},
+
+        onPlayerCreated: function( aPlayer ) {
+            this._player = aPlayer;
+
+            // Add component to check the players boundary
+            this._player.addComponentAndExecute(new ChuClone.components.BoundsYCheckComponent());
+
+
+            // Set the player target for the follow player component
+            this._gameView.getCamera()
+                    .getComponentWithName( ChuClone.components.camera.CameraFollowPlayerComponent.prototype.displayName )
+                    .setPlayer( this._player );
+
+
+            // Respawn at nearest respawnpoint
+            var respawnPoint = ChuClone.components.RespawnComponent.prototype.GET_CURRENT_RESPAWNPOINT();
+            respawnPoint.setSpawnedEntityPosition( this._player );
+        },
+
+        onPlayerDestroyed: function( aPlayer ) {
+            if( aPlayer === this._player ) {
+                this._player = null;
+            }
+        },
 
         /**
          * @inheritDoc

@@ -108,10 +108,11 @@
         onCamTypeChange: function( selectedIndex ) {
 
 			// Reset camera
-			for(var i = 0; i < this._camTypes.length; i++) {
-				if(!this._camTypes[i]) continue;
-				this._camera.removeComponentWithName( this._camTypes[i].prototype.displayName );
-			}
+//			for(var i = 0; i < this._camTypes.length; i++) {
+//				if(!this._camTypes[i]) continue;
+//				this._camera.removeComponentWithName( this._camTypes[i].prototype.displayName );
+//			}
+            this._camera.removeAllComponents();
 
 			// NULL was selected
             if( !this._camTypes[selectedIndex] ) return;
