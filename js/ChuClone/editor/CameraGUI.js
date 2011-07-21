@@ -75,7 +75,7 @@
             this._controls['type'] = this._gui.add(this, '_type');
             this._controls['type'].options.apply( this._controls['type'], camTypeNames);
             this._controls['type'].onChange( function() {
-                var selected = this.domElement.childNodes[1].selectedIndex;
+                var selected = this.domElement.lastChild.selectedIndex;
 
                 // Remove focus from the elemnt otherwise
                 document.getElementsByTagName("canvas")[0].focus();
@@ -97,6 +97,7 @@
 
             this._gui.close();
             this._gui.open();
+
 
 
         },

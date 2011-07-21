@@ -88,11 +88,21 @@
          */
         _guiPlayer      : null,
 
+		/**
+		 * @type {ChuClone.editor.ComponentGUIController}
+		 */
+		_guiComponent	: null,
+
         /**
          * We modify this not the b2Body directly
 		 * @type {Object}
          */
-        _propProxy          : {x: 5, y: 5, width: 3, height:3, depth: 3},
+        _propProxy         		: {x: 5, y: 5, width: 3, height:3, depth: 3},
+
+		/**
+		 * A reference to the currently being edited component from the dropdown list
+		 */
+		_currentEditedComponent	: 0,
 
 		/**
          * Components we want to be able to toggle with the editor
@@ -132,6 +142,8 @@
 
 				e.preventDefault();
             }, false );
+
+
         },
 
         /**
@@ -156,52 +168,62 @@
             var that = this;
 //            DAT.GUI.autoPlace = false;
 
-            this._guiModification = new DAT.GUI({width: ChuClone.model.Constants.EDITOR.PANEL_WIDTH});
+            this._guiModification = new DAT.GUI({width: ChuClone.model.Constants.EDITOR.PANEL_WIDTH+20});
             this._guiModification.name("Modification");
             this._guiModification.autoListen = false;
 
-            // Do some custom styles ...
-//            this._guiModification.domElement.style.position = 'absolute';
-//            this._guiModification.domElement.style.top = '0px';
-//            this._guiModification.domElement.style.left = '0px';
-//
-//            container.style.textAlign = "right"
-//            container.appendChild( this._guiModification.domElement );
 
+			// Add a bunch of controls for common entity props
             this.addControllerWithTimeout(this._guiModification, "x", this._propProxy.x).step(0.1);
             this.addControllerWithTimeout(this._guiModification, "y", this._propProxy.y).step(0.1);
             this.addControllerWithTimeout(this._guiModification, "width", this._propProxy.width).min(0.01).max(Math.round(3000/PTM_RATIO)).step(0.05);
             this.addControllerWithTimeout(this._guiModification, "height", this._propProxy.height).min(0.01).max(Math.round(3000/PTM_RATIO)).step(0.05);
             this.addControllerWithTimeout(this._guiModification, "depth", this._propProxy.depth).min(0.01).max(3000/PTM_RATIO).step(0.05);
 
+			// Add a dropdown box to modify which component is being edited
+			this._controllers['currentComponent'] = this._guiModification.add(this, '_currentEditedComponent').name("Components")
+            this._controllers['currentComponent'].options.apply( this._controllers['currentComponent'], [	]);
+            this._controllers['currentComponent'].onChange( function( selectedIndex ) {
+				var optionsValue = that._controllers['currentComponent'].domElement.lastChild.value;
+				// TODO: HIDE COMPONENT
+				if( optionsValue === "" ) {
+					that._guiComponent.hideAll();
+				   	return;
+				}
+				that._guiComponent.setupGUIForComponent( that._currentBody.GetUserData().getComponentWithName( optionsValue ) );
+			});
 
+			// Add a toggle for all addable components
 			this.addComponentsToGui();
 
+
+			// Open close (bug in DAT.GUI first rendering)
             this._guiModification.close();
             this._guiModification.open();
 
-            // Creation gui
+            // Create the GUI the handles the creation/deletion of entities
             this._guiCreation = new DAT.GUI({width: ChuClone.model.Constants.EDITOR.PANEL_WIDTH});
             this._guiCreation.name("Creation");
             this._guiCreation.autoListen = false;
-//            this._guiCreation.domElement.style.position = 'absolute';
-//            this._guiCreation.domElement.style.top = '0px';
-//            this._guiCreation.domElement.style.left = '0px';
-//
-//            container.appendChild( this._guiCreation.domElement );
 
+			// Add some butons to that gui
             this._controllers['onShouldCreate'] = this._guiCreation.add(this, 'onShouldCreate').name("Create Entity");
             this._controllers['onShouldClone'] = this._guiCreation.add(this, 'onShouldCloneEntity').name("Clone Entity")
             this._controllers['onShouldDelete'] = this._guiCreation.add(this, 'onShouldDelete').name("Destroy Entity");
 
+			// Open close (bug in DAT.GUI first rendering)
             this._guiCreation.close();
             this._guiCreation.open();
 
+			// Create the camera gui
             this._guiCamera = new ChuClone.editor.CameraGUI( this._gameView.getCamera() );
             this._guiCamera.setDebugDraw( this._worldController.getDebugDraw() );
 
+			// Create the player gui
             this._guiPlayer = new ChuClone.editor.PlayerGUI();
-//			DAT.GUI.autoPlace = false;
+
+			// Setup component gui
+			this._guiComponent = new ChuClone.editor.ComponentGUIController();
         },
 
 		/**
@@ -215,6 +237,7 @@
 			this._toggableComponents[ChuClone.components.RespawnComponent.prototype.displayName] = ChuClone.components.RespawnComponent;
 			this._toggableComponents[ChuClone.components.GoalPadComponent.prototype.displayName] = ChuClone.components.GoalPadComponent;
 			this._toggableComponents[ChuClone.components.AutoRotationComponent.prototype.displayName] = ChuClone.components.AutoRotationComponent;
+			this._toggableComponents[ChuClone.components.MovingPlatformComponent.prototype.displayName] = ChuClone.components.MovingPlatformComponent;
 
 			// Add a gui control for each component
 			for(var aComponentType in this._toggableComponents) {
@@ -357,8 +380,7 @@
                 this._currentBody = selectedBody;
                 this._worldController.getDebugDraw().GetSprite().canvas.removeEventListener( 'mousemove', this._closures['mousemove'], false );
                 this._worldController.getDebugDraw().GetSprite().canvas.addEventListener( 'mousemove', this._closures['mousemove'], false );
-            } else {
-//                this.onShouldCreate();
+				this.populateComponentGUI();
             }
         },
 
@@ -474,6 +496,44 @@
 				this._controllers[aComponentType].setValue( this._currentBody.GetUserData().getComponentWithName(aComponentType) );
 			}
         },
+
+		/**
+		 * Called when a new b2Body is selected, modifies the component dropdown to display a list of the components this entity has
+		 */
+		populateComponentGUI: function() {
+			var componentGUI = this._controllers['currentComponent'];
+
+			// Remove all current 'options' from the HTMLSelect element
+			/**
+			 * @type {HTMLSelectElement}
+			 */
+			var selectElement = componentGUI.domElement.lastChild;
+			while (selectElement.firstChild) {
+				selectElement.removeChild(selectElement.firstChild);
+			}
+
+
+			// For each component this entity has - add an HTMLOptionElement to the drop down
+			var allComponents = this._currentBody.GetUserData().components;
+			var len = allComponents.length;
+			for( var i = 0; i < len; ++i ) {
+				var aComponent = allComponents[i];
+				/**
+				 * @type {HTMLOptionElement}
+				 */
+				var selectOption = document.createElement('option');
+				selectOption.value = aComponent.displayName;
+				selectOption.innerText = aComponent.displayName.replace("Component", "");
+
+				// Add it to the select options
+				// .push does not work, but appending using the length does?
+				var optionsLength = selectElement.options.length;
+					selectElement.options[optionsLength] = selectOption;
+			}
+
+			// Trigger on change event
+			componentGUI.setValue(0);
+		},
 
         /**
          * Sets the _mousePosition property taking the canvas position into account

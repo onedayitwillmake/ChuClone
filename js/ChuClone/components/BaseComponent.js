@@ -88,6 +88,14 @@
          */
         requiresUpdate          : false,
 
+		/**
+		 * This is only used when editing, defines properties we want to have editable via component editor
+		 * If you want to make a component property these are the steps:
+		 * 		Overwrite '_editableProperties' in the subclass with a bunch of properties (Must be Number/Boolean/Strings)
+		 * 		Overwrite 'onEditablePropertyWasChanged' and do something when those properties are modified.
+		 */
+		_editableProperties		: {},
+
         /**
          * Attach the component to the host object
          * @param {ChuClone.GameEntity} anEntity
@@ -165,6 +173,14 @@
                 }
             }
         },
+
+		/**
+		 * Called when an editable property has been changed.
+		 * Note this only occurs via the editor
+		 */
+		onEditablePropertyWasChanged: function() {
+			 throw new Error("BaseComponent 'onEditablePropertyWasChanged' method has been called. Overwrite!")
+		},
 
         /**
          * A chance for a component to store any extra information it might need when recreating itself

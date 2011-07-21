@@ -71,8 +71,6 @@ Abstract:
 	ChuClone.components.RespawnComponent.prototype = {
 		displayName		: "RespawnComponent",					// Unique string name for this Trait
         _textureSource	: "assets/images/game/flooraqua.png",
-
-
         _respawnState   : 0,
 
         EVENTS: {

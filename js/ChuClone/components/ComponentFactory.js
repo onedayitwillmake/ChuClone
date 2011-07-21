@@ -38,6 +38,7 @@
     lookup[ChuClone.components.RespawnComponent.prototype.displayName] = ChuClone.components.RespawnComponent;
     lookup[ChuClone.components.GoalPadComponent.prototype.displayName] = ChuClone.components.GoalPadComponent;
     lookup[ChuClone.components.FrictionPadComponent.prototype.displayName] = ChuClone.components.FrictionPadComponent;
+    lookup[ChuClone.components.MovingPlatformComponent.prototype.displayName] = ChuClone.components.MovingPlatformComponent;
 	lookup[ChuClone.components.AutoRotationComponent.prototype.displayName] = ChuClone.components.AutoRotationComponent;
     lookup[ChuClone.components.KeyboardInputComponent.prototype.displayName] = ChuClone.components.KeyboardInputComponent;
     lookup[ChuClone.components.PhysicsVelocityLimitComponent.prototype.displayName] = ChuClone.components.PhysicsVelocityLimitComponent;
