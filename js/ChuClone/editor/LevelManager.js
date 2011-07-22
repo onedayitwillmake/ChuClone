@@ -71,10 +71,19 @@
 			request.onreadystatechange = function() {
 				if (request.readyState == 4) {
 					var levelList = request.responseText.split("\n");
+					var allLevels = {};
+					var levelCount = 0;
+					for(var prop in levelList) {
+						if(levelList[prop] === "") continue;
+
+						allLevels[levelList[prop]] = levelCount++;
+					}
+
+//					console.log(levelList)
 					levelList.pop();
 
 					that._controllers['level'] = that._gui.add(that, '_prebuiltLevels');
-					that._controllers['level'].options.apply(that._controllers['level'], levelList);
+					that._controllers['level'].options(allLevels)
 					that._controllers['level'].onChange(function()
 					{
 						var selected = this.domElement.childNodes[1].selectedIndex;

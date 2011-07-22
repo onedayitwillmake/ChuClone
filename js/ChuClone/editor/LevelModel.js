@@ -234,31 +234,6 @@
         },
 
         /**
-         * Looks through our object list for any player entities
-         * @return {Array}  An array of players - usually will contain only 1, but I didn't want to put that limitation on the level creation
-         */
-        getPlayers: function() {
-            var playersFound = [];
-
-            for(var i = 0; i < this.bodyList.length; i++ ) {
-                /**
-                 * @type {Box2D.Dynamics.b2Body}
-                 */
-                var body = this.bodyList[i];
-                /**
-                 * @type {ChuClone.GameEntity}
-                 */
-                var entity = body.GetUserData();
-                if (!entity) continue;
-
-
-//                console.log(entity)
-//                console.log(ChuClone.model.Constants.ENTITY_TYPES.PLAYER, entity.getType())
-            }
-            return playersFound;
-        },
-
-        /**
          * Checks to see if an entity is valid
          * @param {Object}  aLevelEntityInfo object containing information about this entity
          * @return {Boolean}
