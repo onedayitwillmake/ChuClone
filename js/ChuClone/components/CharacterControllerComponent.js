@@ -58,6 +58,8 @@ Abstract:
 
 			this.attachedEntity.getBody().SetBullet( true );
 
+//            this.attachedEntity.getBody().SetMassData(massData)
+
 
             // Attach kb control
             this._input = new ChuClone.components.KeyboardInputComponent();

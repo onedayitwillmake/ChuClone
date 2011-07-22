@@ -21,8 +21,9 @@
     "use strict";
     
     var PTM_RATIO = ChuClone.model.Constants.PTM_RATIO;
+    var loadLevelOnReady = "";
     ChuClone.namespace("ChuClone");
-    ChuClone.ChuCloneGame = function() {
+    ChuClone.ChuCloneGame = function( loadLevelOnReady ) {
         this.listenForReady();
     };
 
@@ -84,7 +85,6 @@
             var s = false;
 			ChuClone.Events.Dispatcher.addListener(ChuClone.gui.LevelListing.prototype.EVENTS.SHOULD_CHANGE_LEVEL, function( levelFile ) {
                 that._gameView.getCamera().removeAllComponents();
-
 //				that._levelManager.clearLevel( that._worldController, that._gameView );
 				that._levelManager.loadLevelFromURL( that._worldController, that._gameView, "/assets/levels/"+levelFile+".json?r="+Math.floor(Math.random()*1000));
             });
@@ -111,17 +111,20 @@
                 initialState = new ChuClone.states.EditState();
 //				this._levelManager.loadLatestLevel();
             } else {
-                document.getElementById("editorContainer").parentNode.removeChild(document.getElementById("editorContainer")); // Remove the editcontainer
+//                document.getElementById("editorContainer").parentNode.removeChild(document.getElementById("editorContainer")); // Remove the editcontainer
+
                 initialState = new ChuClone.states.PlayLevelState();
             }
 
             initialState._worldController = this._worldController;
             initialState._gameView = this._gameView;
             initialState._levelManager = this._levelManager;
-//            initialState.setPlayer( this._player );
             this._stateMachine.setInitialState( initialState );
 
-//			this._levelManager.loadLevelFromURL(this._worldController, this._gameView, "/assets/levels/SpeedUp_t.json");
+            this._worldController.setDebugDraw();
+            this._levelManager.loadLevelFromURL(this._worldController, this._gameView, "/assets/levels/SlideTest.json");
+
+
 
             // MAIN LOOP
             var that = this;
