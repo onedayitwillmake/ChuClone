@@ -29,13 +29,14 @@ Abstract:
 		/**
 		 * @type {Box2D.Common.Math.b2Vec2}
 		 */
-		_range	: new Box2D.Common.Math.b2Vec2(5, 0),
+		_range	: null,
 
 		/**
 		 * Speed that this platform moves left or right
 		 * @type {Number}
 		 */
 		_speed	: 0.01,
+		_offset : 0,
 
 		/**
 		 * @type {Box2D.Common.Math.b2Vec2}
@@ -47,13 +48,16 @@ Abstract:
 		/**
 		 * Overwrite to allow component specific GUI
 		 */
-		_editableProperties: {rangeX: 5, rangeY: 0, speed: {value: 0, max: 1, min: 0}},
+		_editableProperties: {rangeX: 5, rangeY: 0, speed: {value: 0, max: 0.2, min: 0}, offset: {value: 0, max: Math.PI, min: -Math.PI}, active: true},
 
 		/**
 		 * @inheritDoc
 		 */
 		attach: function( anEntity ) {
 			ChuClone.components.MovingPlatformComponent.superclass.attach.call( this, anEntity );
+
+			this._range = this._range || new Box2D.Common.Math.b2Vec2(5, 0);
+			this._offset = this._offset || this._offset;
 			this._initialPosition = this.attachedEntity.getBody().GetPosition().Copy();
 			this._position = this._initialPosition.Copy();
 		},
@@ -63,9 +67,9 @@ Abstract:
 		 */
 		update: function() {
 			if( this._range.x !== 0 )
-				this._position.x = this._initialPosition.x + Math.cos(this._angle) * this._range.x;
+				this._position.x = this._initialPosition.x + Math.cos(this._angle + this._offset) * this._range.x;
 			if( this._range.y !== 0 )
-				this._position.y = this._initialPosition.y + Math.sin(this._angle) * this._range.y;
+				this._position.y = this._initialPosition.y + Math.sin(this._angle + this._offset) * this._range.y;
 
 			this.attachedEntity.getBody().SetPosition( this._position.Copy() );
 			this._angle += this._speed;
@@ -88,6 +92,22 @@ Abstract:
 			this._range.x = this._editableProperties.rangeX;
 			this._range.y = this._editableProperties.rangeY;
 			this._speed = this._editableProperties.speed.value;
+			this._offset = this._editableProperties.offset.value;
+
+			var wasActive = this.requiresUpdate;
+			var isActive = this._editableProperties.active;
+
+			// Moving platform was previously unactive - that means it was probably being edited
+			// Update the _initialPositionProperty
+			if( wasActive != isActive ) {
+				if(!isActive) {
+					this.attachedEntity.getBody().SetPosition( this._initialPosition.Copy() );
+				} else  {
+					this._initialPosition = this.attachedEntity.getBody().GetPosition().Copy();
+					this._position = this._initialPosition.Copy();
+				}
+			}
+			this.requiresUpdate = isActive;
 		},
 
         /**
@@ -97,6 +117,7 @@ Abstract:
             var returnObject = ChuClone.components.MovingPlatformComponent.superclass.getModel.call(this);
             returnObject.range = {x: this._range.x, y: this._range.y};
             returnObject.speed = this._speed;
+            returnObject.offset = this._offset;
             return returnObject;
         },
 
@@ -107,6 +128,12 @@ Abstract:
             ChuClone.components.MovingPlatformComponent.superclass.fromModel.call(this, data);
             this._range = new Box2D.Common.Math.b2Vec2( data.range.x, data.range.y );
 			this._speed = data.speed;
+			this._offset = data.offset;
+
+			this._editableProperties.rangeX = this._range.x;
+			this._editableProperties.rangeY = this._range.y;
+			this._editableProperties.speed.value = this._speed;
+			this._editableProperties.offset.value = this._offset || 0;
         }
 
 	};

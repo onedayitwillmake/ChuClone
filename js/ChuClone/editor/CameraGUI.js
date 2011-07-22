@@ -71,9 +71,8 @@
             this._gui.autoListen = false;
 
 			// Cam type
-            var camTypeNames = ["None", "Follow Editor", "Follow Player"];
             this._controls['type'] = this._gui.add(this, '_type');
-            this._controls['type'].options.apply( this._controls['type'], camTypeNames);
+            this._controls['type'].options( {"None": 0, "Follow Editor": 1, "Follow Player": 2} );
             this._controls['type'].onChange( function() {
                 var selected = this.domElement.lastChild.selectedIndex;
 

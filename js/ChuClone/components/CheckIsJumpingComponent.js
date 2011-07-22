@@ -51,8 +51,8 @@
 
             var fixtureDef = new Box2D.Dynamics.b2FixtureDef();
             fixtureDef.shape = new Box2D.Collision.Shapes.b2PolygonShape();
-            fixtureDef.shape.SetAsEdge(new Box2D.Common.Math.b2Vec2(-width-buffer, -width-buffer), new Box2D.Common.Math.b2Vec2(width+buffer, width+buffer));
-
+            fixtureDef.shape.SetAsBox( width+buffer, height +buffer);
+                                       //SetAsEdge(new Box2D.Common.Math.b2Vec2(-width-buffer, -width-buffer), new Box2D.Common.Math.b2Vec2(width+buffer, width+buffer));
             var fixture = entityBody.CreateFixture(fixtureDef);
             fixture.SetSensor(true);
             fixture.m_filter.groupIndex = ChuClone.components.CharacterControllerComponent.prototype.GROUP;

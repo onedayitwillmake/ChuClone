@@ -8,22 +8,56 @@
  */
  
 class LevelsController extends AppController {
-	var $helpers = array("Html", "Form");
+	var $components = array('RequestHandler');
+	var $helpers = array("Html", "Form", "Javascript");
 	var $name = "Levels";
 	var $scaffold;
 
-//	function index() {
-//		$this->set("levels", $this->Level->find('all'));;
+//	function indexjson() {
+//    	$levels = $this->Level->find('all');
+//    	$this->set(compact('levels'));
+//    	$this->set("data", $this->data);
 //	}
+//	/*
+	function indexjson() {
+		$this->layout = 'ajax';
+    	$levels = $this->Level->find('all');
+    	$this->set(compact('levels'));
+    	$this->set("data", $this->data);
+	}
+	/*
 
-	/**
-	 * @return bool
-	 */
-	function beforeRender() {
+	function view($id) {
+		$level = $this->Level->findById($id);
+		$this->set(compact('level'));
+	}
 
-		if ($this->action == 'index') { // Hide json field since it's huge
-			$this->viewVars['scaffoldFields'] = array_diff($this->viewVars['scaffoldFields'], array('json'));
+	function edit($id) {
+		$this->Level->id = $id;
+		if ($this->Level->save($this->data)) {
+			$message = 'Saved';
+		} else {
+			$message = 'Error';
 		}
-		return true;
+		$this->set(compact("message"));
+  	}
+
+	function delete($id) {
+		if($this->Level->delete($id)) {
+			$message = 'Deleted';
+		} else {
+			$message = 'Error';
+		}
+		$this->set(compact("message"));
+	}
+	*/
+
+	function delete($id) {
+		if($this->Level->delete($id)) {
+			$message = 'Deleted';
+		} else {
+			$message = 'Error';
+		}
+		$this->set(compact("message"));
 	}
 }

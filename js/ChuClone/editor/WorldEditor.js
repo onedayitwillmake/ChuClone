@@ -45,9 +45,9 @@
         this.setupGui();
 
         // Little hack to prevent accidently leaving the page
-//        window.onbeforeunload = function(e) {
-//            return "Exiting page will lose unsaved changes!";
-//        };
+        window.onbeforeunload = function(e) {
+            return "Exiting page will lose unsaved changes!";
+        };
     };
 
 
@@ -184,14 +184,14 @@
 			this._controllers['currentComponent'] = this._guiModification.add(this, '_currentEditedComponent').name("Components")
             this._controllers['currentComponent'].options.apply( this._controllers['currentComponent'], [	]);
             this._controllers['currentComponent'].onChange( function( selectedIndex ) {
-				var optionsValue = that._controllers['currentComponent'].domElement.lastChild.value;
-//				console.log("ON CHANGE", console.trace())
-				console.log("OptionsValue", optionsValue);
-				// TODO: HIDE COMPONENT
-				if( optionsValue === "" ) {
+
+				if( that._controllers['currentComponent'].domElement.lastChild.children.length === 0 ) {
 					that._guiComponent.hideAll();
 				   	return;
 				}
+
+				// Get the value based on the current index
+				var optionsValue = that._controllers['currentComponent'].domElement.lastChild.children[selectedIndex].innerText;
 				that._guiComponent.setupGUIForComponent( that._currentBody.GetUserData().getComponentWithName( optionsValue ) );
 			});
 
@@ -513,7 +513,6 @@
 		 * Called when a new b2Body is selected, modifies the component dropdown to display a list of the components this entity has
 		 */
 		populateComponentGUI: function() {
-			console.log("populateComponentGUI");
 			var componentGUI = this._controllers['currentComponent'];
 
 			// Remove all current 'options' from the HTMLSelect element
@@ -533,22 +532,23 @@
 			for( var i = 0; i < len; ++i ) {
 				var aComponent = allComponents[i];
 
-				// Set to last component that has editable properties
-				if( Object.keys(aComponent._editableProperties).length !== 0 ) {
-					selectedIndex = i;
-				}
-
 				/**
 				 * @type {HTMLOptionElement}
 				 */
 				var selectOption = document.createElement('option');
-				selectOption.value = aComponent.displayName;
-				selectOption.innerText = aComponent.displayName.replace("Component", "");
-
+				selectOption.value = i;
+				selectOption.innerText = aComponent.displayName;
+				selectOption.label = aComponent.displayName.replace("Component", "");
 				// Add it to the select options
 				// .push does not work, but appending using the length does?
 				var optionsLength = selectElement.options.length;
 					selectElement.options[optionsLength] = selectOption;
+
+				// Set to last component that has editable properties
+				if( Object.keys(aComponent._editableProperties).length !== 0 ) {
+					selectedIndex = i;
+					selectOption.selected = true;
+				}
 			}
 
 			// Trigger on change event

@@ -173,6 +173,8 @@ class ErrorHandler extends Object {
  * @access public
  */
 	function error500($params) {
+		var_dump($params);
+		die;
 		extract($params, EXTR_OVERWRITE);
 
 		if (!isset($url)) {

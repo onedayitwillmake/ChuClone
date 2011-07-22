@@ -54,11 +54,11 @@
         /**
          * @type {Number}
          */
-        _velocityIterationsPerSecond    : 10,
+        _velocityIterationsPerSecond    : 100,
         /**
          * @type {Number}
          */
-        _positionIterationsPerSecond	: 30,
+        _positionIterationsPerSecond	: 300,
 
         /**
          * Container of closures used in event callbacks
@@ -205,7 +205,7 @@
             var body = this._world.CreateBody( bodyDef );
             body.SetPositionAndAngle( new Box2D.Common.Math.b2Vec2(x, y), rotation );
             body.CreateFixture( fixtureDef );
-            
+
             return body;
         },
 

@@ -56,6 +56,9 @@ Abstract:
 
 			this.intercept(['_type']);
 
+			this.attachedEntity.getBody().SetBullet( true );
+
+
             // Attach kb control
             this._input = new ChuClone.components.KeyboardInputComponent();
             this.attachedEntity.addComponentAndExecute( this._input );

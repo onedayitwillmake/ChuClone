@@ -20,6 +20,7 @@ Abstract:
     
 	ChuClone.namespace("ChuClone.components");
 
+	var r = 0;
 	ChuClone.components.AutoRotationComponent = function() {
 		ChuClone.components.AutoRotationComponent.superclass.constructor.call(this);
 		this.requiresUpdate = true;
@@ -29,9 +30,23 @@ Abstract:
 		displayName						: "AutoRotationComponent",					// Unique string name for this Trait
 		_previousRotation				: 0,
 		_rotationSpeed					: 0.006,
+		_editableProperties				: {rotationSpeed: {min: -0.15, max: 0.15, value: 0}},
 
 		update: function() {
-			this.attachedEntity.getBody().SetAngle( this.attachedEntity.getBody().GetAngle() + this._rotationSpeed );
+
+//			this.attachedEntity.getBody().m_xf.R.Set( this.attachedEntity.getBody().GetAngle() + this._rotationSpeed );
+			r+= this._rotationSpeed;
+			this.attachedEntity.getBody().SetAngle(r);
+		},
+
+		/**
+		 * @inheritDoc
+		 */
+		onEditablePropertyWasChanged: function() {
+			if(this._editableProperties.rotationSpeed.value !== this._editableProperties.rotationSpeed.value) {
+				debugger;
+			}
+			this._rotationSpeed = this._editableProperties.rotationSpeed.value;
 		},
 
         /**

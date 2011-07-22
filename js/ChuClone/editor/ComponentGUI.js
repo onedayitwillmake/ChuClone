@@ -14,6 +14,7 @@
 		_allGuis			: {},
 
 		setupGUIForComponent: function( aComponent ) {
+			var that = this;
 			this._activeComponent = aComponent;
 			this.hideAll();
 
@@ -53,6 +54,7 @@
 					controller = gui.add(aComponent._editableProperties[prop], 'value');
 					controller.min(aComponent._editableProperties[prop].min);
 					controller.max(aComponent._editableProperties[prop].max);
+					controller.name( prop );
 					value = aComponent._editableProperties[prop].value;
 				} else {
 					controller = gui.add(aComponent._editableProperties, prop);
@@ -62,8 +64,7 @@
 
 				gui.componentControllers[prop] = controller;
 				controller.onChange(function() {
-					console.log("CHANGE!", aComponent);
-					aComponent.onEditablePropertyWasChanged()
+					that._activeComponent.onEditablePropertyWasChanged()
 				});
 			}
 

@@ -1152,6 +1152,11 @@ DAT.GUI.ControllerNumber = function() {
 
     val = parseFloat(val);
 
+	  // NaN check
+	  if(val !== val ) {
+	  	return;
+	  }
+
     if (min != undefined && val <= min) {
       val = min;
     } else if (max != undefined && val >= max) {
@@ -1192,7 +1197,9 @@ DAT.GUI.ControllerNumberSlider = function(numberController, min, max, step, init
         .offsetWidth, numberController.getMin(), numberController.getMax());
     val = Math.round(val / numberController.getStep()) * numberController
         .getStep();
-    numberController.setValue(val);
+
+	  if(val === val ) // NaN check
+	  	numberController.setValue(val);
   };
 
   this.domElement.addEventListener('mousedown', function(e) {
