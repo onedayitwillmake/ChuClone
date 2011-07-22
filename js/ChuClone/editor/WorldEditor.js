@@ -477,7 +477,7 @@
                 this._currentBody.GetAngle(),
                 this._controllers['width'].getValue() * PTM_RATIO,
                 this._controllers['height'].getValue() * PTM_RATIO,
-                this._currentBody.GetType() == Box2D.Dynamics.b2Body.b2_staticBody
+                this._currentBody.GetType() == Box2D.Dynamics.b2Body.b2_kinematicBody
             );
 
 

@@ -197,7 +197,7 @@
             fixtureDef.restitution = 0.1;//(isFixed) ? 3 : 0.1;
 
             var bodyDef = new Box2D.Dynamics.b2BodyDef();
-            bodyDef.type = (isFixed) ? Box2D.Dynamics.b2Body.b2_staticBody : Box2D.Dynamics.b2Body.b2_dynamicBody;
+            bodyDef.type = (isFixed) ? Box2D.Dynamics.b2Body.b2_kinematicBody : Box2D.Dynamics.b2Body.b2_dynamicBody;
 
             fixtureDef.shape = new Box2D.Collision.Shapes.b2PolygonShape();
             fixtureDef.shape.SetAsBox( width, height );

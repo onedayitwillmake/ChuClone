@@ -23,7 +23,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": [
@@ -47,7 +47,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": [
@@ -72,7 +72,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": []
@@ -90,7 +90,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": [
@@ -115,7 +115,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": []
@@ -133,7 +133,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": []
@@ -151,7 +151,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": []
@@ -169,7 +169,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": [
@@ -193,7 +193,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": [
@@ -217,7 +217,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": []
@@ -235,7 +235,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": [
@@ -260,7 +260,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": []
@@ -278,7 +278,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": [
@@ -302,7 +302,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": [
@@ -326,7 +326,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": [
@@ -350,7 +350,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": [
@@ -374,7 +374,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": []
@@ -392,7 +392,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": [
@@ -416,7 +416,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": []
@@ -434,7 +434,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": [
@@ -459,7 +459,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": [
@@ -483,7 +483,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": [
@@ -507,7 +507,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": []
@@ -525,7 +525,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": []
@@ -543,7 +543,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": []
@@ -561,7 +561,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": [
@@ -585,7 +585,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": []
@@ -603,7 +603,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": [
@@ -626,7 +626,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": [
@@ -650,7 +650,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": [
@@ -674,7 +674,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": [
@@ -698,7 +698,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": []
@@ -716,7 +716,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": [
@@ -741,7 +741,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": []
@@ -759,7 +759,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": []
@@ -777,7 +777,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": []
@@ -795,7 +795,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": [
@@ -819,7 +819,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": [
@@ -843,7 +843,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": [
@@ -867,7 +867,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": []
@@ -885,7 +885,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": []
@@ -903,7 +903,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": []
@@ -921,7 +921,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": [
@@ -946,7 +946,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": [
@@ -971,7 +971,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": []
@@ -989,7 +989,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": [
@@ -1014,7 +1014,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": [
@@ -1037,7 +1037,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": []
@@ -1055,7 +1055,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": []
@@ -1073,7 +1073,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": []
@@ -1091,7 +1091,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": []
@@ -1109,7 +1109,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": []
@@ -1127,7 +1127,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": []
@@ -1145,7 +1145,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": [
@@ -1169,7 +1169,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": [
@@ -1193,7 +1193,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": [
@@ -1217,7 +1217,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": []
@@ -1235,7 +1235,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": [
@@ -1260,7 +1260,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": []
@@ -1278,7 +1278,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": []
@@ -1296,7 +1296,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": []
@@ -1314,7 +1314,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": [
@@ -1338,7 +1338,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": [
@@ -1363,7 +1363,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": [
@@ -1387,7 +1387,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": [
@@ -1412,7 +1412,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": [
@@ -1436,7 +1436,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": [
@@ -1461,7 +1461,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": [
@@ -1486,7 +1486,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": []
@@ -1504,7 +1504,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": []
@@ -1522,7 +1522,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": []
@@ -1540,7 +1540,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": []
@@ -1558,7 +1558,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": []
@@ -1576,7 +1576,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": []
@@ -1594,7 +1594,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": [
@@ -1617,7 +1617,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": [
@@ -1642,7 +1642,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": []
@@ -1660,7 +1660,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": []
@@ -1678,7 +1678,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": []
@@ -1696,7 +1696,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": [
@@ -1720,7 +1720,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": [
@@ -1744,7 +1744,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": [
@@ -1768,7 +1768,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": [
@@ -1792,7 +1792,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": [
@@ -1816,7 +1816,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": []
@@ -1834,7 +1834,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": []
@@ -1852,7 +1852,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": []
@@ -1870,7 +1870,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": [
@@ -1894,7 +1894,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": [
@@ -1918,7 +1918,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": [
@@ -1941,7 +1941,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": []
@@ -1959,7 +1959,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": [
@@ -2015,7 +2015,7 @@
 				"density": 1,
 				"friction": 1,
 				"restitution": 0.1,
-				"bodyType": 0
+				"bodyType": 1
 			},
 			"entityType": 0,
 			"components": []

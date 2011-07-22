@@ -50,6 +50,7 @@
 
     ChuClone.components.BaseComponent = function() {
         this.interceptedProperties = {};
+        this.setupEditableProperties();
         return this;
     };
 
@@ -96,6 +97,11 @@
 		 */
 		_editableProperties		: {},
 
+        setupEditableProperties : function() {
+//            this._editableProperties = JSON.parse( JSON.stringify(this._editableProperties) );
+
+        },
+        
         /**
          * Attach the component to the host object
          * @param {ChuClone.GameEntity} anEntity

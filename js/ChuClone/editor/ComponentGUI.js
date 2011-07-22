@@ -15,7 +15,8 @@
 
 		setupGUIForComponent: function( aComponent ) {
 			var that = this;
-			this._activeComponent = aComponent;
+
+            this._activeComponent = aComponent;
 			this.hideAll();
 
 			// No editable properties - ignore
@@ -25,6 +26,8 @@
 			}
 
 			var componentName = aComponent.displayName;
+            this._activeComponent.setEditableProps();
+
 
 			// Grab existing one
 			var existingGUI = this._allGuis[componentName];
@@ -64,6 +67,7 @@
 
 				gui.componentControllers[prop] = controller;
 				controller.onChange(function() {
+                    console.log( this.getValue() );
 					that._activeComponent.onEditablePropertyWasChanged()
 				});
 			}
@@ -77,7 +81,6 @@
 		 * Sets up the current GUI
 		 */
 		prepareAndShowGUI: function( existingGUI ) {
-
 			existingGUI.domElement.style.display = 'block';
 
 			for( var prop in this._activeComponent._editableProperties ) {
@@ -103,7 +106,7 @@
 			}
 		},
 
-		/**
+		/** 
 		 * Deallocate memory, destroy all DAT.GUI instances
 		 */
 		dealloc: function() {

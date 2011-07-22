@@ -200,7 +200,7 @@
                     entityInfo.angle,
                     entityInfo.dimensions.width,
                     entityInfo.dimensions.height,
-                    entityInfo.physicsInfo.bodyType == Box2D.Dynamics.b2Body.b2_staticBody
+                    entityInfo.physicsInfo.bodyType == Box2D.Dynamics.b2Body.b2_kinematicBody
                 );
 
                 var view = aGameView.createEntityView(

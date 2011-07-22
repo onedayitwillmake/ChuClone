@@ -111,8 +111,7 @@
                 initialState = new ChuClone.states.EditState();
 //				this._levelManager.loadLatestLevel();
             } else {
-//                document.getElementById("editorContainer").parentNode.removeChild(document.getElementById("editorContainer")); // Remove the editcontainer
-
+                document.getElementById("editorContainer").parentNode.removeChild(document.getElementById("editorContainer")); // Remove the editcontainer
                 initialState = new ChuClone.states.PlayLevelState();
             }
 
@@ -121,10 +120,7 @@
             initialState._levelManager = this._levelManager;
             this._stateMachine.setInitialState( initialState );
 
-            this._worldController.setDebugDraw();
-            this._levelManager.loadLevelFromURL(this._worldController, this._gameView, "/assets/levels/SlideTest.json");
-
-
+//			this._levelManager.loadLevelFromURL(this._worldController, this._gameView, "/assets/levels/SpeedUp_t.json");
 
             // MAIN LOOP
             var that = this;

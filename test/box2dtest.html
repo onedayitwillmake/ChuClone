@@ -56,7 +56,7 @@
             var bodyDef = new b2BodyDef;
 
             //create ground
-            bodyDef.type = b2Body.b2_staticBody;
+            bodyDef.type = b2Body.b2_kinematicBody;
             bodyDef.position.x = 9*30;
             bodyDef.position.y = 13*30;
             fixDef.shape = new b2PolygonShape;
@@ -111,7 +111,7 @@
          }
 
          function getBodyCB(fixture) {
-            if(fixture.GetBody().GetType() != b2Body.b2_staticBody) {
+            if(fixture.GetBody().GetType() != b2Body.b2_kinematicBody) {
                if(fixture.GetShape().TestPoint(fixture.GetBody().GetTransform(), mousePVec)) {
                   selectedBody = fixture.GetBody();
                   return false;
