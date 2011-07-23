@@ -11,8 +11,28 @@ class LevelsController < ApplicationController
   end
 
   def scrub
-    flash[:notice] = 'Photo was successfully created!<br>'
-    flash[:notice] << "Messaage 2"
+    flash[:notice] = ""
+    prefix = '../assets/levels/'
+
+    Dir.glob(prefix + '*.json') do |rb_file|
+      next if rb_file.include? '_t.json'
+
+      file = File.open(  rb_file, 'rb' )
+      contents = file.read
+
+      levelJson  = ActiveSupport::JSON.decode(contents)
+      levelName = levelJson["editingInfo"]["levelName"]
+
+      @level = Level.first #Level.where('title' => "ThirtySeconds")
+
+
+      flash[:notice] <<  @level.title << "<br>"
+      #@level.inspect.each do |a|
+      #  flash[:notice] << a.inspect << "<br>"
+      #end
+
+      #
+    end
   end
   # GET /levels/1
   # GET /levels/1.xml
@@ -24,6 +44,17 @@ class LevelsController < ApplicationController
       format.xml  { render :xml => @level }
     end
   end
+
+  def data
+    @level = Level.find(params[:id])
+
+    respond_to do |format|
+      format.xml  { render :xml => @level }
+      format.json { render :json => @level }
+    end
+  end
+
+
 
   # GET /levels/new
   # GET /levels/new.xml

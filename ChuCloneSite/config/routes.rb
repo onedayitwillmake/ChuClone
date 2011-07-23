@@ -1,5 +1,6 @@
 ChuCloneSite::Application.routes.draw do
   get "levels/scrub"
+  get "levels/data"
 
   resources :creators
 
