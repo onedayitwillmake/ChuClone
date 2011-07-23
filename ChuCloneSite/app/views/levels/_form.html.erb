@@ -1,0 +1,41 @@
+<%= form_for(@level) do |f| %>
+  <% if @level.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@level.errors.count, "error") %> prohibited this level from being saved:</h2>
+
+      <ul>
+      <% @level.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :title %><br />
+    <%= f.text_field :title %>
+  </div>
+  <div class="field">
+    <%= f.label :created_at %><br />
+    <%= f.datetime_select :created_at %>
+  </div>
+  <div class="field">
+    <%= f.label :times_played %><br />
+    <%= f.text_field :times_played %>
+  </div>
+  <div class="field">
+    <%= f.label :times_completed %><br />
+    <%= f.text_field :times_completed %>
+  </div>
+  <div class="field">
+    <%= f.label :json %><br />
+    <%= f.text_area :json %>
+  </div>
+  <div class="field">
+    <%= f.label :order_index %><br />
+    <%= f.text_field :order_index %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

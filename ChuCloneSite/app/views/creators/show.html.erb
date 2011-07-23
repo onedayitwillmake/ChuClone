@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Facebook:</b>
+  <%= @creator.facebook_id %>
+</p>
+
+<p>
+  <b>Username:</b>
+  <%= @creator.username %>
+</p>
+
+
+<%= link_to 'Edit', edit_creator_path(@creator) %> |
+<%= link_to 'Back', creators_path %>
