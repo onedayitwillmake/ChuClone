@@ -10,6 +10,7 @@ class LevelsController < ApplicationController
     end
   end
 
+	# 
   def scrub
     flash[:notice] = ""
     prefix = '../assets/levels/'
@@ -20,19 +21,18 @@ class LevelsController < ApplicationController
       file = File.open(  rb_file, 'rb' )
       contents = file.read
 
-      levelJson  = ActiveSupport::JSON.decode(contents)
-      levelName = levelJson["editingInfo"]["levelName"]
+      levelJSON  = ActiveSupport::JSON.decode(contents)
+      levelName = levelJSON["editingInfo"]["levelName"]
 
-      @level = Level.first #Level.where('title' => "ThirtySeconds")
+       @level = Level.where('title' => levelName)
+	#@level = Level.find(:first, :conditions => [ "title = :u", { :u => levelName }]);
 
-
-      flash[:notice] <<  @level.title << "<br>"
-      #@level.inspect.each do |a|
-      #  flash[:notice] << a.inspect << "<br>"
-      #end
-
-      #
-    end
+      	if not @level.first.nil? then
+			flash[:notice] <<  @level.first.title.inspect << "<br>"
+		else
+			flash[:notice] << Level.createFromJSON( levelJSON ).inspect << "<br>"
+		end
+	end
   end
   # GET /levels/1
   # GET /levels/1.xml

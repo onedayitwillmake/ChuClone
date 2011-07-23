@@ -2,10 +2,8 @@
 <module type="JAVA_MODULE" version="4">
   <component name="FacetManager">
     <facet type="JRUBY" name="JRuby">
-      <configuration>
+      <configuration number="0">
         <JRUBY_FACET_CONFIG_ID NAME="JRUBY_SDK_NAME" VALUE="" />
-        <LOAD_PATH number="0" />
-        <I18N_FOLDERS number="0" />
       </configuration>
       <facet type="JRailsFacetType" name="JRuby on Rails">
         <configuration>
