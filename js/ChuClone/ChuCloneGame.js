@@ -82,11 +82,12 @@
             window.addEventListener("focus", function(e) {that._hasFocus = true; }, false);
             window.addEventListener("blur", function(e) { that._hasFocus = false; }, false);
 
-            var s = false;
+
 			ChuClone.Events.Dispatcher.addListener(ChuClone.gui.LevelListing.prototype.EVENTS.SHOULD_CHANGE_LEVEL, function( levelFile ) {
                 that._gameView.getCamera().removeAllComponents();
-//				that._levelManager.clearLevel( that._worldController, that._gameView );
-				that._levelManager.loadLevelFromURL( that._worldController, that._gameView, "/assets/levels/"+levelFile+".json?r="+Math.floor(Math.random()*1000));
+				//+"
+				that._levelManager.loadLevelFromURL( that._worldController, that._gameView, levelFile);
+//				that._levelManager.loadLevelFromJSONString( that._worldController, that._gameView, "/assets/levels/"+levelFile+".json?r="+Math.floor(Math.random()*1000));
             });
 
         },

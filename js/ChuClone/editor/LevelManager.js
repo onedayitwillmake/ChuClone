@@ -66,7 +66,7 @@
             this._controllers['playtestLevel'] = this._gui.add(this, 'playtestLevel').name("START");
 
 			// DROP DOWN FOR ASSET LEVELS
-			var url = ChuClone.utils.getCWD() + "assets/levels/index.php";
+			var url = ChuClone.utils.getCWD() + ChuClone.utils.getAssetPrefix() + "index.php";
             var request = new XMLHttpRequest();
 			request.onreadystatechange = function() {
 				if (request.readyState == 4) {
@@ -202,7 +202,7 @@
         loadLevelFromURL: function( aWorldController, gameViewController, aURL ) {
             this.clearLevel(  aWorldController, gameViewController );
 
-            var url = ChuClone.utils.getCWD() + aURL;
+            var url = aURL;
             var request = new XMLHttpRequest();
             var that = this;
             request.onreadystatechange = function() {

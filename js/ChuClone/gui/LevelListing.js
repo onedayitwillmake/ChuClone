@@ -67,6 +67,10 @@
 	            window.location.hash = this.getAttribute("data-location");
 				ChuClone.Events.Dispatcher.emit( ChuClone.gui.LevelListing.prototype.EVENTS.SHOULD_CHANGE_LEVEL, this.getAttribute("data-location"));
 			} else { // Use id to load from DB
+				var aURL = "/levels/" + this.getAttribute("data-id") + ".js" + "?r="+Math.floor(Math.random()*1000);
+				ChuClone.Events.Dispatcher.emit( ChuClone.gui.LevelListing.prototype.EVENTS.SHOULD_CHANGE_LEVEL, aURL);
+				return;
+
 				var id = this.getAttribute("data-id");
 				var formData = new FormData();
 				formData.append("id", id);
@@ -79,7 +83,7 @@
 					}
 				};
 
-				request.open("GET", "/levels/" + id + ".json");
+				request.open("GET", "/levels/" + id + ".js");
 				request.send(formData);
 			}
         },
