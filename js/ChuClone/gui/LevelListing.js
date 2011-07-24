@@ -63,9 +63,25 @@
         onLevelClicked: function() {
 //			console.log("ChuClone.editor.LevelManager.INSTANCE:", ChuClone.editor.LevelManager.INSTANCE)
 //			ChuClone.editor.LevelManager.INSTANCE.clearLevel();
-			console.log(this.getAttribute("data-location"))
-//            window.location.hash = this.getAttribute("data-location");
-//			ChuClone.Events.Dispatcher.emit( ChuClone.gui.LevelListing.prototype.EVENTS.SHOULD_CHANGE_LEVEL, this.getAttribute("data-location"));
+			if( this.getAttribute("data-location") != "" ) {
+	            window.location.hash = this.getAttribute("data-location");
+				ChuClone.Events.Dispatcher.emit( ChuClone.gui.LevelListing.prototype.EVENTS.SHOULD_CHANGE_LEVEL, this.getAttribute("data-location"));
+			} else { // Use id to load from DB
+				var id = this.getAttribute("data-id");
+				var formData = new FormData();
+				formData.append("id", id);
+
+				var that = this;
+				var request = new XMLHttpRequest();
+				request.onreadystatechange = function() {
+					if (request.readyState == 4) {
+						console.log(request.responseText);
+					}
+				};
+
+				request.open("GET", "/levels/" + id + ".json");
+				request.send(formData);
+			}
         },
 
         /**

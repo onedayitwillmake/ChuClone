@@ -4,11 +4,8 @@ body {
     height: auto;
     padding-bottom: 20px;
 
-    /*JURA FONT*/
-    font-family: 'Jura', serif;
-    font-size: 36px;
-    font-style: normal;
-    font-weight: 400;
+	font-family: 'Jura', serif;
+    font-weight: 200;
     text-shadow: none;
     text-decoration: none;
     text-transform: none;
@@ -40,12 +37,20 @@ h2 {
 }
 
 p {
-    border: 1px solid #666;
     /*overflow: hidden;*/
-    padding: 5px 0;
     text-align: center;
 }
 
+.grayBorder {
+	border: 1px solid #666;
+    padding: 5px 0;
+}
+
+
+.JURA_normal_36 {
+    font-size: 36px;
+    font-style: normal;
+}
 
 .doMore {
     font-size: 12px;
@@ -54,7 +59,7 @@ p {
 
 
 .levelThumbnail {
-    border: 1px inset #666;
+    border: 1px solid #666;
     margin-left: -1px;
     margin-right: 19px;
 	margin-bottom: 20px;
