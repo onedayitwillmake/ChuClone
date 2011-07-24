@@ -1,13 +1,12 @@
 /**
  File:
-    BackgroundParticleManager.js
+    LevelListing.js
  Created By:
     Mario Gonzalez - mariogonzalez@gmail.com
  Project:
     ChuClone
  Abstract:
-    Creates and manages background particles in the game.
-    These particles have no effect on gameplay.
+    This class manages the level selection boxes displayed on the page
 
  Basic Usage:
 
@@ -39,6 +38,9 @@
 			SHOULD_CHANGE_LEVEL: "ChuClone.gui.LevelListing.shouldChangeLevel"
 		},
 
+		/**
+		 * Callback when the document is ready
+		 */
         onReady: function() {
             this.setupDivs();
         },
@@ -55,11 +57,15 @@
             }
         },
 
+		/**
+		 * Load the sleected level
+		 */
         onLevelClicked: function() {
 //			console.log("ChuClone.editor.LevelManager.INSTANCE:", ChuClone.editor.LevelManager.INSTANCE)
 //			ChuClone.editor.LevelManager.INSTANCE.clearLevel();
-            window.location.hash = this.getAttribute("data-location");
-			ChuClone.Events.Dispatcher.emit( ChuClone.gui.LevelListing.prototype.EVENTS.SHOULD_CHANGE_LEVEL, this.getAttribute("data-location"));
+			console.log(this.getAttribute("data-location"))
+//            window.location.hash = this.getAttribute("data-location");
+//			ChuClone.Events.Dispatcher.emit( ChuClone.gui.LevelListing.prototype.EVENTS.SHOULD_CHANGE_LEVEL, this.getAttribute("data-location"));
         },
 
         /**

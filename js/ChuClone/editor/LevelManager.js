@@ -101,18 +101,6 @@
 			};
             request.open("GET", url );
             request.send(null);
-
-//
-//            this.domElement = document.createElement( 'div' );
-//            this.domElement.style.position = "absolute";
-//            this.domElement.style.position = "absolute";
-//
-//            this.domElement.style.fontFamily = 'Helvetica, Arial, sans-serif';
-//            this.domElement.style.textAlign = 'left';
-//            this.domElement.style.fontSize = '9px';
-//            this.domElement.style.padding = '2px 0px 3px 0px';
-//            this.domElement.innerHTML = "ABC1234123123";
-//            document.body.appendChild( this.domElement );
         },
 
         /**
