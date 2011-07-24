@@ -38,9 +38,26 @@
          */
         _controllers        : {},
 
+		/**
+		 * @type {Number} Current HTML5 local storage save slot
+		 */
         _currentSlot        : 0,
-        _currentName        : "NONAME",
-		_prebuiltLevels		: 0,
+
+		/**
+		 * Level name according to DAT.GUI field - is used when modifying/saving levels
+		 */
+        _currentName        : "Untitled",
+
+		/**
+		 * Not actually a number, but that's what DAT.GUI wants for a drop down list
+		 * @type {Number}
+		 */
+		_userLevels			: 0,
+		/**
+		 * @type {Object}
+		 */
+		_userLevelList		: {},
+
 
         EVENTS              : {
             LEVEL_CREATED   : "LevelManager.Events.WorldCreated",
@@ -59,51 +76,80 @@
             this._controllers['slot'].domElement.childNodes[1].selectedIndex = slotIndex;
             this._controllers['slot'].setValue( slotIndex )
             this._controllers['name'] = this._gui.add(this, '_currentName').name("Level Name").onFinishChange(function(){ });
-            this._controllers['saveLevelToSlot'] = this._gui.add(this, 'saveLevelToSlot').name("Save Level");
-            this._controllers['loadLevelFromSlot'] = this._gui.add(this, 'loadLevelFromSlot').name("Load Level");
+            this._controllers['saveLevelToSlot'] = this._gui.add(this, 'saveLevelToSlot').name("Save To Slot");
+            this._controllers['loadLevelFromSlot'] = this._gui.add(this, 'loadLevelFromSlot').name("Load From Slot");
             this._controllers['resetLevel'] = this._gui.add(this, 'resetLevel').name("Clear Level");
-            this._controllers['pasteLevel'] = this._gui.add(this, 'pasteLevel').name("Paste Level");
-            this._controllers['playtestLevel'] = this._gui.add(this, 'playtestLevel').name("START");
 
-			// DROP DOWN FOR ASSET LEVELS
-			var url = ChuClone.utils.getCWD() + ChuClone.utils.getAssetPrefix() + "index.php";
-            var request = new XMLHttpRequest();
-			request.onreadystatechange = function() {
-				if (request.readyState == 4) {
-					var levelList = request.responseText.split("\n");
-					var allLevels = {};
-					var levelCount = 0;
-					for(var prop in levelList) {
-						if(levelList[prop] === "") continue;
+			this._controllers['saveToServer'] = this._gui.add(this, 'onShouldSaveToServer').name("Save To Server");
 
-						allLevels[levelList[prop]] = levelCount++;
-					}
 
-//					console.log(levelList)
-					levelList.pop();
+			/**
+			 * Creates the Load From Server drop down
+			 */
+			that._controllers['level'] = that._gui.add(that, '_userLevels');
+			that._controllers['level'].options([]);
+			that._controllers['level'].onChange(function() {
+				var selected = this.domElement.childNodes[1].selectedIndex;
+				that.onLevelDropDownItemSelected( selected );
+			});
+			that._controllers['level'].name("Load From Server");
+			this.loadServerLeveList();
 
-					that._controllers['level'] = that._gui.add(that, '_prebuiltLevels');
-					that._controllers['level'].options(allLevels)
-					that._controllers['level'].onChange(function()
-					{
-						var selected = this.domElement.childNodes[1].selectedIndex;
-						 that.loadLevelFromURL( ChuClone.editor.WorldEditor.getInstance().getWorldController(),
-								 ChuClone.editor.WorldEditor.getInstance().getViewController(),
-								 "assets/levels/" + levelList[selected] + "?r"+Math.floor(Math.random() * 9999) );
-						// Remove focus from the element otherwise it interferes with the kb
-                		document.getElementsByTagName("canvas")[0].focus();
-					});
-                    that._controllers['level'].name("LEVELS DIR");
-
-					that._gui.close();
-					that._gui.open();
-				}
-			};
-            request.open("GET", url );
-            request.send(null);
         },
 
-        /**
+		/**
+		 * Sets up the drop down list that displays this users levels
+		 */
+		loadServerLeveList: function() {
+			var that = this;
+			var request = new XMLHttpRequest();
+			request.onreadystatechange = function() {
+				if (request.readyState == 4) {
+					that.populateServerLevelList( request );
+				}
+			};
+			request.open("GET", ChuClone.model.Constants.SERVER.USER_LEVELS_LOCATION);
+			request.send(null);
+		},
+
+		/**
+		 * Called once the level list has been loaded
+		 * @param request
+		 */
+		populateServerLevelList: function( request ) {
+			var that = this;
+			var levelListing = JSON.parse(request.responseText);
+
+			ChuClone.utils.repopulateOptionsGUI( this._controllers['level'], levelListing, function(aSelectOption, myData, index) {
+				aSelectOption.value = myData.level.id;
+				aSelectOption.innerText = myData.level.title;
+				aSelectOption.label = myData.level.title;
+			});
+
+			that._gui.close();
+			that._gui.open();
+		},
+
+		/**
+		 * Called when an item from the level dropdown list has been selected
+		 * @param {Number} selectedIndex
+		 */
+		onLevelDropDownItemSelected: function(selectedIndex) {
+
+			// Retrieve the id using the drop down list item's name, which is mapped to an object that stored the server id's
+			// for each item - mapped to the title
+			var itemValue = this._controllers['level'].domElement.lastChild.children[selectedIndex].value;
+
+			var worldController = ChuClone.editor.WorldEditor.getInstance().getWorldController();
+			var aWorldEditor = ChuClone.editor.WorldEditor.getInstance().getViewController();
+			var aURL = ChuClone.model.Constants.SERVER.LEVEL_LOAD_LOCATION + itemValue + ".js?r" + Math.floor(Math.random() * 9999);
+			this.loadLevelFromURL(worldController, aWorldEditor, aURL);
+
+//				Remove focus from the element otherwise it interferes with the kb
+			document.getElementsByTagName("canvas")[0].focus();
+		},
+
+		/**
          * Loads the last level saved
          */
         loadLatestLevel: function() {
@@ -139,22 +185,26 @@
             localStorage.setItem(slot, data);
             localStorage.setItem("lastSlot", this._currentSlot);
 
-            this.saveLevelToServer(model);
             this._levelModel = model;
         },
 
 		/**
 		 * Saves a level to levels/local
 		 */
-		saveLevelToServer: function(model) {
-			console.log( model );
-			var url = ChuClone.utils.getCWD() + ChuClone.model.Constants.EDITOR.PATH_SERVER_LOCAL_SAVE;
+		onShouldSaveToServer: function() {
+
+			var confirm = window.confirm("There's no take backs!\nAre you sure?");
+			if(!confirm)
+				return;
+
+			var model = new ChuClone.editor.LevelModel();
+            var data = model.parseLevel( ChuClone.editor.WorldEditor.getInstance().getWorldController(), this._currentName );
 
 			/**
 			 * @s
 			 */
 			var formData = new FormData();
-			formData.append("data", model.levelJSONString);
+			formData.append("level_json", model.levelJSONString);
 			formData.append("levelName", model.levelName);
 
 			var request = new XMLHttpRequest();
@@ -163,11 +213,9 @@
 				if( request.readyState == 4 ) {
                     console.log(request.responseText);
                 }
-
-				console.log(request.readyState)
 			};
 
-			request.open("POST", url);
+			request.open("POST", ChuClone.model.Constants.SERVER.USER_SUBMIT_LOCATION);
 			request.send( formData );
 		},
 
@@ -266,7 +314,7 @@
             var FSM = ChuClone.model.FSM.StateMachine.getInstance();
             if( FSM._currentState instanceof ChuClone.states.PlayLevelState ) {
                 FSM.gotoPreviousState();
-                this._controllers['playtestLevel'].name("START");
+                this._controllers['playtestLevel'].name("PLAYTEST");
                 return
             }
 

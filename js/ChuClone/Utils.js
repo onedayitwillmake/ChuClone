@@ -81,6 +81,61 @@
                 }
                 this.superUpdate.call( this );
             }
-        }
+        },
+
+
+		/**
+		 * Populates a DAT.GUI options controller with a given data-set
+		 * @param {DAT.GUI.Controller} anOptionsGUI
+		 * @param {Array} dataSet
+		 * @param {Function} setOptionFieldsCallback	This function is called on each item, and an item from dataSet is given. This is the chance to give the option a nice label name
+		 */
+		repopulateOptionsGUI: function( anOptionsGUI, dataSet, setOptionFieldsCallback ) {
+
+			// Example of a setOptionsFieldsCallback
+			if(!setOptionFieldsCallback) {
+				setOptionFieldsCallback |= function( aSelectOption, myData, index ) {
+					aSelectOption.value = index;
+					aSelectOption.innerText = myData.displayName;
+					aSelectOption.label = myData.displayName.replace("Component", "");
+				};
+			}
+
+			// Remove all current 'options' from the HTMLSelect element
+			/**
+			 * @type {HTMLSelectElement}
+			 */
+			var selectElement = anOptionsGUI.domElement.lastChild;
+			while (selectElement.firstChild) {
+				selectElement.removeChild(selectElement.firstChild);
+			}
+
+			// For each component this entity has - add an HTMLOptionElement to the drop down
+			var allComponents = dataSet;
+			var len = allComponents.length;
+			var selectedIndex = 0;
+			for( var i = 0; i < len; ++i ) {
+				var aComponent = allComponents[i];
+
+				/**
+				 * @type {HTMLOptionElement}
+				 */
+				var selectOption = document.createElement('option');
+				setOptionFieldsCallback( selectOption, aComponent, i );
+
+				// Add it to the select options
+				// .push does not work, but appending using the length does?
+				var optionsLength = selectElement.options.length;
+					selectElement.options[optionsLength] = selectOption;
+
+//				// Set to last component that has editable properties
+//				if( Object.keys(aComponent._editableProperties).length !== 0 ) {
+//					selectedIndex = i;
+//					selectOption.selected = true;
+//				}
+			}
+		}
+
+
     };
 })();

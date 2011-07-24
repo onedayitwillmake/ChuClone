@@ -52,7 +52,7 @@ Abstract:
             // Intercept collision
             this.intercept(['onCollision']);
 
-//			var particleEmitterComponent = new ChuClone.components.effect.ParticleEmitterComponent();
+// 			var particleEmitterComponent = new ChuClone.components.effect.ParticleEmitterComponent();
 //			this.attachedEntity.addComponentAndExecute( particleEmitterComponent );
 //			this.attachedEntity.getView().parent.addChild( particleEmitterComponent._system );
 		},
@@ -103,7 +103,7 @@ Abstract:
          */
         detach: function() {
             this.attachedEntity.getView().materials[0] = this._previousMaterial;
-//			this.attachedEntity.removeComponentWithName( ChuClone.components.effect.ParticleEmitterComponent.prototype.displayName );
+// 			this.attachedEntity.removeComponentWithName( ChuClone.components.effect.ParticleEmitterComponent.prototype.displayName );
             ChuClone.components.GoalPadComponent.superclass.detach.call(this);
         },
 

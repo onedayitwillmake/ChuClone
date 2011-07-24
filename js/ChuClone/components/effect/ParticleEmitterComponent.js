@@ -19,7 +19,7 @@
 	ChuClone.namespace("ChuClone.components.effect");
 	ChuClone.components.effect.ParticleEmitterComponent = function() {
 		ChuClone.components.effect.ParticleEmitterComponent.superclass.constructor.call(this);
-		this.requiresUpdate = false;
+		this.requiresUpdate = true;
 	};
 
 	ChuClone.components.effect.ParticleEmitterComponent.prototype = {
@@ -32,7 +32,7 @@
 		 * Amount of particles created
 		 * @type {Number}
 		 */
-		_count			: 20,
+		_count			: 200,
 
 		/**
 		 * @type {THREE.Color}
@@ -85,9 +85,10 @@
         },
 
         update: function() {
-			return;
 			for( var i = 0; i < this._count; i++) {
-                this._geometry.vertices[i].position.y -= Math.random();
+                this._geometry.vertices[i].position.y += Math.random() * 4;
+				if(this._geometry.vertices[i].position.y > 1000)
+					this._geometry.vertices[i].position.y = 0;
             }
 			this._geometry.__dirtyVertices = true;
         },

@@ -185,6 +185,7 @@
             this._controllers['currentComponent'].options.apply( this._controllers['currentComponent'], [	]);
             this._controllers['currentComponent'].onChange( function( selectedIndex ) {
 
+				// No components
 				if( that._controllers['currentComponent'].domElement.lastChild.children.length === 0 ) {
 					that._guiComponent.hideAll();
 				   	return;
@@ -314,6 +315,10 @@
             this.populateInfoWithB2Body( this._currentBody );
         },
 
+		/**
+		 * Destroys a game entity
+		 * @param e
+		 */
         onShouldDelete: function(e) {
             if(!this._currentBody) {
                 console.error("WorldEditor::onShouldDelete - _currentBody is null!");
@@ -515,44 +520,11 @@
 		populateComponentGUI: function() {
 			var componentGUI = this._controllers['currentComponent'];
 
-			// Remove all current 'options' from the HTMLSelect element
-			/**
-			 * @type {HTMLSelectElement}
-			 */
-			var selectElement = componentGUI.domElement.lastChild;
-			while (selectElement.firstChild) {
-				selectElement.removeChild(selectElement.firstChild);
-			}
-
-
-			// For each component this entity has - add an HTMLOptionElement to the drop down
-			var allComponents = this._currentBody.GetUserData().components;
-			var len = allComponents.length;
-			var selectedIndex = 0;
-			for( var i = 0; i < len; ++i ) {
-				var aComponent = allComponents[i];
-
-				/**
-				 * @type {HTMLOptionElement}
-				 */
-				var selectOption = document.createElement('option');
-				selectOption.value = i;
-				selectOption.innerText = aComponent.displayName;
-				selectOption.label = aComponent.displayName.replace("Component", "");
-				// Add it to the select options
-				// .push does not work, but appending using the length does?
-				var optionsLength = selectElement.options.length;
-					selectElement.options[optionsLength] = selectOption;
-
-				// Set to last component that has editable properties
-				if( Object.keys(aComponent._editableProperties).length !== 0 ) {
-					selectedIndex = i;
-					selectOption.selected = true;
-				}
-			}
-
-			// Trigger on change event
-			componentGUI.setValue(selectedIndex);
+			ChuClone.utils.repopulateOptionsGUI(this._controllers['currentComponent'], this._currentBody.GetUserData().components, function(aSelectOption, myData, index) {
+				aSelectOption.value = index;
+				aSelectOption.innerText = myData.displayName;
+				aSelectOption.label = myData.displayName.replace("Component", "");
+			});
 		},
 
         /**
