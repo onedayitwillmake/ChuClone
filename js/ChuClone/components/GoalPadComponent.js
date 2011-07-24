@@ -67,7 +67,7 @@ Abstract:
             this._previousMaterial = view.materials[0];
             view.materials[0] = new THREE.MeshLambertMaterial( {
                 color: 0xFFFFFF, shading: THREE.SmoothShading,
-                map : THREE.ImageUtils.loadTexture( this._textureSource )
+                map : THREE.ImageUtils.loadTexture( ChuClone.model.Constants.SERVER.ASSET_PREFIX + this._textureSource )
             });
         },
 

@@ -400,7 +400,7 @@
             var geometry = new THREE.CubeGeometry( width, height, depth );
             var mesh = new THREE.Mesh( geometry, [new THREE.MeshLambertMaterial( {
                 color: 0xFFFFFF, shading: THREE.SmoothShading,
-                map : THREE.ImageUtils.loadTexture( "assets/images/game/floor.png" )
+                map : THREE.ImageUtils.loadTexture( ChuClone.model.Constants.SERVER.ASSET_PREFIX + "assets/images/game/floor.png" )
             })] );
             mesh.dynamic = true;
 

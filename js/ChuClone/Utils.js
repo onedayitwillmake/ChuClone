@@ -30,6 +30,14 @@
         },
 
 		/**
+		 * If we're running on the rails client we need to make sure we're doing /game/assets/whatever
+		 * Cache a response and save it into models?
+		 */
+		getAssetPrefix: function() {
+			return "";
+		},
+
+		/**
 		 * Returns a random float between min and max
 		 * @param {Number} min
 		 * @param {Number} max

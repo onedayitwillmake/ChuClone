@@ -30,6 +30,11 @@
             return window.location.href.toLowerCase().indexOf("edit") != -1;
         },
 
+		// TODO: ALWAYS USE SERVER CONSTANT BEFORE ALL LOADING
+		SERVER: {
+			ASSET_PREFIX: ""
+		},
+
 //		WASD controls
         KEYS: {
             A: 65,
