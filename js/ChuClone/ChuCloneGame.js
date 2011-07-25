@@ -127,6 +127,7 @@
             var that = this;
             (function loop() {
                 that.update();
+				TWEEN.update();
                 window.requestAnimationFrame( loop, null );
             })();
         },

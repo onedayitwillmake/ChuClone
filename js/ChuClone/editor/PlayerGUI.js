@@ -62,9 +62,7 @@
             this._controls['Create'] = this._gui.add(this, 'createPlayer').name("Create");
             this._controls['Destroy'] = this._gui.add(this, 'destroyPlayer').name("Destroy");
             this._controls['Reset'] = this._gui.add(this, 'resetPlayer').name("Reset");
-
-            this._gui.close();
-            this._gui.open();
+			this._gui.close();
         },
 
 
@@ -102,6 +100,7 @@
 			var respawnPoint = ChuClone.components.RespawnComponent.prototype.GET_CURRENT_RESPAWNPOINT();
 			if( !respawnPoint ) {
 				console.error("ChuClone.editor.PlayerGUI.createPlayer Create at least one RespawnComponent first!!");
+				ChuClone.utils.displayFlash("Cannot create player.<br>Create at least one RespawnComponent first!!", 1);
 				return null;
 			}
 

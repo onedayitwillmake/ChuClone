@@ -46,7 +46,7 @@
 
         // Little hack to prevent accidently leaving the page
         window.onbeforeunload = function(e) {
-            return "Exiting page will lose unsaved changes!";
+//            return "Exiting page will lose unsaved changes!";
         };
     };
 
@@ -202,7 +202,7 @@
 
 			// Open close (bug in DAT.GUI first rendering)
             this._guiModification.close();
-            this._guiModification.open();
+//            this._guiModification.open();
 
             // Create the GUI the handles the creation/deletion of entities
             this._guiCreation = new DAT.GUI({width: ChuClone.model.Constants.EDITOR.PANEL_WIDTH});
@@ -213,10 +213,12 @@
             this._controllers['onShouldCreate'] = this._guiCreation.add(this, 'onShouldCreate').name("Create Entity");
             this._controllers['onShouldClone'] = this._guiCreation.add(this, 'onShouldCloneEntity').name("Clone Entity")
             this._controllers['onShouldDelete'] = this._guiCreation.add(this, 'onShouldDelete').name("Destroy Entity");
+			this._controllers['resetLevel'] = this._guiCreation.add(this, 'onShouldClearLevel').name("Clear Level");
+
 
 			// Open close (bug in DAT.GUI first rendering)
             this._guiCreation.close();
-            this._guiCreation.open();
+//            this._guiCreation.open();
 
 			// Create the camera gui
             this._guiCamera = new ChuClone.editor.CameraGUI( this._gameView.getCamera() );
@@ -339,6 +341,16 @@
             this._worldController.getWorld().DestroyBody( this._currentBody );
             this._currentBody = null;
         },
+
+		/**
+		 * Clears the level and dispatches the recreate event
+		 */
+		onShouldClearLevel: function() {
+			var confirm = window.confirm("Clear all level data?");
+			if (!confirm) return;
+
+			ChuClone.editor.LevelManager.INSTANCE.clearLevel(this._worldController, this._gameView);
+		},
 
         /**
          * Clones the _currentBody
@@ -519,12 +531,23 @@
 		 */
 		populateComponentGUI: function() {
 			var componentGUI = this._controllers['currentComponent'];
-
+			var selectedIndex = 0;	// Store the selected object, once we create them call set
 			ChuClone.utils.repopulateOptionsGUI(this._controllers['currentComponent'], this._currentBody.GetUserData().components, function(aSelectOption, myData, index) {
 				aSelectOption.value = index;
 				aSelectOption.innerText = myData.displayName;
 				aSelectOption.label = myData.displayName.replace("Component", "");
+
+				// If this component has _editableProperties, make it the selected component
+				if( Object.keys(myData._editableProperties).length !== 0 ) {
+					selectedIndex = index;
+					aSelectOption.selected = true;
+				}
 			});
+
+
+			// Set to last component that has editable properties
+			this._controllers['currentComponent'].setValue( selectedIndex );
+
 		},
 
         /**

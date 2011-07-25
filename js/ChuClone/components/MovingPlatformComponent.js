@@ -63,6 +63,7 @@ Abstract:
 			this._range = this._range || new b2Vec2(5, 0);
 			this._offset = this._offset || this._offset;
 			this._initialPosition = this.attachedEntity.getBody().GetPosition().Copy();
+			this.attachedEntity.getBody().SetAwake(true);
 		},
 
 		/**
@@ -94,6 +95,8 @@ Abstract:
 		 * @inheritDoc
 		 */
 		onEditablePropertyWasChanged: function() {
+			var previousSpeed = this._speed;
+
 			this._range.x = this._editableProperties.rangeX;
 			this._range.y = this._editableProperties.rangeY;
 			this._speed = this._editableProperties.speed.value;
@@ -102,18 +105,22 @@ Abstract:
 			var wasActive = this.requiresUpdate;
 			var isActive = this._editableProperties.active;
 
+			// Reset the body
+			if( this._speed != previousSpeed ) {
+				this.attachedEntity.getBody().SetPosition( this._initialPosition.Copy() );
+				this.attachedEntity.getBody().SetLinearVelocity( new b2Vec2(0, 0) );
+			};
 			// Moving platform was previously unactive - that means it was probably being edited
 			if( wasActive != isActive ) {
 				if(!isActive) { // Platform has been turned off
-					this.attachedEntity.getBody().SetPosition( this._initialPosition.Copy() );
                     this.attachedEntity.getBody().SetLinearVelocity( new b2Vec2(0, 0) );
-
 				} else  { // Platform has been turned on
 					this._initialPosition = this.attachedEntity.getBody().GetPosition().Copy();
                     this._angle = 0;
 				}
 			}
 
+			this.attachedEntity.getBody().SetAwake(true);
 			this.requiresUpdate = isActive;
 		},
 
@@ -121,7 +128,6 @@ Abstract:
          * Set the '_editableProperties' object to our values
          */
         setEditableProps: function() {
-            console.log(this._range.x);
 			this._editableProperties.rangeX = this._range.x;
 			this._editableProperties.rangeY = this._range.y;
 			this._editableProperties.speed.value = this._speed;

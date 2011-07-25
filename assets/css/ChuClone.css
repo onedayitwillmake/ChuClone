@@ -177,3 +177,16 @@ p {
 :focus {
     outline: 0;
 }
+
+
+.flash_notice {
+	font-size: 16px;
+	text-align: left;
+	margin-left: -225px;
+	margin-top: 72px;
+	height: 60px;
+	width: 280px;
+	position: absolute;
+	border: 1px solid #666;
+	padding-left: 5px;
+}

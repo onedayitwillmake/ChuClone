@@ -127,13 +127,34 @@
 				// .push does not work, but appending using the length does?
 				var optionsLength = selectElement.options.length;
 					selectElement.options[optionsLength] = selectOption;
-
-//				// Set to last component that has editable properties
-//				if( Object.keys(aComponent._editableProperties).length !== 0 ) {
-//					selectedIndex = i;
-//					selectOption.selected = true;
-//				}
 			}
+		},
+
+		displayFlash: function( message, level ) {
+			if( level === undefined ) {
+				throw "Must suply level - either 1 or 0"
+			}
+			var logLevels = [console.info, console.error];
+			var colorLevels = [{r: 255, g: 128, b: 128}, {r: 79, g: 213, b: 101}];
+
+
+			var flashNotice = document.getElementById("flash_notice");
+			flashNotice.style.height = "100px";
+//			flashNotice.style.height = "10px";
+			if( !flashNotice ) {
+				logLevels[level]("ChuClone.Utils.displayFlash - No element flash_notice. Cannot flash message");
+				return;
+			}
+
+			flashNotice.innerHTML = message;
+
+			tween = new TWEEN.Tween(colorLevels[level])
+					.to({r: 255, g: 255, b: 255}, 2000)
+					.easing(TWEEN.Easing.Quadratic.EaseInOut)
+					.onUpdate(function(){
+						flashNotice.style.backgroundColor = "rgb("+(this.r<<0)+","+(this.g<<0)+","+(this.b<<0)+")";
+					}).start();
+//			Tween.get(flashNotice.style, true).to({height: 100}, Math.random() * 1000).loop()
 		}
 
 

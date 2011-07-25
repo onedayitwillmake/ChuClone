@@ -1,52 +1,52 @@
 /**
  File:
-    ChuCloneGame.js
+ ChuCloneGame.js
  Created By:
-    Mario Gonzalez - mariogonzalez@gmail.com
+ Mario Gonzalez - mariogonzalez@gmail.com
  Project:
-    ChuClone
+ ChuClone
  Abstract:
-    This class handles the saving/loading of levels
+ This class handles the saving/loading of levels
  Basic Usage:
-     this._levelManager = new ChuClone.editor.LevelManager();
-     this._levelManager.setupGui();
+ this._levelManager = new ChuClone.editor.LevelManager();
+ this._levelManager.setupGui();
  Version:
-    1.0
+ 1.0
 
  License:
-    Creative Commons Attribution-NonCommercial-ShareAlike
-    http://creativecommons.org/licenses/by-nc-sa/3.0/
+ Creative Commons Attribution-NonCommercial-ShareAlike
+ http://creativecommons.org/licenses/by-nc-sa/3.0/
  */
-(function(){
-    "use strict";
-    
-    ChuClone.namespace("ChuClone.editor");
-    ChuClone.editor.LevelManager = function() {
+(function() {
+	"use strict";
 
-        // TEMP HACK FOR NOW TO ACCESS FROM JS ON CLICK
-        ChuClone.editor.LevelManager.INSTANCE = this;
-    };
+	ChuClone.namespace("ChuClone.editor");
+	ChuClone.editor.LevelManager = function() {
 
-    ChuClone.editor.LevelManager.prototype = {
-        /**
-         * @type {ChuClone.editor.LevelModel}
-         */
-        _levelModel         : null,
+		// TEMP HACK FOR NOW TO ACCESS FROM JS ON CLICK
+		ChuClone.editor.LevelManager.INSTANCE = this;
+	};
 
-        /**
-         * @type {Object}
-         */
-        _controllers        : {},
+	ChuClone.editor.LevelManager.prototype = {
+		/**
+		 * @type {ChuClone.editor.LevelModel}
+		 */
+		_levelModel		 : null,
+
+		/**
+		 * @type {Object}
+		 */
+		_controllers		: {},
 
 		/**
 		 * @type {Number} Current HTML5 local storage save slot
 		 */
-        _currentSlot        : 0,
+		_currentSlot		: 0,
 
 		/**
 		 * Level name according to DAT.GUI field - is used when modifying/saving levels
 		 */
-        _currentName        : "Untitled",
+		_currentName		: "Untitled",
 
 		/**
 		 * Not actually a number, but that's what DAT.GUI wants for a drop down list
@@ -59,29 +59,33 @@
 		_userLevelList		: {},
 
 
-        EVENTS              : {
-            LEVEL_CREATED   : "LevelManager.Events.WorldCreated",
-            LEVEL_DESTROYED : "LevelManager.Events.LevelDestroyed"
-        },
+		EVENTS			  : {
+			LEVEL_CREATED   : "LevelManager.Events.WorldCreated",
+			LEVEL_DESTROYED : "LevelManager.Events.LevelDestroyed"
+		},
 
-        setupGui: function() {
+		setupGui: function() {
 			var that = this;
-             // Creation gui
-            this._gui = new DAT.GUI({width: ChuClone.model.Constants.EDITOR.PANEL_WIDTH + 50});
-            this._gui.name("LevelManager");
-            this._gui.autoListen = false;
+			// Creation gui
+			this._gui = new DAT.GUI({width: ChuClone.model.Constants.EDITOR.PANEL_WIDTH + 50});
+			this._gui.name("LevelManager");
+			this._gui.autoListen = false;
 
-            this._controllers['slot'] = this._gui.add(this, '_currentSlot').options([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]).name("Save Slot");
-            var slotIndex = parseInt( localStorage.getItem("lastSlot") );
-            this._controllers['slot'].domElement.childNodes[1].selectedIndex = slotIndex;
-            this._controllers['slot'].setValue( slotIndex )
-            this._controllers['name'] = this._gui.add(this, '_currentName').name("Level Name").onFinishChange(function(){ });
-            this._controllers['saveLevelToSlot'] = this._gui.add(this, 'saveLevelToSlot').name("Save To Slot");
-            this._controllers['loadLevelFromSlot'] = this._gui.add(this, 'loadLevelFromSlot').name("Load From Slot");
-            this._controllers['resetLevel'] = this._gui.add(this, 'resetLevel').name("Clear Level");
+			this._controllers['name'] = this._gui.add(this, '_currentName').name("Level Name").onFinishChange(function( newValue ) {
+				document.getElementById("levelName").innerText = newValue
+			});
 
+			// Create a save slot control
+			this._controllers['slot'] = this._gui.add(this, '_currentSlot').options([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]).name("Active Save Slot");
+			var slotIndex = parseInt(localStorage.getItem("lastSlot"));
+			this._controllers['slot'].domElement.childNodes[1].selectedIndex = slotIndex;
+			this._controllers['slot'].setValue(slotIndex);
+			// Local Save
+			this._controllers['saveLevelToSlot'] = this._gui.add(this, 'saveLevelToSlot').name("Save To Slot");
+			// Local Load
+			this._controllers['loadLevelFromSlot'] = this._gui.add(this, 'loadLevelFromSlot').name("Load From Slot");
+			// Server Save
 			this._controllers['saveToServer'] = this._gui.add(this, 'onShouldSaveToServer').name("Save To Server");
-
 
 			/**
 			 * Creates the Load From Server drop down
@@ -90,12 +94,12 @@
 			that._controllers['level'].options([]);
 			that._controllers['level'].onChange(function() {
 				var selected = this.domElement.childNodes[1].selectedIndex;
-				that.onLevelDropDownItemSelected( selected );
+				that.onLevelDropDownItemSelected(selected);
 			});
 			that._controllers['level'].name("Load From Server");
 			this.loadServerLeveList();
 
-        },
+		},
 
 		/**
 		 * Sets up the drop down list that displays this users levels
@@ -105,7 +109,7 @@
 			var request = new XMLHttpRequest();
 			request.onreadystatechange = function() {
 				if (request.readyState == 4) {
-					that.populateServerLevelList( request );
+					that.populateServerLevelList(request);
 				}
 			};
 			request.open("GET", ChuClone.model.Constants.SERVER.USER_LEVELS_LOCATION);
@@ -116,18 +120,18 @@
 		 * Called once the level list has been loaded
 		 * @param request
 		 */
-		populateServerLevelList: function( request ) {
+		populateServerLevelList: function(request) {
 			var that = this;
 			var levelListing = JSON.parse(request.responseText);
 
-			ChuClone.utils.repopulateOptionsGUI( this._controllers['level'], levelListing, function(aSelectOption, myData, index) {
+			ChuClone.utils.repopulateOptionsGUI(this._controllers['level'], levelListing, function(aSelectOption, myData, index) {
 				aSelectOption.value = myData.level.id;
 				aSelectOption.innerText = myData.level.title;
 				aSelectOption.label = myData.level.title;
 			});
 
 			that._gui.close();
-			that._gui.open();
+//			that._gui.open();
 		},
 
 		/**
@@ -150,43 +154,48 @@
 		},
 
 		/**
-         * Loads the last level saved
-         */
-        loadLatestLevel: function() {
-            try {
+		 * Loads the last level saved
+		 */
+		loadLatestLevel: function() {
+			try {
 				this._currentSlot = parseInt(localStorage.getItem("lastSlot"));
-                this.loadLevelFromSlot(null, null);
-            } catch (error) {
-                console.warn("LevelManager.loadLatestLevel - Load failed", error)
-            }
-        },
+				this.loadLevelFromSlot(null, null);
+			} catch (error) {
+				// TODO: DRY
+				ChuClone.utils.displayFlash("LevelManager.loadLatestLevel - Load failed", 1);
+				console.warn("LevelManager.loadLatestLevel - Load failed", error)
+			}
+		},
 
 
 
-        /**
-         * Saves the current level a save slot from HTML5 local storage
+		/**
+		 * Saves the current level a save slot from HTML5 local storage
 		 * @param {ChuClone.physics.WorldController} aWorldController
-         */
-        saveLevelToSlot: function( aWorldController) {
+		 */
+		saveLevelToSlot: function(aWorldController) {
 
 			// No worldcontroller specified - grab from editor but if there's no editor, let fail loudly
-			if( !aWorldController) {
+			if (!aWorldController) {
 				aWorldController = ChuClone.editor.WorldEditor.getInstance().getWorldController();
 			}
 
 			var confirm = window.confirm("Save will overwrite existin data.\nAre you sure?");
-			if(!confirm)
+			if (!confirm) {
 				return;
+			}
 
-            var model = new ChuClone.editor.LevelModel();
-            var data = model.parseLevel( aWorldController, this._currentName );
-            var slot = "slot"+this._currentSlot;
+			var model = new ChuClone.editor.LevelModel();
+			var data = model.parseLevel(aWorldController, this._currentName);
+			var slot = "slot" + this._currentSlot;
 
-            localStorage.setItem(slot, data);
-            localStorage.setItem("lastSlot", this._currentSlot);
+			localStorage.setItem(slot, data);
+			localStorage.setItem("lastSlot", this._currentSlot);
 
-            this._levelModel = model;
-        },
+
+			ChuClone.utils.displayFlash("Level Saved at slot:" + slot, 1);
+			this._levelModel = model;
+		},
 
 		/**
 		 * Saves a level to levels/local
@@ -194,11 +203,12 @@
 		onShouldSaveToServer: function() {
 
 			var confirm = window.confirm("There's no take backs!\nAre you sure?");
-			if(!confirm)
+			if (!confirm) {
 				return;
+			}
 
 			var model = new ChuClone.editor.LevelModel();
-            var data = model.parseLevel( ChuClone.editor.WorldEditor.getInstance().getWorldController(), this._currentName );
+			var data = model.parseLevel(ChuClone.editor.WorldEditor.getInstance().getWorldController(), this._currentName);
 
 			/**
 			 * @s
@@ -210,158 +220,148 @@
 			var request = new XMLHttpRequest();
 			var that = this;
 			request.onreadystatechange = function() {
-				if( request.readyState == 4 ) {
-                    console.log(request.responseText);
-                }
+				if (request.readyState == 4) {
+					var result = JSON.parse(request.responseText)[0];
+					if (result.status == false) {
+						console.log(result)
+						ChuClone.utils.displayFlash("Save To Server Failed:" + result.status + "<br>" + result.notice, 0);
+					} else {
+						ChuClone.utils.displayFlash("Save To Server Success:", 1);
+					}
+				}
 			};
 
 			request.open("POST", ChuClone.model.Constants.SERVER.USER_SUBMIT_LOCATION);
-			request.send( formData );
+			request.send(formData);
 		},
 
-        /**
-         * Loads the level at the '_currentSlot'
-         * Will call 'loadLevelFromJSONString'
+		/**
+		 * Loads the level at the '_currentSlot'
+		 * Will call 'loadLevelFromJSONString'
 		 * @param {ChuClone.physics.WorldController} aWorldController
 		 * @param {ChuClone.GameViewController}	gameViewController
-         */
-        loadLevelFromSlot: function( aWorldController, gameViewController ) {
+		 */
+		loadLevelFromSlot: function(aWorldController, gameViewController) {
 
 			// No worldcontroller specified - grab from editor but if there's no editor, let fail loudly
-			if( !aWorldController || gameViewController ) {
+			if (!aWorldController || gameViewController) {
 				aWorldController = ChuClone.editor.WorldEditor.getInstance().getWorldController();
 				gameViewController = ChuClone.editor.WorldEditor.getInstance().getViewController();
 			}
 
-            this.clearLevel( aWorldController, gameViewController );
+			this.clearLevel(aWorldController, gameViewController);
 
-            var slot = "slot"+this._currentSlot;
-            var data = localStorage.getItem(slot);
-            this.loadLevelFromJSONString(aWorldController, gameViewController, data );
-        },
+			var slot = "slot" + this._currentSlot;
+			var data = localStorage.getItem(slot);
+			this.loadLevelFromJSONString(aWorldController, gameViewController, data);
+		},
 
-        /**
-         * Retrieves a level from a URL
-         * Will call 'loadLevelFromJSONString'
+		/**
+		 * Retrieves a level from a URL
+		 * Will call 'loadLevelFromJSONString'
 		 * @param {ChuClone.physics.WorldController} aWorldController
 		 * @param {ChuClone.GameViewController}	gameViewController
-         * @param {String} aURL
-         */
-        loadLevelFromURL: function( aWorldController, gameViewController, aURL ) {
-            this.clearLevel(  aWorldController, gameViewController );
+		 * @param {String} aURL
+		 */
+		loadLevelFromURL: function(aWorldController, gameViewController, aURL) {
+			this.clearLevel(aWorldController, gameViewController);
 
-            var url = aURL;
-            var request = new XMLHttpRequest();
-            var that = this;
-            request.onreadystatechange = function() {
-                if( request.readyState == 4 ) {
-                    that.loadLevelFromJSONString( aWorldController, gameViewController, request.responseText );
-                }
-            };
-            request.open("GET", url );
-            request.send(null);
-        },
+			var url = aURL;
+			var request = new XMLHttpRequest();
+			var that = this;
+			request.onreadystatechange = function() {
+				if (request.readyState == 4) {
+					that.loadLevelFromJSONString(aWorldController, gameViewController, request.responseText);
+				}
+			};
+			request.open("GET", url);
+			request.send(null);
+		},
 
-        /**
-         * Creates a model object and loads a level into it.
-         * This is the ultimate end call for loadLevelFromSlot & loadLevelFromURL
+		/**
+		 * Creates a model object and loads a level into it.
+		 * This is the ultimate end call for loadLevelFromSlot & loadLevelFromURL
 		 * @param {ChuClone.physics.WorldController} aWorldController
 		 * @param {ChuClone.GameViewController}	gameViewController
-         * @param {String} JSONString
-         * @return {ChuClone.editor.LevelModel}
-         */
-        loadLevelFromJSONString: function( aWorldController, gameViewController, JSONString ) {
-            var model = new ChuClone.editor.LevelModel();
-            model.fromJsonString( JSONString, aWorldController, gameViewController);
+		 * @param {String} JSONString
+		 * @return {ChuClone.editor.LevelModel}
+		 */
+		loadLevelFromJSONString: function(aWorldController, gameViewController, JSONString) {
+			var model = new ChuClone.editor.LevelModel();
+			model.fromJsonString(JSONString, aWorldController, gameViewController);
 
-            if( this._controllers.hasOwnProperty('name') ) {
-                // Set the current name, and emit the loaded event
-                this._controllers['name'].setValue( model.levelName );
-            }
-            
-            this._levelModel = model;
-			ChuClone.Events.Dispatcher.emit( ChuClone.editor.LevelManager.prototype.EVENTS.LEVEL_CREATED, this );
-            return model;
-        },
+			if (this._controllers.hasOwnProperty('name')) {
 
-        /**
-         * Clears the level and dispatches the recreate event
-         */
-        resetLevel: function() {
-			var confirm = window.confirm("Clear all level data?");
-			if(!confirm) return;
+				// Set the current name, and emit the loaded event
+				this._controllers['name'].setValue(model.levelName);
+				document.getElementById("levelName").innerText = model.levelName
+			}
 
-            this.clearLevel( ChuClone.editor.WorldEditor.getInstance().getWorldController(), ChuClone.editor.WorldEditor.getInstance().getViewController() );
-        },
+			this._levelModel = model;
+			ChuClone.Events.Dispatcher.emit(ChuClone.editor.LevelManager.prototype.EVENTS.LEVEL_CREATED, this);
+			return model;
+		},
 
-        pasteLevel: function() {
-            var pastedText = window.prompt("PasteLevel:");
-            try {
+		/**
+		 * Clears the level and dispatches the recreate event
+		 */
+		playtestLevel: function() {
+			/**
+			 * @type {ChuClone.model.FSM.StateMachine}
+			 */
+			var FSM = ChuClone.model.FSM.StateMachine.getInstance();
+			if (FSM._currentState instanceof ChuClone.states.PlayLevelState) {
+				FSM.gotoPreviousState();
+				this._controllers['playtestLevel'].name("PLAYTEST");
+				return
+			}
 
-                this.loadLevelFromJSONString( ChuClone.editor.WorldEditor.getInstance().getWorldController(), ChuClone.editor.WorldEditor.getInstance().getViewController(), pastedText );
-            } catch( e ) {
-                console.error(e);
-            }
-        },
+			var playLevelState = new ChuClone.states.PlayLevelState(this._world);
+			playLevelState._gameView = ChuClone.editor.WorldEditor.getInstance().getViewController();
+			playLevelState._worldController = ChuClone.editor.WorldEditor.getInstance().getWorldController();
+			FSM.changeState(playLevelState);
 
-        /**
-         * Clears the level and dispatches the recreate event
-         */
-        playtestLevel: function() {
-            /**
-             * @type {ChuClone.model.FSM.StateMachine}
-             */
-            var FSM = ChuClone.model.FSM.StateMachine.getInstance();
-            if( FSM._currentState instanceof ChuClone.states.PlayLevelState ) {
-                FSM.gotoPreviousState();
-                this._controllers['playtestLevel'].name("PLAYTEST");
-                return
-            }
+			this._controllers['playtestLevel'].name("STOP");
+		},
 
-            var playLevelState = new ChuClone.states.PlayLevelState( this._world);
-            playLevelState._gameView = ChuClone.editor.WorldEditor.getInstance().getViewController();
-            playLevelState._worldController = ChuClone.editor.WorldEditor.getInstance().getWorldController();
-            FSM.changeState( playLevelState );
-
-            this._controllers['playtestLevel'].name("STOP");
-        },
-
-        /**
-         * Clears a level
+		/**
+		 * Clears a level
 		 * @param {ChuClone.physics.WorldController} aWorldController The WorldController instance that will be cleared
 		 * @param {ChuClone.GameViewController}	gameViewController
-         */
-        clearLevel: function( aWorldController, gameViewController ) {
+		 */
+		clearLevel: function(aWorldController, gameViewController) {
 
-            var node = aWorldController.getWorld().GetBodyList();
-            while (node) {
-                var b = node;
-                node = node.GetNext();
-
-
-                /**
-                 * @type {ChuClone.GameEntity}
-                 */
-                var entity = b.GetUserData();
-
-                if (!entity) {
-                    aWorldController.getWorld().DestroyBody(b);
-                    continue;
-                }
-
-                if( "getView" in entity )
-                    gameViewController.removeObjectFromScene( entity.getView() );
-
-                if( "dealloc" in entity )
-                    entity.dealloc();
-
-                aWorldController.getWorld().DestroyBody(b);
-            }
-
-           ChuClone.Events.Dispatcher.emit( ChuClone.editor.LevelManager.prototype.EVENTS.LEVEL_DESTROYED, this );
-        }
+			var node = aWorldController.getWorld().GetBodyList();
+			while (node) {
+				var b = node;
+				node = node.GetNext();
 
 
-        ///// ACCESSORS
-    }
+				/**
+				 * @type {ChuClone.GameEntity}
+				 */
+				var entity = b.GetUserData();
+
+				if (!entity) {
+					aWorldController.getWorld().DestroyBody(b);
+					continue;
+				}
+
+				if ("getView" in entity) {
+					gameViewController.removeObjectFromScene(entity.getView());
+				}
+
+				if ("dealloc" in entity) {
+					entity.dealloc();
+				}
+
+				aWorldController.getWorld().DestroyBody(b);
+			}
+
+			ChuClone.Events.Dispatcher.emit(ChuClone.editor.LevelManager.prototype.EVENTS.LEVEL_DESTROYED, this);
+		}
+
+
+		///// ACCESSORS
+	}
 })();
