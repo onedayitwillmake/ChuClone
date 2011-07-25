@@ -1,0 +1,36 @@
+body {
+	margin: 0;
+	padding: 0;
+	background-color: #FFFFFF;
+	text-align:center;
+}
+
+#container {
+	left: 0;
+	position: absolute;
+}
+#linklist {
+	position: absolute;
+	font: 12px Lucida Grande, sans-serif;
+}
+ul.tab {
+	list-style-type: none;
+	margin: 0 325px 0 0;
+	padding: 4px 0 0;
+}
+ul.tab li {
+	padding: 5px;
+	display: inline;
+	background-color: #333333;
+}
+
+#instructions {
+	font: 12px Lucida Grande, sans-serif;
+	color: #FF0000;
+	position: absolute;
+	padding: 0;
+	padding-top: 3px;
+}
+
+a:hover{text-decoration:underline}
+:focus { outline: none };
