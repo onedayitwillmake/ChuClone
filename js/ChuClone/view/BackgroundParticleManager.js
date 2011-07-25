@@ -72,6 +72,4 @@
          */
         getSystems: function() { return this._particleSystems; }
     }
-
-    console.log(ChuClone.view)
 })();

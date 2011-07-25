@@ -131,7 +131,7 @@
 			});
 
 			that._gui.close();
-//			that._gui.open();
+			that._gui.open();
 		},
 
 		/**

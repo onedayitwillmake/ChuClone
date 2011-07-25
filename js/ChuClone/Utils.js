@@ -130,32 +130,42 @@
 			}
 		},
 
-		displayFlash: function( message, level ) {
-			if( level === undefined ) {
-				throw "Must suply level - either 1 or 0"
-			}
-			var logLevels = [console.info, console.error];
-			var colorLevels = [{r: 255, g: 128, b: 128}, {r: 79, g: 213, b: 101}];
+        displayFlash: function(message, level) {
+            if (level === undefined) {
+                throw "Must suply level - either 1 or 0"
+            }
+            var logLevels = [console.info, console.error];
+            var colorLevels = [
+                {r: 255, g: 128, b: 128},
+                {r: 79, g: 213, b: 101}
+            ];
 
 
-			var flashNotice = document.getElementById("flash_notice");
-			flashNotice.style.height = "100px";
-//			flashNotice.style.height = "10px";
-			if( !flashNotice ) {
-				logLevels[level]("ChuClone.Utils.displayFlash - No element flash_notice. Cannot flash message");
-				return;
-			}
+            var flashNotice = document.getElementById("flash_notice");
+            if (!flashNotice) {
+                logLevels[level]("ChuClone.Utils.displayFlash - No element flash_notice. Cannot flash message");
+                return;
+            }
 
-			flashNotice.innerHTML = message;
+            var output = message;
+            if(message instanceof Array) {
+                output = ''; // Set as empty string
+                for(var i = 0; i < message.length; i++) {
+                    output += message[i]+"<br>"
+                }
+            } else {
+            }
 
-			tween = new TWEEN.Tween(colorLevels[level])
-					.to({r: 255, g: 255, b: 255}, 2000)
-					.easing(TWEEN.Easing.Quadratic.EaseInOut)
-					.onUpdate(function(){
-						flashNotice.style.backgroundColor = "rgb("+(this.r<<0)+","+(this.g<<0)+","+(this.b<<0)+")";
-					}).start();
-//			Tween.get(flashNotice.style, true).to({height: 100}, Math.random() * 1000).loop()
-		}
+            flashNotice.innerHTML = output;
+
+            new TWEEN.Tween(colorLevels[level])
+                .to({r: 255, g: 255, b: 255}, 2000)
+                .easing(TWEEN.Easing.Quadratic.EaseInOut)
+                .onUpdate(
+                function() {
+                    flashNotice.style.backgroundColor = "rgb(" + (this.r << 0) + "," + (this.g << 0) + "," + (this.b << 0) + ")";
+                }).start();
+        }
 
 
     };
