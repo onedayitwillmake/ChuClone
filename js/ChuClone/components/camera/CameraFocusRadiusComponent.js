@@ -104,7 +104,7 @@ Abstract:
         /**
          * @inheritDoc
          */
-        fromModel: function( data ) {
+        fromModel: function( data, futureEntity ) {
             ChuClone.components.JumpPadComponent.superclass.fromModel.call(this, data);
             this._offset = new THREE.Vector3(data._offset.x, data._offset.y, data._offset.z );
             this._radius = data.radius;

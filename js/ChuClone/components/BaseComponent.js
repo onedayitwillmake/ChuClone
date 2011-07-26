@@ -201,9 +201,10 @@
         /**
          * When a level is created from a model, this is called on every component so that it can do any extra stuff on itself before
          * It starts being used, set it's maxspeed, maxSize, timeLimit, etc
-         * @param data
+         * @param {Object} data
+         * @param {ChuClone.GameEntity} futureEntity The GameEntity this object WILL be attached to. Note it is not attached yet.
          */
-        fromModel: function( data ) {
+        fromModel: function( data, futureEntity ) {
 
         }
     }

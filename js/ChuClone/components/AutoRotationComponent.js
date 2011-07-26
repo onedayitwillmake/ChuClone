@@ -69,7 +69,7 @@ Abstract:
         /**
          * @inheritDoc
          */
-        fromModel: function( data ) {
+        fromModel: function( data, futureEntity ) {
             ChuClone.components.AutoRotationComponent.superclass.fromModel.call(this, data);
             this._rotationSpeed = data.rotationSpeed;
         }

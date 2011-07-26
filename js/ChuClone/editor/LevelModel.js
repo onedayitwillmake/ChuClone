@@ -225,7 +225,7 @@
                     var componentInstance = ChuClone.components.ComponentFactory.getComponentByName( entityInfo.components[j].displayName );
                     if(!componentInstance) continue;
                     // Allow the component to set any special properties
-                    componentInstance.fromModel( entityInfo.components[j] );
+                    componentInstance.fromModel( entityInfo.components[j], entity );
                     entity.addComponentAndExecute( componentInstance ); // Attach it to the entity
                 }
 

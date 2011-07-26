@@ -163,7 +163,7 @@ Abstract:
 		/**
 		 * @inheritDoc
 		 */
-		fromModel: function( data ) {
+        fromModel: function( data, futureEntity ) {
 			ChuClone.components.RespawnComponent.superclass.fromModel.call(this, data);
             this._textureSource = data.textureSource;
 		},

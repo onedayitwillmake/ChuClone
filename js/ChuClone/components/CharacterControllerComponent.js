@@ -147,7 +147,7 @@ Abstract:
 		/**
          * @inheritDoc
          */
-        fromModel: function( data ) {
+        fromModel: function( data, futureEntity ) {
             ChuClone.components.JumpPadComponent.superclass.fromModel.call(this, data);
 //            this._moveSpeed = new Box2D.Common.Math.b2Vec2(data.moveSpeed.y, data.moveSpeed.y)
         }

@@ -202,7 +202,7 @@
 
 			// Open close (bug in DAT.GUI first rendering)
             this._guiModification.close();
-//            this._guiModification.open();
+            this._guiModification.open();
 
             // Create the GUI the handles the creation/deletion of entities
             this._guiCreation = new DAT.GUI({width: ChuClone.model.Constants.EDITOR.PANEL_WIDTH});
@@ -218,7 +218,7 @@
 
 			// Open close (bug in DAT.GUI first rendering)
             this._guiCreation.close();
-//            this._guiCreation.open();
+            this._guiCreation.open();
 
 			// Create the camera gui
             this._guiCamera = new ChuClone.editor.CameraGUI( this._gameView.getCamera() );
@@ -361,6 +361,9 @@
                 return;
             }
 
+            ChuClone.components.MovingPlatformComponent.prototype.RESET_ALL_PLATFORMS_EXCEPT( );
+
+            
             // Clone components
             /**
              * @type {ChuClone.GameEntity}
@@ -385,7 +388,7 @@
                     continue;
                 }
                 // Allow the component to set any special properties
-                componentInstance.fromModel( clonedEntity.components[j].getModel() );
+                componentInstance.fromModel( clonedEntity.components[j].getModel(), clonedEntity );
 
                 // Attach it to the entity
                 this._currentBody.GetUserData().addComponentAndExecute( componentInstance );
@@ -420,11 +423,30 @@
             if( !this._currentBody ) return;
             this.updateMousePosition(e);
 
+            if( this.handleMovingPlatformLogic() )
+                return;
+            
             var pos = new Box2D.Common.Math.b2Vec2(this._mousePosition.x, this._mousePosition.y);
             pos.Multiply( 1.0 / this._worldController.getDebugDraw().GetDrawScale() );
 
             this._currentBody.SetPosition(pos);
             this.populateInfoWithB2Body( this._currentBody );
+        },
+
+        handleMovingPlatformLogic: function() {
+            var movingPlatformComponent = this._currentBody.GetUserData().getComponentWithName(ChuClone.components.MovingPlatformComponent.prototype.displayName);
+            if( movingPlatformComponent ) {
+                // Warn the user to turn off the active property
+                if ( movingPlatformComponent._editableProperties.active ) {
+                    ChuClone.utils.displayFlash("Entity has MovingPlatformComponent - Inactivate before moving!", 0);
+                    return true;
+                } else {
+                    ChuClone.components.MovingPlatformComponent.prototype.RESET_ALL_PLATFORMS_EXCEPT( movingPlatformComponent );
+                    return false;
+                }
+            }
+
+            return false;
         },
 
         /**
@@ -486,6 +508,9 @@
 		 */
         onControllerWasChanged: function( newValue ) {
             if(this._currentBody == null) return;
+
+            if( this.handleMovingPlatformLogic() )
+                return;
 
             // Create a new using current body's data
             var newBody = this._worldController.createRect(

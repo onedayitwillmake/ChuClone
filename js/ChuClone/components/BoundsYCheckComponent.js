@@ -60,7 +60,7 @@ Abstract:
         /**
          * @inheritDoc
          */
-        fromModel: function( data ) {
+        fromModel: function( data, futureEntity ) {
             ChuClone.components.BoundsYCheckComponent.superclass.fromModel.call(this, data);
             this._minY = data.minY;
         }

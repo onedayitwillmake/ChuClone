@@ -117,7 +117,7 @@ Abstract:
         /**
          * @inheritDoc
          */
-        fromModel: function( data ) {
+        fromModel: function( data, futureEntity ) {
             ChuClone.components.FrictionPadComponent.superclass.fromModel.call(this, data);
             this._textureSource = data.textureSource || ChuClone.components.FrictionPadComponent.prototype._textureSource;
             this._inactiveDelay = data.inactiveDelay || ChuClone.components.FrictionPadComponent.prototype._inactiveDelay;

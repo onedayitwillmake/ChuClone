@@ -119,7 +119,7 @@
         /**
          * @inheritDoc
          */
-        fromModel: function( data ) {
+        fromModel: function( data, futureEntity ) {
             ChuClone.components.effect.ParticleEmitterComponent.superclass.fromModel.call(this, data);
             this._count = data.count;
 			this._color = new THREE.Color().setRGB( data.color.r, data.color.g, data.color.b );

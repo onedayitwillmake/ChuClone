@@ -121,7 +121,7 @@ Abstract:
         /**
          * @inheritDoc
          */
-        fromModel: function( data ) {
+        fromModel: function( data, futureEntity ) {
             ChuClone.components.GoalPadComponent.superclass.fromModel.call(this, data);
             this._textureSource = data.textureSource;
             this._inactiveDelay = data.inactiveDelay;
