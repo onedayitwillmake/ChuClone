@@ -62,16 +62,6 @@ Abstract:
 	ChuClone.namespace("ChuClone.components");
 	ChuClone.components.MovingPlatformComponent = function() {
 		ChuClone.components.MovingPlatformComponent.superclass.constructor.call(this);
-//        this._editableProperties = {rangeX: 5, rangeY: 0, speed: {value: 0, max: 0.2, min: 0}, offset: {value: 0, max: Math.PI, min: -Math.PI}, active: true},
-
-        var myAngle = 0;
-        this.__defineSetter__('_angle', function(value){
-            myAngle = value;
-        });
-        this.__defineGetter__('_angle', function(){
-            return myAngle;
-        });
-
 		this.requiresUpdate = true;
 	};
 
@@ -87,7 +77,8 @@ Abstract:
 		 * Speed that this platform moves left or right
 		 * @type {Number}
 		 */
-		_speed	: 0.01,
+		_speed	: 3,
+        _direction: 1,
 		_offset : 0,
 
 		/**0 
@@ -100,22 +91,22 @@ Abstract:
 		/**
 		 * Overwrite to allow component specific GUI
 		 */
-		_editableProperties: {rangeX: 5, rangeY: 0, speed: {value: 0, max: 0.2, min: 0}, offset: {value: 0, max: Math.PI, min: -Math.PI}, active: true},
+		_editableProperties: {rangeX: {value: 0, max: 0.1, min: 30}, rangeY: {value: 0, max: 0.1, min: 30}, speed: {value: 0, max: 0.2, min: 0}, offset: {value: 0, max: Math.PI, min: -Math.PI}, active: true},
 
 		/**
 		 * @inheritDoc
 		 */
 		attach: function( anEntity ) {
 			ChuClone.components.MovingPlatformComponent.superclass.attach.call( this, anEntity );
-            __addMovingPlatform( this );
-            ChuClone.components.MovingPlatformComponent.prototype.RESET_ALL_PLATFORMS_EXCEPT( this );
-
 
             this._angle = 0;
-			this._range = this._range || new b2Vec2(5, 0);
+			this._range = this._range || new b2Vec2(this._editableProperties.rangeX, this._editableProperties.rangeY);
 			this._offset = this._offset || this._offset;
+
+
 			this._initialPosition = this.attachedEntity.getBody().GetPosition().Copy();
 			this.attachedEntity.getBody().SetAwake(true);
+            this.attachedEntity.getBody().SetLinearVelocity( new b2Vec2(this._speed, 0) );
 
             /**
              *
@@ -130,38 +121,65 @@ Abstract:
                 var drawScale = b2World.m_debugDraw.m_drawScale;
                 var rect = initialPositionScaled.Copy();
 
-                // Determine the rectangle extents by
-                // taking the position + debugOffset and mutliplying by the scale
-                // then determine the entity width scale down to box2d scale, and then multiply that by the drawscale - then again by 2 since the
-                var extentsWidth = that.attachedEntity.width/PTM_RATIO*b2World.m_debugDraw.m_drawScale;
-                var extentsHeight = that.attachedEntity.height/PTM_RATIO*b2World.m_debugDraw.m_drawScale;
+                /**
+                 * Determine the rectangle extents
+                 */
+                // 1 - then determine the entity width scale down to box2d scale, and then multiply that by the drawscale
+                var extentsHalfWidth = (that.attachedEntity.width/PTM_RATIO+that._range.x)*b2World.m_debugDraw.m_drawScale;
+                var extentsHalfHeight = (that.attachedEntity.height/PTM_RATIO+that._range.y)*b2World.m_debugDraw.m_drawScale;
 
+                // 2 - taking the position + debugOffset and mutliplying by the scale
                 rect.x = (initialPositionScaled.x + b2World.m_debugDraw.offsetX) * b2World.m_debugDraw.m_drawScale;
-                rect.x -= extentsWidth;
                 rect.y = (initialPositionScaled.y + b2World.m_debugDraw.offsetY) * b2World.m_debugDraw.m_drawScale;
-                rect.y -= extentsHeight;
-                rect.width = extentsWidth*2;
-                rect.height = extentsHeight*2;
+                // 3 - Because box2d is center based, move the rectangle -extentsWidth (which is half the width of the rect)
+                rect.x -= extentsHalfWidth;
+                rect.y -= extentsHalfHeight;
+                // 4 - Define the width/height of the rect
+                rect.width = extentsHalfWidth*2;
+                rect.height = extentsHalfHeight*2;
 
 
                 s.fillRect( rect.x, rect.y, rect.width, rect.height )
             }
+
+            __addMovingPlatform( this );
 		},
 
 		/**
 		 * Modify the entity to move along axis as defined by sin/cos * range
 		 */
 		update: function() {
-            var angle = Date.now() * 0.001;
+
+            var bodyPosition = this.attachedEntity.getBody().GetPosition();
+            var dist = bodyPosition.x - this._initialPosition.x;//- (this._initialPosition.x + this._range.x)
+            var absDist = Math.abs(dist);
+            var rate = Math.abs( (dist / this._range.x) );
+
+//            rate = Math.max(rate, 0.5)
+//            this.attachedEntity.getBody().SetLinearVelocity( new b2Vec2(rate * this._speed * this._direction, 0) );
 
 
-            var velocity = new b2Vec2(0, 0);
-			if( this._range.x !== 0 )
-				velocity.x = Math.cos(angle + this._offset) * this._range.x;
-			if( this._range.y !== 0 )
-				velocity.y = Math.sin(angle + this._offset) * this._range.y;
+            if( absDist > this._range.x ) {
+                this.attachedEntity.getBody().SetPosition( new b2Vec2(this._initialPosition.x+(this._direction*this._range.x), this._initialPosition.y) );
+                this._direction *= -1;
+                this.attachedEntity.getBody().SetLinearVelocity( new b2Vec2(this._speed * this._direction, 0) );
 
-            this.attachedEntity.getBody().SetLinearVelocity( velocity );
+            }
+
+
+//            if( bodyPosition.x > this._initialPosition.x + this._range.x ) {
+//                this.attachedEntity.getBody().SetLinearVelocity( this._speed * this._direction)
+//            }
+//            var angle = Date.now() * 0.001;
+
+
+//            var velocity = new b2Vec2(0, 0);
+//			if( this._range.x !== 0 )
+//				velocity.x = Math.cos(angle + this._offset) * this._range.x;
+//			if( this._range.y !== 0 )
+//				velocity.y = Math.sin(angle + this._offset) * this._range.y;
+
+//            this.attachedEntity.getBody().SetLinearVelocity( velocity );
 //			this._angle += this._speed;
 		},
 
@@ -171,6 +189,7 @@ Abstract:
         detach: function() {
             __removeMovingPlatform( this );
 			this.attachedEntity.getBody().SetPosition( this._initialPosition.Copy() );
+            this.attachedEntity.getBody().drawCustom = null;
             this.attachedEntity.getBody().SetLinearVelocity( new b2Vec2(0, 0) );
 
 			this._initialPosition = null;
@@ -181,42 +200,49 @@ Abstract:
 		 * @inheritDoc
 		 */
 		onEditablePropertyWasChanged: function() {
-			var previousSpeed = this._speed;
 
-			this._range.x = this._editableProperties.rangeX;
-			this._range.y = this._editableProperties.rangeY;
+
+
+			this._range.x = this._editableProperties.rangeX.value;
+			this._range.y = this._editableProperties.rangeY.value;
 			this._speed = this._editableProperties.speed.value;
 			this._offset = this._editableProperties.offset.value;
 
 			var wasActive = this.requiresUpdate;
 			var isActive = this._editableProperties.active;
 
-			// Reset the body
-			if( this._speed != previousSpeed ) {
-				this.attachedEntity.getBody().SetPosition( this._initialPosition.Copy() );
-				this.attachedEntity.getBody().SetLinearVelocity( new b2Vec2(0, 0) );
-			};
-			// Moving platform was previously unactive - that means it was probably being edited
-			if( wasActive != isActive ) {
-				if(!isActive) { // Platform has been turned off
-                    this.attachedEntity.getBody().SetLinearVelocity( new b2Vec2(0, 0) );
-				} else  { // Platform has been turned on
-					this._initialPosition = this.attachedEntity.getBody().GetPosition().Copy();;
-				}
-			}
+            return;
+//			// Reset the body
+//			if( this._speed != previousSpeed || this._offset != previousOffset ) {
+//				this.attachedEntity.getBody().SetPosition( this._initialPosition.Copy() );
+////				this.attachedEntity.getBody().SetLinearVelocity( new b2Vec2(0, 0) );
+//			};
+//			// Moving platform was previously unactive - that means it was probably being edited
+//			if( wasActive != isActive ) {
+//				if(!isActive) { // Platform has been turned off
+////                    this.attachedEntity.getBody().SetLinearVelocity( new b2Vec2(0, 0) );
+//				} else  { // Platform has been turned on
+//					this._initialPosition = this.attachedEntity.getBody().GetPosition().Copy();;
+//				}
+//			}
 
-            ChuClone.components.MovingPlatformComponent.prototype.RESET_ALL_PLATFORMS_EXCEPT();
-			this.attachedEntity.getBody().SetAwake(true);
-            this._angle = 0
+//            this.reset();
 			this.requiresUpdate = isActive;
 		},
+
+        reset: function() {
+            //this.attachedEntity.getBody().SetAwake(true);
+//            this._angle = 0
+            this.attachedEntity.getBody().SetPosition( this._initialPosition.Copy() );
+            this.attachedEntity.getBody().SetLinearVelocity( new b2Vec2(0,0))
+        },
 
         /**
          * Set the '_editableProperties' object to our values
          */
         setEditableProps: function() {
-			this._editableProperties.rangeX = this._range.x;
-			this._editableProperties.rangeY = this._range.y;
+			this._editableProperties.rangeX.value = this._range.x;
+			this._editableProperties.rangeY.value = this._range.y;
 			this._editableProperties.speed.value = this._speed;
 			this._editableProperties.offset.value = this._offset ;
             this._editableProperties.active = this.requiresUpdate;
@@ -246,6 +272,7 @@ Abstract:
         },
 
         RESET_ALL_PLATFORMS_EXCEPT: function( exception ) {
+            return;
             var len = __MovingPlatforms.length;
             for(var i = 0; i < len; i++) {
                 var platform = __MovingPlatforms[i];
@@ -253,7 +280,7 @@ Abstract:
                     continue;
 
                 platform.attachedEntity.getBody().SetPosition( platform._initialPosition.Copy() );
-				platform.attachedEntity.getBody().SetLinearVelocity( new b2Vec2(0, 0) );
+//				platform.attachedEntity.getBody().SetLinearVelocity( new b2Vec2(0, 0) );
                 platform._angle = 0;
             }
         }
