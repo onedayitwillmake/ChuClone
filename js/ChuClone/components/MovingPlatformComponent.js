@@ -116,6 +116,36 @@ Abstract:
 			this._offset = this._offset || this._offset;
 			this._initialPosition = this.attachedEntity.getBody().GetPosition().Copy();
 			this.attachedEntity.getBody().SetAwake(true);
+
+            /**
+             *
+             * @param {Box2D.Dynamics.b2World} b2World
+             */
+            var b = this.attachedEntity.getBody();
+            var that = this;
+            var initialPositionScaled = this._initialPosition;
+            var PTM_RATIO = ChuClone.model.Constants.PTM_RATIO;
+            this.attachedEntity.getBody().drawCustom = function(b2World) {
+                var s = b2World.m_debugDraw.m_ctx;
+                var drawScale = b2World.m_debugDraw.m_drawScale;
+                var rect = initialPositionScaled.Copy();
+
+                // Determine the rectangle extents by
+                // taking the position + debugOffset and mutliplying by the scale
+                // then determine the entity width scale down to box2d scale, and then multiply that by the drawscale - then again by 2 since the
+                var extentsWidth = that.attachedEntity.width/PTM_RATIO*b2World.m_debugDraw.m_drawScale;
+                var extentsHeight = that.attachedEntity.height/PTM_RATIO*b2World.m_debugDraw.m_drawScale;
+
+                rect.x = (initialPositionScaled.x + b2World.m_debugDraw.offsetX) * b2World.m_debugDraw.m_drawScale;
+                rect.x -= extentsWidth;
+                rect.y = (initialPositionScaled.y + b2World.m_debugDraw.offsetY) * b2World.m_debugDraw.m_drawScale;
+                rect.y -= extentsHeight;
+                rect.width = extentsWidth*2;
+                rect.height = extentsHeight*2;
+
+
+                s.fillRect( rect.x, rect.y, rect.width, rect.height )
+            }
 		},
 
 		/**

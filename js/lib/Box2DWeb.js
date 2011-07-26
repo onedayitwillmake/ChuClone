@@ -6082,6 +6082,13 @@ Box2D.postDefs = [];
             this.m_debugDraw.DrawTransform(xf);
          }
       }
+
+       for (b = this.m_bodyList;
+         b; b = b.m_next) {
+            if(b.drawCustom) {
+                b.drawCustom(this);
+            }
+         }
    }
    b2World.prototype.QueryAABB = function (callback, aabb) {
       var __this = this;
