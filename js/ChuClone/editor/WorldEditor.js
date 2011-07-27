@@ -425,6 +425,8 @@
             pos.Multiply( 1.0 / this._worldController.getDebugDraw().GetDrawScale() );
 
             this._currentBody.SetPosition(pos);
+            this._currentBody.GetUserData().onEditorDidDragEntity();
+
             this.populateInfoWithB2Body( this._currentBody );
         },
 
@@ -487,8 +489,11 @@
 		 * @param {Number} newValue Whatever property was changed, this is not explicitely use. We just change all properties to match 'propProxy'
 		 */
         onControllerWasChanged: function( newValue ) {
+            
             if(this._currentBody == null) return;
-
+            // Entities properties match our GUI - no change needed
+            
+            if(! this.entityNeedsUpdate( this._currentBody.GetUserData() ) ) return;
             // Create a new using current body's data
             var newBody = this._worldController.createRect(
                 this._controllers['x'].getValue() * PTM_RATIO,
@@ -509,6 +514,33 @@
             entity.setDimensions( this._controllers['width'].getValue() * PTM_RATIO, this._controllers['height'].getValue() * PTM_RATIO, this._controllers['depth'].getValue() * PTM_RATIO );
 
             this._currentBody = newBody;
+        },
+
+        entityNeedsUpdate: function() {
+            var needsChange = false;
+
+            // Get position from platform or entity
+            // TODO: THIS IS HACKY - SHOULD NOT NEED TO ASSUME THERE IS SUCH A THING AS MOVING PLATFORMS
+            var posx = null;
+            var posy = null;
+            var movingPlatform = this._currentBody.GetUserData().getComponentWithName(ChuClone.components.MovingPlatformComponent.prototype.displayName);
+            if(movingPlatform) {
+                posx = movingPlatform._initialPosition.x;
+                posy = movingPlatform._initialPosition.y;
+            } else {
+                posx = this._currentBody.GetPosition().x;
+                posy = this._currentBody.GetPosition().y;
+            }
+
+            if(posx != this._controllers['x'].getValue()) needsChange = true;
+            if(posy != this._controllers['y'].getValue()) needsChange = true;
+
+            var dimensions = this._currentBody.GetUserData().getDimensions();
+            if(dimensions.width/PTM_RATIO != this._controllers['width'].getValue()) needsChange = true;
+            if(dimensions.height/PTM_RATIO != this._controllers['height'].getValue()) needsChange = true;
+            if(dimensions.depth/PTM_RATIO != this._controllers['depth'].getValue()) needsChange = true;
+
+            return needsChange;
         },
 
         /**

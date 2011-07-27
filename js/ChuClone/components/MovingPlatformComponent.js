@@ -93,15 +93,21 @@ Abstract:
          */
 		_offset : 0,
 
-		/**0 
+		/**
 		 * @type {Box2D.Common.Math.b2Vec2}
 		 */
 		_initialPosition	: null,
 
+        /**
+         * Reference to current velocity for component
+         * @type {Box2D.Common.Math.b2Vec2}
+         */
+        _velocity: null,
+
 		/**
 		 * Overwrite to allow component specific GUI
 		 */
-		_editableProperties: {rangeX: {value: 0, min: 0, max: 30}, rangeY: {value: 0, min: 0, max: 30}, speed: {value: 1, min: 0, max: 15}, offset: {value: 0,  min: -Math.PI,  max: Math.PI}, active: true},
+		_editableProperties: {rangeX: {value: 0, min: 0, max: 30}, rangeY: {value: 0, min: 0, max: 30}, speed: {value: 1, min: 0, max: 15}, offset: {value: 0,  min: -1, max: 1}, active: true},
 
 		/**
 		 * @inheritDoc
@@ -116,7 +122,7 @@ Abstract:
             // Draw the extents of the platforms movement if in edit mode
             if( ChuClone.model.Constants.IS_EDIT_MODE() ) {
                 var that = this;
-                this.attachedEntity.getBody().drawCustom = function( b2World ){ that.drawPlatformForEditor( b2World ) };
+                this.attachedEntity.drawCustom = function( b2World ){ that.drawPlatformForEditor( b2World ) };
             }
 
             __addMovingPlatform( this );
@@ -126,8 +132,12 @@ Abstract:
 		 * Modify the entity to move along axis as defined by sin/cos * range
 		 */
 		update: function() {
-            var finalVelocity = this.attachedEntity.getBody().GetLinearVelocity();
+            var finalVelocity = this._velocity.Copy();
+            finalVelocity.x = (this._range.x > 1) ? this._speed.x * this._direction.x : 0;
+            finalVelocity.y = (this._range.y > 1) ? this._speed.y * this._direction.y : 0;
+            
             var finalPosition = this.attachedEntity.getBody().GetPosition();
+
 
             /**
              * Handle X
@@ -139,7 +149,6 @@ Abstract:
                     finalPosition.x = this._initialPosition.x+(this._direction.x * this._range.x);
                     this._direction.x *= -1;
                     finalVelocity.x = this._speed.x * this._direction.x;
-                    this.attachedEntity.getBody().SetLinearVelocity( finalVelocity );
                 }
             }
 
@@ -154,9 +163,10 @@ Abstract:
                     finalPosition.y = this._initialPosition.y + (this._direction.y * this._range.y);
                     this._direction.y *= -1;
                     finalVelocity.y = this._speed.y * this._direction.y;
-                    this.attachedEntity.getBody().SetLinearVelocity(finalVelocity);
                 }
             }
+
+            this.attachedEntity.getBody().SetLinearVelocity(finalVelocity);
 		},
 
         /**
@@ -200,12 +210,13 @@ Abstract:
 
             // Reset the attached body
             this.attachedEntity.getBody().SetPosition( this._initialPosition.Copy() );
-            this.attachedEntity.getBody().drawCustom = null;
+            this.attachedEntity.drawCustom = null;
             this.attachedEntity.getBody().SetLinearVelocity( new b2Vec2(0, 0) );
 
             // Clear our properties
 			this._initialPosition = null;
             this._range = null;
+            this._velocity = null;
 
 			ChuClone.components.MovingPlatformComponent.superclass.detach.call(this);
         },
@@ -225,6 +236,7 @@ Abstract:
 		 * @inheritDoc
 		 */
 		onEditablePropertyWasChanged: function() {
+            console.log("onEditablePropertyWasChanged")
 
             // Prevent platform from moving left and right 
             if( this._editableProperties.rangeX.value && this._editableProperties.rangeY.value ) {
@@ -243,17 +255,29 @@ Abstract:
 			this.requiresUpdate = this._editableProperties.active;
 		},
 
+        /**
+         * @inheritDoc
+         */
+        onEditorDidDragAttachedEntity: function() {
+            this._initialPosition = this.attachedEntity.getBody().GetPosition().Copy();
+            this.reset();
+        },
+
         reset: function() {
             var startPosition = this._initialPosition.Copy();
+
+            startPosition.x += this._range.x * this._offset;
+            startPosition.y += this._range.y * this._offset;
 
 			this.attachedEntity.getBody().SetAwake(true);
             this.attachedEntity.getBody().SetPosition( startPosition );
 
             var newVelocity = new b2Vec2( 0, 0 );
-            newVelocity.x = (this._range.x > 1) ? this._speed.x*this._direction.x : 0;
-            newVelocity.y = (this._range.y > 1) ? this._speed.y*this._direction.y : 0;
+            newVelocity.x = (this._range.x > 1) ? this._speed.x * this._direction.x : 0;
+            newVelocity.y = (this._range.y > 1) ? this._speed.y * this._direction.y : 0;
 
-            this.attachedEntity.getBody().SetLinearVelocity( newVelocity );
+            this._velocity = newVelocity;
+            this.attachedEntity.getBody().SetLinearVelocity( newVelocity.Copy() );
         },
 
         /**
@@ -263,7 +287,7 @@ Abstract:
             var returnObject = ChuClone.components.MovingPlatformComponent.superclass.getModel.call(this);
             returnObject.initialPosition = {x: this._initialPosition.x, y: this._initialPosition.y};
             returnObject.range = {x: this._range.x, y: this._range.y};
-            returnObject.offset = {x: this.offset.x, y: this.offset.y};
+            returnObject.offset = this._offset;
             returnObject.speed = this._speed.x;
             return returnObject;
         },
@@ -275,7 +299,7 @@ Abstract:
             ChuClone.components.MovingPlatformComponent.superclass.fromModel.call(this, data);
 
             this._range = new b2Vec2( data.range.x, data.range.y );
-            this._offset = new b2Vec2( data.offset.x, data.offset.y );
+            this._offset = data.offset;
 			this._speed = new b2Vec2( data.speed, data.speed );
         },
 

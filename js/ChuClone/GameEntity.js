@@ -185,6 +185,17 @@
             this.components = [];
         },
 
+        ///// EDITOR EVENTS
+        /**
+         * Called by our attachedEntity when it is dragged in case any of the components need to update something
+         */
+        onEditorDidDragEntity: function() {
+            var len = this.components.length;
+            for (var i = 0; i < len; ++i) {
+                this.components[i].onEditorDidDragAttachedEntity();
+            }
+        },
+
 
         /**
          * Deallocate
@@ -216,9 +227,6 @@
                 this.body.SetUserData(null);
             }
 
-//            aBody.GetFixtureList().filter.categoryBits = 0x0001;
-//            aBody.GetFixtureList().filter.maskBits = 0xFFFF;
-//            aBody.GetFixtureList().filter.groupIndex = 0;
             this.body = aBody;
             this.body.SetUserData(this);
         },

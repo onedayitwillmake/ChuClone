@@ -188,6 +188,12 @@
 			 throw new Error("BaseComponent 'onEditablePropertyWasChanged' method has been called. Overwrite!")
 		},
 
+        /**
+         * Called by our attachedEntity when it is dragged in case any of the components need to update something
+         * Overwrite this function if you need to do something when your attachedEntity is dragged in the editor
+         */
+        onEditorDidDragAttachedEntity: function() {},
+
 
         /**
          * A chance for a component to store any extra information it might need when recreating itself

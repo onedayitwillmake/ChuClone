@@ -6085,8 +6085,8 @@ Box2D.postDefs = [];
 
        for (b = this.m_bodyList;
          b; b = b.m_next) {
-            if(b.drawCustom) {
-                b.drawCustom(this);
+            if(b.m_userData && b.m_userData.drawCustom) {
+                b.m_userData.drawCustom(this);
             }
          }
    }
