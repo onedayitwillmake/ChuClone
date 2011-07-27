@@ -236,9 +236,7 @@ Abstract:
 		 * @inheritDoc
 		 */
 		onEditablePropertyWasChanged: function() {
-            console.log("onEditablePropertyWasChanged")
-
-            // Prevent platform from moving left and right 
+            // Prevent platform from moving left and right
             if( this._editableProperties.rangeX.value && this._editableProperties.rangeY.value ) {
                 ChuClone.utils.displayFlash("Moving platform does not support simultaneous X and Y axis movement.<br>Set one of them to zero", 0);
                 this.setEditableProps();
