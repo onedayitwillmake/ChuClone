@@ -129,19 +129,33 @@ Abstract:
             var finalVelocity = this.attachedEntity.getBody().GetLinearVelocity();
             var finalPosition = this.attachedEntity.getBody().GetPosition();
 
-            var distX = finalPosition.x - this._initialPosition.x;
-            var absDistX = Math.abs(distX);
+            /**
+             * Handle X
+             */
+            if( this._range.x > 1 ) {
+                var distX = finalPosition.x - this._initialPosition.x;
+                var absDistX = Math.abs(distX);
+                if( absDistX > this._range.x ) {
+                    finalPosition.x = this._initialPosition.x+(this._direction.x * this._range.x);
+                    this._direction.x *= -1;
+                    finalVelocity.x = this._speed.x * this._direction.x;
+                    this.attachedEntity.getBody().SetLinearVelocity( finalVelocity );
+                }
+            }
 
-//            var rate = Math.abs( (dist / this._range.x) );
-//            rate = Math.max(rate, 0.5)
-//            this.attachedEntity.getBody().SetLinearVelocity( new b2Vec2(rate * this._speed * this._direction, 0) );
+            /**
+             * Handle Y
+             */
+            if( this._range.y > 1 ) {
+                var distY = finalPosition.y - this._initialPosition.y;
+                var absDistY = Math.abs(distY);
 
-
-            if( absDistX > this._range.x ) {
-                finalPosition.x = this._initialPosition.x+(this._direction.x * this._range.x);
-                this._direction.x *= -1;
-                finalVelocity.x = this._speed.x * this._direction.x;
-                this.attachedEntity.getBody().SetLinearVelocity( finalVelocity );
+                if (absDistY > this._range.y) {
+                    finalPosition.y = this._initialPosition.y + (this._direction.y * this._range.y);
+                    this._direction.y *= -1;
+                    finalVelocity.y = this._speed.y * this._direction.y;
+                    this.attachedEntity.getBody().SetLinearVelocity(finalVelocity);
+                }
             }
 		},
 
@@ -211,6 +225,14 @@ Abstract:
 		 * @inheritDoc
 		 */
 		onEditablePropertyWasChanged: function() {
+
+            // Prevent platform from moving left and right 
+            if( this._editableProperties.rangeX.value && this._editableProperties.rangeY.value ) {
+                ChuClone.utils.displayFlash("Moving platform does not support simultaneous X and Y axis movement.<br>Set one of them to zero", 0);
+                this.setEditableProps();
+                return;
+            }
+
 			this._range.x = this._editableProperties.rangeX.value;
 			this._range.y = this._editableProperties.rangeY.value;
 			this._speed.x = this._editableProperties.speed.value;
@@ -218,22 +240,6 @@ Abstract:
 			this._offset = this._editableProperties.offset.value;
 
             this.reset();
-
-//			// Reset the body
-//			if( this._speed != previousSpeed || this._offset != previousOffset ) {
-//				this.attachedEntity.getBody().SetPosition( this._initialPosition.Copy() );
-////				this.attachedEntity.getBody().SetLinearVelocity( new b2Vec2(0, 0) );
-//			};
-//			// Moving platform was previously unactive - that means it was probably being edited
-//			if( wasActive != isActive ) {
-//				if(!isActive) { // Platform has been turned off
-////                    this.attachedEntity.getBody().SetLinearVelocity( new b2Vec2(0, 0) );
-//				} else  { // Platform has been turned on
-//					this._initialPosition = this.attachedEntity.getBody().GetPosition().Copy();;
-//				}
-//			}
-
-//            this.reset();
 			this.requiresUpdate = this._editableProperties.active;
 		},
 
@@ -242,7 +248,12 @@ Abstract:
 
 			this.attachedEntity.getBody().SetAwake(true);
             this.attachedEntity.getBody().SetPosition( startPosition );
-            this.attachedEntity.getBody().SetLinearVelocity( new b2Vec2(this._speed.x*this._direction.x,0) );
+
+            var newVelocity = new b2Vec2( 0, 0 );
+            newVelocity.x = (this._range.x > 1) ? this._speed.x*this._direction.x : 0;
+            newVelocity.y = (this._range.y > 1) ? this._speed.y*this._direction.y : 0;
+
+            this.attachedEntity.getBody().SetLinearVelocity( newVelocity );
         },
 
         /**
