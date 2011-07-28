@@ -35,7 +35,7 @@
 			ASSET_PREFIX			: "", 					// Prefix all asset request with this
 			LEVEL_LOAD_LOCATION		: "/levels/",			// Location of where levels can be loaded from
 			USER_LEVELS_LOCATION	: "/levels/data.json",	// Location to retrieve user levels
-			USER_SUBMIT_LOCATION	: "/levels/create_from_editor"	// Location to retrieve user levels
+			USER_SUBMIT_LOCATION	: "/levels/create_from_editor.js"	// Location to retrieve user levels
 		},
 
 		// WASD KEYS

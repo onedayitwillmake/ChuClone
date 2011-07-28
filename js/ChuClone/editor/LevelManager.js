@@ -222,10 +222,17 @@
 			var that = this;
 			request.onreadystatechange = function() {
 				if (request.readyState == 4) {
-					var result = JSON.parse(request.responseText)[0];
+
+					// Invalid JSON returned - probably has validation errors
+					try {
+						var result = JSON.parse(request.responseText)[0];
+					} catch (e) {
+						ChuClone.utils.displayFlash( ChuClone.utils.getValidationErrors( request.responseText ), 0);
+						return;
+					}
+
 					if (result.status == false) {
-						console.log(result)
-						ChuClone.utils.displayFlash("Save To Server Failed:" + result.status + "<br>" + result.notice, 0);
+						ChuClone.utils.displayFlash( ChuClone.utils.getValidationErrorsFromJSON( result.notice ), 0);
 					} else {
 						ChuClone.utils.displayFlash("Save To Server Success:", 1);
 					}

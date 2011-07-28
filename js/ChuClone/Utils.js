@@ -130,6 +130,36 @@
 			}
 		},
 
+		/**
+		 * The rails application will return HTML when validation fails, even though we're sending the request via XHR
+		 * However the error messages are contained in 'pre' tags - so search the string for those and return them in an array
+		 * @param {String} responseText
+		 * @return {Array} An array of error message strings
+		 */
+		getValidationErrors: function( responseText ) {
+			var match = null;
+			var regex = /<pre>(.*?)<\/pre>/ig
+			var match = regex.exec(responseText);
+
+			return match[1].substring(String("Validation failed: ").length).split(",");
+		},
+
+		getValidationErrorsFromJSON: function( responseJSON ) {
+			var errors = [];
+
+			for( var prohp in responseJSON ) {
+				for( var i = 0; i < responseJSON[prop].length; i++) {
+					errors.push( prop + " " +responseJSON[prop][i] );
+				}
+			}
+			return errors;
+		},
+
+		/**
+		 * Flashes a message on the notices panel in the editor
+		 * @param {String|Array} message	An error message, can be a string or an array
+		 * @param {Number} level	Error level: 0 = bad, 1 = good
+		 */
         displayFlash: function(message, level) {
             if (level === undefined) {
                 throw "Must suply level - either 1 or 0"

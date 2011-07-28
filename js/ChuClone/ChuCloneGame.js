@@ -21,9 +21,10 @@
     "use strict";
     
     var PTM_RATIO = ChuClone.model.Constants.PTM_RATIO;
-    var loadLevelOnReady = "";
+    var levelBeforeStart = "";
     ChuClone.namespace("ChuClone");
-    ChuClone.ChuCloneGame = function( loadLevelOnReady ) {
+    ChuClone.ChuCloneGame = function( aLevelToLoad ) {
+		levelBeforeStart = aLevelToLoad;
         this.listenForReady();
     };
 
@@ -85,7 +86,6 @@
 
 			ChuClone.Events.Dispatcher.addListener(ChuClone.gui.LevelListing.prototype.EVENTS.SHOULD_CHANGE_LEVEL, function( levelFile ) {
                 that._gameView.getCamera().removeAllComponents();
-				//+"
 				that._levelManager.loadLevelFromURL( that._worldController, that._gameView, levelFile);
 //				that._levelManager.loadLevelFromJSONString( that._worldController, that._gameView, "/assets/levels/"+levelFile+".json?r="+Math.floor(Math.random()*1000));
             });
@@ -121,6 +121,9 @@
             initialState._levelManager = this._levelManager;
             this._stateMachine.setInitialState( initialState );
 
+			if(levelBeforeStart) {
+				this._levelManager.loadLevelFromURL(this._worldController, this._gameView, levelBeforeStart);
+			}
 //			this._levelManager.loadLevelFromURL(this._worldController, this._gameView, "/assets/levels/SpeedUp_t.json");
 
             // MAIN LOOP
@@ -137,7 +140,6 @@
          */
         setupLevelManager: function() {
             this._levelManager = new ChuClone.editor.LevelManager();
-//            this._levelManager.loadLevelFromURL("/assets/levels/Piano.json");
         },
 
 		/**

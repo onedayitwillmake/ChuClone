@@ -210,7 +210,6 @@
                     entityInfo.dimensions.height*2,
                     entityInfo.dimensions.depth*2);
 
-                // TODO: TEMP HACK - CHECK IF COMPONENTS > 1, ASSUME PLAYER
                 var entity = new ChuClone.GameEntity();
                 entity.setBody( body );
                 entity.setView( view );
