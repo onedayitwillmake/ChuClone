@@ -1,7 +1,7 @@
 (function() {
 	ChuClone.namespace("ChuClone.editor");
 	ChuClone.editor.ComponentGUIController = function() {
-
+		this.setupEvents();
 	};
 
 	ChuClone.editor.ComponentGUIController.prototype = {
@@ -12,6 +12,16 @@
 		 */
 		_activeComponent    : null,
 		_allGuis			: {},
+
+		setupEvents: function() {
+			var that = this;
+
+			// Unactivate all components when the level is cleared
+			ChuClone.Events.Dispatcher.addListener( ChuClone.editor.LevelManager.prototype.EVENTS.LEVEL_DESTROYED, function() {
+				that._activeComponent = null;
+				that.hideAll();
+			})
+		},
 
 		setupGUIForComponent: function( aComponent ) {
 			var that = this;

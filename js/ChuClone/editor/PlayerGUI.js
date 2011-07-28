@@ -143,17 +143,36 @@
         },
 
 		/**
-		 * Resets the player object to the first respawn point
+		 * Resets the player object to the last respawn point
 		 */
 		resetPlayer: function() {
 			if( !this._player ) {
-				console.error("ChuClone.editor.PlayerGUI.resetPlayer - '_player' is null!");
+				ChuClone.utils.displayFlash("ChuClone.editor.PlayerGUI.resetPlayer<br>There is no player!!", 0);
 				return null;
 			}
 
 			var respawnPoint = ChuClone.components.RespawnComponent.prototype.GET_CURRENT_RESPAWNPOINT();
 			if( !respawnPoint ) {
-				console.error("ChuClone.editor.PlayerGUI.resetPlayer - Create at least one RespawnComponent first!");
+				ChuClone.utils.displayFlash("ChuClone.editor.PlayerGUI.resetPlayer<br>Create at least one RespawnComponent first!", 0);
+				console.error("resetPlayer failed<br>Create at least one RespawnComponent first!");
+				return null;
+			}
+
+			this._player.getBody().SetPosition(new Box2D.Common.Math.b2Vec2( respawnPoint.attachedEntity.getBody().GetPosition().x, respawnPoint.attachedEntity.getBody().GetPosition().y - 1));
+        },
+
+		/**
+		 * Resets the player object to the first respawn point
+		 */
+		restartPlayer: function() {
+			if( !this._player ) {
+				ChuClone.utils.displayFlash("There is no player!", 0);
+				return null;
+			}
+
+			var respawnPoint = ChuClone.components.RespawnComponent.prototype.GET_ALL_RESPAWNPOINTS()[0];
+			if( !respawnPoint ) {
+				ChuClone.utils.displayFlash("restartPlayer failed<br>Create at least one RespawnComponent first!", 0);
 				return null;
 			}
 

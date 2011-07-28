@@ -43,6 +43,9 @@
         this.setupMouseEvents();
         this.setupKeyboardEvents();
         this.setupGui();
+		this.setupEvents();
+
+		document.body.style.overflowY = "hidden"
 
         // Little hack to prevent accidently leaving the page
         window.onbeforeunload = function(e) {
@@ -159,6 +162,13 @@
             document.addEventListener('keyup', this._closures['keyup'], false);
         },
 
+		/**
+		 * Listen for ChuClone related events
+		 */
+		setupEvents: function(){
+			var that = this;
+		},
+
 
         /**
          * Setup DAT.GUI controllers
@@ -176,9 +186,9 @@
 			// Add a bunch of controls for common entity props
             this.addControllerWithTimeout(this._guiModification, "x", this._propProxy.x).step(0.1);
             this.addControllerWithTimeout(this._guiModification, "y", this._propProxy.y).step(0.1);
-            this.addControllerWithTimeout(this._guiModification, "width", this._propProxy.width).min(0.01).max(Math.round(3000/PTM_RATIO)).step(0.05);
-            this.addControllerWithTimeout(this._guiModification, "height", this._propProxy.height).min(0.01).max(Math.round(3000/PTM_RATIO)).step(0.05);
-            this.addControllerWithTimeout(this._guiModification, "depth", this._propProxy.depth).min(0.01).max(3000/PTM_RATIO).step(0.05);
+            this.addControllerWithTimeout(this._guiModification, "width", this._propProxy.width).min(0.01).max(Math.round(3000/PTM_RATIO)).step(0.01);
+            this.addControllerWithTimeout(this._guiModification, "height", this._propProxy.height).min(0.01).max(Math.round(3000/PTM_RATIO)).step(0.01);
+            this.addControllerWithTimeout(this._guiModification, "depth", this._propProxy.depth).min(0.01).max(3000/PTM_RATIO).step(0.025);
 
 			// Add a dropdown box to modify which component is being edited
 			this._controllers['currentComponent'] = this._guiModification.add(this, '_currentEditedComponent').name("Components")

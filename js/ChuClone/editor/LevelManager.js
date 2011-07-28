@@ -1,20 +1,20 @@
 /**
  File:
- ChuCloneGame.js
+ 	ChuCloneGame.js
  Created By:
- Mario Gonzalez - mariogonzalez@gmail.com
+ 	Mario Gonzalez - mariogonzalez@gmail.com
  Project:
- ChuClone
+ 	ChuClone
  Abstract:
- This class handles the saving/loading of levels
+ 	This class handles the saving/loading of levels
  Basic Usage:
- this._levelManager = new ChuClone.editor.LevelManager();
- this._levelManager.setupGui();
+	 this._levelManager = new ChuClone.editor.LevelManager();
+	 this._levelManager.setupGui();
  Version:
  1.0
 
  License:
- Creative Commons Attribution-NonCommercial-ShareAlike
+	 Creative Commons Attribution-NonCommercial-ShareAlike
  http://creativecommons.org/licenses/by-nc-sa/3.0/
  */
 (function() {
@@ -202,18 +202,19 @@
 		 */
 		onShouldSaveToServer: function() {
 
-			var confirm = window.confirm("There's no take backs!\nAre you sure?");
+			var confirm = window.confirm("No take backs!\nAre you sure?");
 			if (!confirm) {
 				return;
 			}
 
+			// Place player at inital respawn point
+			ChuClone.editor.WorldEditor.getInstance()._guiPlayer.restartPlayer();
+
 			var model = new ChuClone.editor.LevelModel();
 			var data = model.parseLevel(ChuClone.editor.WorldEditor.getInstance().getWorldController(), this._currentName);
 
-			/**
-			 * @s
-			 */
-			var formData = new FormData();
+			// Using window['FormData'] for now because intelli-j doesn't recognize FormData as a HTML5 object
+			var formData = new window['FormData']();
 			formData.append("level_json", model.levelJSONString);
 			formData.append("levelName", model.levelName);
 

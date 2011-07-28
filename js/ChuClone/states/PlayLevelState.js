@@ -123,11 +123,21 @@ Abstract:
             this._previousTime = this._currentTime;
         },
 
+		/**
+		 * Restarts the clock
+		 */
+		resetTime: function() {
+			this._elapsedTime = 0;
+			this._lastTextUpdate = 0;
+			this._previousTime = Date.now();
+		},
+
         /**
 		 * Called when a goal is hit
 		 * @param {ChuClone.editor.LevelManager} aLevelManager
 		 */
 		onLevelLoaded: function( aLevelManager ) {
+			this.resetTime();
             this.setupCamera();
             this._worldController.createBox2dWorld();
 		},

@@ -62,7 +62,10 @@ Abstract:
 	ChuClone.namespace("ChuClone.components");
 	ChuClone.components.MovingPlatformComponent = function() {
 		ChuClone.components.MovingPlatformComponent.superclass.constructor.call(this);
-        this._direction = new b2Vec2(1, 1);
+
+		this._initialPosition = new b2Vec2(0,0);
+		this._velocity = new b2Vec2(0,0);
+		this._direction = new b2Vec2(1, 1);
         this._speed = new b2Vec2(0,0);
 		this.requiresUpdate = true;
 	};
@@ -228,7 +231,7 @@ Abstract:
 			this._editableProperties.rangeX.value = this._range.x;
 			this._editableProperties.rangeY.value = this._range.y;
 			this._editableProperties.speed.value = this._speed.x;
-			this._editableProperties.offset.value = this._offset ;
+			this._editableProperties.offset.value = this._offset;
             this._editableProperties.active = this.requiresUpdate;
         },
 
@@ -283,6 +286,8 @@ Abstract:
          */
         getModel: function() {
             var returnObject = ChuClone.components.MovingPlatformComponent.superclass.getModel.call(this);
+
+
             returnObject.initialPosition = {x: this._initialPosition.x, y: this._initialPosition.y};
             returnObject.range = {x: this._range.x, y: this._range.y};
             returnObject.offset = this._offset;
@@ -296,9 +301,21 @@ Abstract:
         fromModel: function( data, futureEntity ) {
             ChuClone.components.MovingPlatformComponent.superclass.fromModel.call(this, data);
 
-            this._range = new b2Vec2( data.range.x, data.range.y );
-            this._offset = data.offset;
-			this._speed = new b2Vec2( data.speed, data.speed );
+			console.log(data)
+			// For use during development to force-clean up early levels that used old platform style
+			var tempFix = false;
+			if (!tempFix) {
+				// Set the entities position to 'initialPosition' - because when we are attached to it - we use that property to define our motion
+				futureEntity.getBody().SetPosition(new b2Vec2(data.initialPosition.x, data.initialPosition.y));
+
+				this._range = new b2Vec2(data.range.x, data.range.y);
+				this._offset = data.offset;
+				this._speed = new b2Vec2(data.speed, data.speed);
+			} else {
+				this._range = new b2Vec2(data.range.x, data.range.y);
+				this._offset = 0;
+				this._speed = new b2Vec2(data.speed * 100, 0);
+			}
         },
 
         RESET_ALL_PLATFORMS_EXCEPT: function( exception ) {

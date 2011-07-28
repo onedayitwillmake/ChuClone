@@ -147,6 +147,9 @@
                 return;
             }
 
+			if( level === 0 ) {
+				console.error(message)
+			}
             var output = message;
             if(message instanceof Array) {
                 output = ''; // Set as empty string
