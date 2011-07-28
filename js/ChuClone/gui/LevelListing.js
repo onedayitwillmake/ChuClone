@@ -61,15 +61,14 @@
 		 * Load the sleected level
 		 */
         onLevelClicked: function() {
-//			console.log("ChuClone.editor.LevelManager.INSTANCE:", ChuClone.editor.LevelManager.INSTANCE)
-//			ChuClone.editor.LevelManager.INSTANCE.clearLevel();
-		   // SET THE WINDOW URL
 
 			if( this.getAttribute("data-location") != "" ) {
+				throw new Error("data-location should not be used");
+
 	            window.location.hash = this.getAttribute("data-location");
 				ChuClone.Events.Dispatcher.emit( ChuClone.gui.LevelListing.prototype.EVENTS.SHOULD_CHANGE_LEVEL, this.getAttribute("data-location"));
 			} else { // Use id to load from DB
-				var aURL = "/levels/" + this.getAttribute("data-id") + ".js" + "?r="+Math.floor(Math.random()*1000);
+				var aURL = ChuClone.utils.constructURLForLevelWithID( this.getAttribute("data-id")  );
 				ChuClone.Events.Dispatcher.emit( ChuClone.gui.LevelListing.prototype.EVENTS.SHOULD_CHANGE_LEVEL, aURL);
 				history.pushState(null, null, "/game/"+this.getAttribute("data-id"));
 			}

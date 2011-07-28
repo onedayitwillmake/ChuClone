@@ -83,11 +83,10 @@
             window.addEventListener("focus", function(e) {that._hasFocus = true; }, false);
             window.addEventListener("blur", function(e) { that._hasFocus = false; }, false);
 
-
+			// TODO: Let levelManager load it's own levels?
 			ChuClone.Events.Dispatcher.addListener(ChuClone.gui.LevelListing.prototype.EVENTS.SHOULD_CHANGE_LEVEL, function( levelFile ) {
                 that._gameView.getCamera().removeAllComponents();
 				that._levelManager.loadLevelFromURL( that._worldController, that._gameView, levelFile);
-//				that._levelManager.loadLevelFromJSONString( that._worldController, that._gameView, "/assets/levels/"+levelFile+".json?r="+Math.floor(Math.random()*1000));
             });
 
         },
@@ -101,8 +100,8 @@
             this.setupView();
             this.setupWorldController();
             this.setupLevelManager();
-
             this._stateMachine = new ChuClone.model.FSM.StateMachine();
+
 
             var initialState = null;
             if( ChuClone.model.Constants.IS_EDIT_MODE() ) {
@@ -164,6 +163,7 @@
          * @param {ChuClone.editor.LevelModel} aLevelModel
          */
         onBeforeStart: function( aLevelModel ) {
+			debugger;
             this._worldController.createBox2dWorld();
         },
 

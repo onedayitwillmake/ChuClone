@@ -42,6 +42,16 @@
          */
         removeListener: function( eventName ) {
             ChuClone.Events.Dispatcher.removeListener( eventName, this._closures[eventName] );
-        }
+        },
+
+		/**
+		 * Removes all listeners
+		 */
+		removeAllListeners: function() {
+			for( var eventName in this._closures ) {
+				console.log("Removing Listener:", eventName);
+				this.removeListener( eventName );
+			}
+		}
     }
 })();

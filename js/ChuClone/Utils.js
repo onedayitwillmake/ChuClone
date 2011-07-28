@@ -144,6 +144,10 @@
 			return match[1].substring(String("Validation failed: ").length).split(",");
 		},
 
+		/**
+		 * Gets the validations errors, but as returned from a nice JSON string, instead of a inside HTML <pre> tags
+		 * @param {JSON} responseJSON
+		 */
 		getValidationErrorsFromJSON: function( responseJSON ) {
 			var errors = [];
 
@@ -153,6 +157,14 @@
 				}
 			}
 			return errors;
+		},
+
+		/**
+		 * Given an ID - constructs a URL for retrieving a level at that location
+		 * @param idString
+		 */
+		constructURLForLevelWithID: function( idString ) {
+			return ChuClone.model.Constants.SERVER.LEVEL_LOAD_LOCATION + idString + ".js" + "?r="+Math.floor(Math.random()*1000);
 		},
 
 		/**
@@ -191,6 +203,7 @@
 
             flashNotice.innerHTML = output;
 
+			// Fade back to white
             new TWEEN.Tween(colorLevels[level])
                 .to({r: 255, g: 255, b: 255}, 2000)
                 .easing(TWEEN.Easing.Quadratic.EaseInOut)
@@ -199,7 +212,6 @@
                     flashNotice.style.backgroundColor = "rgb(" + (this.r << 0) + "," + (this.g << 0) + "," + (this.b << 0) + ")";
                 }).start();
         }
-
 
     };
 })();
