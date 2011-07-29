@@ -26,7 +26,6 @@ Abstract:
 	ChuClone.namespace("ChuClone.components");
 	ChuClone.components.PhysicsVelocityLimitComponent = function() {
 		ChuClone.components.PhysicsVelocityLimitComponent.superclass.constructor.call(this);
-//		this._maxSpeed.Multiply( 3.0 );
         this.requiresUpdate = true;
 	};
 
@@ -39,7 +38,7 @@ Abstract:
         /**
          * @type {Number}
          */
-        _maxSpeed                       : new Box2D.Common.Math.b2Vec2(25, 0.4),
+        _maxSpeed                       : new Box2D.Common.Math.b2Vec2(22, 0.36),
 
         update: function() {
 

@@ -7,3 +7,4 @@ workspace.xml
 .DS_Store
 *_t.json
 /ChuCloneDB/app/tmp/
+/compiler/

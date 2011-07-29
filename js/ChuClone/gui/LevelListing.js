@@ -61,17 +61,9 @@
 		 * Load the sleected level
 		 */
         onLevelClicked: function() {
-
-			if( this.getAttribute("data-location") != "" ) {
-				throw new Error("data-location should not be used");
-
-	            window.location.hash = this.getAttribute("data-location");
-				ChuClone.Events.Dispatcher.emit( ChuClone.gui.LevelListing.prototype.EVENTS.SHOULD_CHANGE_LEVEL, this.getAttribute("data-location"));
-			} else { // Use id to load from DB
-				var aURL = ChuClone.utils.constructURLForLevelWithID( this.getAttribute("data-id")  );
-				ChuClone.Events.Dispatcher.emit( ChuClone.gui.LevelListing.prototype.EVENTS.SHOULD_CHANGE_LEVEL, aURL);
-				history.pushState(null, null, "/game/"+this.getAttribute("data-id"));
-			}
+			var aURL = ChuClone.utils.constructURLForLevelWithID( this.getAttribute("data-id")  );
+			ChuClone.Events.Dispatcher.emit( ChuClone.gui.LevelListing.prototype.EVENTS.SHOULD_CHANGE_LEVEL, aURL);
+			history.pushState(null, null, "/game/"+this.getAttribute("data-id"));
         },
 
         /**

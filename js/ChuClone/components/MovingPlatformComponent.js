@@ -318,16 +318,15 @@ Abstract:
         },
 
         RESET_ALL_PLATFORMS_EXCEPT: function( exception ) {
-            return;
-            var len = __MovingPlatforms.length;
-            for(var i = 0; i < len; i++) {
-                var platform = __MovingPlatforms[i];
-                if( platform == exception )
-                    continue;
-
-                platform.attachedEntity.getBody().SetPosition( platform._initialPosition.Copy() );
-//				platform.attachedEntity.getBody().SetLinearVelocity( new b2Vec2(0, 0) );
-            }
+//            var len = __MovingPlatforms.length;
+//            for(var i = 0; i < len; i++) {
+//                var platform = __MovingPlatforms[i];
+//                if( platform == exception )
+//                    continue;
+//
+//                platform.attachedEntity.getBody().SetPosition( platform._initialPosition.Copy() );
+////				platform.attachedEntity.getBody().SetLinearVelocity( new b2Vec2(0, 0) );
+//            }
         }
 
 	};

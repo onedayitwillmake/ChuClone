@@ -26,6 +26,7 @@
         GAME_HEIGHT				: 500,
         PTM_RATIO               : 64,
         DOM_ELEMENT             : null,
+		INITIAL_STATE			: 'PlayLevel',
         IS_EDIT_MODE            : function(){
             return window.location.href.toLowerCase().indexOf("edit") != -1;
         },
@@ -54,7 +55,7 @@
 
         ENTITY_TYPES: {
             PLAYER: 1 << 1,
-            PLATFORM: 1 << 2,
+            PLATFORM: 1 << 2
         },
 
         PLAYER: {

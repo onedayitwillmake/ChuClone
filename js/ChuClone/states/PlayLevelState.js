@@ -62,7 +62,7 @@ Abstract:
 		 */
 		enter: function() {
 			ChuClone.states.PlayLevelState.superclass.enter.call(this);
-
+			this.removeEditContainer();
             this._beatLevel = false;
             this._previousTime = Date.now();
             this.setupEvents();
@@ -195,6 +195,14 @@ Abstract:
                 this._player = null;
             }
         },
+
+		/**
+		 * Removes the editcontainer node if it's around
+		 */
+		removeEditContainer: function(){
+			if(!document.getElementById("editorContainer")) return;
+				document.getElementById("editorContainer").parentNode.removeChild(document.getElementById("editorContainer")); // Remove the editcontainer
+		},
 
         /**
          * @inheritDoc

@@ -151,7 +151,7 @@
 		getValidationErrorsFromJSON: function( responseJSON ) {
 			var errors = [];
 
-			for( var prohp in responseJSON ) {
+			for( var prop in responseJSON ) {
 				for( var i = 0; i < responseJSON[prop].length; i++) {
 					errors.push( prop + " " +responseJSON[prop][i] );
 				}

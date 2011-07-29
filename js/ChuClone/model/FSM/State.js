@@ -1,7 +1,7 @@
 (function(){
     ChuClone.namespace("ChuClone.model.FSM");
     ChuClone.model.FSM.State = function() {
-
+		this._closures = {};
     };
 
     ChuClone.model.FSM.State.prototype = {
@@ -10,7 +10,7 @@
          * Container of closures used in event callbacks
          * @type {Object}
          */
-        _closures   : {},
+        _closures   : null,
 
         enter: function() {
 
@@ -30,6 +30,8 @@
          * @param {Function} listener Function to be executed when the specified event is emitted
          */
         addListener: function( eventName, listener ) {
+			console.log("Adding Listener:", eventName);
+
             listener.eventName = eventName;
             this._closures[ eventName ] = listener;
             ChuClone.Events.Dispatcher.addListener(eventName, listener);

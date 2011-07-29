@@ -102,28 +102,17 @@
             this.setupLevelManager();
             this._stateMachine = new ChuClone.model.FSM.StateMachine();
 
-
-            var initialState = null;
-            if( ChuClone.model.Constants.IS_EDIT_MODE() ) {
-                this._worldController.setDebugDraw();
-                this._worldController.setupEditor( this._gameView );
-                this._levelManager.setupGui();
-                initialState = new ChuClone.states.EditState();
-//				this._levelManager.loadLatestLevel();
-            } else {
-                document.getElementById("editorContainer").parentNode.removeChild(document.getElementById("editorContainer")); // Remove the editcontainer
-                initialState = new ChuClone.states.PlayLevelState();
-            }
-
+			// Start the initial state
+			var initialState = new ChuClone.states[ChuClone.model.Constants.INITIAL_STATE + "State"]();
             initialState._worldController = this._worldController;
             initialState._gameView = this._gameView;
             initialState._levelManager = this._levelManager;
             this._stateMachine.setInitialState( initialState );
 
+			// Force load a level if we have a 'levelBeforeStart' property
 			if(levelBeforeStart) {
 				this._levelManager.loadLevelFromURL(this._worldController, this._gameView, levelBeforeStart);
 			}
-//			this._levelManager.loadLevelFromURL(this._worldController, this._gameView, "/assets/levels/SpeedUp_t.json");
 
             // MAIN LOOP
             var that = this;

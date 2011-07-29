@@ -48,6 +48,12 @@ Abstract:
 		 */
 		enter: function() {
 			ChuClone.states.EditState.superclass.enter.call(this);
+
+
+			this._worldController.setDebugDraw();
+			this._worldController.setupEditor( this._gameView );
+			this._levelManager.setupGui();
+
             this.setupEvents();
 		},
 

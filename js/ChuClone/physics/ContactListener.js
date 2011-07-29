@@ -55,20 +55,6 @@
 
        if( fixtureB.GetUserData() && fixtureB.GetUserData().onCollision )
            fixtureB.GetUserData().onCollision(actorA);
-
-       return;
-
-        // This is only true if for example a sprite touched something in your box2d simulation that was not a sprite such as the ground
-        // You may not want to return here, so keep that in mind
-        if(actorA == null || actorB == null) return;
-
-        // Information about the collision, such as where it hit exactly on each body
-        var b2WorldManifold = new Box2D.Dynamics.b2WorldManifold();
-        contact.GetWorldManifold( b2WorldManifold );
-
-        // Maybe you wanna handle it differently but for this example, we're going to simply use our global object (see previous post)
-        // To store the gamescene where these bodies exist and tell it they collided
-//        [[Global instance]._gameScene onActorDidStartContact:actorA against:actorB at:worldManifold];
     };
 
     ChuClone.extend( ChuClone.physics.ContactListener, Box2D.Dynamics.b2ContactListener )
