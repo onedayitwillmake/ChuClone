@@ -49,7 +49,7 @@
 
         // Little hack to prevent accidently leaving the page
         window.onbeforeunload = function(e) {
-//            return "Exiting page will lose unsaved changes!";
+            return "Exiting page will lose unsaved changes!";
         };
     };
 

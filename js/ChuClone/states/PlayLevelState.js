@@ -57,16 +57,66 @@ Abstract:
         // Internal state
         _beatLevel      : false,
 
+        _didAnimateIn   : false,
+
 		/**
 		 * @inheritDoc
 		 */
 		enter: function() {
 			ChuClone.states.PlayLevelState.superclass.enter.call(this);
+            this._didAnimateIn = false;
 			this.removeEditContainer();
             this._beatLevel = false;
             this._previousTime = Date.now();
             this.setupEvents();
+
 		},
+
+        animateIn: function() {
+            
+            var node = this._worldController.getWorld().GetBodyList();
+            this._player.getBody().SetActive( false );
+            while(node) {
+
+                var b = node;
+                node = node.GetNext();
+
+				/**
+				 * @type {ChuClone.GameEntity}
+				 */
+				var entity = b.GetUserData();
+				if (!(entity instanceof ChuClone.GameEntity) ) continue;
+				if( entity.getComponentWithName(ChuClone.components.CharacterControllerComponent.prototype.displayName) ) continue;
+				entity.getView().visible = false;
+
+				var end = b.GetPosition();
+				var start = {x: end.x + ChuClone.utils.randFloat(-100, 100), y: end.y + ChuClone.utils.randFloat(-100, 100), z: ChuClone.utils.randFloat(-10000, 10000) };
+				var end = {x: b.GetPosition().x, y: b.GetPosition().y, z: 0};
+				var prop = {target: b, entity: entity.getView(), x: start.x, y: start.y, z: start.z};
+
+				b.SetPosition(new Box2D.Common.Math.b2Vec2(start.x, start.y))
+				entity.getView().position.z = start.z;
+				entity.getView().visible = true;
+				var tween = new TWEEN.Tween(prop)
+						.to({x: end.x, y: end.y, z: end.z}, 1000)
+						.delay(Math.random() * 500 )
+						.onUpdate(function() {
+							this.target.SetPosition(new Box2D.Common.Math.b2Vec2(this.x, this.y));
+							this.entity.position.z = this.z;
+						})
+						.easing(TWEEN.Easing.Sinusoidal.EaseInOut)
+						.start();
+
+                var that = this;
+                this._animateInTimeout = setTimeout(function(){
+                    that.animateInComplete();
+                }, 500+1000)
+			}
+        },
+
+        animateInComplete: function() {
+            this._player.getBody().SetActive( true );
+        },
 
 		/**
 		 * Setup events related to this state
@@ -137,6 +187,7 @@ Abstract:
 		 * @param {ChuClone.editor.LevelManager} aLevelManager
 		 */
 		onLevelLoaded: function( aLevelManager ) {
+            console.log("LEVEL CREATED")
 			this.resetTime();
             this.setupCamera();
             this._worldController.createBox2dWorld();
@@ -173,6 +224,8 @@ Abstract:
 		},
 
         onPlayerCreated: function( aPlayer ) {
+
+
             this._player = aPlayer;
 
             // Add component to check the players boundary
@@ -188,6 +241,8 @@ Abstract:
             // Respawn at nearest respawnpoint
             var respawnPoint = ChuClone.components.RespawnComponent.prototype.GET_CURRENT_RESPAWNPOINT();
             respawnPoint.setSpawnedEntityPosition( this._player );
+
+            this.animateIn();
         },
 
         onPlayerDestroyed: function( aPlayer ) {

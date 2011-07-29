@@ -85,7 +85,17 @@ p {
     font-size: 16px;
     cursor: pointer;
 }
-
+.levelThumbnail p {
+    text-align:center; width:100%;
+    height:82px;
+    top:50%;
+    margin-top:-10px;
+    position:relative;
+}
+/*DIV.container {*/
+    /**/
+    /*display: table-cell;*/
+    /*vertical-align: middle }*/
 .levelThumbnail p {
     border: none;
     padding: 0;

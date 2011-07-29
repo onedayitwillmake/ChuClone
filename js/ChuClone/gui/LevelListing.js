@@ -54,7 +54,18 @@
             for (var i = 0; i < levelItems.length; ++i) {
                 var item = levelItems[i];
                 item.addEventListener('click', this.onLevelClicked, false);
+                item.addEventListener('mouseover', this.onLevelRollover, false);
             }
+        },
+
+        onLevelRollover: function() {
+            //border: 1px solid #666;
+            this.style.marginLeft = "0"
+            this.style.marginRight = "0"
+            this.style.border = "3px";
+            this.style.borderStyle = "solid";
+            this.style.borderColor = "#666";
+            console.log(this)
         },
 
 		/**

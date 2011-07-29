@@ -21,7 +21,6 @@ Abstract:
 
 	ChuClone.states.TitleScreenState = function() {
 		ChuClone.states.TitleScreenState.superclass.constructor.call(this);
-
 		this._tweenList = [];
 	};
 
@@ -49,6 +48,10 @@ Abstract:
 		 * Store all tweens in here for removal on exit
 		 */
 		_tweenList: null,
+        /**
+         * @type {Array}    Array of our extra mesh items
+         */
+        _backgroundElements: [],
 
 		/**
 		 * When the game is created, it might create a TitleScreenState - however any other time a level is loaded, we listen for that and remove ourselves
@@ -56,7 +59,8 @@ Abstract:
 		_hasShown: false,
 
 		propProxy: {targetX: 6800, targetY: -400, targetZ: -8000, posX: 9000, posY: 4400, posZ: 3400},
-		/**
+
+        /**
 		 * @inheritDoc
 		 */
 		enter: function() {
@@ -65,6 +69,9 @@ Abstract:
             this.setupEvents();
 		},
 
+        /**
+         * Setup the GUI instance
+         */
 		setupGUI: function() {
 			var camera = this._gameView.getCamera();
 			return;
@@ -114,8 +121,9 @@ Abstract:
 				mesh.position.y = this._camera.position.y + ChuClone.utils.randFloat(-2000, 3500);
 				mesh.position.z = this._camera.position.z - ChuClone.utils.randFloat(1000, 4000);
 
-
+                this._backgroundElements.push( mesh );
 				this._gameView.addObjectToScene( mesh );
+
 			}
 			// Animate all bodys that have a corresponding entity
 			/**
@@ -220,11 +228,22 @@ Abstract:
 			this.animateIn();
 		},
 
-		onLevelDestroyed: function( aLevelManager ) {
-			var len = this._tweenList.length;
-			for(var i = 0; i < len; i++) {
-				TWEEN.remove( this._tweenList[i] );
-			}
+        /**
+         * Called when our title screen is destroyed
+         * @param aLevelManager
+         */
+		onLevelDestroyed: function(aLevelManager) {
+            var len = this._tweenList.length;
+            for (var i = 0; i < len; i++) {
+                TWEEN.remove(this._tweenList[i]);
+            }
+            this._tweenList = [];
+
+            len = this._backgroundElements.length;
+            for (i = 0; i < len; i++) {
+                this._gameView.removeObjectFromScene(this._backgroundElements[i]);
+            }
+            this._backgroundElements = [];
 		},
 
         /**
@@ -291,6 +310,14 @@ Abstract:
 				}
 				this._tweenList = null;
 			}
+
+            if( this._backgroundElements ) {
+                len = this._backgroundElements.length;
+                for (i = 0; i < len; i++) {
+                    this._gameView.removeObjectFromScene(this._backgroundElements[i]);
+                }
+                this._backgroundElements = [];
+            }
 
             ChuClone.states.TitleScreenState.superclass.exit.call(this);
 			this.removeAllListeners();
