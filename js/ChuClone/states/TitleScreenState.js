@@ -100,7 +100,23 @@ Abstract:
 		 * Animate title blocks in
 		 */
 		animateIn: function() {
+			for(var j = 0; j < 50; j++ ) {
+				var width = Math.random() * 100;
+				var height = Math.random() * 100;
+				var depth = Math.random() * 100 * 2;
+				var geometry = new THREE.CubeGeometry( width, height, depth );
+				var mesh = new THREE.Mesh( geometry, [new THREE.MeshLambertMaterial( {
+					color: 0xFFFFFF, shading: THREE.SmoothShading,
+					map : THREE.ImageUtils.loadTexture( ChuClone.model.Constants.SERVER.ASSET_PREFIX + "assets/images/game/floor.png" )
+				})] );
+				mesh.dynamic = false;
+				mesh.position.x = this._camera.position.x + ChuClone.utils.randFloat(1000, 14000);
+				mesh.position.y = this._camera.position.y + ChuClone.utils.randFloat(-2000, 3500);
+				mesh.position.z = this._camera.position.z - ChuClone.utils.randFloat(1000, 4000);
 
+
+				this._gameView.addObjectToScene( mesh );
+			}
 			// Animate all bodys that have a corresponding entity
 			/**
              * @type {Box2D.Dynamics.b2Body}
