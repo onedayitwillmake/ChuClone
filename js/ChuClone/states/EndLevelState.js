@@ -39,18 +39,16 @@ Abstract:
         _player         : null,
 
 		/**
-		 * @inheritDoc
+		 * @inheritDoc 
 		 */
 		enter: function() {
 			ChuClone.states.EndLevelState.superclass.enter.call(this);
+            this._gameView.getCamera().removeAllComponents();
             this.setupEvents();
 		},
 
         setupEvents: function() {
             console.log("setting up events")
-            var that = this;
-            this.addListener( ChuClone.components.GoalPadComponent.prototype.EVENTS.GOAL_REACHED, function( aGoalPad ) { console.log("ABC");
-                that.onGoalReached( aGoalPad ) } );
         },
 
         /**

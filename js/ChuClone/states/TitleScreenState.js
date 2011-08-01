@@ -123,7 +123,6 @@ Abstract:
 
                 this._backgroundElements.push( mesh );
 				this._gameView.addObjectToScene( mesh );
-
 			}
 			// Animate all bodys that have a corresponding entity
 			/**
@@ -209,8 +208,8 @@ Abstract:
 //				}
             }
 
-            this._worldController.update();
             this._gameView.update( this._currentTime );
+            this._worldController.update();
         },
 
         /**
@@ -321,14 +320,12 @@ Abstract:
 
             ChuClone.states.TitleScreenState.superclass.exit.call(this);
 			this.removeAllListeners();
-            this.dealloc();
         },
 
         /**
          * @inheritDoc
          */
         dealloc: function() {
-			this.removeAllListeners();
             this._worldController = null;
             this._gameView = null;
             this._player = null;

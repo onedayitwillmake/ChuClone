@@ -34,6 +34,11 @@ Abstract:
 	 *  @param {ChuClone.components.RespawnComponent}
 	 */
 	var __removeRespawnPoint = function( aRespawnPoint ) {
+
+        if(__currentRespawnPoint == aRespawnPoint) {
+            __currentRespawnPoint = null;
+        }
+        
 		var len = __respawnPoints.length;
 		for (var i = 0; i < len; ++i) {
 			if (__respawnPoints[i] === aRespawnPoint) {
@@ -42,9 +47,6 @@ Abstract:
 			}
 		}
 	};
-
-	// TODO: TEMP HACK TO SEND THE FIRST RESPAWN POINT ON THE FIRST CALL
-	var __firstCall = true;
 
 	/**
 	 * Adds a respawn point to our internal array
@@ -178,12 +180,9 @@ Abstract:
 		},
 
 		GET_CURRENT_RESPAWNPOINT: function() {
-			if( !__currentRespawnPoint || __firstCall ) {
-				console.log("RespawnPointComponent.GET_CURRENT_RESPAWNPOINT - Warning, no current respawn point exist! - returning first");
-				__firstCall = false;
+			if( !__currentRespawnPoint) {
 				return __respawnPoints[0];
 			}
-
 			return __currentRespawnPoint;
 		}
 	};

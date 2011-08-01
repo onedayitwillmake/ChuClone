@@ -161,9 +161,7 @@
 				this._currentSlot = parseInt(localStorage.getItem("lastSlot"));
 				this.loadLevelFromSlot(null, null);
 			} catch (error) {
-				// TODO: DRY
-				ChuClone.utils.displayFlash("LevelManager.loadLatestLevel - Load failed", 1);
-				console.warn("LevelManager.loadLatestLevel - Load failed", error)
+				ChuClone.utils.displayFlash("LevelManager.loadLatestLevel - Load failed", 0);
 			}
 		},
 
@@ -366,6 +364,7 @@
 				aWorldController.getWorld().DestroyBody(b);
 			}
 
+            gameViewController.getCamera().removeAllComponents();
 			ChuClone.Events.Dispatcher.emit(ChuClone.editor.LevelManager.prototype.EVENTS.LEVEL_DESTROYED, this);
 		}
 

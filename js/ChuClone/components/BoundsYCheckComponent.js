@@ -27,44 +27,17 @@ Abstract:
 
 	ChuClone.components.BoundsYCheckComponent.prototype = {
 		displayName						: "BoundsYCheckComponent",					// Unique string name for this Trait
-
-		_minY							: 0.006,
+		MINIMUM_Y						: 7,
 
 		/**
 		 * Checks if the entity is below what is considered the floor
-		 * // TODO: USING MAGIC NUMBER TO REPRESENT FLOOR
 		 */
 		update: function() {
-			if(this.attachedEntity.getBody().GetPosition().y > 5) {
+			if(this.attachedEntity.getBody().GetPosition().y > this.MINIMUM_Y) {
 				var respawnPoint = ChuClone.components.RespawnComponent.prototype.GET_CURRENT_RESPAWNPOINT().setSpawnedEntityPosition( this.attachedEntity );
 				this.attachedEntity.getBody().SetLinearVelocity( new Box2D.Common.Math.b2Vec2(0, 0) );
 			}
-		},
-
-        /**
-         * Restore material and restitution
-         */
-        detach: function() {
-            ChuClone.components.BoundsYCheckComponent.superclass.detach.call(this);
-        },
-
-        /**
-         * @inheritDoc
-         */
-        getModel: function() {
-            var returnObject = ChuClone.components.BoundsYCheckComponent.superclass.getModel.call(this);
-            returnObject.minY = this._minY;
-            return returnObject;
-        },
-
-        /**
-         * @inheritDoc
-         */
-        fromModel: function( data, futureEntity ) {
-            ChuClone.components.BoundsYCheckComponent.superclass.fromModel.call(this, data);
-            this._minY = data.minY;
-        }
-
+		}
 	};
 
     ChuClone.extend( ChuClone.components.BoundsYCheckComponent, ChuClone.components.BaseComponent );

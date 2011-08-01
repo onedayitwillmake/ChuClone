@@ -676,11 +676,9 @@
             return controller;
         },
 
-        removeController: function( propName ) {
-            // TODO: Not Implemented
-        },
-
-
+        /**
+         * Dealloate memory
+         */
         dealloc: function() {
             this._worldController.getDebugDraw().GetSprite().canvas.removeEventListener( 'mousedown', this._closures['mousedown'], false );
             this._worldController.getDebugDraw().GetSprite().canvas.removeEventListener('mousemove', this._closures['mousemove'], false );

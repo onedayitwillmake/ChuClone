@@ -31,7 +31,6 @@
             return window.location.href.toLowerCase().indexOf("edit") != -1;
         },
 
-		// TODO: ALWAYS USE SERVER CONSTANT BEFORE ALL LOADING
 		SERVER: {
 			ASSET_PREFIX			: "", 					// Prefix all asset request with this
 			LEVEL_LOAD_LOCATION		: "/levels/",			// Location of where levels can be loaded from

@@ -176,7 +176,7 @@
             if (level === undefined) {
                 throw "Must suply level - either 1 or 0"
             }
-            var logLevels = [console.info, console.error];
+            var logLevels = [console.error, console.info];
             var colorLevels = [
                 {r: 255, g: 128, b: 128},
                 {r: 79, g: 213, b: 101}
@@ -185,13 +185,10 @@
 
             var flashNotice = document.getElementById("flash_notice");
             if (!flashNotice) {
-                logLevels[level]("ChuClone.Utils.displayFlash - No element flash_notice. Cannot flash message");
+                logLevels[level]("ChuClone.Utils.displayFlash", message);
                 return;
             }
 
-			if( level === 0 ) {
-				console.error(message)
-			}
             var output = message;
             if(message instanceof Array) {
                 output = ''; // Set as empty string

@@ -83,9 +83,8 @@
             window.addEventListener("focus", function(e) {that._hasFocus = true; }, false);
             window.addEventListener("blur", function(e) { that._hasFocus = false; }, false);
 
-			// TODO: Let levelManager load it's own levels?
+			// Levellisting item has been clicked
 			ChuClone.Events.Dispatcher.addListener(ChuClone.gui.LevelListing.prototype.EVENTS.SHOULD_CHANGE_LEVEL, function( levelFile ) {
-                that._gameView.getCamera().removeAllComponents();
 				that._levelManager.loadLevelFromURL( that._worldController, that._gameView, levelFile);
             });
 

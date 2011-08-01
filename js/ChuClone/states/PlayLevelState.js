@@ -54,9 +54,13 @@ Abstract:
          */
         _player         : null,
 
+        /**
+         * @type {Array}    Array of our extra mesh items
+         */
+        _backgroundElements: [],
+
         // Internal state
         _beatLevel      : false,
-
         _didAnimateIn   : false,
 
 		/**
@@ -64,16 +68,19 @@ Abstract:
 		 */
 		enter: function() {
 			ChuClone.states.PlayLevelState.superclass.enter.call(this);
+            this.removeEditContainer();
+
             this._didAnimateIn = false;
-			this.removeEditContainer();
             this._beatLevel = false;
             this._previousTime = Date.now();
             this.setupEvents();
-
 		},
 
         animateIn: function() {
-            
+            var cam = this._gameView.getCamera();
+
+            var goalPad = null;
+
             var node = this._worldController.getWorld().GetBodyList();
             this._player.getBody().SetActive( false );
             while(node) {
@@ -87,6 +94,8 @@ Abstract:
 				var entity = b.GetUserData();
 				if (!(entity instanceof ChuClone.GameEntity) ) continue;
 				if( entity.getComponentWithName(ChuClone.components.CharacterControllerComponent.prototype.displayName) ) continue;
+				if( entity.getComponentWithName(ChuClone.components.GoalPadComponent.prototype.displayName) ) goalPad = entity;
+
 				entity.getView().visible = false;
 
 				var end = b.GetPosition();
@@ -97,24 +106,55 @@ Abstract:
 				b.SetPosition(new Box2D.Common.Math.b2Vec2(start.x, start.y))
 				entity.getView().position.z = start.z;
 				entity.getView().visible = true;
+                var animationTime = 2000;
+                var variation = 400;
+
 				var tween = new TWEEN.Tween(prop)
-						.to({x: end.x, y: end.y, z: end.z}, 1000)
-						.delay(Math.random() * 500 )
+						.to({x: end.x, y: end.y, z: end.z}, animationTime)
+						.delay(Math.random() * variation )
 						.onUpdate(function() {
 							this.target.SetPosition(new Box2D.Common.Math.b2Vec2(this.x, this.y));
 							this.entity.position.z = this.z;
 						})
-						.easing(TWEEN.Easing.Sinusoidal.EaseInOut)
+						.easing(TWEEN.Easing.Circular.EaseInOut)
 						.start();
-
-                var that = this;
-                this._animateInTimeout = setTimeout(function(){
-                    that.animateInComplete();
-                }, 500+1000)
 			}
+
+            // Pan camera
+//
+//
+            // Animate in complete timeout
+            var respawnPoint = ChuClone.components.RespawnComponent.prototype.GET_CURRENT_RESPAWNPOINT();
+//            cam.removeAllComponents();
+//            cam.removeComponentWithName( ChuClone.components.camera.CameraFollowPlayerComponent.prototype.displayName );
+
+            var end = cam.position.clone();
+            cam.position = end.clone();
+            cam.position.z *= 10;
+            prop = {target: cam, z: cam.position.z};
+            new TWEEN.Tween(prop)
+                .to({z: end.z}, animationTime*2)
+                .onUpdate(function() {
+                    this.target.position.x = end.x;
+                    this.target.position.y = end.y;
+                    this.target.position.z = this.z;
+                    this.target.target.position = new THREE.Vector3(0,0,0);
+//  
+                })
+                .easing(TWEEN.Easing.Quadratic.EaseOut)
+                .start();
+
+            var that = this;
+            this._animateInTimeout = setTimeout(function(){
+                that.animateInComplete();
+            }, variation+animationTime)
         },
 
+        /**
+         * Fired on animate in complete
+         */
         animateInComplete: function() {
+            this._didAnimateIn = true;
             this._player.getBody().SetActive( true );
         },
 
@@ -124,6 +164,7 @@ Abstract:
         setupEvents: function() {
             var that = this;
             this.addListener( ChuClone.editor.LevelManager.prototype.EVENTS.LEVEL_CREATED, function( aLevelManager ) { that.onLevelLoaded( aLevelManager ) } );
+            this.addListener( ChuClone.editor.LevelManager.prototype.EVENTS.LEVEL_DESTROYED, function( aLevelManager ) { that.onLevelDestroyed( aLevelManager ) } );
             this.addListener( ChuClone.components.CharacterControllerComponent.prototype.EVENTS.CREATED, function( aPlayer ) { that.onPlayerCreated(aPlayer) } );
             this.addListener( ChuClone.components.CharacterControllerComponent.prototype.EVENTS.REMOVED, function( aPlayer ) { that.onPlayerDestroyed(aPlayer) } );
             this.addListener( ChuClone.components.GoalPadComponent.prototype.EVENTS.GOAL_REACHED, function( aGoalPad ) { that.onGoalReached( aGoalPad ) } );
@@ -151,21 +192,23 @@ Abstract:
                     entity.update();
             }
 
-            this._worldController.update();
+
             this._gameView.update( this._currentTime );
 
-
+            // Don't update canvas clock every frame
             if( this._currentTime - this._lastTextUpdate > 128 ) {
                 this._lastTextUpdate = this._currentTime;
                 ChuClone.gui.HUDController.setTimeInSeconds( this._elapsedTime );
             }
+
+            this._worldController.update();
         },
 
 		/**
 		 * Updates elapsed time until level is completed
 		 */
         updateTime: function() {
-            if( this._beatLevel )
+            if( this._beatLevel || !this._didAnimateIn )
                 return;
             
             this._currentTime = Date.now();
@@ -180,17 +223,6 @@ Abstract:
 			this._elapsedTime = 0;
 			this._lastTextUpdate = 0;
 			this._previousTime = Date.now();
-		},
-
-        /**
-		 * Called when a goal is hit
-		 * @param {ChuClone.editor.LevelManager} aLevelManager
-		 */
-		onLevelLoaded: function( aLevelManager ) {
-            console.log("LEVEL CREATED")
-			this.resetTime();
-            this.setupCamera();
-            this._worldController.createBox2dWorld();
 		},
 
         /**
@@ -218,18 +250,26 @@ Abstract:
 		 * @param {ChuClone.components.GoalPadComponent} aGoalComponent
 		 */
 		onGoalReached: function( aGoalComponent ) {
-			console.log("ChuClone.states.PlayLevelState:", aGoalComponent);
 			 ChuClone.gui.HUDController.setTimeInSeconds( this._elapsedTime );
 			 this._beatLevel = true;
+             this._player.addComponentAndExecute( new ChuClone.components.effect.BirdEmitterComponent() );
+
+
+
+//             /**
+//              * @type {ChuClone.states.EndLevelState}
+//              */
+//             var endLevelState = new ChuClone.states.EndLevelState();
+//             endLevelState._gameView = this._gameView;
+//             endLevelState._worldController = this._worldController;
+//             ChuClone.model.FSM.StateMachine.getInstance().changeState(endLevelState);
 		},
 
         onPlayerCreated: function( aPlayer ) {
-
-
             this._player = aPlayer;
 
             // Add component to check the players boundary
-            this._player.addComponentAndExecute(new ChuClone.components.BoundsYCheckComponent());
+            this._player.addComponentAndExecute( new ChuClone.components.BoundsYCheckComponent() );
 
 
             // Set the player target for the follow player component
@@ -243,12 +283,44 @@ Abstract:
             respawnPoint.setSpawnedEntityPosition( this._player );
 
             this.animateIn();
+
+            console.log(aPlayer);
         },
 
         onPlayerDestroyed: function( aPlayer ) {
             if( aPlayer === this._player ) {
                 this._player = null;
             }
+        },
+
+        /**
+		 * Called when a goal is hit
+		 * @param {ChuClone.editor.LevelManager} aLevelManager
+		 */
+		onLevelLoaded: function( aLevelManager ) {
+            this._isLevelLoaded = true;
+			this.resetTime();
+            this.setupCamera();
+            this._worldController.createBox2dWorld();
+		},
+
+        /**
+         * Level was destroyed - probably about to exit.
+         * Remove components?
+         */
+        onLevelDestroyed: function() {
+            console.log("PlayLevelState: onLevelDestroyed");
+            
+            if( this._isLevelLoaded ) {
+                /**
+                * @type {ChuClone.states.PlayLevelState}
+                */
+                var playLevelState = new ChuClone.states.PlayLevelState();
+                playLevelState._gameView = this._gameView;
+                playLevelState._worldController = this._worldController;
+                ChuClone.model.FSM.StateMachine.getInstance().changeState(playLevelState);
+            }
+
         },
 
 		/**
@@ -264,13 +336,12 @@ Abstract:
          */
         exit: function() {
             ChuClone.states.PlayLevelState.superclass.exit.call(this);
+            console.log("EXIT")
+            clearTimeout( this._animateInTimeout );
 
-			this._gameView.getCamera().removeComponentWithName( ChuClone.components.camera.CameraFollowPlayerComponent.prototype.displayName );
+            this._gameView.getCamera().removeComponentWithName( ChuClone.components.camera.CameraFollowPlayerComponent.prototype.displayName );
 			this._gameView.getCamera().removeComponentWithName( ChuClone.components.camera.CameraFocusRadiusComponent.prototype.displayName );
-
-            this.removeListener( ChuClone.components.GoalPadComponent.prototype.EVENTS.GOAL_REACHED );
-
-            this.dealloc();
+            this.removeAllListeners();
         },
 
         /**

@@ -18,6 +18,7 @@
     "use strict";
 
     var instance = null;
+    var _lastItem = null;
     ChuClone.namespace("ChuClone.gui");
     ChuClone.gui.LevelListing = function() {};
     ChuClone.gui.LevelListing.getInstance = function() {
@@ -55,18 +56,32 @@
                 var item = levelItems[i];
                 item.addEventListener('click', this.onLevelClicked, false);
                 item.addEventListener('mouseover', this.onLevelRollover, false);
+//                item.addEventListener('mouseout', this.onLevelRollout, false);
             }
         },
 
-        onLevelRollover: function() {
-            //border: 1px solid #666;
-            this.style.marginLeft = "0"
-            this.style.marginRight = "0"
-            this.style.border = "3px";
-            this.style.borderStyle = "solid";
-            this.style.borderColor = "#666";
-            console.log(this)
+        onLevelRollover: function(e) {
+            if( _lastItem == this ) return;
+
+            // Kill last tween
+            if( _lastItem ) {
+                ChuClone.gui.LevelListing.prototype.onLevelRollout.call( _lastItem );
+            }
+
+            _lastItem = this;
+
+            this.rollOver =  new TWEEN.Tween({target: this, size:0}).to({size: 3}, 150 ).easing( TWEEN.Easing.Quadratic.EaseInOut).onUpdate(function(){
+                this.target.style["box-shadow"] = "inset 0 0 0 " + (this.size << 0) + "px #888"
+            }).start();
         },
+        
+        onLevelRollout: function() {
+            this.rollOut =  new TWEEN.Tween({target: this, size:3}).to({size: 0}, 150 ).easing( TWEEN.Easing.Quadratic.EaseInOut).onUpdate(function(){
+                this.target.style["box-shadow"] = "inset 0 0 0 " + (this.size << 0) + "px #888"
+            }).start();
+        },
+
+
 
 		/**
 		 * Load the sleected level

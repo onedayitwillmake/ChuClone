@@ -75,8 +75,8 @@
          * Sets up the Box2D world and creates a bunch of boxes from that fall from the sky
          */
         setupBox2d: function() {
-            this.createBox2dWorld();
             this.modifySettings();
+            this.createBox2dWorld();
         },
 
         setupEvents: function() {
@@ -114,8 +114,6 @@
             this.createWorldBoundary();
             this._world.DestroyBody( this._wallRight );
             this._world.DestroyBody( this._wallTop );
-
-
         },
 
         createWorldBoundary: function() {

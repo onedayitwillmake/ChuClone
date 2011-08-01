@@ -1,203 +1,1009 @@
+/* COLORS */
+/* FUNCTIONS */
+/* MAKE A BUNCH OF JURA FONT CLASSES */
+.jura_1 {
+  font-size: 1px;
+  font-family: 'Jura', serif;
+  font-weight: 300;
+  text-shadow: none;
+  text-decoration: none;
+  text-transform: none;
+  letter-spacing: 0em;
+  word-spacing: 0em;
+  line-height: 1.2; }
+
+.jura_2 {
+  font-size: 2px;
+  font-family: 'Jura', serif;
+  font-weight: 300;
+  text-shadow: none;
+  text-decoration: none;
+  text-transform: none;
+  letter-spacing: 0em;
+  word-spacing: 0em;
+  line-height: 1.2; }
+
+.jura_3 {
+  font-size: 3px;
+  font-family: 'Jura', serif;
+  font-weight: 300;
+  text-shadow: none;
+  text-decoration: none;
+  text-transform: none;
+  letter-spacing: 0em;
+  word-spacing: 0em;
+  line-height: 1.2; }
+
+.jura_4 {
+  font-size: 4px;
+  font-family: 'Jura', serif;
+  font-weight: 300;
+  text-shadow: none;
+  text-decoration: none;
+  text-transform: none;
+  letter-spacing: 0em;
+  word-spacing: 0em;
+  line-height: 1.2; }
+
+.jura_5 {
+  font-size: 5px;
+  font-family: 'Jura', serif;
+  font-weight: 300;
+  text-shadow: none;
+  text-decoration: none;
+  text-transform: none;
+  letter-spacing: 0em;
+  word-spacing: 0em;
+  line-height: 1.2; }
+
+.jura_6 {
+  font-size: 6px;
+  font-family: 'Jura', serif;
+  font-weight: 300;
+  text-shadow: none;
+  text-decoration: none;
+  text-transform: none;
+  letter-spacing: 0em;
+  word-spacing: 0em;
+  line-height: 1.2; }
+
+.jura_7 {
+  font-size: 7px;
+  font-family: 'Jura', serif;
+  font-weight: 300;
+  text-shadow: none;
+  text-decoration: none;
+  text-transform: none;
+  letter-spacing: 0em;
+  word-spacing: 0em;
+  line-height: 1.2; }
+
+.jura_8 {
+  font-size: 8px;
+  font-family: 'Jura', serif;
+  font-weight: 300;
+  text-shadow: none;
+  text-decoration: none;
+  text-transform: none;
+  letter-spacing: 0em;
+  word-spacing: 0em;
+  line-height: 1.2; }
+
+.jura_9 {
+  font-size: 9px;
+  font-family: 'Jura', serif;
+  font-weight: 300;
+  text-shadow: none;
+  text-decoration: none;
+  text-transform: none;
+  letter-spacing: 0em;
+  word-spacing: 0em;
+  line-height: 1.2; }
+
+.jura_10 {
+  font-size: 10px;
+  font-family: 'Jura', serif;
+  font-weight: 300;
+  text-shadow: none;
+  text-decoration: none;
+  text-transform: none;
+  letter-spacing: 0em;
+  word-spacing: 0em;
+  line-height: 1.2; }
+
+.jura_11 {
+  font-size: 11px;
+  font-family: 'Jura', serif;
+  font-weight: 300;
+  text-shadow: none;
+  text-decoration: none;
+  text-transform: none;
+  letter-spacing: 0em;
+  word-spacing: 0em;
+  line-height: 1.2; }
+
+.jura_12 {
+  font-size: 12px;
+  font-family: 'Jura', serif;
+  font-weight: 300;
+  text-shadow: none;
+  text-decoration: none;
+  text-transform: none;
+  letter-spacing: 0em;
+  word-spacing: 0em;
+  line-height: 1.2; }
+
+.jura_13 {
+  font-size: 13px;
+  font-family: 'Jura', serif;
+  font-weight: 300;
+  text-shadow: none;
+  text-decoration: none;
+  text-transform: none;
+  letter-spacing: 0em;
+  word-spacing: 0em;
+  line-height: 1.2; }
+
+.jura_14 {
+  font-size: 14px;
+  font-family: 'Jura', serif;
+  font-weight: 300;
+  text-shadow: none;
+  text-decoration: none;
+  text-transform: none;
+  letter-spacing: 0em;
+  word-spacing: 0em;
+  line-height: 1.2; }
+
+.jura_15 {
+  font-size: 15px;
+  font-family: 'Jura', serif;
+  font-weight: 300;
+  text-shadow: none;
+  text-decoration: none;
+  text-transform: none;
+  letter-spacing: 0em;
+  word-spacing: 0em;
+  line-height: 1.2; }
+
+.jura_16 {
+  font-size: 16px;
+  font-family: 'Jura', serif;
+  font-weight: 300;
+  text-shadow: none;
+  text-decoration: none;
+  text-transform: none;
+  letter-spacing: 0em;
+  word-spacing: 0em;
+  line-height: 1.2; }
+
+.jura_17 {
+  font-size: 17px;
+  font-family: 'Jura', serif;
+  font-weight: 300;
+  text-shadow: none;
+  text-decoration: none;
+  text-transform: none;
+  letter-spacing: 0em;
+  word-spacing: 0em;
+  line-height: 1.2; }
+
+.jura_18 {
+  font-size: 18px;
+  font-family: 'Jura', serif;
+  font-weight: 300;
+  text-shadow: none;
+  text-decoration: none;
+  text-transform: none;
+  letter-spacing: 0em;
+  word-spacing: 0em;
+  line-height: 1.2; }
+
+.jura_19 {
+  font-size: 19px;
+  font-family: 'Jura', serif;
+  font-weight: 300;
+  text-shadow: none;
+  text-decoration: none;
+  text-transform: none;
+  letter-spacing: 0em;
+  word-spacing: 0em;
+  line-height: 1.2; }
+
+.jura_20 {
+  font-size: 20px;
+  font-family: 'Jura', serif;
+  font-weight: 300;
+  text-shadow: none;
+  text-decoration: none;
+  text-transform: none;
+  letter-spacing: 0em;
+  word-spacing: 0em;
+  line-height: 1.2; }
+
+.jura_21 {
+  font-size: 21px;
+  font-family: 'Jura', serif;
+  font-weight: 300;
+  text-shadow: none;
+  text-decoration: none;
+  text-transform: none;
+  letter-spacing: 0em;
+  word-spacing: 0em;
+  line-height: 1.2; }
+
+.jura_22 {
+  font-size: 22px;
+  font-family: 'Jura', serif;
+  font-weight: 300;
+  text-shadow: none;
+  text-decoration: none;
+  text-transform: none;
+  letter-spacing: 0em;
+  word-spacing: 0em;
+  line-height: 1.2; }
+
+.jura_23 {
+  font-size: 23px;
+  font-family: 'Jura', serif;
+  font-weight: 300;
+  text-shadow: none;
+  text-decoration: none;
+  text-transform: none;
+  letter-spacing: 0em;
+  word-spacing: 0em;
+  line-height: 1.2; }
+
+.jura_24 {
+  font-size: 24px;
+  font-family: 'Jura', serif;
+  font-weight: 300;
+  text-shadow: none;
+  text-decoration: none;
+  text-transform: none;
+  letter-spacing: 0em;
+  word-spacing: 0em;
+  line-height: 1.2; }
+
+.jura_25 {
+  font-size: 25px;
+  font-family: 'Jura', serif;
+  font-weight: 300;
+  text-shadow: none;
+  text-decoration: none;
+  text-transform: none;
+  letter-spacing: 0em;
+  word-spacing: 0em;
+  line-height: 1.2; }
+
+.jura_26 {
+  font-size: 26px;
+  font-family: 'Jura', serif;
+  font-weight: 300;
+  text-shadow: none;
+  text-decoration: none;
+  text-transform: none;
+  letter-spacing: 0em;
+  word-spacing: 0em;
+  line-height: 1.2; }
+
+.jura_27 {
+  font-size: 27px;
+  font-family: 'Jura', serif;
+  font-weight: 300;
+  text-shadow: none;
+  text-decoration: none;
+  text-transform: none;
+  letter-spacing: 0em;
+  word-spacing: 0em;
+  line-height: 1.2; }
+
+.jura_28 {
+  font-size: 28px;
+  font-family: 'Jura', serif;
+  font-weight: 300;
+  text-shadow: none;
+  text-decoration: none;
+  text-transform: none;
+  letter-spacing: 0em;
+  word-spacing: 0em;
+  line-height: 1.2; }
+
+.jura_29 {
+  font-size: 29px;
+  font-family: 'Jura', serif;
+  font-weight: 300;
+  text-shadow: none;
+  text-decoration: none;
+  text-transform: none;
+  letter-spacing: 0em;
+  word-spacing: 0em;
+  line-height: 1.2; }
+
+.jura_30 {
+  font-size: 30px;
+  font-family: 'Jura', serif;
+  font-weight: 300;
+  text-shadow: none;
+  text-decoration: none;
+  text-transform: none;
+  letter-spacing: 0em;
+  word-spacing: 0em;
+  line-height: 1.2; }
+
+.jura_31 {
+  font-size: 31px;
+  font-family: 'Jura', serif;
+  font-weight: 300;
+  text-shadow: none;
+  text-decoration: none;
+  text-transform: none;
+  letter-spacing: 0em;
+  word-spacing: 0em;
+  line-height: 1.2; }
+
+.jura_32 {
+  font-size: 32px;
+  font-family: 'Jura', serif;
+  font-weight: 300;
+  text-shadow: none;
+  text-decoration: none;
+  text-transform: none;
+  letter-spacing: 0em;
+  word-spacing: 0em;
+  line-height: 1.2; }
+
+.jura_33 {
+  font-size: 33px;
+  font-family: 'Jura', serif;
+  font-weight: 300;
+  text-shadow: none;
+  text-decoration: none;
+  text-transform: none;
+  letter-spacing: 0em;
+  word-spacing: 0em;
+  line-height: 1.2; }
+
+.jura_34 {
+  font-size: 34px;
+  font-family: 'Jura', serif;
+  font-weight: 300;
+  text-shadow: none;
+  text-decoration: none;
+  text-transform: none;
+  letter-spacing: 0em;
+  word-spacing: 0em;
+  line-height: 1.2; }
+
+.jura_35 {
+  font-size: 35px;
+  font-family: 'Jura', serif;
+  font-weight: 300;
+  text-shadow: none;
+  text-decoration: none;
+  text-transform: none;
+  letter-spacing: 0em;
+  word-spacing: 0em;
+  line-height: 1.2; }
+
+.jura_36 {
+  font-size: 36px;
+  font-family: 'Jura', serif;
+  font-weight: 300;
+  text-shadow: none;
+  text-decoration: none;
+  text-transform: none;
+  letter-spacing: 0em;
+  word-spacing: 0em;
+  line-height: 1.2; }
+
+.jura_37 {
+  font-size: 37px;
+  font-family: 'Jura', serif;
+  font-weight: 300;
+  text-shadow: none;
+  text-decoration: none;
+  text-transform: none;
+  letter-spacing: 0em;
+  word-spacing: 0em;
+  line-height: 1.2; }
+
+.jura_38 {
+  font-size: 38px;
+  font-family: 'Jura', serif;
+  font-weight: 300;
+  text-shadow: none;
+  text-decoration: none;
+  text-transform: none;
+  letter-spacing: 0em;
+  word-spacing: 0em;
+  line-height: 1.2; }
+
+.jura_39 {
+  font-size: 39px;
+  font-family: 'Jura', serif;
+  font-weight: 300;
+  text-shadow: none;
+  text-decoration: none;
+  text-transform: none;
+  letter-spacing: 0em;
+  word-spacing: 0em;
+  line-height: 1.2; }
+
+.jura_40 {
+  font-size: 40px;
+  font-family: 'Jura', serif;
+  font-weight: 300;
+  text-shadow: none;
+  text-decoration: none;
+  text-transform: none;
+  letter-spacing: 0em;
+  word-spacing: 0em;
+  line-height: 1.2; }
+
+.jura_41 {
+  font-size: 41px;
+  font-family: 'Jura', serif;
+  font-weight: 300;
+  text-shadow: none;
+  text-decoration: none;
+  text-transform: none;
+  letter-spacing: 0em;
+  word-spacing: 0em;
+  line-height: 1.2; }
+
+.jura_42 {
+  font-size: 42px;
+  font-family: 'Jura', serif;
+  font-weight: 300;
+  text-shadow: none;
+  text-decoration: none;
+  text-transform: none;
+  letter-spacing: 0em;
+  word-spacing: 0em;
+  line-height: 1.2; }
+
+.jura_43 {
+  font-size: 43px;
+  font-family: 'Jura', serif;
+  font-weight: 300;
+  text-shadow: none;
+  text-decoration: none;
+  text-transform: none;
+  letter-spacing: 0em;
+  word-spacing: 0em;
+  line-height: 1.2; }
+
+.jura_44 {
+  font-size: 44px;
+  font-family: 'Jura', serif;
+  font-weight: 300;
+  text-shadow: none;
+  text-decoration: none;
+  text-transform: none;
+  letter-spacing: 0em;
+  word-spacing: 0em;
+  line-height: 1.2; }
+
+.jura_45 {
+  font-size: 45px;
+  font-family: 'Jura', serif;
+  font-weight: 300;
+  text-shadow: none;
+  text-decoration: none;
+  text-transform: none;
+  letter-spacing: 0em;
+  word-spacing: 0em;
+  line-height: 1.2; }
+
+.jura_46 {
+  font-size: 46px;
+  font-family: 'Jura', serif;
+  font-weight: 300;
+  text-shadow: none;
+  text-decoration: none;
+  text-transform: none;
+  letter-spacing: 0em;
+  word-spacing: 0em;
+  line-height: 1.2; }
+
+.jura_47 {
+  font-size: 47px;
+  font-family: 'Jura', serif;
+  font-weight: 300;
+  text-shadow: none;
+  text-decoration: none;
+  text-transform: none;
+  letter-spacing: 0em;
+  word-spacing: 0em;
+  line-height: 1.2; }
+
+.jura_48 {
+  font-size: 48px;
+  font-family: 'Jura', serif;
+  font-weight: 300;
+  text-shadow: none;
+  text-decoration: none;
+  text-transform: none;
+  letter-spacing: 0em;
+  word-spacing: 0em;
+  line-height: 1.2; }
+
+.jura_49 {
+  font-size: 49px;
+  font-family: 'Jura', serif;
+  font-weight: 300;
+  text-shadow: none;
+  text-decoration: none;
+  text-transform: none;
+  letter-spacing: 0em;
+  word-spacing: 0em;
+  line-height: 1.2; }
+
+.jura_50 {
+  font-size: 50px;
+  font-family: 'Jura', serif;
+  font-weight: 300;
+  text-shadow: none;
+  text-decoration: none;
+  text-transform: none;
+  letter-spacing: 0em;
+  word-spacing: 0em;
+  line-height: 1.2; }
+
+.jura_51 {
+  font-size: 51px;
+  font-family: 'Jura', serif;
+  font-weight: 300;
+  text-shadow: none;
+  text-decoration: none;
+  text-transform: none;
+  letter-spacing: 0em;
+  word-spacing: 0em;
+  line-height: 1.2; }
+
+.jura_52 {
+  font-size: 52px;
+  font-family: 'Jura', serif;
+  font-weight: 300;
+  text-shadow: none;
+  text-decoration: none;
+  text-transform: none;
+  letter-spacing: 0em;
+  word-spacing: 0em;
+  line-height: 1.2; }
+
+.jura_53 {
+  font-size: 53px;
+  font-family: 'Jura', serif;
+  font-weight: 300;
+  text-shadow: none;
+  text-decoration: none;
+  text-transform: none;
+  letter-spacing: 0em;
+  word-spacing: 0em;
+  line-height: 1.2; }
+
+.jura_54 {
+  font-size: 54px;
+  font-family: 'Jura', serif;
+  font-weight: 300;
+  text-shadow: none;
+  text-decoration: none;
+  text-transform: none;
+  letter-spacing: 0em;
+  word-spacing: 0em;
+  line-height: 1.2; }
+
+.jura_55 {
+  font-size: 55px;
+  font-family: 'Jura', serif;
+  font-weight: 300;
+  text-shadow: none;
+  text-decoration: none;
+  text-transform: none;
+  letter-spacing: 0em;
+  word-spacing: 0em;
+  line-height: 1.2; }
+
+.jura_56 {
+  font-size: 56px;
+  font-family: 'Jura', serif;
+  font-weight: 300;
+  text-shadow: none;
+  text-decoration: none;
+  text-transform: none;
+  letter-spacing: 0em;
+  word-spacing: 0em;
+  line-height: 1.2; }
+
+.jura_57 {
+  font-size: 57px;
+  font-family: 'Jura', serif;
+  font-weight: 300;
+  text-shadow: none;
+  text-decoration: none;
+  text-transform: none;
+  letter-spacing: 0em;
+  word-spacing: 0em;
+  line-height: 1.2; }
+
+.jura_58 {
+  font-size: 58px;
+  font-family: 'Jura', serif;
+  font-weight: 300;
+  text-shadow: none;
+  text-decoration: none;
+  text-transform: none;
+  letter-spacing: 0em;
+  word-spacing: 0em;
+  line-height: 1.2; }
+
+.jura_59 {
+  font-size: 59px;
+  font-family: 'Jura', serif;
+  font-weight: 300;
+  text-shadow: none;
+  text-decoration: none;
+  text-transform: none;
+  letter-spacing: 0em;
+  word-spacing: 0em;
+  line-height: 1.2; }
+
+.jura_60 {
+  font-size: 60px;
+  font-family: 'Jura', serif;
+  font-weight: 300;
+  text-shadow: none;
+  text-decoration: none;
+  text-transform: none;
+  letter-spacing: 0em;
+  word-spacing: 0em;
+  line-height: 1.2; }
+
+.jura_61 {
+  font-size: 61px;
+  font-family: 'Jura', serif;
+  font-weight: 300;
+  text-shadow: none;
+  text-decoration: none;
+  text-transform: none;
+  letter-spacing: 0em;
+  word-spacing: 0em;
+  line-height: 1.2; }
+
+.jura_62 {
+  font-size: 62px;
+  font-family: 'Jura', serif;
+  font-weight: 300;
+  text-shadow: none;
+  text-decoration: none;
+  text-transform: none;
+  letter-spacing: 0em;
+  word-spacing: 0em;
+  line-height: 1.2; }
+
+.jura_63 {
+  font-size: 63px;
+  font-family: 'Jura', serif;
+  font-weight: 300;
+  text-shadow: none;
+  text-decoration: none;
+  text-transform: none;
+  letter-spacing: 0em;
+  word-spacing: 0em;
+  line-height: 1.2; }
+
+.jura_64 {
+  font-size: 64px;
+  font-family: 'Jura', serif;
+  font-weight: 300;
+  text-shadow: none;
+  text-decoration: none;
+  text-transform: none;
+  letter-spacing: 0em;
+  word-spacing: 0em;
+  line-height: 1.2; }
+
+/** MAKE A BUNCH OF GRID SPACES **/
+.margin_top_1 {
+  margin-top: 60px; }
+
+.margin_bottom_1 {
+  margin-top: 60px; }
+
+.padding_top_1 {
+  padding-top: 60px; }
+
+.padding_bottom_1 {
+  padding-bottom: 60px; }
+
+.margin_top_2 {
+  margin-top: 120px; }
+
+.margin_bottom_2 {
+  margin-top: 120px; }
+
+.padding_top_2 {
+  padding-top: 120px; }
+
+.padding_bottom_2 {
+  padding-bottom: 120px; }
+
+.margin_top_3 {
+  margin-top: 180px; }
+
+.margin_bottom_3 {
+  margin-top: 180px; }
+
+.padding_top_3 {
+  padding-top: 180px; }
+
+.padding_bottom_3 {
+  padding-bottom: 180px; }
+
+.margin_top_4 {
+  margin-top: 240px; }
+
+.margin_bottom_4 {
+  margin-top: 240px; }
+
+.padding_top_4 {
+  padding-top: 240px; }
+
+.padding_bottom_4 {
+  padding-bottom: 240px; }
+
+.margin_top_5 {
+  margin-top: 300px; }
+
+.margin_bottom_5 {
+  margin-top: 300px; }
+
+.padding_top_5 {
+  padding-top: 300px; }
+
+.padding_bottom_5 {
+  padding-bottom: 300px; }
+
+.margin_top_6 {
+  margin-top: 360px; }
+
+.margin_bottom_6 {
+  margin-top: 360px; }
+
+.padding_top_6 {
+  padding-top: 360px; }
+
+.padding_bottom_6 {
+  padding-bottom: 360px; }
+
+.margin_top_7 {
+  margin-top: 420px; }
+
+.margin_bottom_7 {
+  margin-top: 420px; }
+
+.padding_top_7 {
+  padding-top: 420px; }
+
+.padding_bottom_7 {
+  padding-bottom: 420px; }
+
+.margin_top_8 {
+  margin-top: 480px; }
+
+.margin_bottom_8 {
+  margin-top: 480px; }
+
+.padding_top_8 {
+  padding-top: 480px; }
+
+.padding_bottom_8 {
+  padding-bottom: 480px; }
+
+.margin_top_9 {
+  margin-top: 540px; }
+
+.margin_bottom_9 {
+  margin-top: 540px; }
+
+.padding_top_9 {
+  padding-top: 540px; }
+
+.padding_bottom_9 {
+  padding-bottom: 540px; }
+
+.margin_top_10 {
+  margin-top: 600px; }
+
+.margin_bottom_10 {
+  margin-top: 600px; }
+
+.padding_top_10 {
+  padding-top: 600px; }
+
+.padding_bottom_10 {
+  padding-bottom: 600px; }
+
+.margin_top_11 {
+  margin-top: 660px; }
+
+.margin_bottom_11 {
+  margin-top: 660px; }
+
+.padding_top_11 {
+  padding-top: 660px; }
+
+.padding_bottom_11 {
+  padding-bottom: 660px; }
+
+.margin_top_12 {
+  margin-top: 720px; }
+
+.margin_bottom_12 {
+  margin-top: 720px; }
+
+.padding_top_12 {
+  padding-top: 720px; }
+
+.padding_bottom_12 {
+  padding-bottom: 720px; }
+
 body {
-    background: #FDFDFD;
-    color: #333;
-    height: auto;
-    padding-bottom: 20px;
-
-	font-family: 'Jura', serif;
-    font-weight: 300;
-    text-shadow: none;
-    text-decoration: none;
-    text-transform: none;
-    letter-spacing: 0em;
-    word-spacing: 0em;
-    line-height: 1.2;
-}
-a {
-	font-weight: 300;
-    color: #333;
-    text-decoration: none;
-}
-
-a:hover {
-    text-decoration: underline;
-}
+  background: #FDFDFD;
+  color: #333333;
+  height: auto;
+  padding-bottom: 20px; }
 
 h1 {
-    font-size: 48px;
-    font-weight: 700;
-    padding-top: 10px;
-    padding-bottom: 5px;
-    margin-bottom: 0;
-    text-align: center;
-}
+  font-size: 48px;
+  font-family: 'Jura', serif;
+  font-weight: 700;
+  text-shadow: none;
+  text-decoration: none;
+  text-transform: none;
+  letter-spacing: 0em;
+  word-spacing: 0em;
+  line-height: 1.2;
+  padding-top: 10px;
+  padding-bottom: 5px;
+  margin-bottom: 0;
+  text-align: center; }
 
 h2 {
-    padding-top: 20px;
-    text-align: center;
-}
+  padding-top: 20px;
+  text-align: center; }
 
-p {
-    /*overflow: hidden;*/
-    text-align: center;
-}
+a {
+  font-weight: 300;
+  text-decoration: none;
+  color: #333333; }
+  a:hover {
+    text-decoration: underline; }
 
-.grayBorder {
-	border: 1px solid #666;
-    padding: 5px 0;
-}
-
-.magentaBorder {}
-
-.margin_top_1 {
-	  margin-top:60px
-}
-.margin_bottom_1 {
-	  margin-bottom:60px
-}
-
-.padding_top_1  {
-	  padding-top:60px
-}
-.padding_bottom_1 {
-	  padding-bottom:60px
-}
-
-
-.JURA_normal_36 {
-    font-size: 36px;
-    font-style: normal;
-}
-
-.doMore {
-    font-size: 12px;
-    cursor: pointer;
-}
-
-
-.levelThumbnail {
-    border: 1px solid #666;
-    margin-left: -1px;
-    margin-right: 19px;
-	margin-bottom: 20px;
-    width: 19px;
-    height: 80px;
-    font-size: 16px;
-    cursor: pointer;
-}
-.levelThumbnail p {
-    text-align:center; width:100%;
-    height:82px;
-    top:50%;
-    margin-top:-10px;
-    position:relative;
-}
-/*DIV.container {*/
-    /**/
-    /*display: table-cell;*/
-    /*vertical-align: middle }*/
-.levelThumbnail p {
-    border: none;
-    padding: 0;
-}
-
-.levelThumbnailEOL {
-    margin-right: 0;
-    margin-left: -2px;
-}
-
-.levelCurrent {
-
-}
-
-.levelCompleted {
-
-}
-
-.levelThumbnailInner {
-	position: absolute;
-	top: 0;
-	left: 0;
-    margin: auto;
-}
-
-.levelAvailable {
-	background-image: url(../images/page/12_col_stripes.gif);
-}
-
-.levelUnavailable {
-
-}
-
-.headerGrid {
-	/*background-image: url(../images/page/12_col_stripes.gif);*/
-	height: 2px;
-	margin-bottom: 20px;
-}
+:focus {
+  outline: 0; }
 
 .container_12,
 .container_16,
 .container_24 {
-    /*background-color: #eaeaea;*/
-    background-repeat: repeat-y;
-    margin-bottom: 20px;
-}
+  background-repeat: repeat-y;
+  margin-bottom: 20px; }
 
-.container_12 {
-    /*background-image: url(../images/page/12_col_stripes.gif);*/
-}
+.user_nav, .user_nav_disabled {
+  font-size: 16px;
+  font-family: 'Jura', serif;
+  font-weight: 300;
+  text-shadow: none;
+  text-decoration: none;
+  text-transform: none;
+  letter-spacing: 0em;
+  word-spacing: 0em;
+  line-height: 1.2;
+  text-align: center;
+  margin-top: 25px; }
 
-.container_16 {
-    /*background-image: url(../img/16_col.gif);*/
-}
+.user_nav_disabled {
+  opacity: 0.75; }
 
-.container_24 {
-    /*background-image: url(../img/24_col.gif);*/
-}
+.grayBorder {
+  border: 1px solid gray;
+  text-align: center;
+  padding: 5px 0; }
 
-.lineBorder {
-    border: 1px solid #666;
-}
+.headerGrid {
+  height: 2px;
+  margin-bottom: 20px; }
 
-#gameContainer {
-    width: 1000px;
-	height: 500px;
-    border: 1px solid #666;
-    margin-left: -20px;
-}
+.magentaBorder {
+  border: 1px solid red;
+  text-align: center;
+  padding: 5px 0; }
 
-#editorContainer {
-    width: 1000px;
-    border: 1px solid #666;
-    margin-left: -20px;
-    margin-top: 2px;
-    margin-bottom: 20px;
-}
+.levelThumbnail, .levelThumbnailOmega {
+  border: 1px solid #666666;
+  margin-left: -1px;
+  margin-right: 19px;
+  margin-bottom: 20px;
+  width: 19px;
+  height: 80px;
+  font-size: 16px;
+  cursor: pointer;
+  font-size: 16px;
+  font-family: 'Jura', serif;
+  font-weight: normal;
+  text-shadow: none;
+  text-decoration: none;
+  text-transform: none;
+  letter-spacing: 0em;
+  word-spacing: 0em;
+  line-height: 1.2; }
+  .levelThumbnail p, .levelThumbnailOmega p {
+    position: relative;
+    margin-top: -10px;
+    padding: 0;
+    width: 100%;
+    height: 82px;
+    top: 50%;
+    border: none;
+    text-align: center; }
 
-#HUDTime {
-    padding: 5px 0;
-    text-align: center;
-}
+.levelThumbnailOmega {
+  margin-right: 0;
+  margin-left: -2px; }
 
-#levelClipboard {
-    font-family: sans;
-	font-size: 1px;
-	padding: 5px;
-}
+.levelAvailable {
+  background-image: url(../images/page/12_col_stripes.gif); }
 
-:focus {
-    outline: 0;
-}
-
+.doMore {
+  font-size: 12px;
+  font-family: 'Jura', serif;
+  font-weight: 300;
+  text-shadow: none;
+  text-decoration: none;
+  text-transform: none;
+  letter-spacing: 0em;
+  word-spacing: 0em;
+  line-height: 1.2; }
 
 .flash_notice {
-	font-size: 13px;
-	text-align: left;
-	margin-left: -225px;
-	margin-top: 72px;
-	height: 60px;
-	width: 280px;
-	position: absolute;
-	border: 1px solid #666;
-	padding-left: 5px;
-}
+  font-size: 13px;
+  font-family: 'Jura', serif;
+  font-weight: 300;
+  text-shadow: none;
+  text-decoration: none;
+  text-transform: none;
+  letter-spacing: 0em;
+  word-spacing: 0em;
+  line-height: 1.2;
+  text-align: left;
+  margin-left: -225px;
+  margin-top: 72px;
+  height: 60px;
+  width: 280px;
+  position: absolute;
+  border: 1px solid #666666;
+  text-align: center;
+  padding-left: 5px; }
+
+#gameContainer {
+  width: 1000px;
+  height: 500px;
+  border: 1px solid #666666;
+  text-align: center;
+  margin-left: -20px; }
+
+#editorContainer {
+  width: 1000px;
+  border: 1px solid #666666;
+  text-align: center;
+  margin-left: -20px;
+  margin-top: 2px;
+  margin-bottom: 20px; }
+
+#HUDTime {
+  border: 1px solid #666666;
+  text-align: center;
+  padding: 5px 0;
+  text-align: center; }
