@@ -50,10 +50,11 @@
          * Setup 'click' eventlistener for each level item
          */
         setupDivs: function( ) {
-            var levelItems = document.getElementsByClassName("levelThumbnail");
+            var levelListing = document.getElementById("levellisting");
+            if( !levelListing ) { console.error("Could not find levellisting element"); return; }
 
-            for (var i = 0; i < levelItems.length; ++i) {
-                var item = levelItems[i];
+            for (var i = 0; i < levelListing.children.length; ++i) {
+                var item = levelListing.children[i];
                 item.addEventListener('click', this.onLevelClicked, false);
                 item.addEventListener('mouseover', this.onLevelRollover, false);
 //                item.addEventListener('mouseout', this.onLevelRollout, false);

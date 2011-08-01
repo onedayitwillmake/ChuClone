@@ -174,6 +174,13 @@
         },
 
         /**
+         * @type {Array}
+         */
+        getComponents: function() {
+            return this.components;
+        },
+
+        /**
          * Removes all components contained in this entity
          */
         removeAllComponents: function() {

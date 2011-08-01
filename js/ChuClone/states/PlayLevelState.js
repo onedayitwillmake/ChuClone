@@ -70,6 +70,9 @@ Abstract:
 			ChuClone.states.PlayLevelState.superclass.enter.call(this);
             this.removeEditContainer();
 
+            // Hide the camera before we animate in
+            this._gameView.getCamera().position = new THREE.Vector3(-10000, -10000, -10000);
+
             this._didAnimateIn = false;
             this._beatLevel = false;
             this._previousTime = Date.now();
@@ -77,9 +80,7 @@ Abstract:
 		},
 
         animateIn: function() {
-            var cam = this._gameView.getCamera();
-
-            var goalPad = null;
+            var player, goalpad;
 
             var node = this._worldController.getWorld().GetBodyList();
             this._player.getBody().SetActive( false );
@@ -93,8 +94,14 @@ Abstract:
 				 */
 				var entity = b.GetUserData();
 				if (!(entity instanceof ChuClone.GameEntity) ) continue;
-				if( entity.getComponentWithName(ChuClone.components.CharacterControllerComponent.prototype.displayName) ) continue;
-				if( entity.getComponentWithName(ChuClone.components.GoalPadComponent.prototype.displayName) ) goalPad = entity;
+				if( entity.getComponentWithName(ChuClone.components.CharacterControllerComponent.prototype.displayName) ) {
+                    player = entity;
+                    continue;
+                }
+				if( entity.getComponentWithName(ChuClone.components.GoalPadComponent.prototype.displayName) ) {
+                    goalpad = entity;
+                    continue;
+                }
 
 				entity.getView().visible = false;
 
@@ -120,40 +127,61 @@ Abstract:
 						.start();
 			}
 
-            // Pan camera
-//
-//
-            // Animate in complete timeout
-            var respawnPoint = ChuClone.components.RespawnComponent.prototype.GET_CURRENT_RESPAWNPOINT();
-//            cam.removeAllComponents();
-//            cam.removeComponentWithName( ChuClone.components.camera.CameraFollowPlayerComponent.prototype.displayName );
+            this.animateCameraIn( player, goalpad, animationTime+variation);
+        },
 
-            var end = cam.position.clone();
-            cam.position = end.clone();
-            cam.position.z *= 10;
-            prop = {target: cam, z: cam.position.z};
-            new TWEEN.Tween(prop)
-                .to({z: end.z}, animationTime*2)
-                .onUpdate(function() {
-                    this.target.position.x = end.x;
-                    this.target.position.y = end.y;
-                    this.target.position.z = this.z;
-                    this.target.target.position = new THREE.Vector3(0,0,0);
-//  
-                })
-                .easing(TWEEN.Easing.Quadratic.EaseOut)
-                .start();
-
+        /**
+         * Animates the camera from the goalpad to the players position
+         * @param {ChuClone.GameEntity} player
+         * @param {ChuClone.GameEntity} goalpad
+         * @param {Number} duration
+         */
+        animateCameraIn: function( player, goalpad, duration) {
             var that = this;
-            this._animateInTimeout = setTimeout(function(){
-                that.animateInComplete();
-            }, variation+animationTime)
+
+            var cam = this._gameView.getCamera();
+            var camStart = goalpad.getView().position.clone();
+            camStart.x += 1000;
+            camStart.y += 5000;
+            camStart.z += 1500;
+
+            var camEnd = player.getView().position.clone();
+            camEnd.x -= 1000;
+            camEnd.y += 1000;
+            camEnd.z += 1000;
+
+            // Temporarily remove the components - we'll set them back when we're done animating
+            var components = cam.getComponents();
+            cam.components = [];
+            cam.position = camStart.clone();
+
+            var prop = {target: cam, x:camStart.x, y: camStart.y, z: camStart.z};
+            new TWEEN.Tween(prop)   
+                .to({x: camEnd.x, y: camEnd.y, z: camEnd.z}, duration)
+                .onUpdate(function(t) {
+                    this.target.position.x = this.x;
+                    this.target.position.y = this.y;
+                    this.target.position.z = this.z;
+                    this.target.target.position = player.getView().position.clone();
+                })
+                .onComplete(function() {
+                    cam.components = components;
+                    that.animateInComplete();
+                })
+                .delay(1000)
+                .easing(TWEEN.Easing.Sinusoidal.EaseInOut)
+                .start();
         },
 
         /**
          * Fired on animate in complete
          */
         animateInComplete: function() {
+            this._currentTime = 0;
+            this._previousTime = 0;
+            this._elapsedTime = 0;
+            this._previousTime = Date.now();
+
             this._didAnimateIn = true;
             this._player.getBody().SetActive( true );
         },

@@ -20,8 +20,6 @@ Abstract:
 
 	ChuClone.namespace("ChuClone.components.camera");
 	ChuClone.components.camera.CameraFollowPlayerComponent = function() {
-
-        console.log("CameraFollowPlayerComponent")
 		ChuClone.components.camera.CameraFollowPlayerComponent.superclass.constructor.call(this);
         this.requiresUpdate = true;
 	};
@@ -41,7 +39,7 @@ Abstract:
          * @type {THREE.Vector3}
          */
         _offset     : null,
-        _damping    : 0.3,
+        _damping    : 0.25,
 
         attach: function( anEntity ) {
             ChuClone.components.camera.CameraFollowPlayerComponent.superclass.attach.call(this, anEntity);
