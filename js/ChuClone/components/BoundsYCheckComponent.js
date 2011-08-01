@@ -27,7 +27,7 @@ Abstract:
 
 	ChuClone.components.BoundsYCheckComponent.prototype = {
 		displayName						: "BoundsYCheckComponent",					// Unique string name for this Trait
-		MINIMUM_Y						: 7,
+		MINIMUM_Y						: 5,
 
 		/**
 		 * Checks if the entity is below what is considered the floor

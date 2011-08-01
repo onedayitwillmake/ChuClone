@@ -89,14 +89,52 @@
 			this._gui.add(this._propProxy.radius, 'z').onChange( function( aValue ) { that.onRadiusChange(this); }).min(0).max(maxRadius*2);
 
 
+            var editorContainer = document.getElementById("editorContainer");
+            var levelName = document.getElementById("levelName");
+            var hudTime = document.getElementById("HUDTime");
+
+            this._preFullscreen = {};
+            this._preFullscreen['editorContainer'] = window.getComputedStyle(editorContainer);
+            this._preFullscreen['levelName'] = window.getComputedStyle(levelName);
+            this._preFullscreen['hudTime'] = window.getComputedStyle(hudTime);
+
 			// Fullscreen
 			this._controls['fullscreen'] = this._gui.add(this._propProxy, 'fullscreen').name("Fullscreen").onChange(function( aValue ) {
 				ChuClone.editor.WorldEditor.getInstance().getViewController().setFullscreen( aValue );
+
+
+
+                if(aValue) {
+                    
+//                    editorContainer.style.position = 'absolute'
+//                    editorContainer.style.top = window.innerHeight - ChuClone.model.Constants.GAME_HEIGHT - 10   + "px"
+//                    editorContainer.style.left = 30 + "px";
+//
+//                    levelName.style.position = 'absolute'
+//                    levelName.style.width = (60*4) + 'px'
+//                    levelName.style.top = parseInt(editorContainer.style.top) - levelName.offsetHeight + "px"
+//                    levelName.style.left = "10px";
+//
+//                    hudTime.style.position = 'absolute'
+//                    hudTime.style.top = parseInt(editorContainer.style.top) - (hudTime.clientHeight) - 2 + "px"
+//                    hudTime.style.left = levelName.offsetWidth + 5 + "px";
+                } else {
+                    editorContainer.style.position = that._preFullscreen['editorContainer'].getPropertyValue("position");
+                    editorContainer.style.position
+                    editorContainer.style.position
+
+//                    editorContainer.style.top = "" = editorContainer.style.left = "" = levelName.style.top = levelName.style.left = hudTime.style.top = hudTime.style.left = "";
+                }
+
+                console.log( window.getComputedStyle(editorContainer, null))
+//				ChuClone.editor.WorldEditor.getInstance().getWorldController().g.setFullscreen( aValue );
 			});
 
             this._gui.close();
             this._gui.open();
         },
+
+        
 
 		/**
 		 * Called when the camera type has been changed

@@ -86,6 +86,9 @@ function EventEmitter() {
 	 * @returns {Object} The current instance of EventEmitter to allow chaining
 	 */
 	instance.emit = function(eventName) {
+        if(!eventName) {
+            console.error("Attempting to dispatch null event, probably an error");
+        }
 		// Check if we currently have a listener array for the specified event
 		if(listeners[eventName]) {
 			// We do, get the arguments
