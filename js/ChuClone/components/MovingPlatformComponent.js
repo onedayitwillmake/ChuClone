@@ -26,12 +26,12 @@ Abstract:
 	 */
 	var __MovingPlatforms = [];
 	/**
-	 * @type {ChuClone.components.RespawnComponent}
+	 * @type {ChuClone.components.MovingPlatformComponent}
 	 */
 	var __currentMovingPlatform = null;
 	/**
 	 *  Removes a MovingPlatform
-	 *  @param {ChuClone.components.RespawnComponent}
+	 *  @param {ChuClone.components.MovingPlatformComponent}
 	 */
 	var __removeMovingPlatform = function( aMovingPlatform ) {
 		var len = __MovingPlatforms.length;
@@ -45,7 +45,7 @@ Abstract:
 
     /**
 	 * Adds a respawn point to our internal array
-	 * @param {ChuClone.components.RespawnComponent} aMovingPlatform
+	 * @param {ChuClone.components.MovingPlatformComponent} aMovingPlatform
 	 */
 	var __addMovingPlatform = function( aMovingPlatform ) {
 		__MovingPlatforms.push(aMovingPlatform);
@@ -135,12 +135,26 @@ Abstract:
 		 * Modify the entity to move along axis as defined by sin/cos * range
 		 */
 		update: function() {
+            var rate;
+            var minRate = 0.1;
+            var inverseMinRate = 1.0 - minRate;
+            
             var finalVelocity = this._velocity.Copy();
             finalVelocity.x = (this._range.x > 1) ? this._speed.x * this._direction.x : 0;
             finalVelocity.y = (this._range.y > 1) ? this._speed.y * this._direction.y : 0;
             
             var finalPosition = this.attachedEntity.getBody().GetPosition();
 
+            /*
+            // t: current time, b: beginning value, c: change in value, d: duration
+Math.easeOutQuad = function (t, b, c, d) {
+	return -c *(t/=d)*(t-2) + b;
+};
+             */
+
+            var easeout = function(t, b, c, d) {
+                return c*((t=t/d-1)*t*t*t*t + 1) + b; // ease out quint
+            };
 
             /**
              * Handle X
@@ -148,10 +162,15 @@ Abstract:
             if( this._range.x > 1 ) {
                 var distX = finalPosition.x - this._initialPosition.x;
                 var absDistX = Math.abs(distX);
+
+                rate = absDistX / this._range.x;
                 if( absDistX > this._range.x ) {
                     finalPosition.x = this._initialPosition.x+(this._direction.x * this._range.x);
                     this._direction.x *= -1;
                     finalVelocity.x = this._speed.x * this._direction.x;
+                } else if( rate > minRate ) {
+                    var maxv = (this._speed.x * this._direction.x);
+                    finalVelocity.x = easeout(1.0-rate, 0, maxv*inverseMinRate, 1.0) + maxv*minRate;
                 }
             }
 
@@ -162,10 +181,14 @@ Abstract:
                 var distY = finalPosition.y - this._initialPosition.y;
                 var absDistY = Math.abs(distY);
 
+                rate = absDistY / this._range.y;
                 if (absDistY > this._range.y) {
                     finalPosition.y = this._initialPosition.y + (this._direction.y * this._range.y);
                     this._direction.y *= -1;
                     finalVelocity.y = this._speed.y * this._direction.y;
+                } else if( rate > minRate ) {
+                    var maxv = (this._speed.y * this._direction.y);
+                    finalVelocity.y = easeout(1.0-rate, 0, maxv*inverseMinRate, 1.0) + maxv*minRate;
                 }
             }
 
