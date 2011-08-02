@@ -53,6 +53,11 @@
         _controls: [],
 
 		/**
+		 * @type {Boolean}
+		 */
+		_isFullScreen : false,
+
+		/**
          * We modify this not the b2Body directly
          */
         _propProxy          : {x: 5, y: 5, z: 3, radius: new THREE.Vector3(1000, 1000, 3000), fullscreen: false},
@@ -89,14 +94,61 @@
 			this._gui.add(this._propProxy.radius, 'z').onChange( function( aValue ) { that.onRadiusChange(this); }).min(0).max(maxRadius*2);
 
 
-			// Fullscreen
-			this._controls['fullscreen'] = this._gui.add(this._propProxy, 'fullscreen').name("Fullscreen").onChange(function( aValue ) {
-				ChuClone.editor.WorldEditor.getInstance().getViewController().setFullscreen( aValue );
-			});
-
+			this.setupFullscreenToggle();
             this._gui.close();
             this._gui.open();
         },
+
+
+		/**
+		 * Wraps callback for fullscreen toggle
+		 */
+		setupFullscreenToggle: function() {
+
+			// Store styles
+            ChuClone.utils.styleMemoizer.rememberStyle( "flash_notice" );
+            ChuClone.utils.styleMemoizer.rememberStyle( "editorContainer" );
+			ChuClone.utils.styleMemoizer.rememberStyle( "levelName" );
+			ChuClone.utils.styleMemoizer.rememberStyle( "HUDTime" );
+
+			//
+			var that = this;
+			this._controls['fullscreen'] = this._gui.add(this._propProxy, 'fullscreen').name("Fullscreen").onChange(function( aValue ) {
+				ChuClone.editor.WorldEditor.getInstance().getViewController().setFullscreen(aValue);
+
+				var editorContainer = document.getElementById("editorContainer");
+            	var levelName = document.getElementById("levelName");
+				var hudTime = document.getElementById("HUDTime");
+				var flashNotice = document.getElementById("flash_notice");
+
+				if (aValue) {
+					var editorLeft = Math.round(window.innerWidth/2 - editorContainer.clientWidth/2);
+					editorContainer.style.position = 'absolute'
+					editorContainer.style.top = window.innerHeight - ChuClone.model.Constants.GAME_HEIGHT - 10 + "px"
+					editorContainer.style.left =  editorLeft + "px";
+
+					levelName.style.position = 'absolute'
+					levelName.style.width = (60 * 4) + 'px'
+					levelName.style.top = window.innerHeight - levelName.offsetHeight - 6 + "px"
+					levelName.style.left = editorLeft - levelName.clientWidth - 25 + "px";
+
+					hudTime.style.position = 'absolute'
+					hudTime.style.top = window.innerHeight - levelName.offsetHeight - hudTime.offsetHeight - 10 + "px"
+					hudTime.style.left = editorLeft - hudTime.offsetWidth - 33 + "px";
+
+					flashNotice.style['z-index'] = 1;
+					flashNotice.style.backgroundColor = 	"#FFFFFF";
+					flashNotice.style.opacity = 0.75;
+					flashNotice.style.top = parseInt(editorContainer.style.top) - flashNotice.clientHeight - 10 + "px"
+				} else {
+					ChuClone.utils.styleMemoizer.restoreStyle( "flash_notice" );
+					ChuClone.utils.styleMemoizer.restoreStyle( 'editorContainer' );
+					ChuClone.utils.styleMemoizer.restoreStyle( 'levelName' );
+					ChuClone.utils.styleMemoizer.restoreStyle( 'HUDTime' );
+				}
+			});
+		},
+
 
 		/**
 		 * Called when the camera type has been changed

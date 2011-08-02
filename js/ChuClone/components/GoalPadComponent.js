@@ -79,7 +79,7 @@ Abstract:
             if( !this._isReady ) return;
 
             ChuClone.Events.Dispatcher.emit( ChuClone.components.GoalPadComponent.prototype.EVENTS.GOAL_REACHED, this );
-            this.startWaitingForIsReady()
+//            this.startWaitingForIsReady()
         },
 
         /**

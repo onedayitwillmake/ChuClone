@@ -509,7 +509,7 @@
             } else {
                 this._domElement.style.top = "";
                 this._domElement.style.left = "";
-                this._domElement.style.position = "static";
+                this._domElement.style.position = "relative";
             }
 			this._renderer.setSize( this.getDimensions().x, this.getDimensions().y );
 			this.onResize();
