@@ -38,6 +38,13 @@
 			USER_SUBMIT_LOCATION	: "/levels/create_from_editor.js"	// Location to retrieve user levels
 		},
 
+        // Joystick component
+        JOYSTICK: {
+            ENABLED: true,
+            SERVER_LOCATION: "localhost",
+            SERVER_PORT: "8081"
+        },
+
 		// WASD KEYS
         KEYS: {
             A: 65,

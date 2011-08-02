@@ -62,8 +62,12 @@ Abstract:
 
 
             // Attach kb control
-            this._input = new ChuClone.components.KeyboardInputComponent();
+//            this._input = new ChuClone.components.KeyboardInputComponent();
+            // Attach remote-joystick control
+            this._input = new ChuClone.components.RemoteJoystickInputComponent();
+            
             this.attachedEntity.addComponentAndExecute( this._input );
+
 
             // Attach sensor to check if jumping
             this._jumpCheckComponent = new ChuClone.components.CheckIsJumpingComponent();

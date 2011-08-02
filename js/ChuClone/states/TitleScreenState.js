@@ -66,6 +66,7 @@ Abstract:
 		enter: function() {
 			ChuClone.states.TitleScreenState.superclass.enter.call(this);
 			ChuClone.states.PlayLevelState.prototype.removeEditContainer.call( this );
+
             this.setupEvents();
 		},
 
