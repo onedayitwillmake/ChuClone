@@ -32,7 +32,7 @@
 		 * Amount of particles created
 		 * @type {Number}
 		 */
-		_count			: 40,
+		_count			: 80,
 
 		/**
 		 * @type {THREE.Color}
@@ -54,6 +54,12 @@
          * @type {Array}
          */
         _birds          : null,
+
+		/**
+		 * Store reference to parent,
+		 * @type {THREE.Object3D}
+		 */
+		_parent			: null,
         
         /**
          * @inheritDoc
@@ -61,7 +67,7 @@
         attach: function( anEntity ) {
             ChuClone.components.effect.BirdEmitterComponent.superclass.attach.call(this, anEntity);
 
-            var container = this.attachedEntity.getView().parent;
+            this._parent = this.attachedEntity.getView().parent;
 
             this._birds = [];
             var range = 600;
@@ -80,7 +86,7 @@
                 bird.dynamic = true;
 
                 var prop = {target: bird, scale: 0};
-                new TWEEN.Tween(prop)
+                var tween = new TWEEN.Tween(prop)
                     .to({scale: (Math.random()) * this._sizeMax + this._sizeMin}, Math.random() * 9000 + 200)
                     .onUpdate(function() {
                         this.target.scale.x = this.target.scale.y = this.target.scale.z = this.scale;
@@ -88,8 +94,9 @@
                     .easing(TWEEN.Easing.Sinusoidal.EaseInOut)
                     .start();
 
+
                 bird.scale.x = bird.scale.y = bird.scale.z = 0;
-                container.addObject( bird );
+                this._parent.addObject( bird );
             }
         },
 
@@ -99,6 +106,14 @@
                 // Position
                 bird.position.x += bird.speed;
                 bird.position.y += Math.sin(bird.phase) * 4 + 1;
+
+				if(bird.position.x > this.attachedEntity.getView().position.x + 6000) {
+					bird.position.x = this.attachedEntity.getView().position.x - Math.random() * 1000;
+					bird.position.y = this.attachedEntity.getView().position.y + Math.random() * 1000;
+
+					var range = 600;
+					bird.position.z =  (Math.random()*2-1) * range*2
+				}
                 //
 			    bird.phase = ( bird.phase + ( Math.max( 0, bird.rotation.z ) + 0.05 )  ) % 62.83;
                 bird.geometry.vertices[ 5 ].position.y = bird.geometry.vertices[ 4 ].position.y = Math.sin(bird.phase*2);
@@ -111,11 +126,12 @@
          */
         detach: function() {
 			for ( var i = 0, len = this._birds.length; i < len; i++ ) {
-                this.attachedEntity.getView().parent.removeObject( this._birds[i] );
+                this._parent.removeObject( this._birds[i] );
             }
             this._birds = null;
+			this._parent = null;
 			ChuClone.components.effect.BirdEmitterComponent.superclass.detach.call(this);
-        },
+        }
 	};
 
     ChuClone.extend( ChuClone.components.effect.BirdEmitterComponent, ChuClone.components.BaseComponent );

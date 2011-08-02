@@ -129,10 +129,13 @@ Abstract:
              * @type {Box2D.Dynamics.b2Body}
              */
             var node = this._worldController.getWorld().GetBodyList();
+			i = 0;
             while(node) {
 
+				i++;
                 var b = node;
                 node = node.GetNext();
+
 
 				/**
 				 * @type {ChuClone.GameEntity}
@@ -141,6 +144,13 @@ Abstract:
 				if (!(entity instanceof ChuClone.GameEntity) ) continue;
 				if( entity.getComponentWithName(ChuClone.components.CharacterControllerComponent.prototype.displayName) ) continue;
 				entity.getView().visible = false;
+
+
+				if( Math.random() < 0.5 ) {
+					var birdComponent = new ChuClone.components.effect.BirdEmitterComponent();
+					birdComponent._count = 1;
+					entity.addComponentAndExecute( birdComponent );
+				}
 
 				var end = b.GetPosition();
 				var start = {x: end.x + ChuClone.utils.randFloat(-100, 100), y: end.y + ChuClone.utils.randFloat(-100, 100), z: ChuClone.utils.randFloat(-10000, 10000) };
@@ -162,7 +172,7 @@ Abstract:
 
 				var tweenBack = new TWEEN.Tween(prop)
 						.to({x: start.x, y: start.y, z: start.z }, 1000)
-						.delay(4000 + Math.random() * 12000)
+						.delay(6000 + Math.random() * 20000)
 						.onUpdate(function() {
 							this.target.SetPosition(new Box2D.Common.Math.b2Vec2(this.x, this.y))
 							this.target.GetUserData().getView().position.z = this.z
