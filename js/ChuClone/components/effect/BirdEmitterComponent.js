@@ -27,6 +27,7 @@
          * @type {String}
          */
 		displayName		: "BirdEmitterComponent",					// Unique string name for this Trait
+        canStack        : true,
 
 		/**
 		 * Amount of particles created

@@ -129,6 +129,7 @@
 		 * Destroys the current player instance
 		 */
         destroyPlayer: function() {
+            console.log("UPO")
             if( !this._player )
                 return;
 

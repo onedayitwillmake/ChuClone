@@ -306,6 +306,10 @@ Abstract:
                     .setPlayer( this._player );
 
 
+            var birds = new ChuClone.components.effect.BirdEmitterComponent();
+            birds._count = 5;
+            this._player.addComponentAndExecute( birds );
+            
             // Respawn at nearest respawnpoint
             var respawnPoint = ChuClone.components.RespawnComponent.prototype.GET_CURRENT_RESPAWNPOINT();
             respawnPoint.setSpawnedEntityPosition( this._player );
