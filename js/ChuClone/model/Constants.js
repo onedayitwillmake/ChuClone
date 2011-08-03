@@ -40,7 +40,7 @@
 
         // Joystick component
         JOYSTICK: {
-            ENABLED: true,
+            ENABLED: false,
             SERVER_LOCATION: "localhost",
             SERVER_PORT: "8081"
         },

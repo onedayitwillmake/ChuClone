@@ -116,7 +116,7 @@
 				}
                 //
 			    bird.phase = ( bird.phase + ( Math.max( 0, bird.rotation.z ) + 0.05 )  ) % 62.83;
-                bird.geometry.vertices[ 5 ].position.y = bird.geometry.vertices[ 4 ].position.y = Math.sin(bird.phase*2);
+                bird.geometry.vertices[ 5 ].position.y = bird.geometry.vertices[ 4 ].position.y = Math.sin(bird.phase*3);
                 bird.geometry.__dirtyVertices = true;
             }
         },

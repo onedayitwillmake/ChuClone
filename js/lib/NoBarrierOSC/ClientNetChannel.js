@@ -37,8 +37,11 @@ Version:
 
         this.host = aHost;
         this.port = aPort;
+
 		this.setupSocketIO();
 		this.setupCmdMap();
+		this.messageBuffer = [];
+		this.incomingWorldUpdateBuffer = [];
 		return this;
 	};
 
@@ -55,10 +58,15 @@ Version:
 		lastSentTime						: -1,				// Time of last sent message
 		lastRecievedTime					: -1,				// Time of last recieved message
 
-		// Data
-		messageBuffer						: [],				// Store last N messages to be sent
+		/**
+		 * @type {Array}
+		 */
+		messageBuffer						: null,				// Store last N messages to be sent
 		outgoingSequenceNumber				: 0,
-		incomingWorldUpdateBuffer			: [],				// Store last N received WorldDescriptions
+		/**
+		 * @type {Array}
+		 */
+		incomingWorldUpdateBuffer			: null,				// Store last N received WorldDescriptions
 		reliableBuffer						: null,				// We sent a 'reliable' message and are waiting for acknowledgement that it was sent
 
 		cmdMap								: {},				// Map the CMD constants to functions
@@ -152,7 +160,10 @@ Version:
 		},
 
 		onSocketDisconnect: function( ) {
-			this.delegate.netChannelDidDisconnect();
+
+			if(this.delegate)
+				this.delegate.netChannelDidDisconnect();
+
 			this.connection = null;
 			this.socketio = null;
 			console.log("(ClientNetChannel)::onSocketDisconnect", arguments);
@@ -321,10 +332,11 @@ Version:
 		 * Clear memory
 		 */
 		dealloc: function() {
-			this.connection.close();
-			delete this.connection;
-			delete this.messageBuffer;
-			delete this.incomingWorldUpdateBuffer;
+			this.socketio.disconnect();
+			this.delegate = null;
+			this.connection = null;
+			this.messageBuffer = null;
+			this.incomingWorldUpdateBuffer = null;
 		 },
 
 	///// Accessors

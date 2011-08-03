@@ -61,11 +61,9 @@ Abstract:
 //            this.attachedEntity.getBody().SetMassData(massData)
 
 
-            // Attach kb control
-//            this._input = new ChuClone.components.KeyboardInputComponent();
-            // Attach remote-joystick control
-            this._input = new ChuClone.components.RemoteJoystickInputComponent();
-            
+            // Attach a RemoteJoystickInput or KeyboardInput controller
+			if( ChuClone.model.Constants.JOYSTICK.ENABLED )this._input = new ChuClone.components.RemoteJoystickInputComponent();
+			else this._input = new ChuClone.components.KeyboardInputComponent();
             this.attachedEntity.addComponentAndExecute( this._input );
 
 
