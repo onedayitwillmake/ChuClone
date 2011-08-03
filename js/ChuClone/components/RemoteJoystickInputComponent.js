@@ -132,7 +132,6 @@
 		 * @param {Array} entityDescAsArray An array of tightly packed values
 		 * @return {Object} An object which will be returned to you later on tied to a specific entity
 		 */
-		count : 0,
 		parseEntityDescriptionArray: function(entityDescAsArray) {
 			var entityDescription = {};
 
@@ -145,23 +144,8 @@
 			var angle = +entityDescAsArray[3];
 			this._keyStates['left'] = angle != 0 && angle < 360 && angle > 180;
 			this._keyStates['right'] = angle > 0 && angle < 180;
-
 			this._keyStates['up'] = +entityDescAsArray[4];
 
-//			var itr = 0;
-//			for(var i = 0; i < 360; i+= 90) {
-//				var min = i-45;
-//				var max = i+45;
-//
-//				if( i == 0) { // special case for up
-//					this._keyStates[stateNames[itr]] = angle != 0 && (angle > 315 || angle < 45)
-//				} else {
-//					// Within the range and not zero
-//					this._keyStates[stateNames[itr]] = angle != 0 && angle > min && angle < max;
-//				}
-//
-//				itr++;
-//			}
 
 			return entityDescription;
 		},
