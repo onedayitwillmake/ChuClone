@@ -11,6 +11,10 @@
 		 * @type {ChuClone.components.BaseComponent}
 		 */
 		_activeComponent    : null,
+        
+        /**
+         * @type {Object}
+         */
 		_allGuis			: {},
 
 		setupEvents: function() {
@@ -23,6 +27,11 @@
 			})
 		},
 
+        /**
+         * Creates or unhides a ComponentGUI for this type of component
+         * If the component does not have an _editableProperties variable, we ignore it
+         * @param {ChuClone.components.BaseComponent} aComponent
+         */
 		setupGUIForComponent: function( aComponent ) {
 			var that = this;
 
@@ -47,6 +56,7 @@
 			}
 
 
+
 			// Create new one
 			var gui = new DAT.GUI({width: ChuClone.model.Constants.EDITOR.PANEL_WIDTH});
 			gui.componentControllers = {};
@@ -67,6 +77,13 @@
 					controller = gui.add(aComponent._editableProperties[prop], 'value');
 					controller.min(aComponent._editableProperties[prop].min);
 					controller.max(aComponent._editableProperties[prop].max);
+
+                    // Add a step property to the slider warn if doesnt' exist
+                    if(aComponent._editableProperties[prop].step) {
+                        controller.step(aComponent._editableProperties[prop].step);
+                    } else {
+                        console.warn("ComponentGUI - No step property found for slider '" + aComponent.displayName + "'");
+                    }
 					controller.name( prop );
 					value = aComponent._editableProperties[prop].value;
 				} else {
@@ -110,6 +127,9 @@
 			}
 		},
 
+        /**
+         * Hides all components
+         */
 		hideAll: function() {
 			for(var prop in this._allGuis ) {
 				this._allGuis[prop].domElement.style.display = 'none';

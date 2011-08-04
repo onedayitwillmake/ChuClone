@@ -17,47 +17,7 @@ Abstract:
 */
 (function(){
     "use strict";
-
     var b2Vec2 = Box2D.Common.Math.b2Vec2;
-
-     // TRACK MOVING PLATFORMS POINTS INTERNALLY
-	/**
-	 * @type {Array}
-	 */
-	var __MovingPlatforms = [];
-	/**
-	 * @type {ChuClone.components.MovingPlatformComponent}
-	 */
-	var __currentMovingPlatform = null;
-	/**
-	 *  Removes a MovingPlatform
-	 *  @param {ChuClone.components.MovingPlatformComponent}
-	 */
-	var __removeMovingPlatform = function( aMovingPlatform ) {
-		var len = __MovingPlatforms.length;
-		for (var i = 0; i < len; ++i) {
-			if (__MovingPlatforms[i] === aMovingPlatform) {
-				__MovingPlatforms.splice(i, 1);
-				return;
-			}
-		}
-	};
-
-    /**
-	 * Adds a respawn point to our internal array
-	 * @param {ChuClone.components.MovingPlatformComponent} aMovingPlatform
-	 */
-	var __addMovingPlatform = function( aMovingPlatform ) {
-		__MovingPlatforms.push(aMovingPlatform);
-		__MovingPlatforms.sort( function( a, b ) {
-			var posA = a.attachedEntity.getBody().GetPosition().x;
-			var posB = b.attachedEntity.getBody().GetPosition().x;
-
-			if(posA < posB) return -1;
-			else if (posA > posB) return 1;
-			else return 0;
-		});
-	};
 
 	ChuClone.namespace("ChuClone.components");
 	ChuClone.components.MovingPlatformComponent = function() {
@@ -127,8 +87,6 @@ Abstract:
                 var that = this;
                 this.attachedEntity.drawCustom = function( b2World ){ that.drawPlatformForEditor( b2World ) };
             }
-
-            __addMovingPlatform( this );
 		},
 
 		/**
@@ -232,8 +190,6 @@ Math.easeOutQuad = function (t, b, c, d) {
          * Restore material and restitution
          */
         detach: function() {
-            __removeMovingPlatform( this );
-
             // Reset the attached body
             this.attachedEntity.getBody().SetPosition( this._initialPosition.Copy() );
             this.attachedEntity.drawCustom = null;
@@ -338,20 +294,7 @@ Math.easeOutQuad = function (t, b, c, d) {
 				this._offset = 0;
 				this._speed = new b2Vec2(data.speed * 100, 0);
 			}
-        },
-
-        RESET_ALL_PLATFORMS_EXCEPT: function( exception ) {
-//            var len = __MovingPlatforms.length;
-//            for(var i = 0; i < len; i++) {
-//                var platform = __MovingPlatforms[i];
-//                if( platform == exception )
-//                    continue;
-//
-//                platform.attachedEntity.getBody().SetPosition( platform._initialPosition.Copy() );
-////				platform.attachedEntity.getBody().SetLinearVelocity( new b2Vec2(0, 0) );
-//            }
         }
-
 	};
 
     ChuClone.extend( ChuClone.components.MovingPlatformComponent, ChuClone.components.BaseComponent );

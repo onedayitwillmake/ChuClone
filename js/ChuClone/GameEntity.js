@@ -181,12 +181,14 @@
         },
 
         /**
-         * Removes all components contained in this entity
+         * Removes all components contained in this entity (in reverse order)
          */
         removeAllComponents: function() {
-            var i = this.components.length;
-            while (i--) {
-                this.components[i].detach();
+            var len = this.components.length;
+            while (len) {
+                len = len-1;
+                this.components[len].detach();
+                this.components.splice(len, 1);
             }
 
             this.components = [];

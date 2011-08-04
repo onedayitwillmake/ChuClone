@@ -21,17 +21,6 @@
     "use strict";
     ChuClone.namespace("ChuClone.editor.PlayerGUI");
     ChuClone.editor.PlayerGUI = function() {
-
-
-//		var playa;
-//		ChuClone.editor.PlayerGUI.prototype.__defineGetter__("_player", function() {
-//			debugger;
-//			return playa;
-//		});
-//		ChuClone.editor.PlayerGUI.prototype.__defineSetter__("_player", function(y) {
-//			debugger;
-//			playa = y;
-//		});
 		this.setupEvents();
         this.setupGUI()
     };
