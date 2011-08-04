@@ -27,22 +27,29 @@ Abstract:
 	ChuClone.components.GoalPadComponent.prototype = {
 		displayName						: "GoalPadComponent",					// Unique string name for this Trait
 
+		/**
+		 * @type {String}
+		 */
         _textureSource                  : "assets/images/game/floorgreen.png",
+
+		/**
+		 * @type {THREE.Material}
+		 */
         _previousMaterial               : null,
 
-        _inactiveDelay                  : 1000,
+		/**
+		 * @type {Boolean}
+		 */
         _isReady                        : true,
-        _isReadyTimeout                 : null,
 
+		/**
+		 * @type {Function}
+		 */
+		_playerCallback					: Function,
 
         EVENTS: {
             GOAL_REACHED    : "GoalPadComponent.events.goalReached"
         },
-
-        /**
-         * @type {ChuClone.components.GoalPadComponent}
-         */
-        CURRENT_RESPAWN : null,
 
 		/**
 		 * @inheritDoc
@@ -52,9 +59,18 @@ Abstract:
             // Intercept collision
             this.intercept(['onCollision']);
 
-// 			var particleEmitterComponent = new ChuClone.components.effect.ParticleEmitterComponent();
-//			this.attachedEntity.addComponentAndExecute( particleEmitterComponent );
-//			this.attachedEntity.getView().parent.addChild( particleEmitterComponent._system );
+			var that = this;
+			this.playerCallback = function(){
+				that._isReady = true;
+				console.log("Goalpad - resetting status");
+			};
+
+			ChuClone.Events.Dispatcher.addListener( ChuClone.components.CharacterControllerComponent.prototype.EVENTS.CREATED, this.playerCallback );
+
+			var particleEmitterComponent = new ChuClone.components.effect.ParticleEmitterComponent();
+			this.attachedEntity.addComponentAndExecute( particleEmitterComponent );
+
+//			var
 		},
 
         execute: function() {
@@ -77,33 +93,24 @@ Abstract:
             
             this.interceptedProperties.onCollision.call(this.attachedEntity, otherActor );
             if( !this._isReady ) return;
+			this._isReady = false;
 
             ChuClone.Events.Dispatcher.emit( ChuClone.components.GoalPadComponent.prototype.EVENTS.GOAL_REACHED, this );
-//            this.startWaitingForIsReady()
         },
 
-        /**
-         * Once set _isReady is locked for N milliseconds
-         */
-        startWaitingForIsReady: function() {
-            var that = this;
-            this._isReady = false;
-            clearTimeout( this._isReadyTimeout );
-            this._isReadyTimeout = setTimeout( function(){
-                that._isReady = true;
-            }, this._inactiveDelay );
-        },
-        
-        getIsReady: function() {
-            return this._isReady;
-        },
 
         /**
          * Restore material and restitution
          */
         detach: function() {
             this.attachedEntity.getView().materials[0] = this._previousMaterial;
-// 			this.attachedEntity.removeComponentWithName( ChuClone.components.effect.ParticleEmitterComponent.prototype.displayName );
+
+			if(this.playerCallback) {
+				ChuClone.Events.Dispatcher.removeListener( ChuClone.components.CharacterControllerComponent.prototype.EVENTS.CREATED, this.playerCallback );
+				this.playerCallback = null;
+			}
+
+			this.attachedEntity.removeComponentWithName( ChuClone.components.effect.ParticleEmitterComponent.prototype.displayName );
             ChuClone.components.GoalPadComponent.superclass.detach.call(this);
         },
 
@@ -113,7 +120,6 @@ Abstract:
         getModel: function() {
             var returnObject = ChuClone.components.GoalPadComponent.superclass.getModel.call(this);
             returnObject.textureSource = this._textureSource;
-            returnObject.inactiveDelay = this._inactiveDelay;
 
             return returnObject;
         },
@@ -124,8 +130,6 @@ Abstract:
         fromModel: function( data, futureEntity ) {
             ChuClone.components.GoalPadComponent.superclass.fromModel.call(this, data);
             this._textureSource = data.textureSource;
-            this._inactiveDelay = data.inactiveDelay;
-
         }
 
 	};

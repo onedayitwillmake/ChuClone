@@ -59,12 +59,19 @@
 		 */
 		_system			: null,
 
+
+		/**
+		 * @type {THREE.Object3D}
+		 */
+		_parent			: null,
+
         /**
          * @inheritDoc
          */
         attach: function( anEntity ) {
             ChuClone.components.effect.ParticleEmitterComponent.superclass.attach.call(this, anEntity);
 
+			this._parent = this.attachedEntity.getView().parent;
 			this._geometry = new THREE.Geometry();
             var radius = 600;
             for( var i = 0; i < this._count; i++) {
@@ -82,6 +89,7 @@
 			material.color.setRGB(this._color.r, this._color.g, this._color.b);
 
 			this._system = new THREE.ParticleSystem(this._geometry, material);
+			this._parent.addObject( this._system );
         },
 
         update: function() {
@@ -97,9 +105,12 @@
          * Restore material and restitution
          */
         detach: function() {
-			this._system.parent.removeChild( this._system );
+			this._parent.removeChild( this._system );
+			this._parent = null;
 			this._geometry = null;
 			this._color = null;
+			this._system = null;
+
 
 			ChuClone.components.effect.ParticleEmitterComponent.superclass.detach.call(this);
         },
