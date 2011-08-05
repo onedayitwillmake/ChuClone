@@ -21,6 +21,8 @@
     ChuClone.namespace("ChuClone");
     ChuClone.GameViewController = function() {
 
+		this.map = THREE.ImageUtils.loadTexture( ChuClone.model.Constants.SERVER.ASSET_PREFIX + "assets/images/game/floor.png" );
+
         this.setDimensions( ChuClone.model.Constants.GAME_WIDTH, ChuClone.model.Constants.GAME_HEIGHT );
         this.setupContainer();
         this.setupScene();
@@ -30,7 +32,8 @@
         this.setupEvents();
 //        this.setupBackgroundParticleManager();
 //        this.setupBloom();
-//        this.setupStats();
+        this.setupStats();
+
 
         this.onSetupComplete();
     };
@@ -379,9 +382,9 @@
             var geometry = new THREE.CubeGeometry( width, height, depth );
             var mesh = new THREE.Mesh( geometry, [new THREE.MeshLambertMaterial( {
                 color: 0xFFFFFF, shading: THREE.SmoothShading,
-                map : THREE.ImageUtils.loadTexture( ChuClone.model.Constants.SERVER.ASSET_PREFIX + "assets/images/game/floor.png" )
+                map : this.map,
             })] );
-            mesh.dynamic = true;
+            mesh.dynamic = false;
 
 
 

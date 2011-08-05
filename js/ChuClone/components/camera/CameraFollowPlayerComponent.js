@@ -60,6 +60,7 @@ Abstract:
             this.attachedEntity.target.position.z = this._player.view.position.z;
             this.attachedEntity.position.x = this._player.view.position.x + 400;
             this.attachedEntity.position.y = this._player.view.position.y;
+            this.attachedEntity.position.z = 0;
         },
 
         /**

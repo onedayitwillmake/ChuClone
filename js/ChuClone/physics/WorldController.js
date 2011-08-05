@@ -54,11 +54,11 @@
         /**
          * @type {Number}
          */
-        _velocityIterationsPerSecond    : 100,
+        _velocityIterationsPerSecond    : 10,
         /**
          * @type {Number}
          */
-        _positionIterationsPerSecond	: 300,
+        _positionIterationsPerSecond	: 30,
 
         /**
          * Container of closures used in event callbacks

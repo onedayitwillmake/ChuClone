@@ -118,6 +118,7 @@
             (function loop() {
                 that.update();
 				TWEEN.update();
+//				setTimeout( loop, 1000/60 );
                 window.requestAnimationFrame( loop, null );
             })();
         },
