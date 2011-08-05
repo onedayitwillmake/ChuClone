@@ -30,7 +30,7 @@
         this.setupEvents();
 //        this.setupBackgroundParticleManager();
 //        this.setupBloom();
-        this.setupStats();
+//        this.setupStats();
 
         this.onSetupComplete();
     };
@@ -260,25 +260,6 @@
          */
         onSetupComplete: function() {
 			this._domElement.firstChild.focus();
-//            this.loadSpacesuit();
-        },
-
-        loadSpacesuit: function() {
-            var that = this;
-            var spacesuit;
-            var loader = new THREE.JSONLoader();
-            var onLoadedCallback = function(geometry) {
-                spacesuit = new THREE.Mesh(geometry,
-                    new THREE.MeshBasicMaterial({ color:0x000000})
-                );
-
-                that.addObjectToScene(spacesuit);
-//                console.log(spacesuit)
-                spacesuit.scale.x = spacesuit.scale.y = spacesuit.scale.z = 100;
-
-                that.spacesuit = spacesuit;
-            };
-            loader.load({ model: "assets/geometry/spacesuit.js", callback: onLoadedCallback });
         },
 
         /**
@@ -328,11 +309,9 @@
             this.updateCameraPosition();
             this.updateSceneEditor();
 
-            if(this.spacesuit)
-                this.spacesuit.rotation.y += 0.1;
-            
             this._renderer.render( this._scene  , this._camera );
-            this.stats.update();
+			if( this.stats )
+            	this.stats.update();
 //            this.applyBloom();
 
         },

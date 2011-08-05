@@ -67,10 +67,8 @@ Abstract:
 
 			ChuClone.Events.Dispatcher.addListener( ChuClone.components.CharacterControllerComponent.prototype.EVENTS.CREATED, this.playerCallback );
 
-			var particleEmitterComponent = new ChuClone.components.effect.ParticleEmitterComponent();
-			this.attachedEntity.addComponentAndExecute( particleEmitterComponent );
-
-//			var
+//			var particleEmitterComponent = new ChuClone.components.effect.ParticleEmitterComponent();
+//			this.attachedEntity.addComponentAndExecute( particleEmitterComponent );
 		},
 
         execute: function() {
@@ -110,7 +108,7 @@ Abstract:
 				this.playerCallback = null;
 			}
 
-			this.attachedEntity.removeComponentWithName( ChuClone.components.effect.ParticleEmitterComponent.prototype.displayName );
+//			this.attachedEntity.removeComponentWithName( ChuClone.components.effect.ParticleEmitterComponent.prototype.displayName );
             ChuClone.components.GoalPadComponent.superclass.detach.call(this);
         },
 

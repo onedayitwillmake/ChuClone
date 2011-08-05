@@ -141,7 +141,9 @@
 
                 var scale = that._worldController.getDebugDraw().GetDrawScale();
                 scale += speed;
-                that._worldController.getDebugDraw().SetDrawScale( scale );
+
+				// Apply scale - only if not negative
+				if( scale > 0) that._worldController.getDebugDraw().SetDrawScale( scale );
 
 				e.preventDefault();
             }, false );

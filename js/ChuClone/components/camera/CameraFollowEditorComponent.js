@@ -47,17 +47,21 @@ Abstract:
 
         update: function() {
             var PTM_RATIO = ChuClone.model.Constants.PTM_RATIO;
-            var zero = new THREE.Vector3(this.attachedEntity.position.x - 5, -100,0);
-            this.attachedEntity.target.position = zero;
-			this.attachedEntity.target.position.y = this._debugDraw.offsetY * PTM_RATIO;
 
-//            this._debugDraw.GetDrawScale()
-//            this._debugDraw.GetSprite().canvas.width;
 
-            //console.log(this._debugDraw.GetSprite())
-//            console.log(this._debugDraw.GetSprite().canvas.width/2 / this._debugDraw.GetDrawScale(), PTM_RATIO)
+			var pos = new Box2D.Common.Math.b2Vec2(this._debugDraw.m_ctx.canvas.width/2, this._debugDraw.m_ctx.canvas.height/2);
+            pos.Multiply(1.0 / this._debugDraw.GetDrawScale());
+			pos.Multiply(PTM_RATIO);
+
             this.attachedEntity.position.x = this._debugDraw.offsetX * -PTM_RATIO;
+			this.attachedEntity.position.x += pos.x;
             this.attachedEntity.position.y = this._debugDraw.offsetY * PTM_RATIO;
+			this.attachedEntity.position.y -= pos.y;
+
+            this.attachedEntity.position.z = 10000 * (1.0/this._debugDraw.GetDrawScale());
+
+			this.attachedEntity.target.position = this.attachedEntity.position.clone();
+			this.attachedEntity.target.position.z = -1000;
         },
 
         /**
