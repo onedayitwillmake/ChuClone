@@ -118,7 +118,7 @@ Abstract:
 						opacity: 0.75,
 						transparent: true,
 						shading: THREE.SmoothShading,
-						map : THREE.ImageUtils.loadTexture( ChuClone.model.Constants.SERVER.ASSET_PREFIX + this._textureSource )
+						map : ChuClone.utils.TextureUtils.GET_TEXTURE( ChuClone.model.Constants.SERVER.ASSET_PREFIX + this._textureSource )
             });
         },
 

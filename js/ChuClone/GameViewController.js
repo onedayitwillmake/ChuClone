@@ -20,9 +20,6 @@
 
     ChuClone.namespace("ChuClone");
     ChuClone.GameViewController = function() {
-
-		this.map = THREE.ImageUtils.loadTexture( ChuClone.model.Constants.SERVER.ASSET_PREFIX + "assets/images/game/floor.png" );
-
         this.setDimensions( ChuClone.model.Constants.GAME_WIDTH, ChuClone.model.Constants.GAME_HEIGHT );
         this.setupContainer();
         this.setupScene();
@@ -115,7 +112,7 @@
          */
         setupScene: function() {
             this._scene = new THREE.Scene();
-            this._scene.fog = new THREE.FogExp2( 0xFFFFFF, 0.00005 );
+            this._scene.fog = new THREE.FogExp2( 0xFFFFFF, 0.00008 );
         },
 
         /**
@@ -136,7 +133,7 @@
          * Setup the camera
          */
         setupCamera: function() {
-            this._camera = new THREE.Camera( 70, 900/400, 1, 30000 );
+            this._camera = new THREE.Camera( 65, 900/400, 1, 12000 );
             this._camera.position.y = 100;
             this._camera.position.z = 1300;
 //            this._camera._isFullScreen = this._isFullScreen;
@@ -381,8 +378,9 @@
         createEntityView: function( x, y, width, height, depth ) {
             var geometry = new THREE.CubeGeometry( width, height, depth );
             var mesh = new THREE.Mesh( geometry, [new THREE.MeshLambertMaterial( {
-                color: 0xFFFFFF, shading: THREE.SmoothShading,
-                map : this.map,
+                color: 0xFFFFFF,
+                shading: THREE.SmoothShading,
+                map : ChuClone.utils.TextureUtils.GET_TEXTURE( ChuClone.model.Constants.SERVER.ASSET_PREFIX + "assets/images/game/floor.png" )
             })] );
             mesh.dynamic = false;
 

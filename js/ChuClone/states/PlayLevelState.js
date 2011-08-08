@@ -80,6 +80,8 @@ Abstract:
 		},
 
         animateIn: function() {
+            //this.animateInComplete();
+            //return;
             var player, goalpad;
 
             var node = this._worldController.getWorld().GetBodyList();
