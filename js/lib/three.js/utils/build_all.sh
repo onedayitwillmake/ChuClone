@@ -1,3 +1,3 @@
 #!/bin/sh
 
-python build.py --all --minified
+python build.py --all --debug

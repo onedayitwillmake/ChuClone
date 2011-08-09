@@ -159,10 +159,10 @@ Abstract:
             var newOrientation, imageSource;
             if(this._editableProperties.orientation.value >= 0) {
                 newOrientation = 1;
-                imageSource = ChuClone.model.Constants.SERVER.ASSET_PREFIX + ChuClone.components.JumpPadComponent.prototype._textureSource + "right.png";
+                this._textureSource = ChuClone.components.JumpPadComponent.prototype._textureSource + "right.png";
             } else {
                 newOrientation = 0;
-                imageSource = ChuClone.model.Constants.SERVER.ASSET_PREFIX + ChuClone.components.JumpPadComponent.prototype._textureSource + "left.png";
+                this._textureSource = ChuClone.components.JumpPadComponent.prototype._textureSource + "left.png";
             }
 
             // No change
@@ -172,7 +172,7 @@ Abstract:
             // Load the image and set the texture
             var texture = this.attachedEntity.getView().materials[0];
             var img = new Image();
-            img.src = imageSource;
+            img.src = ChuClone.model.Constants.SERVER.ASSET_PREFIX + this._textureSource;
             img.onload = function() {
                 texture.map.needsUpdate = true;
                 texture.map.image = this;
@@ -192,6 +192,7 @@ Abstract:
          */
         getModel: function() {
             var returnObject = ChuClone.components.JumpPadComponent.superclass.getModel.call(this);
+            console.log("T", this._textureSource)
             returnObject.textureSource = this._textureSource;
 			returnObject.inactiveDelay = this._inactiveDelay;
 
@@ -209,11 +210,13 @@ Abstract:
 
         // TEMP FUNCTION DURING DEV
         fixTextureSource: function( originalSource ) {
+            console.log(originalSource)
             if(originalSource.indexOf("_") == -1) {
-                console.log("BAD SOURCE");
+                console.log("BAD SOURCE" + originalSource);
+                return ChuClone.components.JumpPadComponent.prototype._textureSource + "right.png";
             }
 
-            return ChuClone.components.JumpPadComponent.prototype._textureSource + "right.png";
+            return originalSource;
         },
 
         ///// ACCESSORS

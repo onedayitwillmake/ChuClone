@@ -82,7 +82,7 @@ Version:
 
 
 		setupSocketIO: function() {
-		    this.socketio = new io.Socket( this.host, {port: this.port, transports:['websocket'], reconnect: true, rememberTransport: false});
+		    this.socketio = new io.Socket( this.host, {port: this.port, transports:['htmlfile', 'xhr-multipart', 'xhr-polling', 'jsonp-polling'], reconnect: true, rememberTransport: false});
 			this.socketio.connect();
 
 			var that = this;

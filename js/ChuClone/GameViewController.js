@@ -28,7 +28,7 @@
         this.setupLights();
         this.setupEvents();
 //        this.setupBackgroundParticleManager();
-//        this.setupBloom();
+        this.setupBloom();
         this.setupStats();
 
 
@@ -312,7 +312,8 @@
             this._renderer.render( this._scene  , this._camera );
 			if( this.stats )
             	this.stats.update();
-//            this.applyBloom();
+
+            this.applyBloom();
 
         },
 

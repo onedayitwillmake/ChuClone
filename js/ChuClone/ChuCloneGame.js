@@ -1,6 +1,6 @@
 /**
  File:
-    ChuCloneGame.js|P44MJ8*2|ChuCl0neDB
+    ChuCloneGame.js
  Created By:
     Mario Gonzalez - mariogonzalez@gmail.com
  Project:
@@ -19,7 +19,7 @@
  */
 (function(){
     "use strict";
-    
+
     var PTM_RATIO = ChuClone.model.Constants.PTM_RATIO;
     var levelBeforeStart = "";
     ChuClone.namespace("ChuClone");
@@ -36,7 +36,7 @@
         _hasFocus   : true,
 
         _stateMachine   : null,
-        
+
         /**
          * @type {ChuClone.GameViewController}
          */
@@ -78,7 +78,7 @@
 
         setupEvents: function() {
             var that = this;
-            
+
             // LISTEN FOR ON FOCUS
             window.addEventListener("focus", function(e) {that._hasFocus = true; }, false);
             window.addEventListener("blur", function(e) { that._hasFocus = false; }, false);
