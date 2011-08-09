@@ -226,10 +226,10 @@ Abstract:
             this._gameView.update( this._currentTime );
 
             // Don't update canvas clock every frame
-//            if( this._currentTime - this._lastTextUpdate > 128 ) {
-//                this._lastTextUpdate = this._currentTime;
-//                ChuClone.gui.HUDController.setTimeInSeconds( this._elapsedTime );
-//            }
+            if( this._currentTime - this._lastTextUpdate > 128 ) {
+                this._lastTextUpdate = this._currentTime;
+                ChuClone.gui.HUDController.setTimeInSeconds( this._elapsedTime );
+            }
 
             this._worldController.update();
         },

@@ -62,7 +62,7 @@ Abstract:
          * @param aTime
          */
         setTimeInSeconds: function( aTime ) {
-            if(!timeContext) return;
+            //if(!timeContext) return;
             var seconds = Math.round(aTime/1000*10)/10 + " secs";
             timeContext.clearRect(0, 0, timeContext.width, timeContext.height);
             timeContext.fillText(seconds, timeContext.width - 40, -4);

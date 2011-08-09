@@ -16,7 +16,81 @@
  */
 (function() {
     "use strict";
-    var postprocessing1 = {};
+    var postprocessing = { enabled : false };
+
+
+    function initPostprocessing() {
+
+        postprocessing.scene = new THREE.Scene();
+
+        postprocessing.camera = new THREE.Camera();
+        postprocessing.camera.projectionMatrix = THREE.Matrix4.makeOrtho( window.innerWidth / - 2, window.innerWidth / 2,  window.innerHeight / 2, window.innerHeight / - 2, -10000, 10000 );
+        postprocessing.camera.position.z = 100;
+
+        var pars = { minFilter: THREE.LinearFilter, magFilter: THREE.LinearFilter, format: THREE.RGBFormat };
+        postprocessing.rtTexture1 = new THREE.WebGLRenderTarget( window.innerWidth, window.innerHeight, pars );
+        postprocessing.rtTexture2 = new THREE.WebGLRenderTarget( 512, 512, pars );
+        postprocessing.rtTexture3 = new THREE.WebGLRenderTarget( 512, 512, pars );
+
+        var screen_shader = THREE.ShaderUtils.lib["screen"];
+        var screen_uniforms = THREE.UniformsUtils.clone( screen_shader.uniforms );
+
+        screen_uniforms["tDiffuse"].texture = postprocessing.rtTexture1;
+        screen_uniforms["opacity"].value = 1.0;
+
+        postprocessing.materialScreen = new THREE.MeshShaderMaterial( {
+
+            uniforms: screen_uniforms,
+            vertexShader: screen_shader.vertexShader,
+            fragmentShader: screen_shader.fragmentShader,
+            blending: THREE.AdditiveBlending,
+            transparent: true
+
+        } );
+
+        var convolution_shader = THREE.ShaderUtils.lib["convolution"];
+        var convolution_uniforms = THREE.UniformsUtils.clone( convolution_shader.uniforms );
+
+        var blurAmount = 0.001;
+postprocessing.blurx = new THREE.Vector2( blurAmount, 0.0 ),
+				postprocessing.blury = new THREE.Vector2( 0.0, blurAmount );
+
+        convolution_uniforms["tDiffuse"].texture = postprocessing.rtTexture1;
+        convolution_uniforms["uImageIncrement"].value = postprocessing.blurx;
+        convolution_uniforms["cKernel"].value = THREE.ShaderUtils.buildKernel( 4.0 );
+
+        postprocessing.materialConvolution = new THREE.MeshShaderMaterial( {
+
+            uniforms: convolution_uniforms,
+            vertexShader:   "#define KERNEL_SIZE 25.0\n" + convolution_shader.vertexShader,
+            fragmentShader: "#define KERNEL_SIZE 25\n"   + convolution_shader.fragmentShader
+
+        } );
+
+
+        var film_shader = THREE.ShaderUtils.lib["film"];
+        var film_uniforms = THREE.UniformsUtils.clone( film_shader.uniforms );
+
+        film_uniforms["tDiffuse"].texture = postprocessing.rtTexture1;
+
+        /*
+        effect.materialFilm.uniforms.grayscale.value = 0;
+            effect.materialFilm.uniforms.nIntensity.value = 0.5;
+            effect.materialFilm.uniforms.sIntensity.value = 0.5;
+            effect.materialFilm.uniforms.sCount.value = 1448;
+         */
+        postprocessing.materialFilm = new THREE.MeshShaderMaterial( { uniforms: film_uniforms, vertexShader: film_shader.vertexShader, fragmentShader: film_shader.fragmentShader } );
+        postprocessing.materialFilm.uniforms.grayscale.value = 0;
+        postprocessing.materialFilm.uniforms.nIntensity.value = 0;
+        postprocessing.materialFilm.uniforms.sIntensity.value = 0;
+        postprocessing.materialFilm.uniforms.sCount.value = 1000;
+
+        postprocessing.quad = new THREE.Mesh( new THREE.PlaneGeometry( window.innerWidth, window.innerHeight ), postprocessing.materialConvolution );
+        postprocessing.quad.position.z = - 500;
+        postprocessing.scene.addObject( postprocessing.quad );
+
+    }
+
 
     ChuClone.namespace("ChuClone");
     ChuClone.GameViewController = function() {
@@ -28,7 +102,7 @@
         this.setupLights();
         this.setupEvents();
 //        this.setupBackgroundParticleManager();
-        this.setupBloom();
+//        this.setupBloom();
         this.setupStats();
 
 
@@ -112,15 +186,16 @@
          */
         setupScene: function() {
             this._scene = new THREE.Scene();
-            this._scene.fog = new THREE.FogExp2( 0xFFFFFF, 0.00005 );
+            //this._scene.fog = new THREE.FogExp2( 0xFFFFFF, 0.00005 );
         },
 
         /**
          * Setup the WebGLRenderer that will draw our scene
          */
         setupRenderer: function() {
-            this._renderer = new THREE.WebGLRenderer();
-//            this._renderer.autoClear = false;
+            this._renderer = new THREE.WebGLRenderer(); 
+            initPostprocessing();
+            this._renderer.autoClear = false;
             this._renderer.sortObjects = false;
             this._renderer.setClearColor(new THREE.Color(0xFFFFFF), 1);
             this._renderer.setSize( this.getDimensions().x, this.getDimensions().y );
@@ -207,7 +282,7 @@
             var screen_uniforms = THREE.UniformsUtils.clone(screen_shader.uniforms);
 
             screen_uniforms["tDiffuse"].texture = effect.rtTexture3;
-            screen_uniforms["opacity"].value = 0.75;
+            screen_uniforms["opacity"].value = 0.0;
 
             effect.materialScreen = new THREE.MeshShaderMaterial({
 
@@ -222,8 +297,11 @@
             var convolution_shader = THREE.ShaderUtils.lib["convolution"];
             var convolution_uniforms = THREE.UniformsUtils.clone(convolution_shader.uniforms);
 
-            effect.blurx = new THREE.Vector2(0.001953125, 0.0),
-                effect.blury = new THREE.Vector2(0.0, 0.001953125);
+            //effect.blurx = new THREE.Vector2(0.001953125, 0.0),
+            //    effect.blury = new THREE.Vector2(0.0, 0.001953125);
+
+            effect.blurx = new THREE.Vector2(0.0, 0.0),
+            effect.blury = new THREE.Vector2(0.0, 0.0000);
 
             convolution_uniforms["tDiffuse"].texture = effect.rtTexture1;
             convolution_uniforms["uImageIncrement"].value = effect.blurx;
@@ -232,8 +310,8 @@
             effect.materialConvolution = new THREE.MeshShaderMaterial({
 
                 uniforms: convolution_uniforms,
-                vertexShader:   "#define KERNEL_SIZE 25.0\n" + convolution_shader.vertexShader,
-                fragmentShader: "#define KERNEL_SIZE 25\n" + convolution_shader.fragmentShader
+                vertexShader:   "#define KERNEL_SIZE 12.0\n" + convolution_shader.vertexShader,
+                fragmentShader: "#define KERNEL_SIZE 12\n" + convolution_shader.fragmentShader
 
             });
 
@@ -309,43 +387,65 @@
             this.updateCameraPosition();
             this.updateSceneEditor();
 
-            this._renderer.render( this._scene  , this._camera );
+            //this._renderer.render( this._scene  , this._camera );
 			if( this.stats )
             	this.stats.update();
 
-            this.applyBloom();
+           this.render();
 
         },
 
-        /**
-         * Applies bloom to renderer - from webgl-particles-dynamic.html
-         */
-        applyBloom: function() {
-            // BLOOM
-            // Render scene into texture
-            this._renderer.render(this._scene, this._camera, postprocessing1.rtTexture1, true);
+        render: function() {
+            var renderer = this._renderer;
+            var camera = this._camera;
+            var scene = this._scene;
+            if (postprocessing.enabled) {
 
-            // Render quad with blured scene into texture (convolution pass 1)
+                renderer.clear();
 
-            postprocessing1.quad.materials[ 0 ] = postprocessing1.materialConvolution;
+                // Render scene into texture
 
-            postprocessing1.materialConvolution.uniforms.tDiffuse.texture = postprocessing1.rtTexture1;
-            postprocessing1.materialConvolution.uniforms.uImageIncrement.value = postprocessing1.blurx;
+                renderer.render(scene, camera, postprocessing.rtTexture1, true);
 
-            this._renderer.render(postprocessing1.scene, postprocessing1.camera, postprocessing1.rtTexture2, true);
+                // Render quad with blured scene into texture (convolution pass 1)
 
-            // Render quad with blured scene into texture (convolution pass 2)
+                postprocessing.quad.materials = [ postprocessing.materialConvolution ];
 
-            postprocessing1.materialConvolution.uniforms.tDiffuse.texture = postprocessing1.rtTexture2;
-            postprocessing1.materialConvolution.uniforms.uImageIncrement.value = postprocessing1.blury;
+                postprocessing.materialConvolution.uniforms.tDiffuse.texture = postprocessing.rtTexture1;
+                postprocessing.materialConvolution.uniforms.uImageIncrement.value = postprocessing.blurx;
 
-            this._renderer.render(postprocessing1.scene, postprocessing1.camera, postprocessing1.rtTexture3, true);
+                renderer.render(postprocessing.scene, postprocessing.camera, postprocessing.rtTexture2, true);
 
-            // Render original scene with superimposed blur to texture
+                // Render quad with blured scene into texture (convolution pass 2)
 
-            postprocessing1.quad.materials[ 0 ] = postprocessing1.materialScreen;
+                postprocessing.materialConvolution.uniforms.tDiffuse.texture = postprocessing.rtTexture2;
+                postprocessing.materialConvolution.uniforms.uImageIncrement.value = postprocessing.blury;
 
-            this._renderer.render(postprocessing1.scene, postprocessing1.camera, postprocessing1.rtTexture1, false);
+                renderer.render(postprocessing.scene, postprocessing.camera, postprocessing.rtTexture3, true);
+
+                // Render original scene with superimposed blur to texture
+
+                postprocessing.quad.materials = [ postprocessing.materialScreen ];
+
+                postprocessing.materialScreen.uniforms.tDiffuse.texture = postprocessing.rtTexture3;
+                postprocessing.materialScreen.uniforms.opacity.value = 1.25;
+
+                renderer.render(postprocessing.scene, postprocessing.camera, postprocessing.rtTexture1, false);
+
+                // Render to screen
+
+                postprocessing.materialFilm.uniforms.time.value += 0.01;
+                postprocessing.quad.materials = [ postprocessing.materialFilm ];
+
+                postprocessing.materialScreen.uniforms.tDiffuse.texture = postprocessing.rtTexture1;
+                renderer.render(postprocessing.scene, postprocessing.camera);
+
+            } else {
+
+                renderer.clear();
+                renderer.render(scene, camera);
+
+            }
         },
 
         /**

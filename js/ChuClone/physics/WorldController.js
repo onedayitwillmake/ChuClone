@@ -32,7 +32,14 @@
     var b2CircleShape = Box2D.Collision.Shapes.b2CircleShape;
     var b2DebugDraw = Box2D.Dynamics.b2DebugDraw;
 
+    var FIXED_TIMESTEP = 1/60;
+    var fixedTimestepAccumulator_ = 0;
+    var fixedTimestepAccumulatorRatio_ = 0;
+    var FLT_EPSILON = 0.000001;
+    var TIME = 0;
+    
     ChuClone.physics.WorldController = function() {
+        TIME = Date.now();
         this.setupBox2d();
     };
 
@@ -54,11 +61,11 @@
         /**
          * @type {Number}
          */
-        _velocityIterationsPerSecond    : 10,
+        _velocityIterationsPerSecond    : 20,
         /**
          * @type {Number}
          */
-        _positionIterationsPerSecond	: 30,
+        _positionIterationsPerSecond	: 0,
 
         /**
          * Container of closures used in event callbacks
@@ -211,20 +218,49 @@
         /**
          * Updates the game
          * Creates a WorldEntityDescription which it sends to NetChannel
+         * // Fixed-Timestep implemntation from - http://www.unagames.com/blog/daniele/2010/06/fixed-time-step-implementation-box2d
          */
         update: function() {
-            var delta = 16 / 1000;
-            this.step( delta );
-        },
+            var now = Date.now();
+            var dt = (now - TIME)/1000;
+            TIME = now;
 
+            this._world.Step(dt, dt * this._velocityIterationsPerSecond, dt * this._positionIterationsPerSecond);
 
-        step: function( delta ) {
-            this._world.Step(delta, delta * this._velocityIterationsPerSecond, delta * this._positionIterationsPerSecond);
-
-            if(this._debugDraw) {
+                     if(this._debugDraw) {
                 this._world.DrawDebugData();
             }
             this._world.ClearForces();
+            
+            return;
+
+            var MAX_STEPS = 5;
+            fixedTimestepAccumulator_ += dt;
+            
+            var nSteps = Math.floor( fixedTimestepAccumulator_ / FIXED_TIMESTEP );
+
+            if( nSteps > 0 ) {
+                fixedTimestepAccumulator_ -= nSteps * FIXED_TIMESTEP;
+            }
+
+            if( fixedTimestepAccumulator_ > FIXED_TIMESTEP + FLT_EPSILON ) {
+                console.error("Accumulator must have a value lesser than the fixed time step");
+                return;
+            }
+            fixedTimestepAccumulatorRatio_ = fixedTimestepAccumulator_ / FIXED_TIMESTEP;
+
+            //this._world.Step(dt, dt * this._velocityIterationsPerSecond, dt * this._positionIterationsPerSecond);
+            // This is similar to clamp "dt":
+            //	dt = std::min (dt, MAX_STEPS * FIXED_TIMESTEP)
+            // but it allows above calculations of fixedTimestepAccumulator_ and
+            // fixedTimestepAccumulatorRatio_ to remain unchanged.
+            var nStepsClamped = Math.min(nSteps, MAX_STEPS);
+            for(var i = 0; i  < nStepsClamped; ++i) {
+                this._world.Step(FIXED_TIMESTEP, FIXED_TIMESTEP * this._velocityIterationsPerSecond, FIXED_TIMESTEP * this._positionIterationsPerSecond);
+            }
+
+
+
         },
 
         /**
