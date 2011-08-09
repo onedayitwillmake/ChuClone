@@ -63,13 +63,12 @@ Abstract:
 		},
 
 		/**
-		 * @inheritDoc
+		 * Move the camera around it's current 'position'
 		 */
         update: function() {
-
             this.attachedEntity.position.x += Math.cos( this._mousePosition.x * Math.PI ) * this._radius.x;
             this.attachedEntity.position.y += (this._mousePosition.y*2-1) * this._radius.y;
-            this.attachedEntity.position.z += this._radius.z;//Math.sin( this._mousePosition.y) * this._radius;
+            this.attachedEntity.position.z += this._radius.z;
         },
 
 		/**

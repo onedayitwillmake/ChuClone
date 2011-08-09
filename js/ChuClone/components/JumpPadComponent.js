@@ -213,7 +213,7 @@ Abstract:
                 console.log("BAD SOURCE");
             }
 
-            return ChuClone.components.JumpPadComponent.prototype._textureSource + "right.png";;
+            return ChuClone.components.JumpPadComponent.prototype._textureSource + "right.png";
         },
 
         ///// ACCESSORS

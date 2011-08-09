@@ -31,6 +31,11 @@ Abstract:
 
         createTimeCanvas: function() {
             var container = document.getElementById("HUDTime");
+            if(!container) {
+                console.log("Could not create HUDTime... aborting");
+                return;
+            }
+
             container.style.height = 43 + "px";
             container.textContent = "";
 
@@ -57,6 +62,7 @@ Abstract:
          * @param aTime
          */
         setTimeInSeconds: function( aTime ) {
+            if(!timeContext) return;
             var seconds = Math.round(aTime/1000*10)/10 + " secs";
             timeContext.clearRect(0, 0, timeContext.width, timeContext.height);
             timeContext.fillText(seconds, timeContext.width - 40, -4);
