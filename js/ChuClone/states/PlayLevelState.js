@@ -293,7 +293,7 @@ Abstract:
 			 ChuClone.gui.HUDController.setTimeInSeconds( this._elapsedTime );
 
              this._beatLevel = true;
-             this._player.addComponentAndExecute( new ChuClone.components.effect.BirdEmitterComponent() );
+             
 
              var recorder = this._player.getComponentWithName( ChuClone.components.player.PlayerRecordComponent.prototype.displayName);
              var playerRecord = null;
@@ -308,6 +308,7 @@ Abstract:
              var endLevelState = new ChuClone.states.EndLevelState();
              endLevelState._gameView = this._gameView;
              endLevelState._worldController = this._worldController;
+             endLevelState.setPlayer( this._player );
              endLevelState.setTime( this._elapsedTime );
              endLevelState.setRecord( playerRecord );
              ChuClone.model.FSM.StateMachine.getInstance().changeState(endLevelState);

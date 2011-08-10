@@ -38,6 +38,16 @@ Abstract:
          */
         _player         : null,
 
+        /**
+         * @type {Number}
+         */
+        _completionTime : 0,
+        
+        /**
+         * @type {String}
+         */
+        _record         : null,
+
 		/**
 		 * @inheritDoc 
 		 */
@@ -45,6 +55,7 @@ Abstract:
 			ChuClone.states.EndLevelState.superclass.enter.call(this);
             this._gameView.getCamera().removeAllComponents();
             this.setupEvents();
+            this.submitTime();
 		},
 
         setupEvents: function() {
@@ -99,7 +110,51 @@ Abstract:
 		 */
 		setPlayer: function( aPlayer ) {
 			this._player = aPlayer;
-		}
+            this._player.addComponentAndExecute( new ChuClone.components.effect.BirdEmitterComponent() );
+		},
+
+        /**
+         * @param {String}
+         */
+        setTime: function(aTime) {
+            this._completionTime = aTime;
+        },
+
+        /**
+         * @param {String}
+         */
+        setRecord: function( aRecord ) {
+            if( !aRecord ) {
+                return
+            }
+        },
+
+        submitScore: function() {
+            var request = new XMLHttpRequest();
+			var that = this;
+			request.onreadystatechange = function() {
+				if (request.readyState == 4) {
+
+					// Invalid JSON returned - probably has validation errors
+					try {
+						var result = JSON.parse(request.responseText)[0];
+					} catch (e) {
+						ChuClone.utils.displayFlash( ChuClone.utils.getValidationErrors( request.responseText ), 0);
+						return;
+					}
+
+					if (result.status == false) {
+						ChuClone.utils.displayFlash( ChuClone.utils.getValidationErrorsFromJSON( result.notice ), 0);
+					} else {
+						ChuClone.utils.displayFlash("Save To Server Success:", 1);
+					}
+				}
+			};
+
+            //http://localhost:3000/levels/46/highscores/new
+			request.open("POST", ChuClone.model.Constants.SERVER.USER_SUBMIT_LOCATION);
+			request.send(formData);
+        }
 	};
 
     ChuClone.extend( ChuClone.states.EndLevelState, ChuClone.model.FSM.State );

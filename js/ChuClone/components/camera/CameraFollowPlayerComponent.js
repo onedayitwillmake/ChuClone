@@ -39,7 +39,7 @@ Abstract:
          * @type {THREE.Vector3}
          */
         _offset     : null,
-        _damping    : 0.15,
+        _damping    : 0.05,
 
         attach: function( anEntity ) {
             ChuClone.components.camera.CameraFollowPlayerComponent.superclass.attach.call(this, anEntity);
