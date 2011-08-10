@@ -30,6 +30,7 @@
 (function(){
     "use strict";
     var PTM_RATIO = ChuClone.model.Constants.PTM_RATIO;
+    var b2Body = Box2D.Dynamics.b2Body;
     ChuClone.GameEntity = function() {
         this.components = [];
     };
@@ -69,13 +70,25 @@
         /**
          * Update the position/rotation based on the BOX2D world position
          * Takes PTM_RATIO into account
+         * @param {Number} Alpha    FixedTimestepAccumulatorRatio
          */
-        update: function() {
+        update: function( alpha ) {
+
             var bodyPos = this.body.GetPosition();
 
-            this.view.position.x = bodyPos.x * PTM_RATIO;
-            this.view.position.y = bodyPos.y * -PTM_RATIO;
-            this.view.rotation.z = -this.body.GetAngle();
+            if( this.body.GetType() === b2Body.b2_kinematicBody ) {
+                this.view.position.x = bodyPos.x * PTM_RATIO;
+                this.view.position.y = bodyPos.y * -PTM_RATIO;
+                this.view.rotation.z = -this.body.GetAngle();
+            } else {
+                var oneMinusRatio = 1.0 - alpha;
+                var newX = bodyPos.x * PTM_RATIO;
+                var newY = bodyPos.y * -PTM_RATIO;
+                var damping = 0.5;
+                this.view.position.x -= (this.view.position.x - newX) * damping;
+                this.view.position.y -= (this.view.position.y - newY) * damping;
+                this.view.rotation.z -= (this.view.rotation.z -  -this.body.GetAngle()) * 0.1;
+            }
 
             var len = this.components.length;
             for(var i = 0; i < len; ++i ) {

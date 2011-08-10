@@ -219,6 +219,7 @@
          * Updates the game
          * Creates a WorldEntityDescription which it sends to NetChannel
          * // Fixed-Timestep implemntation from - http://www.unagames.com/blog/daniele/2010/06/fixed-time-step-implementation-box2d
+         * @return {Number} Ratio between fixedtimestep and dt
          */
         update: function() {
             var now = Date.now();
@@ -234,7 +235,7 @@
 
             if( fixedTimestepAccumulator_ > FIXED_TIMESTEP + FLT_EPSILON ) {
                 console.error("Accumulator must have a value lesser than the fixed time step");
-                return;
+                return 0;
             }
             fixedTimestepAccumulatorRatio_ = fixedTimestepAccumulator_ / FIXED_TIMESTEP;
 
@@ -253,6 +254,8 @@
             }
 			TIME = now;
             this._world.ClearForces();
+
+            return fixedTimestepAccumulatorRatio_;
         },
 
         /*
@@ -363,6 +366,11 @@
          * @return {Box2D.Dynamics.b2World}
          */
         getWorld: function() { return this._world; },
+        
+        /**
+         * @return {Number}
+         */
+        getFixedTimestepAccumulatorRatio: function() { return fixedTimestepAccumulatorRatio_ ;},
 
         /**
          * @return {Box2D.Dynamics.b2DebugDraw}

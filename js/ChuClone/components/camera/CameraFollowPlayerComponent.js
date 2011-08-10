@@ -39,7 +39,7 @@ Abstract:
          * @type {THREE.Vector3}
          */
         _offset     : null,
-        _damping    : 0.25,
+        _damping    : 0.15,
 
         attach: function( anEntity ) {
             ChuClone.components.camera.CameraFollowPlayerComponent.superclass.attach.call(this, anEntity);
@@ -58,8 +58,8 @@ Abstract:
             this.attachedEntity.target.position.x -= (this.attachedEntity.target.position.x - (this._player.view.position.x + 700)) * this._damping;
             this.attachedEntity.target.position.y -= (this.attachedEntity.target.position.y - (this._player.view.position.y - 700)) * this._damping;
             this.attachedEntity.target.position.z = this._player.view.position.z;
-            this.attachedEntity.position.x = this._player.view.position.x + 400;
-            this.attachedEntity.position.y = this._player.view.position.y;
+            this.attachedEntity.position.x -= (this.attachedEntity.position.x - (this._player.view.position.x + 400)) * this._damping;
+            this.attachedEntity.position.y -= (this.attachedEntity.position.y - this._player.view.position.y) * this._damping;
             this.attachedEntity.position.z = 0;
         },
 

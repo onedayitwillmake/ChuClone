@@ -215,6 +215,8 @@ Abstract:
             ChuClone.states.PlayLevelState.superclass.update.call(this);
             this.updateTime();
 
+            var fixedTimeStepAccumulatorRatio = this._worldController.getFixedTimestepAccumulatorRatio();
+            
             /**
              * @type {Box2D.Dynamics.b2Body}
              */
@@ -227,7 +229,7 @@ Abstract:
                  */
                 var entity = b.GetUserData();
                 if(entity)
-                    entity.update();
+                    entity.update( fixedTimeStepAccumulatorRatio );
             }
 
 
@@ -278,8 +280,8 @@ Abstract:
 			// Allow rotation about target
 			var focusComponent = new ChuClone.components.camera.CameraFocusRadiusComponent();
 			gameCamera.addComponentAndExecute(focusComponent);
-			focusComponent.getRadius().x = 1000;
-			focusComponent.getRadius().y = 1000;
+			focusComponent.getRadius().x = 400;
+			focusComponent.getRadius().y = 400;
 			focusComponent.getRadius().z = 2000;
 		},
 
@@ -289,21 +291,26 @@ Abstract:
 		 */
 		onGoalReached: function( aGoalComponent ) {
 			 ChuClone.gui.HUDController.setTimeInSeconds( this._elapsedTime );
-			 var recorder = this._player.getComponentWithName( ChuClone.components.player.PlayerRecordComponent.prototype.displayName);
-			 console.log( JSON.stringify( recorder.getRecord() ) );
+
+             this._beatLevel = true;
+             this._player.addComponentAndExecute( new ChuClone.components.effect.BirdEmitterComponent() );
+
+             var recorder = this._player.getComponentWithName( ChuClone.components.player.PlayerRecordComponent.prototype.displayName);
+             var playerRecord = null;
+             if( recorder ) {
+                 playerRecord = JSON.stringify( recorder.getRecord() );
+                 this._player.removeComponentWithName( ChuClone.components.player.PlayerRecordComponent.prototype.displayName);
+             }
+
              /**
               * @type {ChuClone.states.EndLevelState}
               */
              var endLevelState = new ChuClone.states.EndLevelState();
              endLevelState._gameView = this._gameView;
              endLevelState._worldController = this._worldController;
-			 //this._beatLevel = true;
-//             this._player.addComponentAndExecute( new ChuClone.components.effect.BirdEmitterComponent() );
-
-
-
-//			 endLevelState.setTime( )
-//             ChuClone.model.FSM.StateMachine.getInstance().changeState(endLevelState);
+             endLevelState.setTime( this._elapsedTime );
+             endLevelState.setRecord( playerRecord );
+             ChuClone.model.FSM.StateMachine.getInstance().changeState(endLevelState);
 		},
 
         onPlayerCreated: function( aPlayer ) {
@@ -321,8 +328,8 @@ Abstract:
             var respawnPoint = ChuClone.components.RespawnComponent.prototype.GET_CURRENT_RESPAWNPOINT();
             respawnPoint.setSpawnedEntityPosition( this._player );
 
-//			this.startRecordingPlayer();
-			this.startRecordingPlayback();
+			this.startRecordingPlayer();
+			//this.startRecordingPlayback();
             this.animateIn();
         },
 
@@ -348,8 +355,6 @@ Abstract:
          * Remove components?
          */
         onLevelDestroyed: function() {
-            console.log("PlayLevelState: onLevelDestroyed");
-            
             if( this._isLevelLoaded ) {
                 /**
                 * @type {ChuClone.states.PlayLevelState}
@@ -393,7 +398,6 @@ Abstract:
          */
         exit: function() {
             ChuClone.states.PlayLevelState.superclass.exit.call(this);
-            console.log("EXIT")
             clearTimeout( this._animateInTimeout );
 
             this._gameView.getCamera().removeComponentWithName( ChuClone.components.camera.CameraFollowPlayerComponent.prototype.displayName );

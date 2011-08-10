@@ -210,7 +210,6 @@ Abstract:
 
         // TEMP FUNCTION DURING DEV
         fixTextureSource: function( originalSource ) {
-            console.log(originalSource)
             if(originalSource.indexOf("_") == -1) {
                 console.log("BAD SOURCE" + originalSource);
                 return ChuClone.components.JumpPadComponent.prototype._textureSource + "right.png";
