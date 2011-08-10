@@ -32,13 +32,13 @@
 	document.write('<script src="/game/js/lib/NoBarrierOSC/ClientApp.js"></script>');
 
 	ChuClone.namespace("ChuClone.components");
-	ChuClone.components.RemoteJoystickInputComponent = function() {
-		ChuClone.components.RemoteJoystickInputComponent.superclass.constructor.call(this);
+	ChuClone.components.player.RemoteJoystickInputComponent = function() {
+		ChuClone.components.player.RemoteJoystickInputComponent.superclass.constructor.call(this);
 		this.netChannel = new RealtimeMultiplayerGame.ClientNetChannel(this, ChuClone.model.Constants.JOYSTICK.SERVER_LOCATION, ChuClone.model.Constants.JOYSTICK.SERVER_PORT);
 		this.requiresUpdate = true;
 	};
 
-	ChuClone.components.RemoteJoystickInputComponent.prototype = {
+	ChuClone.components.player.RemoteJoystickInputComponent.prototype = {
 		/**
 		 * @type {String}
 		 */
@@ -71,11 +71,11 @@
 		 * @inheritDoc
 		 */
 		attach: function(anEntity) {
-			ChuClone.components.RemoteJoystickInputComponent.superclass.attach.call(this, anEntity);
+			ChuClone.components.player.RemoteJoystickInputComponent.superclass.attach.call(this, anEntity);
 		},
 
 		execute: function() {
-			ChuClone.components.RemoteJoystickInputComponent.superclass.execute.call(this);
+			ChuClone.components.player.RemoteJoystickInputComponent.superclass.execute.call(this);
 		},
 
 		/**
@@ -84,7 +84,7 @@
 		detach: function() {
 			this.netChannel.dealloc();
 			this.netChannel = null;
-			ChuClone.components.RemoteJoystickInputComponent.superclass.detach.call(this);
+			ChuClone.components.player.RemoteJoystickInputComponent.superclass.detach.call(this);
 		},
 
 		///// NETCHANNEL DELEGATE
@@ -158,5 +158,5 @@
 
 	};
 
-	ChuClone.extend(ChuClone.components.RemoteJoystickInputComponent, ChuClone.components.BaseComponent);
+	ChuClone.extend(ChuClone.components.player.RemoteJoystickInputComponent, ChuClone.components.BaseComponent);
 })();

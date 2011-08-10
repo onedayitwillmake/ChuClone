@@ -65,7 +65,7 @@ Abstract:
 				console.log("Goalpad - resetting status");
 			};
 
-			ChuClone.Events.Dispatcher.addListener( ChuClone.components.CharacterControllerComponent.prototype.EVENTS.CREATED, this.playerCallback );
+			ChuClone.Events.Dispatcher.addListener( ChuClone.components.player.CharacterControllerComponent.prototype.EVENTS.CREATED, this.playerCallback );
 
 //			var particleEmitterComponent = new ChuClone.components.effect.ParticleEmitterComponent();
 //			this.attachedEntity.addComponentAndExecute( particleEmitterComponent );
@@ -104,7 +104,7 @@ Abstract:
             this.attachedEntity.getView().materials[0] = this._previousMaterial;
 
 			if(this.playerCallback) {
-				ChuClone.Events.Dispatcher.removeListener( ChuClone.components.CharacterControllerComponent.prototype.EVENTS.CREATED, this.playerCallback );
+				ChuClone.Events.Dispatcher.removeListener( ChuClone.components.player.CharacterControllerComponent.prototype.EVENTS.CREATED, this.playerCallback );
 				this.playerCallback = null;
 			}
 

@@ -16,15 +16,15 @@
  */
 (function(){
     "use strict";
+    ChuClone.namespace("ChuClone.components.player");
     
     var PTM_RATIO = ChuClone.model.Constants.PTM_RATIO;
-    
-	ChuClone.namespace("ChuClone.components");
-	ChuClone.components.CheckIsJumpingComponent = function() {
-		ChuClone.components.CheckIsJumpingComponent.superclass.constructor.call(this);
+
+	ChuClone.components.player.CheckIsJumpingComponent = function() {
+		ChuClone.components.player.CheckIsJumpingComponent.superclass.constructor.call(this);
 	};
 
-	ChuClone.components.CheckIsJumpingComponent.prototype = {
+	ChuClone.components.player.CheckIsJumpingComponent.prototype = {
         /**
          * @type {String}
          */
@@ -40,7 +40,7 @@
          * Creates a fixture and attaches to the attachedEntity's Box2D body
          */
         attach: function( anEntity ) {
-            ChuClone.components.CheckIsJumpingComponent.superclass.attach.call(this, anEntity);
+            ChuClone.components.player.CheckIsJumpingComponent.superclass.attach.call(this, anEntity);
 
             var entityBody = anEntity.getBody();
             var x = entityBody.GetPosition().x;
@@ -52,10 +52,11 @@
             var fixtureDef = new Box2D.Dynamics.b2FixtureDef();
             fixtureDef.shape = new Box2D.Collision.Shapes.b2PolygonShape();
             fixtureDef.shape.SetAsBox( width+buffer, height +buffer);
-                                       //SetAsEdge(new Box2D.Common.Math.b2Vec2(-width-buffer, -width-buffer), new Box2D.Common.Math.b2Vec2(width+buffer, width+buffer));
+
+            // Create the fixture and set it as a sensor
             var fixture = entityBody.CreateFixture(fixtureDef);
             fixture.SetSensor(true);
-            fixture.m_filter.groupIndex = ChuClone.components.CharacterControllerComponent.prototype.GROUP;
+            fixture.m_filter.groupIndex = ChuClone.components.player.CharacterControllerComponent.prototype.GROUP;
 
             this._sensor = fixture;
             this._sensor.SetUserData( this );
@@ -76,9 +77,9 @@
             this.attachedEntity.getBody().DestroyFixture(this._sensor);
             this._sensor = null;
 
-            ChuClone.components.CheckIsJumpingComponent.superclass.detach.call(this);
+            ChuClone.components.player.CheckIsJumpingComponent.superclass.detach.call(this);
         }
 	};
 
-    ChuClone.extend( ChuClone.components.CheckIsJumpingComponent, ChuClone.components.BaseComponent );
+    ChuClone.extend( ChuClone.components.player.CheckIsJumpingComponent, ChuClone.components.BaseComponent );
 })();

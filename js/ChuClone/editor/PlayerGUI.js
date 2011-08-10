@@ -61,12 +61,12 @@
 		 */
         setupEvents: function() {
             var that = this;
-            ChuClone.Events.Dispatcher.addListener(ChuClone.components.CharacterControllerComponent.prototype.EVENTS.CREATED, function( aPlayer ) {
+            ChuClone.Events.Dispatcher.addListener(ChuClone.components.player.CharacterControllerComponent.prototype.EVENTS.CREATED, function( aPlayer ) {
                 that.destroyPlayer();
                 that._player = aPlayer;
             });
 
-			ChuClone.Events.Dispatcher.addListener(ChuClone.components.CharacterControllerComponent.prototype.EVENTS.REMOVED, function( aPlayer ) {
+			ChuClone.Events.Dispatcher.addListener(ChuClone.components.player.CharacterControllerComponent.prototype.EVENTS.REMOVED, function( aPlayer ) {
 				if( aPlayer == that._player )
 					that._player = null;
             });
@@ -107,7 +107,7 @@
 			entity.setDimensions(ChuClone.model.Constants.PLAYER.WIDTH, ChuClone.model.Constants.PLAYER.HEIGHT, ChuClone.model.Constants.PLAYER.DEPTH);
 
 
-			entity.addComponentAndExecute(new ChuClone.components.CharacterControllerComponent());
+			entity.addComponentAndExecute(new ChuClone.components.player.CharacterControllerComponent());
 			entity.addComponentAndExecute(new ChuClone.components.PhysicsVelocityLimitComponent());
 			entity.addComponentAndExecute(new ChuClone.components.BoundsYCheckComponent());
 

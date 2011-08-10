@@ -32,7 +32,7 @@
     var b2CircleShape = Box2D.Collision.Shapes.b2CircleShape;
     var b2DebugDraw = Box2D.Dynamics.b2DebugDraw;
 
-    var FIXED_TIMESTEP = 1/60;
+    var FIXED_TIMESTEP = Math.floor( 1/60 * 1000 ) / 1000;
     var fixedTimestepAccumulator_ = 0;
     var fixedTimestepAccumulatorRatio_ = 0;
     var FLT_EPSILON = 0.000001;
@@ -223,10 +223,6 @@
         update: function() {
             var now = Date.now();
             var dt = (now - TIME)/1000;
-			this._world.Step(1/60, 10, 10);
-			  this._world.ClearForces();
-			TIME = now;
-			return;
             var MAX_STEPS = 5;
             fixedTimestepAccumulator_ += dt;
             
@@ -249,9 +245,8 @@
             // fixedTimestepAccumulatorRatio_ to remain unchanged.
             var nStepsClamped = Math.min(nSteps, MAX_STEPS);
             for(var i = 0; i  < nStepsClamped; ++i) {
-                this._world.Step(FIXED_TIMESTEP, FIXED_TIMESTEP * this._velocityIterationsPerSecond, FIXED_TIMESTEP * this._positionIterationsPerSecond);
+                this._world.Step(FIXED_TIMESTEP, 2, 2);
             }
-
 
 			if(this._debugDraw) {
                 this._world.DrawDebugData();
@@ -259,6 +254,51 @@
 			TIME = now;
             this._world.ClearForces();
         },
+
+        /*
+        void PhysicsSystem::update (float dt)
+{
+	// Maximum number of steps, to avoid degrading to an halt.
+	const int MAX_STEPS = 5;
+
+	fixedTimestepAccumulator_ += dt;
+	const int nSteps = static_cast<int> (
+		std::floor (fixedTimestepAccumulator_ / FIXED_TIMESTEP)
+	);
+	// To avoid rounding errors, touches fixedTimestepAccumulator_ only
+	// if needed.
+	if (nSteps > 0)
+	{
+		fixedTimestepAccumulator_ -= nSteps * FIXED_TIMESTEP;
+	}
+
+	assert (
+		"Accumulator must have a value lesser than the fixed time step" &&
+		fixedTimestepAccumulator_ < FIXED_TIMESTEP + FLT_EPSILON
+	);
+	fixedTimestepAccumulatorRatio_ = fixedTimestepAccumulator_ / FIXED_TIMESTEP;
+
+	// This is similar to clamp "dt":
+	//	dt = std::min (dt, MAX_STEPS * FIXED_TIMESTEP)
+	// but it allows above calculations of fixedTimestepAccumulator_ and
+	// fixedTimestepAccumulatorRatio_ to remain unchanged.
+	const int nStepsClamped = std::min (nSteps, MAX_STEPS);
+	for (int i = 0; i < nStepsClamped; ++ i)
+	{
+		// In singleStep_() the CollisionManager could fire custom
+		// callbacks that uses the smoothed states. So we must be sure
+		// to reset them correctly before firing the callbacks.
+		resetSmoothStates_ ();
+		singleStep_ (FIXED_TIMESTEP);
+	}
+
+	world_->ClearForces ();
+
+	// We "smooth" positions and orientations using
+	// fixedTimestepAccumulatorRatio_ (alpha).
+	smoothStates_ ();
+}
+         */
 
         /**
          * Setup the canvas used for debugging

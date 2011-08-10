@@ -44,7 +44,7 @@ Abstract:
         attach: function( anEntity ) {
             ChuClone.components.camera.CameraFollowPlayerComponent.superclass.attach.call(this, anEntity);
 
-//            ChuClone.Events.Dispatcher.addListener(ChuClone.components.CharacterControllerComponent.prototype.EVENTS.CREATED, function( aPlayer ) {
+//            ChuClone.Events.Dispatcher.addListener(ChuClone.components.player.CharacterControllerComponent.prototype.EVENTS.CREATED, function( aPlayer ) {
 //                that.onPlayerCreated( aPlayer );
 //            });
         },

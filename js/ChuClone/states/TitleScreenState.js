@@ -98,8 +98,8 @@ Abstract:
             var that = this;
             this.addListener( ChuClone.editor.LevelManager.prototype.EVENTS.LEVEL_CREATED, function( aLevelManager ) { that.onLevelLoaded( aLevelManager ) } );
             this.addListener( ChuClone.editor.LevelManager.prototype.EVENTS.LEVEL_DESTROYED, function( aLevelManager ) { that.onLevelDestroyed( aLevelManager ) } );
-            this.addListener( ChuClone.components.CharacterControllerComponent.prototype.EVENTS.CREATED, function( aPlayer ) { that.onPlayerCreated(aPlayer) } );
-            this.addListener( ChuClone.components.CharacterControllerComponent.prototype.EVENTS.REMOVED, function( aPlayer ) { that.onPlayerDestroyed(aPlayer) } );
+            this.addListener( ChuClone.components.player.CharacterControllerComponent.prototype.EVENTS.CREATED, function( aPlayer ) { that.onPlayerCreated(aPlayer) } );
+            this.addListener( ChuClone.components.player.CharacterControllerComponent.prototype.EVENTS.REMOVED, function( aPlayer ) { that.onPlayerDestroyed(aPlayer) } );
             this.addListener( ChuClone.components.GoalPadComponent.prototype.EVENTS.GOAL_REACHED, function( aGoalPad ) { that.onGoalReached( aGoalPad ) } );
         },
 
@@ -145,7 +145,7 @@ Abstract:
 				 */
 				var entity = b.GetUserData();
 				if (!(entity instanceof ChuClone.GameEntity) ) continue;
-				if( entity.getComponentWithName(ChuClone.components.CharacterControllerComponent.prototype.displayName) ) continue;
+				if( entity.getComponentWithName(ChuClone.components.player.CharacterControllerComponent.prototype.displayName) ) continue;
 				entity.getView().visible = false;
 
 

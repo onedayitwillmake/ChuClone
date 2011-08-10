@@ -33,7 +33,7 @@
 
     // Store a reference to the constructor function for each component by using it's name
     var lookup = {};
-    lookup[ChuClone.components.CharacterControllerComponent.prototype.displayName] = ChuClone.components.CharacterControllerComponent;
+    lookup[ChuClone.components.player.CharacterControllerComponent.prototype.displayName] = ChuClone.components.player.CharacterControllerComponent;
     lookup[ChuClone.components.JumpPadComponent.prototype.displayName] = ChuClone.components.JumpPadComponent;
     lookup[ChuClone.components.RespawnComponent.prototype.displayName] = ChuClone.components.RespawnComponent;
     lookup[ChuClone.components.GoalPadComponent.prototype.displayName] = ChuClone.components.GoalPadComponent;
@@ -41,11 +41,11 @@
     lookup[ChuClone.components.MovingPlatformComponent.prototype.displayName] = ChuClone.components.MovingPlatformComponent;
 	lookup[ChuClone.components.AutoRotationComponent.prototype.displayName] = ChuClone.components.AutoRotationComponent;
 	lookup[ChuClone.components.DeathPadComponent.prototype.displayName] = ChuClone.components.DeathPadComponent;
-    lookup[ChuClone.components.KeyboardInputComponent.prototype.displayName] = ChuClone.components.KeyboardInputComponent;
-    lookup[ChuClone.components.PlayerRecordComponent.prototype.displayName] = ChuClone.components.PlayerRecordComponent;
-    lookup[ChuClone.components.PlayerPlaybackComponent.prototype.displayName] = ChuClone.components.PlayerPlaybackComponent;
+    lookup[ChuClone.components.player.KeyboardInputComponent .prototype.displayName] = ChuClone.components.player.KeyboardInputComponent ;
+    lookup[ChuClone.components.player.PlayerRecordComponent.prototype.displayName] = ChuClone.components.player.PlayerRecordComponent;
+    lookup[ChuClone.components.player.PlayerPlaybackComponent.prototype.displayName] = ChuClone.components.player.PlayerPlaybackComponent;
     lookup[ChuClone.components.PhysicsVelocityLimitComponent.prototype.displayName] = ChuClone.components.PhysicsVelocityLimitComponent;
-    lookup[ChuClone.components.CheckIsJumpingComponent.prototype.displayName] = ChuClone.components.CheckIsJumpingComponent;
+    lookup[ChuClone.components.player.CheckIsJumpingComponent.prototype.displayName] = ChuClone.components.player.CheckIsJumpingComponent;
     lookup[ChuClone.components.camera.CameraFocusRadiusComponent.prototype.displayName] = ChuClone.components.camera.CameraFocusRadiusComponent;
     lookup[ChuClone.components.camera.CameraFollowEditorComponent.prototype.displayName] = ChuClone.components.camera.CameraFollowEditorComponent;
     lookup[ChuClone.components.camera.CameraFollowPlayerComponent.prototype.displayName] = ChuClone.components.camera.CameraFollowPlayerComponent;

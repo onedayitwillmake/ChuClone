@@ -16,14 +16,14 @@ Abstract:
 (function(){
     "use strict";
     
-	ChuClone.namespace("ChuClone.components");
+	ChuClone.namespace("ChuClone.components.player");
 
-	ChuClone.components.CharacterControllerComponent = function() {
-		ChuClone.components.CharacterControllerComponent.superclass.constructor.call(this);
+	ChuClone.components.player.CharacterControllerComponent = function() {
+		ChuClone.components.player.CharacterControllerComponent.superclass.constructor.call(this);
         this.requiresUpdate = true;
 	};
 
-	ChuClone.components.CharacterControllerComponent.prototype = {
+	ChuClone.components.player.CharacterControllerComponent.prototype = {
         /**
          * @type {String}
          */
@@ -39,7 +39,7 @@ Abstract:
 		 */
 		EVENTS	: {
             CREATED: "PlayerEntity.event.created",
-            REMOVED:   "PlayerEntity.event.removed"
+            REMOVED: "PlayerEntity.event.removed"
         },
 		/**
 		 * Collision Group
@@ -52,23 +52,19 @@ Abstract:
 		 * @inheritDoc
 		 */
 		attach: function(anEntity) {
-			ChuClone.components.CharacterControllerComponent.superclass.attach.call(this, anEntity);
+			ChuClone.components.player.CharacterControllerComponent.superclass.attach.call(this, anEntity);
 
 			this.intercept(['_type']);
-
 			this.attachedEntity.getBody().SetBullet( true );
 
-//            this.attachedEntity.getBody().SetMassData(massData)
-
-
             // Attach a RemoteJoystickInput or KeyboardInput controller
-			if( ChuClone.model.Constants.JOYSTICK.ENABLED )this._input = new ChuClone.components.RemoteJoystickInputComponent();
-			else this._input = new ChuClone.components.KeyboardInputComponent();
+			if( ChuClone.model.Constants.JOYSTICK.ENABLED )this._input = new ChuClone.components.player.RemoteJoystickInputComponent();
+			else this._input = new ChuClone.components.player.KeyboardInputComponent ();
             this.attachedEntity.addComponentAndExecute( this._input );
 
 
             // Attach sensor to check if jumping
-            this._jumpCheckComponent = new ChuClone.components.CheckIsJumpingComponent();
+            this._jumpCheckComponent = new ChuClone.components.player.CheckIsJumpingComponent();
             this.attachedEntity.addComponentAndExecute( this._jumpCheckComponent );
             this.attachedEntity.addComponentAndExecute( new ChuClone.components.BoundsYCheckComponent() );
 
@@ -105,7 +101,7 @@ Abstract:
         dispatchCreatedEvent: function() {
             var that = this;
             setTimeout(function(){
-                ChuClone.Events.Dispatcher.emit( ChuClone.components.CharacterControllerComponent.prototype.EVENTS.CREATED, that.attachedEntity);
+                ChuClone.Events.Dispatcher.emit( ChuClone.components.player.CharacterControllerComponent.prototype.EVENTS.CREATED, that.attachedEntity);
             }, 16);
         },
 
@@ -114,46 +110,23 @@ Abstract:
          */
         setBody: function( aBody ) {
 			this.interceptedProperties['setBody'].call( this.attachedEntity, aBody );
-            aBody.GetFixtureList().m_filter.groupIndex = ChuClone.components.CharacterControllerComponent.prototype.GROUP;
+            aBody.GetFixtureList().m_filter.groupIndex = ChuClone.components.player.CharacterControllerComponent.prototype.GROUP;
         },
-
-		getType: function() {
-			return 123;
-		},
 
         /**
          * Restore material and restitution
          */
         detach: function() {
             // remove input component
-            this.attachedEntity.removeComponentWithName( ChuClone.components.KeyboardInputComponent.prototype.displayName );
+            this.attachedEntity.removeComponentWithName( ChuClone.components.player.KeyboardInputComponent .prototype.displayName );
             this._input = null;
 
             this._jumpCheckComponent = null;
 
-			ChuClone.Events.Dispatcher.emit( ChuClone.components.CharacterControllerComponent.prototype.EVENTS.REMOVED, this.attachedEntity);
-            ChuClone.components.CharacterControllerComponent.superclass.detach.call(this);
-        },
-
-
-        /**
-         * @inheritDoc
-         */
-        getModel: function() {
-            var returnObject = ChuClone.components.CharacterControllerComponent.superclass.getModel.call(this);
-//            returnObject.moveSpeed = {x: this._moveSpeed.x, y: this._moveSpeed.y };
-            
-            return returnObject;
-        },
-
-		/**
-         * @inheritDoc
-         */
-        fromModel: function( data, futureEntity ) {
-            ChuClone.components.JumpPadComponent.superclass.fromModel.call(this, data);
-//            this._moveSpeed = new Box2D.Common.Math.b2Vec2(data.moveSpeed.y, data.moveSpeed.y)
+			ChuClone.Events.Dispatcher.emit( ChuClone.components.player.CharacterControllerComponent.prototype.EVENTS.REMOVED, this.attachedEntity);
+            ChuClone.components.player.CharacterControllerComponent.superclass.detach.call(this);
         }
 	};
 
-    ChuClone.extend( ChuClone.components.CharacterControllerComponent, ChuClone.components.BaseComponent );
+    ChuClone.extend( ChuClone.components.player.CharacterControllerComponent, ChuClone.components.BaseComponent );
 })();

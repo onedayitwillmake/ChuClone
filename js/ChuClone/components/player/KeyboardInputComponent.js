@@ -17,13 +17,13 @@ Abstract:
 (function(){
     "use strict";
     
-	ChuClone.namespace("ChuClone.components");
+	ChuClone.namespace("ChuClone.components.player");
 
-	ChuClone.components.KeyboardInputComponent = function() {
-		ChuClone.components.KeyboardInputComponent.superclass.constructor.call(this);
+	ChuClone.components.player.KeyboardInputComponent = function() {
+		ChuClone.components.player.KeyboardInputComponent .superclass.constructor.call(this);
 	};
 
-	ChuClone.components.KeyboardInputComponent.prototype = {
+	ChuClone.components.player.KeyboardInputComponent .prototype = {
         /**
          * @type {String}
          */
@@ -49,11 +49,11 @@ Abstract:
 		 * @inheritDoc
 		 */
 		attach: function(anEntity) {
-			ChuClone.components.KeyboardInputComponent.superclass.attach.call(this, anEntity);
+			ChuClone.components.player.KeyboardInputComponent .superclass.attach.call(this, anEntity);
 		},
 
         execute: function() {
-            ChuClone.components.KeyboardInputComponent.superclass.execute.call(this);
+            ChuClone.components.player.KeyboardInputComponent .superclass.execute.call(this);
 
             var that = this;
             this._callback = function(e){
@@ -107,10 +107,10 @@ Abstract:
             ChuClone.DOM_ELEMENT.removeEventListener('keyup', this._callback, false);
             this._callback = null;
 
-           ChuClone.components.KeyboardInputComponent.superclass.detach.call(this);
+           ChuClone.components.player.KeyboardInputComponent .superclass.detach.call(this);
         }
 
 	};
 
-    ChuClone.extend( ChuClone.components.KeyboardInputComponent, ChuClone.components.BaseComponent );
+    ChuClone.extend( ChuClone.components.player.KeyboardInputComponent , ChuClone.components.BaseComponent );
 })();

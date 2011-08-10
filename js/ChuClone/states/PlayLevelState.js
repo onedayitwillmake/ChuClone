@@ -102,7 +102,7 @@ Abstract:
 				 */
 				var entity = b.GetUserData();
 				if (!(entity instanceof ChuClone.GameEntity) ) continue;
-				if( entity.getComponentWithName(ChuClone.components.CharacterControllerComponent.prototype.displayName) ) {
+				if( entity.getComponentWithName(ChuClone.components.player.CharacterControllerComponent.prototype.displayName) ) {
                     player = entity;
                     continue;
                 }
@@ -203,8 +203,8 @@ Abstract:
             var that = this;
             this.addListener( ChuClone.editor.LevelManager.prototype.EVENTS.LEVEL_CREATED, function( aLevelManager ) { that.onLevelLoaded( aLevelManager ) } );
             this.addListener( ChuClone.editor.LevelManager.prototype.EVENTS.LEVEL_DESTROYED, function( aLevelManager ) { that.onLevelDestroyed( aLevelManager ) } );
-            this.addListener( ChuClone.components.CharacterControllerComponent.prototype.EVENTS.CREATED, function( aPlayer ) { that.onPlayerCreated(aPlayer) } );
-            this.addListener( ChuClone.components.CharacterControllerComponent.prototype.EVENTS.REMOVED, function( aPlayer ) { that.onPlayerDestroyed(aPlayer) } );
+            this.addListener( ChuClone.components.player.CharacterControllerComponent.prototype.EVENTS.CREATED, function( aPlayer ) { that.onPlayerCreated(aPlayer) } );
+            this.addListener( ChuClone.components.player.CharacterControllerComponent.prototype.EVENTS.REMOVED, function( aPlayer ) { that.onPlayerDestroyed(aPlayer) } );
             this.addListener( ChuClone.components.GoalPadComponent.prototype.EVENTS.GOAL_REACHED, function( aGoalPad ) { that.onGoalReached( aGoalPad ) } );
         },
 
@@ -289,7 +289,7 @@ Abstract:
 		 */
 		onGoalReached: function( aGoalComponent ) {
 			 ChuClone.gui.HUDController.setTimeInSeconds( this._elapsedTime );
-			 var recorder = this._player.getComponentWithName( ChuClone.components.PlayerRecordComponent.prototype.displayName);
+			 var recorder = this._player.getComponentWithName( ChuClone.components.player.PlayerRecordComponent.prototype.displayName);
 			 console.log( JSON.stringify( recorder.getRecord() ) );
              /**
               * @type {ChuClone.states.EndLevelState}
@@ -366,7 +366,7 @@ Abstract:
 		 * Records the players movements
 		 */
 		startRecordingPlayer: function() {
-			var playerRecorder = new ChuClone.components.PlayerRecordComponent();
+			var playerRecorder = new ChuClone.components.player.PlayerRecordComponent();
 			playerRecorder.setClockDelegate( this );
 			this._player.addComponentAndExecute( playerRecorder );
 		},
@@ -375,7 +375,7 @@ Abstract:
 		 * Takes over the playercontrol plays back a recording
 		 */
 		startRecordingPlayback: function() {
-			var playerPlayback = new ChuClone.components.PlayerPlaybackComponent();
+			var playerPlayback = new ChuClone.components.player.PlayerPlaybackComponent();
 			playerPlayback.setClockDelegate( this );
 			this._player.addComponentAndExecute( playerPlayback );
 		},

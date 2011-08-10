@@ -201,7 +201,7 @@
 
         setupEvents: function() {
             var that = this;
-            ChuClone.Events.Dispatcher.addListener(ChuClone.components.CharacterControllerComponent.prototype.EVENTS.CREATED, function( aPlayer ) {
+            ChuClone.Events.Dispatcher.addListener(ChuClone.components.player.CharacterControllerComponent.prototype.EVENTS.CREATED, function( aPlayer ) {
                 that._player = aPlayer;
 //                that.onPlayerCreated( aPlayer );
             });

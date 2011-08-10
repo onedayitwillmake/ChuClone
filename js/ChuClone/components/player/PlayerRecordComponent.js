@@ -28,14 +28,14 @@ Abstract:
 		RIGHT	: 1 << 4
 	};
 	
-	ChuClone.namespace("ChuClone.components");
+	ChuClone.namespace("ChuClone.components.player");
 
-	ChuClone.components.PlayerRecordComponent = function() {
-		ChuClone.components.PlayerRecordComponent.superclass.constructor.call(this);
+	ChuClone.components.player.PlayerRecordComponent = function() {
+		ChuClone.components.player.PlayerRecordComponent.superclass.constructor.call(this);
 		this._record = [];
 	};
 
-	ChuClone.components.PlayerRecordComponent.prototype = {
+	ChuClone.components.player.PlayerRecordComponent.prototype = {
         /**
          * @type {String}
          */
@@ -72,17 +72,17 @@ Abstract:
 		 * @inheritDoc
 		 */
 		attach: function(anEntity) {
-			ChuClone.components.PlayerRecordComponent.superclass.attach.call(this, anEntity);
+			ChuClone.components.player.PlayerRecordComponent.superclass.attach.call(this, anEntity);
 		},
 
         execute: function() {
-            ChuClone.components.PlayerRecordComponent.superclass.execute.call(this);
+            ChuClone.components.player.PlayerRecordComponent.superclass.execute.call(this);
 			if( !this._clockDelegate ) {
 				console.error("Cannot attach PlayerRecordComponent without valid clock delegate");
 				return;
 			}
 
-			var PlayerRecordComponent = this.attachedEntity.getComponentWithName( ChuClone.components.PlayerRecordComponent.prototype.displayName );
+			var PlayerRecordComponent = this.attachedEntity.getComponentWithName( ChuClone.components.player.PlayerRecordComponent.prototype.displayName );
 			if( !PlayerRecordComponent ) {
 				console.error("Cannot attach PlayerInputComponent. Cannot find 'PlayerRecordComponent' in attachedEntity");
 				return;
@@ -154,7 +154,7 @@ Abstract:
             ChuClone.DOM_ELEMENT.removeEventListener('keyup', this._callback, false);
             this._callback = null;
 
-           ChuClone.components.PlayerRecordComponent.superclass.detach.call(this);
+           ChuClone.components.player.PlayerRecordComponent.superclass.detach.call(this);
         },
 
 		/**
@@ -173,5 +173,5 @@ Abstract:
 		getRecord: function() { return this._record }
 	};
 
-    ChuClone.extend( ChuClone.components.PlayerRecordComponent, ChuClone.components.BaseComponent );
+    ChuClone.extend( ChuClone.components.player.PlayerRecordComponent, ChuClone.components.BaseComponent );
 })();
