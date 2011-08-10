@@ -65,22 +65,38 @@ Abstract:
             ChuClone.DOM_ELEMENT.addEventListener('keyup', this._callback, false);
         },
 
+		/**
+		 * Dispatched when a key is press down, changes the state this component
+		 * @param {Event} e
+		 */
         handleKeyDown: function( e ) {
-            if( e.keyCode == ChuClone.model.Constants.KEYS.A ) this._keyStates.left = true;
-            else if(  e.keyCode == ChuClone.model.Constants.KEYS.D ) this._keyStates.right = true;
-            if( e.keyCode == ChuClone.model.Constants.KEYS.W ) this._keyStates.up = true;
-            else if( e.keyCode == ChuClone.model.Constants.KEYS.S ) this._keyStates.down = true;
+			var validChange = false;
 
-            e.preventDefault();
+            if( e.keyCode == ChuClone.model.Constants.KEYS.A ) { this._keyStates.left = true; validChange = true; }
+            else if(  e.keyCode == ChuClone.model.Constants.KEYS.D ) { this._keyStates.right = true; validChange = true; }
+            if( e.keyCode == ChuClone.model.Constants.KEYS.W ) { this._keyStates.up = true; validChange = true; }
+            else if( e.keyCode == ChuClone.model.Constants.KEYS.S ) { this._keyStates.down = true; validChange = true; }
+
+            if( validChange ) {
+				e.preventDefault();
+			}
         },
 
+		/**
+		 * Dispatched when a key is released, changes the state this component
+		 * @param {Event} e
+		 */
         handleKeyUp: function(e) {
-            if( e.keyCode == ChuClone.model.Constants.KEYS.A ) this._keyStates.left = false;
-            else if( e.keyCode == ChuClone.model.Constants.KEYS.D ) this._keyStates.right = false;
-            if( e.keyCode == ChuClone.model.Constants.KEYS.W ) this._keyStates.up = false;
-            else if( e.keyCode == ChuClone.model.Constants.KEYS.S ) this._keyStates.down = false;
+			var validChange = false;
+            if( e.keyCode == ChuClone.model.Constants.KEYS.A ) { this._keyStates.left = false; validChange = true; }
+            else if( e.keyCode == ChuClone.model.Constants.KEYS.D ) { this._keyStates.right = false; validChange = true; }
+            if( e.keyCode == ChuClone.model.Constants.KEYS.W ) { this._keyStates.up = false; validChange = true; }
+            else if( e.keyCode == ChuClone.model.Constants.KEYS.S ) { this._keyStates.down = false; validChange = true; }
 
-            e.preventDefault();
+			if( validChange ) {
+				e.preventDefault();
+			}
+
         },
 
         /**

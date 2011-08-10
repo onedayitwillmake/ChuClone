@@ -61,11 +61,11 @@
         /**
          * @type {Number}
          */
-        _velocityIterationsPerSecond    : 20,
+        _velocityIterationsPerSecond    : 500,
         /**
          * @type {Number}
          */
-        _positionIterationsPerSecond	: 0,
+        _positionIterationsPerSecond	: 1000,
 
         /**
          * Container of closures used in event callbacks
@@ -223,17 +223,10 @@
         update: function() {
             var now = Date.now();
             var dt = (now - TIME)/1000;
-            TIME = now;
-
-            this._world.Step(dt, dt * this._velocityIterationsPerSecond, dt * this._positionIterationsPerSecond);
-
-                     if(this._debugDraw) {
-                this._world.DrawDebugData();
-            }
-            this._world.ClearForces();
-            
-            return;
-
+			this._world.Step(1/60, 10, 10);
+			  this._world.ClearForces();
+			TIME = now;
+			return;
             var MAX_STEPS = 5;
             fixedTimestepAccumulator_ += dt;
             
@@ -260,7 +253,11 @@
             }
 
 
-
+			if(this._debugDraw) {
+                this._world.DrawDebugData();
+            }
+			TIME = now;
+            this._world.ClearForces();
         },
 
         /**

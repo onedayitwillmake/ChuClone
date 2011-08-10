@@ -76,15 +76,6 @@ Abstract:
             this._gameView.update( Date.now() );
         },
 
-         /**
-		 * Called when a goal is hit
-		 * @param {ChuClone.components.GoalPadComponent} aGoalComponent
-		 */
-		onGoalReached: function( aGoalComponent ) {
-			console.log("ChuClone.states.EndLevelState:", aGoalComponent);
-
-		},
-
         /**
          * @inheritDoc
          */

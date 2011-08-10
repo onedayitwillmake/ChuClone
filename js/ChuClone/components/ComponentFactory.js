@@ -42,6 +42,8 @@
 	lookup[ChuClone.components.AutoRotationComponent.prototype.displayName] = ChuClone.components.AutoRotationComponent;
 	lookup[ChuClone.components.DeathPadComponent.prototype.displayName] = ChuClone.components.DeathPadComponent;
     lookup[ChuClone.components.KeyboardInputComponent.prototype.displayName] = ChuClone.components.KeyboardInputComponent;
+    lookup[ChuClone.components.PlayerRecordComponent.prototype.displayName] = ChuClone.components.PlayerRecordComponent;
+    lookup[ChuClone.components.PlayerPlaybackComponent.prototype.displayName] = ChuClone.components.PlayerPlaybackComponent;
     lookup[ChuClone.components.PhysicsVelocityLimitComponent.prototype.displayName] = ChuClone.components.PhysicsVelocityLimitComponent;
     lookup[ChuClone.components.CheckIsJumpingComponent.prototype.displayName] = ChuClone.components.CheckIsJumpingComponent;
     lookup[ChuClone.components.camera.CameraFocusRadiusComponent.prototype.displayName] = ChuClone.components.camera.CameraFocusRadiusComponent;

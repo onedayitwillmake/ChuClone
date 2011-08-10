@@ -21,6 +21,7 @@ Abstract:
 
 	ChuClone.states.PlayLevelState = function() {
 		ChuClone.states.PlayLevelState.superclass.constructor.call(this);
+		this._record = [];
 	};
 
 	ChuClone.states.PlayLevelState.prototype = {
@@ -53,6 +54,11 @@ Abstract:
          * @type {ChuClone.GameEntity}
          */
         _player         : null,
+
+		/**
+		 * @type {Array}
+		 */
+		_record			: null,
 
         /**
          * @type {Array}    Array of our extra mesh items
@@ -182,7 +188,9 @@ Abstract:
             this._currentTime = 0;
             this._previousTime = 0;
             this._elapsedTime = 0;
+
             this._previousTime = Date.now();
+			this._recording = [];
 
             this._didAnimateIn = true;
             this._player.getBody().SetActive( true );
@@ -281,17 +289,20 @@ Abstract:
 		 */
 		onGoalReached: function( aGoalComponent ) {
 			 ChuClone.gui.HUDController.setTimeInSeconds( this._elapsedTime );
-			 this._beatLevel = true;
-             this._player.addComponentAndExecute( new ChuClone.components.effect.BirdEmitterComponent() );
+			 var recorder = this._player.getComponentWithName( ChuClone.components.PlayerRecordComponent.prototype.displayName);
+			 console.log( JSON.stringify( recorder.getRecord() ) );
+             /**
+              * @type {ChuClone.states.EndLevelState}
+              */
+             var endLevelState = new ChuClone.states.EndLevelState();
+             endLevelState._gameView = this._gameView;
+             endLevelState._worldController = this._worldController;
+			 //this._beatLevel = true;
+//             this._player.addComponentAndExecute( new ChuClone.components.effect.BirdEmitterComponent() );
 
 
 
-//             /**
-//              * @type {ChuClone.states.EndLevelState}
-//              */
-//             var endLevelState = new ChuClone.states.EndLevelState();
-//             endLevelState._gameView = this._gameView;
-//             endLevelState._worldController = this._worldController;
+//			 endLevelState.setTime( )
 //             ChuClone.model.FSM.StateMachine.getInstance().changeState(endLevelState);
 		},
 
@@ -301,24 +312,18 @@ Abstract:
             // Add component to check the players boundary
             this._player.addComponentAndExecute( new ChuClone.components.BoundsYCheckComponent() );
 
-
             // Set the player target for the follow player component
             this._gameView.getCamera()
                     .getComponentWithName( ChuClone.components.camera.CameraFollowPlayerComponent.prototype.displayName )
                     .setPlayer( this._player );
 
-
-            var birds = new ChuClone.components.effect.BirdEmitterComponent();
-            birds._count = 5;
-            this._player.addComponentAndExecute( birds );
-            
             // Respawn at nearest respawnpoint
             var respawnPoint = ChuClone.components.RespawnComponent.prototype.GET_CURRENT_RESPAWNPOINT();
             respawnPoint.setSpawnedEntityPosition( this._player );
 
+//			this.startRecordingPlayer();
+			this.startRecordingPlayback();
             this.animateIn();
-
-            console.log(aPlayer);
         },
 
         onPlayerDestroyed: function( aPlayer ) {
@@ -356,6 +361,24 @@ Abstract:
             }
 
         },
+
+		/**
+		 * Records the players movements
+		 */
+		startRecordingPlayer: function() {
+			var playerRecorder = new ChuClone.components.PlayerRecordComponent();
+			playerRecorder.setClockDelegate( this );
+			this._player.addComponentAndExecute( playerRecorder );
+		},
+
+		/**
+		 * Takes over the playercontrol plays back a recording
+		 */
+		startRecordingPlayback: function() {
+			var playerPlayback = new ChuClone.components.PlayerPlaybackComponent();
+			playerPlayback.setClockDelegate( this );
+			this._player.addComponentAndExecute( playerPlayback );
+		},
 
 		/**
 		 * Removes the editcontainer node if it's around
@@ -396,7 +419,12 @@ Abstract:
 			var respawnPoint = ChuClone.components.RespawnComponent.prototype.GET_CURRENT_RESPAWNPOINT();
 			respawnPoint.setSpawnedEntityPosition( aPlayer );
 			this._player = aPlayer;
-		}
+		},
+
+		/**
+		 * return @{type} Number The current _elapsedTime
+		 */
+		getCurrentTime: function() { return this._elapsedTime; }
 	};
 
     ChuClone.extend( ChuClone.states.PlayLevelState, ChuClone.model.FSM.State );
