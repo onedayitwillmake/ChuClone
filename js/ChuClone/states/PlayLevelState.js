@@ -280,8 +280,8 @@ Abstract:
 			// Allow rotation about target
 			var focusComponent = new ChuClone.components.camera.CameraFocusRadiusComponent();
 			gameCamera.addComponentAndExecute(focusComponent);
-			focusComponent.getRadius().x = 400;
-			focusComponent.getRadius().y = 400;
+			focusComponent.getRadius().x = 100;
+			focusComponent.getRadius().y = 100;
 			focusComponent.getRadius().z = 2000;
 		},
 

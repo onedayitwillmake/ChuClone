@@ -87,7 +87,7 @@
                 var damping = 0.5;
                 this.view.position.x -= (this.view.position.x - newX) * damping;
                 this.view.position.y -= (this.view.position.y - newY) * damping;
-                this.view.rotation.z -= (this.view.rotation.z -  -this.body.GetAngle()) * 0.1;
+                this.view.rotation.z -= (this.view.rotation.z -  -this.body.GetAngle()) * damping;
             }
 
             var len = this.components.length;

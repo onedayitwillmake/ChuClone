@@ -55,7 +55,6 @@ Abstract:
 			ChuClone.states.EndLevelState.superclass.enter.call(this);
             this._gameView.getCamera().removeAllComponents();
             this.setupEvents();
-            this.submitTime();
 		},
 
         setupEvents: function() {
@@ -127,11 +126,19 @@ Abstract:
             if( !aRecord ) {
                 return
             }
+            this._record = aRecord;
+            this.submitScore();
         },
 
         submitScore: function() {
             var request = new XMLHttpRequest();
 			var that = this;
+
+            // Using window['FormData'] for now because intelli-j doesn't recognize FormData as a HTML5 object
+			var formData = new window['FormData']();
+			formData.append("score", this._completionTime);
+			formData.append("record", this._record);
+
 			request.onreadystatechange = function() {
 				if (request.readyState == 4) {
 
@@ -151,8 +158,9 @@ Abstract:
 				}
 			};
 
-            //http://localhost:3000/levels/46/highscores/new
-			request.open("POST", ChuClone.model.Constants.SERVER.USER_SUBMIT_LOCATION);
+            
+            var scoreurl = ChuClone.model.Constants.SERVER.SCORE_SUBMIT_LOCATION.replace("#", window.location.href.match(/[\/](\d+)/)[1]);
+			request.open("POST", scoreurl);
 			request.send(formData);
         }
 	};

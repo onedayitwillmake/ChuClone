@@ -211,7 +211,6 @@
 			var model = new ChuClone.editor.LevelModel();
 			var data = model.parseLevel(ChuClone.editor.WorldEditor.getInstance().getWorldController(), this._currentName);
 
-//			console.log(model.levelJSONString)
 			// Using window['FormData'] for now because intelli-j doesn't recognize FormData as a HTML5 object
 			var formData = new window['FormData']();
 			formData.append("level_json", model.levelJSONString);
