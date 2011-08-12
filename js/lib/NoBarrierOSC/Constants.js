@@ -44,7 +44,8 @@ Version:
 			PLAYER_JOINED		: 5,			// Player has joined the current game
 			PLAYER_DISCONNECT	: 6,			// Player has disconnected
 			PLAYER_UPDATE		: 7,			// Player is sending sampled input
-			SERVER_FULL_UPDATE	: 8				// Player is sending sampled input
+			SERVER_FULL_UPDATE	: 8,				// Player is sending sampled input
+			PLAYER_CHOOSE_LEVEL	: 9
 		},
 
 		// The client sends this bitmask to the server

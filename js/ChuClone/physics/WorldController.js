@@ -258,50 +258,6 @@
             return fixedTimestepAccumulatorRatio_;
         },
 
-        /*
-        void PhysicsSystem::update (float dt)
-{
-	// Maximum number of steps, to avoid degrading to an halt.
-	const int MAX_STEPS = 5;
-
-	fixedTimestepAccumulator_ += dt;
-	const int nSteps = static_cast<int> (
-		std::floor (fixedTimestepAccumulator_ / FIXED_TIMESTEP)
-	);
-	// To avoid rounding errors, touches fixedTimestepAccumulator_ only
-	// if needed.
-	if (nSteps > 0)
-	{
-		fixedTimestepAccumulator_ -= nSteps * FIXED_TIMESTEP;
-	}
-
-	assert (
-		"Accumulator must have a value lesser than the fixed time step" &&
-		fixedTimestepAccumulator_ < FIXED_TIMESTEP + FLT_EPSILON
-	);
-	fixedTimestepAccumulatorRatio_ = fixedTimestepAccumulator_ / FIXED_TIMESTEP;
-
-	// This is similar to clamp "dt":
-	//	dt = std::min (dt, MAX_STEPS * FIXED_TIMESTEP)
-	// but it allows above calculations of fixedTimestepAccumulator_ and
-	// fixedTimestepAccumulatorRatio_ to remain unchanged.
-	const int nStepsClamped = std::min (nSteps, MAX_STEPS);
-	for (int i = 0; i < nStepsClamped; ++ i)
-	{
-		// In singleStep_() the CollisionManager could fire custom
-		// callbacks that uses the smoothed states. So we must be sure
-		// to reset them correctly before firing the callbacks.
-		resetSmoothStates_ ();
-		singleStep_ (FIXED_TIMESTEP);
-	}
-
-	world_->ClearForces ();
-
-	// We "smooth" positions and orientations using
-	// fixedTimestepAccumulatorRatio_ (alpha).
-	smoothStates_ ();
-}
-         */
 
         /**
          * Setup the canvas used for debugging
