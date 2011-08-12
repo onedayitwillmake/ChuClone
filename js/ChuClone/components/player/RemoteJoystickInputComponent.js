@@ -119,6 +119,8 @@
                 return;
             }
 
+
+            //ChuClone.GameViewController.INSTANCE
 			this.updateClock();
 			this.netChannel.tick();
 		},
@@ -147,12 +149,15 @@
             var angle = +message.payload.analog
 			this._keyStates['left'] = angle != 0 && angle < 360 && angle > 180;
 			this._keyStates['right'] = angle > 0 && angle < 180;
-			this._keyStates['up'] = message.payload.button
+			this._keyStates['up'] = message.payload.button;
+
+            console.log(ChuClone.GameViewController.INSTANCE)
+        //    ChuClone.GameViewController.INSTANCE
         },
 
         joystickSelectLevel: function( message ) {
-            return;
             if( !message.payload.level_id ) return;
+            return;
 
             // KILL NET CHANNEL
             this.netChannel.dealloc();
