@@ -33,9 +33,18 @@
 	ChuClone.namespace("ChuClone.components");
 	ChuClone.components.player.RemoteJoystickInputComponent = function() {
 		ChuClone.components.player.RemoteJoystickInputComponent.superclass.constructor.call(this);
-		this.netChannel = new RealtimeMultiplayerGame.ClientNetChannel(this, ChuClone.model.Constants.JOYSTICK.SERVER_LOCATION, ChuClone.model.Constants.JOYSTICK.SERVER_PORT);
-		this.requiresUpdate = true;
+        this.requiresUpdate = true;
+
+        this.cmdMap[RealtimeMultiplayerGame.Constants.CMDS.JOYSTICK_UPDATE] = this.joystickUpdate;
+        this.cmdMap[RealtimeMultiplayerGame.Constants.CMDS.JOYSTICK_SELECT_LEVEL] = this.joystickSelectLevel;
+
+        var address = ChuClone.model.Constants.JOYSTICK.SERVER_LOCATION;
+        var port = ChuClone.model.Constants.JOYSTICK.SERVER_PORT;
+        var transports = ['websocket'];
+        
+		this.netChannel = new RealtimeMultiplayerGame.ClientNetChannel(this, address, port, transports, false);
 	};
+
 
 	ChuClone.components.player.RemoteJoystickInputComponent.prototype = {
 		/**
@@ -66,6 +75,11 @@
 			angle: 0,
 		},
 
+        /**
+         * @type {Object}
+         */
+        cmdMap      : {},
+
 		/**
 		 * @inheritDoc
 		 */
@@ -81,7 +95,8 @@
 		 * Restore material and restitution
 		 */
 		detach: function() {
-			this.netChannel.dealloc();
+
+            if( this.netChannel ) this.netChannel.dealloc();
 			this.netChannel = null;
 			ChuClone.components.player.RemoteJoystickInputComponent.superclass.detach.call(this);
 		},
@@ -99,6 +114,11 @@
 		},
 
 		update: function() {
+            if ( !this.netChannel ) {
+                console.log("NoNetChannel")
+                return;
+            }
+
 			this.updateClock();
 			this.netChannel.tick();
 		},
@@ -122,6 +142,26 @@
 			this.speedFactor = delta / ( 1000 / this.targetFramerate );
 			if (this.speedFactor <= 0) this.speedFactor = 1;
 		},
+
+        joystickUpdate: function( message ) {
+            var angle = +message.payload.analog
+			this._keyStates['left'] = angle != 0 && angle < 360 && angle > 180;
+			this._keyStates['right'] = angle > 0 && angle < 180;
+			this._keyStates['up'] = message.payload.button
+        },
+
+        joystickSelectLevel: function( message ) {
+            return;
+            if( !message.payload.level_id ) return;
+
+            // KILL NET CHANNEL
+            this.netChannel.dealloc();
+			this.netChannel = null;
+
+            // LOAD THE LEVEL
+            var url = ChuClone.model.Constants.SERVER.LEVEL_LOAD_LOCATION + message.payload.level_id + ".js?r" + Math.floor(Math.random() * 9999);
+            ChuClone.Events.Dispatcher.emit(ChuClone.gui.LevelListing.prototype.EVENTS.SHOULD_CHANGE_LEVEL, url)
+        },
 
 		/**
 		 * Called by the ClientNetChannel, it sends us an array containing tightly packed values and expects us to return a meaningful object

@@ -131,9 +131,9 @@ Version:
         closeConnection: function( clientConnection ) {
 			console.log("ServerNetChannel::closeConnection - ClientCount:" + this.clients.count() )
             try {
+                this.clients.remove(clientConnection.sessionId);
                 this.socketio.clients[clientConnection.sessionId].send({ event: 'disconnect' });
                 this.socketio.clients[clientConnection.sessionId].connection.end();
-                this.clients.remove(clientConnection.sessionId);
             } catch( e ) {
                 console.log("ServerNetChannel::closeConnection - Tried to drop client, but was an error. Client already removed");
             }
@@ -188,6 +188,7 @@ Version:
 				}
 
 			} else { // Display error
+                console.log(this.delegate.cmdMap)
 				console.log("(NetChannel)::onSocketMessage could not map '" + data.cmd + "' to function!");
 			}
 		},

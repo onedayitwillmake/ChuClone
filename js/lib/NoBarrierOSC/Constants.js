@@ -23,7 +23,7 @@ Version:
 
 		SERVER_SETTING: {
 			CLIENT_ID	: 0,						// If an object has a client id of zero, that means it is owned by the serverm
-			SOCKET_ADDRESS: "192.168.1.3",
+			SOCKET_ADDRESS: "10.29.62.170",
 			SOCKET_PORT	: 8081
 		},
 
@@ -46,7 +46,8 @@ Version:
 			PLAYER_DISCONNECT	: 6,			// Player has disconnected
 			PLAYER_UPDATE		: 7,			// Player is sending sampled input
 			SERVER_FULL_UPDATE	: 8,				// Player is sending sampled input
-			PLAYER_CHOOSE_LEVEL	: 9
+			JOYSTICK_SELECT_LEVEL : 9,
+			JOYSTICK_UPDATE       : 10
 		},
 
 		// The client sends this bitmask to the server
