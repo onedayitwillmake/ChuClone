@@ -57,7 +57,6 @@
                 var item = levelListing.children[i];
                 item.addEventListener('click', this.onLevelClicked, false);
                 item.addEventListener('mouseover', this.onLevelRollover, false);
-//                item.addEventListener('mouseout', this.onLevelRollout, false);
             }
         },
 

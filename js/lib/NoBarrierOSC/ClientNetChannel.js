@@ -29,7 +29,7 @@ Version:
 	// Retrieve the namespace
 	RealtimeMultiplayerGame.namespace("RealtimeMultiplayerGame.network");
 
-	RealtimeMultiplayerGame.ClientNetChannel = function( aDelegate, aHost, aPort ) {
+	RealtimeMultiplayerGame.ClientNetChannel = function( aDelegate, aHost, aPort, transportMethods, shouldReconnect ) {
 		this.setDelegate( aDelegate );
 
         if(!aHost) { throw new Error("RealtimeMultiplayerGame.ClientNetChannel - No host url provided. Point to node server IP") }
@@ -37,6 +37,8 @@ Version:
 
         this.host = aHost;
         this.port = aPort;
+        this.shouldReconnect = shouldReconnect || true;
+		this.transports = transportMethods  || RealtimeMultiplayerGame.ClientNetChannel.prototype.transports;
 
 		this.setupSocketIO();
 		this.setupCmdMap();
@@ -71,6 +73,11 @@ Version:
 
 		cmdMap								: {},				// Map the CMD constants to functions
 
+		/**
+		 * @type {Array}
+		 */
+		transports							: ['flashsocket', 'xhr-polling', 'jsonp-polling' ],
+
         /**
          * @type {String} Server address - e.g localhost or 123.456.12.2 or http://mysite.com
          */
@@ -80,9 +87,14 @@ Version:
          */
         port                                : "",
 
+        /**
+         * @type {Boolean}
+         */
+        shouldReconnect                     : false,
+
 
 		setupSocketIO: function() {
-		    this.socketio = new io.Socket( this.host, {port: this.port, transports:['htmlfile', 'xhr-multipart', 'xhr-polling', 'jsonp-polling'], reconnect: true, rememberTransport: false});
+		    this.socketio = new io.Socket( this.host, {port: this.port, transports: this.transports, reconnect: this.shouldReconnect, rememberTransport: false});
 			this.socketio.connect();
 
 			var that = this;
@@ -131,7 +143,6 @@ Version:
 		onSocketMessage: function( aNetChannelMessage ) {
 			this.lastReceivedTime = this.delegate.getGameClock();
 			this.adjustRate(aNetChannelMessage);
-
 			if(aNetChannelMessage.id == this.clientid) // We sent this, clear our reliable buffer que
 			{
 				if(aNetChannelMessage.cmd == RealtimeMultiplayerGame.Constants.CMDS.SERVER_FULL_UPDATE) {
@@ -155,8 +166,11 @@ Version:
 			// Call the mapped function
 			if( this.cmdMap[aNetChannelMessage.cmd] )
 				this.cmdMap[aNetChannelMessage.cmd].call(this, aNetChannelMessage);
-			else
+			else if ( this.delegate.cmdMap[aNetChannelMessage.cmd]) {
+                this.delegate.cmdMap[aNetChannelMessage.cmd].call(this.delegate, aNetChannelMessage);
+            } else {
 				console.log("(NetChannel)::onSocketMessage could not map '" + aNetChannelMessage.cmd + "' to function!");
+            }
 		},
 
 		onSocketDisconnect: function( ) {

@@ -169,6 +169,10 @@ Version:
 				}
 			}
 			return trait;
-		}
+		},
+
+        getClientID: function() {
+            return this.clientid;
+        }
 	}
 })();
