@@ -29,7 +29,6 @@
 	document.write('<script src="/game/js/lib/NoBarrierOSC/NetChannelMessage.js"></script>');
 	document.write('<script src="/game/js/lib/NoBarrierOSC/ClientNetChannel.js"></script>');
 	document.write('<script src="/game/js/lib/NoBarrierOSC/GameEntity.js"></script>');
-	document.write('<script src="/game/js/lib/NoBarrierOSC/ClientApp.js"></script>');
 
 	ChuClone.namespace("ChuClone.components");
 	ChuClone.components.player.RemoteJoystickInputComponent = function() {

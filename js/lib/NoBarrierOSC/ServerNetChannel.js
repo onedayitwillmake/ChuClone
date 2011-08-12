@@ -129,6 +129,7 @@ Version:
          * @param clientConnection
          */
         closeConnection: function( clientConnection ) {
+			console.log("ServerNetChannel::closeConnection - ClientCount:" + this.clients.count() )
             try {
                 this.socketio.clients[clientConnection.sessionId].send({ event: 'disconnect' });
                 this.socketio.clients[clientConnection.sessionId].connection.end();
@@ -145,7 +146,7 @@ Version:
 		onSocketClosed: function( clientConnection ) {
 			var client = this.clients.objectForKey( clientConnection.sessionId );
 			if(!client) {
-				console.warn("(ServerNetChannel)::onSocketClosed - ERROR - Attempting to remove client that was not found in our list! ");
+				console.warn("(ServerNetChannel)::onSocketClosed - ERROR - Attempting to remove client that was not found in our list! - ClientCount:" + this.clients.count());
 				return;
 			}
 

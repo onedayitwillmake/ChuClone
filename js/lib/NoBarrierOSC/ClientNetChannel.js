@@ -29,7 +29,7 @@ Version:
 	// Retrieve the namespace
 	RealtimeMultiplayerGame.namespace("RealtimeMultiplayerGame.network");
 
-	RealtimeMultiplayerGame.ClientNetChannel = function( aDelegate, aHost, aPort ) {
+	RealtimeMultiplayerGame.ClientNetChannel = function( aDelegate, aHost, aPort, transportMethods ) {
 		this.setDelegate( aDelegate );
 
         if(!aHost) { throw new Error("RealtimeMultiplayerGame.ClientNetChannel - No host url provided. Point to node server IP") }
@@ -37,6 +37,7 @@ Version:
 
         this.host = aHost;
         this.port = aPort;
+		this.transports = transportMethods  || RealtimeMultiplayerGame.ClientNetChannel.prototype.transports;
 
 		this.setupSocketIO();
 		this.setupCmdMap();
@@ -71,6 +72,11 @@ Version:
 
 		cmdMap								: {},				// Map the CMD constants to functions
 
+		/**
+		 * @type {Array}
+		 */
+		transports							: ['xhr-polling', 'jsonp-polling' ],
+
         /**
          * @type {String} Server address - e.g localhost or 123.456.12.2 or http://mysite.com
          */
@@ -82,7 +88,7 @@ Version:
 
 
 		setupSocketIO: function() {
-		    this.socketio = new io.Socket( this.host, {port: this.port, transports:['htmlfile', 'xhr-multipart', 'jsonp-polling', 'xhr-polling' ], reconnect: true, rememberTransport: false});
+		    this.socketio = new io.Socket( this.host, {port: this.port, transports: this.transports, reconnect: true, rememberTransport: false});
 			this.socketio.connect();
 
 			var that = this;

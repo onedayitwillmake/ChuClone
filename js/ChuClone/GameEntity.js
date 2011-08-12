@@ -81,13 +81,18 @@
                 this.view.position.y = bodyPos.y * -PTM_RATIO;
                 this.view.rotation.z = -this.body.GetAngle();
             } else {
+
+
+				//         State state = currentState*alpha + previousState * ( 1.0 - alpha );
                 var oneMinusRatio = 1.0 - alpha;
                 var newX = bodyPos.x * PTM_RATIO;
                 var newY = bodyPos.y * -PTM_RATIO;
-                var damping = 0.5;
-                this.view.position.x -= (this.view.position.x - newX) * damping;
-                this.view.position.y -= (this.view.position.y - newY) * damping;
-                this.view.rotation.z -= (this.view.rotation.z -  -this.body.GetAngle()) * damping;
+				var newAngle = -this.body.GetAngle();
+
+//                var damping = 0.5;
+                this.view.position.x = (newX * alpha) + this.view.position.x * oneMinusRatio;
+                this.view.position.y = (newY * alpha) + this.view.position.y * oneMinusRatio;
+                this.view.rotation.z = (newAngle * alpha) + this.view.rotation.z * oneMinusRatio;
             }
 
             var len = this.components.length;

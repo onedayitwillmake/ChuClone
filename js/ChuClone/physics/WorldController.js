@@ -32,7 +32,7 @@
     var b2CircleShape = Box2D.Collision.Shapes.b2CircleShape;
     var b2DebugDraw = Box2D.Dynamics.b2DebugDraw;
 
-    var FIXED_TIMESTEP = Math.floor( 1/60 * 1000 ) / 1000;
+    var FIXED_TIMESTEP = Math.ceil( 1/60 * 1000 ) / 1000;
     var fixedTimestepAccumulator_ = 0;
     var fixedTimestepAccumulatorRatio_ = 0;
     var FLT_EPSILON = 0.000001;
@@ -222,9 +222,17 @@
          * @return {Number} Ratio between fixedtimestep and dt
          */
         update: function() {
+			var noFixedTimestep = true;
+			if(noFixedTimestep) {
+				fixedTimestepAccumulatorRatio_ = 1;
+				this._world.Step(FIXED_TIMESTEP, 5, 3);
+				this._world.ClearForces();
+				return;
+			}
             var now = Date.now();
             var dt = (now - TIME)/1000;
             var MAX_STEPS = 5;
+
             fixedTimestepAccumulator_ += dt;
             
             var nSteps = Math.floor( fixedTimestepAccumulator_ / FIXED_TIMESTEP );
@@ -246,7 +254,7 @@
             // fixedTimestepAccumulatorRatio_ to remain unchanged.
             var nStepsClamped = Math.min(nSteps, MAX_STEPS);
             for(var i = 0; i  < nStepsClamped; ++i) {
-                this._world.Step(FIXED_TIMESTEP, 2, 2);
+                this._world.Step(FIXED_TIMESTEP, 5, 3);
             }
 
 			if(this._debugDraw) {

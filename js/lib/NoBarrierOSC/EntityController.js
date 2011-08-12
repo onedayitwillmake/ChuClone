@@ -7,8 +7,15 @@
 	};
 
 	RealtimeMultiplayerGame.Controller.EntityController.prototype = {
-		entities								: null,					// A SortedLookupTable for all entities
-		players									: null,					// A SortedLookupTable for players only, stored using client.getClientid()
+		/**
+		 * @type {SortedLookupTable}
+		 */
+		entities								: null,
+
+		/**
+		 * @type {SortedLookupTable}
+		 */
+		players									: null,
 
 		/**
 		 * Update all entities
