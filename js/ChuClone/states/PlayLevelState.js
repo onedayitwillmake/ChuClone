@@ -82,30 +82,29 @@ Abstract:
             this._didAnimateIn = false;
             this._beatLevel = false;
             this._previousTime = Date.now();
-            this.setupEvents();
 		},
 
         animateIn: function() {
             var player = null;
 			var goalpad = null;
 
-//			for(var j = 0; j < 50; j++ ) {
-//				var width = Math.random() * 100;
-//				var height = Math.random() * 100;
-//				var depth = Math.random() * 100 * 2;
-//				var geometry = new THREE.CubeGeometry( width, height, depth );
-//				var mesh = new THREE.Mesh( geometry, [new THREE.MeshLambertMaterial( {
-//					color: 0xFFFFFF, shading: THREE.SmoothShading,
-//					map : THREE.ImageUtils.loadTexture( ChuClone.model.Constants.SERVER.ASSET_PREFIX + "assets/images/game/floor.png" )
-//				})] );
-//				mesh.dynamic = false;
-//				mesh.position.x = this._camera.position.x + ChuClone.utils.randFloat(1000, 14000);
-//				mesh.position.y = this._camera.position.y + ChuClone.utils.randFloat(-2000, 3500);
-//				mesh.position.z = this._camera.position.z - ChuClone.utils.randFloat(1000, 4000);
-//
-//                this._backgroundElements.push( mesh );
-//				this._gameView.addObjectToScene( mesh );
-//			}
+			//for(var j = 0; j < 50; j++ ) {
+			//	var width = Math.random() * 100;
+			//	var height = Math.random() * 100;
+			//	var depth = Math.random() * 100 * 2;
+			//	var geometry = new THREE.CubeGeometry( width, height, depth );
+			//	var mesh = new THREE.Mesh( geometry, [new THREE.MeshLambertMaterial( {
+			//		color: 0xFFFFFF, shading: THREE.SmoothShading,
+			//		map : THREE.ImageUtils.loadTexture( ChuClone.model.Constants.SERVER.ASSET_PREFIX + "assets/images/game/floor.png" )
+			//	})] );
+			//	mesh.dynamic = false;
+			//	mesh.position.x = this._camera.position.x + ChuClone.utils.randFloat(1000, 14000);
+			//	mesh.position.y = this._camera.position.y + ChuClone.utils.randFloat(-2000, 3500);
+			//	mesh.position.z = this._camera.position.z - ChuClone.utils.randFloat(1000, 4000);
+			//
+             //   this._backgroundElements.push( mesh );
+			//	this._gameView.addObjectToScene( mesh );
+			//}
 
             var node = this._worldController.getWorld().GetBodyList();
             this._player.getBody().SetActive( false );
@@ -169,19 +168,19 @@ Abstract:
 
 			var delta = new THREE.Vector3();
 			delta.add(player.getView().position, goalpad.getView().position)
-//			delta.multiplyScalar(0.5);
+			//delta.multiplyScalar(0.5);
 
 
             var cam = this._gameView.getCamera();
             var camStart = delta;
             camStart.x += 0;
-//            camStart.y += 3000;
+            //camStart.y += 3000;
             camStart.z += 0;
 
             var camEnd = player.getView().position.clone();
-//            camEnd.x = 1000;
-//            camEnd.y += 1000;
-//            camEnd.z += 1000;
+            //camEnd.x = 1000;
+            //camEnd.y += 1000;
+            //camEnd.z += 1000;
 
             // Temporarily remove the components - we'll set them back when we're done animating
             var components = cam.getComponents();
@@ -196,8 +195,6 @@ Abstract:
                     this.target.position.y = this.y;
                     this.target.position.z = this.z;
                     this.target.target.position = player.getView().position.clone();
-
-
                 })
                 .onComplete(function() {
                     cam.components = components;
@@ -240,26 +237,9 @@ Abstract:
          */
         update: function() {
             ChuClone.states.PlayLevelState.superclass.update.call(this);
+
             this.updateTime();
-
-            var fixedTimeStepAccumulatorRatio = this._worldController.getFixedTimestepAccumulatorRatio();
-            
-            /**
-             * @type {Box2D.Dynamics.b2Body}
-             */
-            var node = this._worldController.getWorld().GetBodyList();
-            while(node) {
-                var b = node;
-                node = node.GetNext();
-                /**
-                 * @type {ChuClone.GameEntity}
-                 */
-                var entity = b.GetUserData();
-                if(entity)
-                    entity.update( fixedTimeStepAccumulatorRatio );
-            }
-
-
+			this.updatePhysics();
             this._gameView.update( this._currentTime );
 
             // Don't update canvas clock every frame
@@ -425,21 +405,20 @@ Abstract:
          * @inheritDoc
          */
         exit: function() {
-            ChuClone.states.PlayLevelState.superclass.exit.call(this);
             clearTimeout( this._animateInTimeout );
-
             this._gameView.getCamera().removeComponentWithName( ChuClone.components.camera.CameraFollowPlayerComponent.prototype.displayName );
 			this._gameView.getCamera().removeComponentWithName( ChuClone.components.camera.CameraFocusRadiusComponent.prototype.displayName );
             this.removeAllListeners();
+
+			ChuClone.states.PlayLevelState.superclass.exit.call(this);
         },
 
         /**
          * @inheritDoc
          */
         dealloc: function() {
-            this._worldController = null;
-            this._gameView = null;
-            this._player = null;
+			this._player = null;
+			ChuClone.states.PlayLevelState.superclass.dealloc.call(this);
         },
 
 
@@ -459,5 +438,5 @@ Abstract:
 		getCurrentTime: function() { return this._elapsedTime; }
 	};
 
-    ChuClone.extend( ChuClone.states.PlayLevelState, ChuClone.model.FSM.State );
+    ChuClone.extend( ChuClone.states.PlayLevelState, ChuClone.states.ChuCloneBaseState );
 })();

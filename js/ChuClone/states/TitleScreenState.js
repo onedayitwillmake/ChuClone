@@ -25,36 +25,30 @@ Abstract:
 	};
 
 	ChuClone.states.TitleScreenState.prototype = {
-        /**
-         * @type {ChuClone.GameViewController}
-         */
-        _gameView: null,
 		/**
 		 * @type {THREE.Camera}
 		 */
 		_camera: null,
 
-        /**
-         * @type {ChuClone.physics.WorldController}
+		/**
+         * @type {ChuClone.GameEntity}
          */
-        _worldController: null,
-
-        /**
-         * @type {ChuClone.editor.LevelManager}
-         */
-        _levelManager: null,
+        _player         : null,
 
 		/**
 		 * Store all tweens in here for removal on exit
 		 */
 		_tweenList: null,
+
         /**
          * @type {Array}    Array of our extra mesh items
          */
         _backgroundElements: [],
 
 		/**
-		 * When the game is created, it might create a TitleScreenState - however any other time a level is loaded, we listen for that and remove ourselves
+		 * When the game is created, it might create a TitleScreenState.
+		 * However if at any time a level is loaded, we listen for that and remove ourselves if _hasShown is true
+		 * @type {Boolean}
 		 */
 		_hasShown: false,
 
@@ -66,8 +60,6 @@ Abstract:
 		enter: function() {
 			ChuClone.states.TitleScreenState.superclass.enter.call(this);
 			ChuClone.states.PlayLevelState.prototype.removeEditContainer.call( this );
-
-            this.setupEvents();
 		},
 
         /**
@@ -132,11 +124,11 @@ Abstract:
              * @type {Box2D.Dynamics.b2Body}
              */
             var node = this._worldController.getWorld().GetBodyList();
-			i = 0;
+			var i = 0;
             while(node) {
 
 				i++;
-                var b = node;
+                b = node;
                 node = node.GetNext();
 
 
@@ -224,26 +216,7 @@ Abstract:
 				this._camera.position = new THREE.Vector3(this.propProxy.posX, this.propProxy.posY, this.propProxy.posZ);
 			}
 
-            /**
-             * @type {Box2D.Dynamics.b2Body}
-             */
-            var node = this._worldController.getWorld().GetBodyList();
-            while(node) {
-                var b = node;
-                node = node.GetNext();
-                /**
-                 * @type {ChuClone.GameEntity}
-                 */
-                var entity = b.GetUserData();
-                if(entity)
-                    entity.update();
-
-//				if(b.tween) {
-//					console.log("d")
-//					b.SetPosition( new Box2D.Common.Math.b2Vec2(b.tween.x, b.tween.y))
-//				}
-            }
-
+			this.updatePhysics();
             this._gameView.update( this._currentTime );
             this._worldController.update();
         },
@@ -362,11 +335,10 @@ Abstract:
          * @inheritDoc
          */
         dealloc: function() {
-            this._worldController = null;
-            this._gameView = null;
-            this._player = null;
-        },
+			this._player = null;
+			ChuClone.states.TitleScreenState.superclass.dealloc.call(this);
+        }
 	};
 
-    ChuClone.extend( ChuClone.states.TitleScreenState, ChuClone.model.FSM.State );
+    ChuClone.extend( ChuClone.states.TitleScreenState, ChuClone.states.ChuCloneBaseState);
 })();

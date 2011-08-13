@@ -24,16 +24,6 @@ Abstract:
 
 	ChuClone.states.EndLevelState.prototype = {
         /**
-         * @type {ChuClone.GameViewController}
-         */
-        _gameView: null,
-
-        /**
-         * @type {ChuClone.physics.WorldController}
-         */
-        _worldController: null,
-
-        /**
          * @type {ChuClone.GameEntity}
          */
         _player         : null,
@@ -54,12 +44,14 @@ Abstract:
 		enter: function() {
 			ChuClone.states.EndLevelState.superclass.enter.call(this);
             this._gameView.getCamera().removeAllComponents();
-            this.setupEvents();
 		},
 
+		/**
+		 * @inheritDoc
+		 */
         setupEvents: function() {
-            console.log("setting up events")
-        },
+
+		},
 
         /**
          * @inheritDoc
@@ -67,69 +59,15 @@ Abstract:
         update: function() {
             ChuClone.states.EndLevelState.superclass.update.call(this);
 
-            /**
-             * @type {Box2D.Dynamics.b2Body}
-             */
-            var node = this._worldController.getWorld().GetBodyList();
-            while(node) {
-                var b = node;
-                node = node.GetNext();
-                /**
-                 * @type {ChuClone.GameEntity}
-                 */
-                var entity = b.GetUserData();
-                if(entity)
-                    entity.update();
-            }
-
+            this.updatePhysics();
             this._worldController.update();
             this._gameView.update( Date.now() );
         },
 
-        /**
-         * @inheritDoc
-         */
-        exit: function() {
-            ChuClone.states.EndLevelState.superclass.exit.call(this);
-            this.dealloc();
-        },
-
-        /**
-         * @inheritDoc
-         */
-        dealloc: function() {
-			this._gameView = null;
-			this._player = null;
-			this._worldController = null;
-        },
 
 		/**
-		 * Sets the current _playerEntity
-		 * @param {ChuClone.GameEntity} aPlayer
+		 * Submits a score for this run
 		 */
-		setPlayer: function( aPlayer ) {
-			this._player = aPlayer;
-            this._player.addComponentAndExecute( new ChuClone.components.effect.BirdEmitterComponent() );
-		},
-
-        /**
-         * @param {String}
-         */
-        setTime: function(aTime) {
-            this._completionTime = aTime;
-        },
-
-        /**
-         * @param {String}
-         */
-        setRecord: function( aRecord ) {
-            if( !aRecord ) {
-                return
-            }
-            this._record = aRecord;
-            this.submitScore();
-        },
-
         submitScore: function() {
             var request = new XMLHttpRequest();
 			var that = this;
@@ -158,12 +96,55 @@ Abstract:
 				}
 			};
 
-            
+
             var scoreurl = ChuClone.model.Constants.SERVER.SCORE_SUBMIT_LOCATION.replace("#", window.location.href.match(/[\/](\d+)/)[1]);
 			request.open("POST", scoreurl);
 			request.send(formData);
-        }
+        },
+
+        /**
+         * @inheritDoc
+         */
+        exit: function() {
+            ChuClone.states.EndLevelState.superclass.exit.call(this);
+        },
+
+        /**
+         * @inheritDoc
+         */
+        dealloc: function() {
+			ChuClone.states.EndLevelState.superclass.dealloc.call(this);
+			this._player = null;
+        },
+
+		///// ACCESSORS
+		/**
+		 * Sets the current _playerEntity
+		 * @param {ChuClone.GameEntity} aPlayer
+		 */
+		setPlayer: function( aPlayer ) {
+			this._player = aPlayer;
+            this._player.addComponentAndExecute( new ChuClone.components.effect.BirdEmitterComponent() );
+		},
+
+        /**
+         * @param {String}
+         */
+        setTime: function(aTime) {
+            this._completionTime = aTime;
+        },
+
+        /**
+         * @param {String}
+         */
+        setRecord: function( aRecord ) {
+            if( !aRecord ) {
+                return
+            }
+            this._record = aRecord;
+            this.submitScore();
+        },
 	};
 
-    ChuClone.extend( ChuClone.states.EndLevelState, ChuClone.model.FSM.State );
+    ChuClone.extend( ChuClone.states.EndLevelState, ChuClone.states.ChuCloneBaseState );
 })();
