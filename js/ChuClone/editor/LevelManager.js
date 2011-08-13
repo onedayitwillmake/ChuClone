@@ -297,7 +297,6 @@
 			model.fromJsonString(JSONString, aWorldController, gameViewController);
 
 			if (this._controllers.hasOwnProperty('name')) {
-
 				// Set the current name, and emit the loaded event
 				this._controllers['name'].setValue(model.levelName);
 				document.getElementById("levelName").innerText = model.levelName

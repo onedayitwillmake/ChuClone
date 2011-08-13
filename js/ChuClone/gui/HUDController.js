@@ -44,6 +44,11 @@
 				document.getElementById('fullscreen_toggle').style.cursor = "pointer"
 				document.getElementById('fullscreen_toggle').addEventListener('click', function(e){ ChuClone.gui.HUDController.toggleFullscreen() }, false);
 			}
+
+			if( document.getElementById('instructions_toggle') ) {
+				document.getElementById('instructions_toggle').style.cursor = "pointer"
+				document.getElementById('instructions_toggle').addEventListener('click', function(e){ ChuClone.gui.HUDController.toggleInstructions() }, false);
+			}
 		},
 
 		/**
@@ -57,6 +62,8 @@
 			}
 
 			container.style.height = 43 + "px";
+			// TODO: For some reason object is reporting clientWidth as 1500px
+			container.style.width = 300 + "px";
 			container.textContent = "";
 
 			timeCanvas = document.createElement('canvas');
@@ -140,6 +147,43 @@
 
 			}
 		},
+
+		/**
+		 * Toggle the instructions screen
+		 */
+		toggleInstructions: function() {
+			var instructions = document.getElementById('instructions');
+			var isShowing = instructions != null;
+			var gameContainer = document.getElementById('gameContainer');
+			if( !isShowing ) {
+				instructions = document.createElement("div");
+				instructions.id = 'instructions'
+				instructions.setAttribute('class', 'grid_12');
+				instructions.innerHTML = '<img src="game/assets/images/page/instructions.png" alt="">';
+				instructions.style.position = "absolute"
+				instructions.style.zIndex = "2"
+				instructions.style.top = gameContainer.offsetTop+1 + "px";
+				instructions.style.left = gameContainer.offsetLeft-9 + "px";
+				instructions.style.opacity = 0;
+
+				new TWEEN.Tween({opacity:0})
+				.to({opacity: 1}, 500)
+				.easing( TWEEN.Easing.Sinusoidal.EaseIn )
+				.onUpdate( function(){ instructions.style.opacity = this.opacity; })
+				.start();
+
+				instructions.addEventListener('click', function(e){ ChuClone.gui.HUDController.toggleInstructions() }, false);
+				gameContainer.parentNode.insertBefore(instructions, gameContainer)
+			} else {
+
+				new TWEEN.Tween({opacity:1})
+				.to({opacity: 0}, 150)
+				.easing( TWEEN.Easing.Sinusoidal.EaseIn )
+				.onUpdate( function(){ instructions.style.opacity = this.opacity; })
+				.onComplete( function() { gameContainer.parentNode.removeChild( instructions ) })
+				.start();
+			}
+		}
 	};
 
 	window.addEventListener('DOMContentLoaded', ChuClone.gui.HUDController.onDomReady, false);

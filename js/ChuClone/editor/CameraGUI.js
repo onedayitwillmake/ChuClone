@@ -184,9 +184,10 @@
             var component = new this._camTypes[selectedIndex];
             this._camera.addComponentAndExecute( component );
 
-            if( selectedIndex == 1 ) {
+            if( this._camTypes[selectedIndex] == ChuClone.components.camera.CameraFollowEditorComponent ) {
                 component.setDebugDraw( this._debugDraw );
-            } else if ( selectedIndex == 2 ) {
+            } else if ( this._camTypes[selectedIndex] == ChuClone.components.camera.CameraFollowPlayerComponent ) {
+				component._damping = 0.25;
                 component.setPlayer( this._player );
             }
 
