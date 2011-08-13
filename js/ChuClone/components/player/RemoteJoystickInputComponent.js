@@ -62,6 +62,11 @@
 		 * @type {Function}
 		 */
 		_callback					   :null,
+		
+		/**
+		* @type {ChuClone.components.camera.CameraFocusComponent}
+		*/
+		_focusComponent					:null,
 
 		/**
 		 * Stores current status of each key
@@ -79,6 +84,7 @@
          * @type {Object}
          */
         cmdMap      : {},
+
 
 		/**
 		 * @inheritDoc
@@ -120,6 +126,10 @@
             }
 
 
+			if( !this._focusComponent ) {
+				this._focusComponent = ChuClone.GameViewController.INSTANCE.getCamera().getComponentWithName(ChuClone.components.camera.CameraFocusRadiusComponent.prototype.displayName)
+			}
+			
             //ChuClone.GameViewController.INSTANCE
 			this.updateClock();
 			this.netChannel.tick();
@@ -151,14 +161,19 @@
 			this._keyStates['right'] = angle > 0 && angle < 180;
 			this._keyStates['up'] = message.payload.button;
 
-            console.log(ChuClone.GameViewController.INSTANCE)
-        //    ChuClone.GameViewController.INSTANCE
+			if( this._focusComponent ) {
+				this._focusComponent._mousePosition.x = (message.payload.accelY)/10;
+				this._focusComponent._mousePosition.x *= 0.5;
+				this._focusComponent._mousePosition.x += 0.5;
+				this._focusComponent._mousePosition.y = (message.payload.accelX)/10;
+				this._focusComponent._mousePosition.y *= 0.5;
+				this._focusComponent._mousePosition.y += 0.6;
+			}
         },
 
         joystickSelectLevel: function( message ) {
             if( !message.payload.level_id ) return;
-            return;
-
+			console.log("CHANGE LEVEL");
             // KILL NET CHANNEL
             this.netChannel.dealloc();
 			this.netChannel = null;
