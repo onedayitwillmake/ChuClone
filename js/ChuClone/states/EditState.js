@@ -107,8 +107,6 @@ Abstract:
          */
         exit: function() {
             ChuClone.states.EditState.superclass.exit.call(this);
-
-
         },
 
         /**

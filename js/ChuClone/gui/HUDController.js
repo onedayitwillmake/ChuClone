@@ -1,19 +1,18 @@
 /**
  File:
- HUDController.js
+ 	HUDController.js
  Created By:
- Mario Gonzalez
- Project	:
- ChuClone
+ 	Mario Gonzalez
+ Project:
+ 	ChuClone
  Abstract:
- Controls Heads Up Display for the game. I.e.
- Time etc
+ 	Controls Heads Up Display for the game. I.e.
+ 	Time etc
 
  Basic Usage:
-
  License:
- Creative Commons Attribution-NonCommercial-ShareAlike
- http://creativecommons.org/licenses/by-nc-sa/3.0/
+	 Creative Commons Attribution-NonCommercial-ShareAlike
+	 http://creativecommons.org/licenses/by-nc-sa/3.0/
  */
 (function() {
 	ChuClone.namespace("ChuClone.gui");
@@ -110,7 +109,7 @@
 				ChuClone.utils.hideAllChildren( gameContainer.parentNode, [gameContainer]);
 
 				// Save and set the style for the fullscreen toggle
-				ChuClone.utils.styleMemoizer.rememberStyle(fullscreenToggle.id);
+				ChuClone.utils.StyleMemoizer.rememberStyle(fullscreenToggle.id);
 				fullscreenToggle.style.display = "block";
 				fullscreenToggle.style.position = "absolute";
 				fullscreenToggle.style.top = "47px";
@@ -119,7 +118,7 @@
 				fullscreenToggle.innerHTML = '<p class="grayBorder"> Exit Fullscreen</p>';
 
 				// Set custom styles for the HUDTime
-				ChuClone.utils.styleMemoizer.rememberStyle(HUDTime.id);
+				ChuClone.utils.StyleMemoizer.rememberStyle(HUDTime.id);
 				HUDTime.style.display = "";
 				HUDTime.style.position = "absolute";
 				HUDTime.style.zIndex = "2";
@@ -133,11 +132,11 @@
 				ChuClone.utils.unhideAllChildren( gameContainer.parentNode, null);
 
 				// Restore 'fullscreen_toggle'
-				ChuClone.utils.styleMemoizer.restoreStyle(fullscreenToggle.id);
+				ChuClone.utils.StyleMemoizer.restoreStyle(fullscreenToggle.id);
 				fullscreenToggle.innerHTML = '<p class="grayBorder"> Exit Fullscreen</p>'
 
 				// Restore 'HUDTime'
-				ChuClone.utils.styleMemoizer.restoreStyle('HUDTime');
+				ChuClone.utils.StyleMemoizer.restoreStyle('HUDTime');
 
 			}
 		},

@@ -19,7 +19,6 @@
 (function() {
     ChuClone.namespace("ChuClone");
     ChuClone.utils = {
-
         /**
          * Reads window.location and returns the current working directory
          * @return {String} Current URL path
@@ -215,41 +214,10 @@
         },
 
 		/**
-		 * Utility functions to store styles before modification, and restore them after.
-		 * For example when toggling fullscreen mode
+		 * Hides all children of an element, except ones in the exception list
+		 * @param {HTMLElement} element
+		 * @param {Array} exceptionList
 		 */
-		styleMemoizer: (function() {
-			var props = ['z-index', 'position', 'top', 'left'];
-			var storedStyles = {};
-
-			var rememberStyle = function(id) {
-				storedStyles[id] = {};
-				var element = document.getElementById(id);
-				for (var i = 0; i < props.length; i++) {
-					var prop = props[i];
-					storedStyles[id][prop] = window.getComputedStyle(element).getPropertyValue(prop);
-				}
-			};
-
-			var restoreStyle = function(id) {
-				if (!storedStyles[id]) {
-					console.error("ChuClone.utils.styleMemoizer - Cannot restore style, none found!");
-					return;
-				}
-
-				var element = document.getElementById(id);
-				for (var i = 0; i < props.length; i++) {
-					var prop = props[i];
-					element.style[prop] = storedStyles[id][prop];
-				}
-			};
-
-			return {
-				rememberStyle: rememberStyle,
-				restoreStyle: restoreStyle
-			}
-		})(),
-
 		hideAllChildren: function( element, exceptionList ) {
 			for (var j = 0; j < element.children.length; j++) {
 				if ( exceptionList.indexOf(element.children[j]) === -1) {
@@ -258,6 +226,11 @@
 			}
 		},
 
+		/**
+		 * Unhides all children in an element, except ones in the exception list
+		 * @param {HTMLElement} element
+		 * @param {Array} exceptionList
+		 */
 		unhideAllChildren: function( element, exceptionList ) {
 			for (var j = 0; j < element.children.length; j++) {
 				if (!exceptionList || exceptionList.indexOf(element.children[j]) != -1) {

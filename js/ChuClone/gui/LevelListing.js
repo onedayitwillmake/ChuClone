@@ -34,7 +34,6 @@
     };
 
     ChuClone.gui.LevelListing.prototype = {
-        _items		: [],
 		EVENTS		: {
 			SHOULD_CHANGE_LEVEL: "ChuClone.gui.LevelListing.shouldChangeLevel"
 		},
@@ -51,7 +50,7 @@
          */
         setupDivs: function( ) {
             var levelListing = document.getElementById("levellisting");
-            if( !levelListing ) { console.error("Could not find levellisting element"); return; }
+            if( !levelListing ) { console.info("Could not find levellisting element. Aborting..."); return; }
 
             for (var i = 0; i < levelListing.children.length; ++i) {
                 var item = levelListing.children[i];
@@ -89,14 +88,13 @@
         onLevelClicked: function() {
 			var aURL = ChuClone.utils.constructURLForLevelWithID( this.getAttribute("data-id")  );
 			ChuClone.Events.Dispatcher.emit( ChuClone.gui.LevelListing.prototype.EVENTS.SHOULD_CHANGE_LEVEL, aURL);
-			history.pushState(null, null, "/game/"+this.getAttribute("data-id"));
+			history.pushState(null, null, ChuClone.utils.get);
         },
 
         /**
          * Deallocate memory
          */
         dealloc: function() {
-
         }
 
         ///// ACCESSORS
