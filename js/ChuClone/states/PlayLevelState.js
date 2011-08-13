@@ -86,12 +86,30 @@ Abstract:
 		},
 
         animateIn: function() {
-            //this.animateInComplete();
-            //return;
-            var player, goalpad;
+            var player = null;
+			var goalpad = null;
+
+//			for(var j = 0; j < 50; j++ ) {
+//				var width = Math.random() * 100;
+//				var height = Math.random() * 100;
+//				var depth = Math.random() * 100 * 2;
+//				var geometry = new THREE.CubeGeometry( width, height, depth );
+//				var mesh = new THREE.Mesh( geometry, [new THREE.MeshLambertMaterial( {
+//					color: 0xFFFFFF, shading: THREE.SmoothShading,
+//					map : THREE.ImageUtils.loadTexture( ChuClone.model.Constants.SERVER.ASSET_PREFIX + "assets/images/game/floor.png" )
+//				})] );
+//				mesh.dynamic = false;
+//				mesh.position.x = this._camera.position.x + ChuClone.utils.randFloat(1000, 14000);
+//				mesh.position.y = this._camera.position.y + ChuClone.utils.randFloat(-2000, 3500);
+//				mesh.position.z = this._camera.position.z - ChuClone.utils.randFloat(1000, 4000);
+//
+//                this._backgroundElements.push( mesh );
+//				this._gameView.addObjectToScene( mesh );
+//			}
 
             var node = this._worldController.getWorld().GetBodyList();
             this._player.getBody().SetActive( false );
+
             while(node) {
 
                 var b = node;
@@ -121,8 +139,8 @@ Abstract:
 				b.SetPosition(new Box2D.Common.Math.b2Vec2(start.x, start.y))
 				entity.getView().position.z = start.z;
 				entity.getView().visible = true;
-                var animationTime = 2000;
-                var variation = 400;
+                var animationTime = 1000;
+                var variation = 200;
 
 				var tween = new TWEEN.Tween(prop)
 						.to({x: end.x, y: end.y, z: end.z}, animationTime)
@@ -145,18 +163,25 @@ Abstract:
          * @param {Number} duration
          */
         animateCameraIn: function( player, goalpad, duration) {
+
             var that = this;
 
+
+			var delta = new THREE.Vector3();
+			delta.add(player.getView().position, goalpad.getView().position)
+//			delta.multiplyScalar(0.5);
+
+
             var cam = this._gameView.getCamera();
-            var camStart = goalpad.getView().position.clone();
-            camStart.x += 1000;
-            camStart.y += 5000;
-            camStart.z += 1500;
+            var camStart = delta;
+            camStart.x += 0;
+//            camStart.y += 3000;
+            camStart.z += 0;
 
             var camEnd = player.getView().position.clone();
-            camEnd.x -= 1000;
-            camEnd.y += 1000;
-            camEnd.z += 1000;
+//            camEnd.x = 1000;
+//            camEnd.y += 1000;
+//            camEnd.z += 1000;
 
             // Temporarily remove the components - we'll set them back when we're done animating
             var components = cam.getComponents();
@@ -171,13 +196,15 @@ Abstract:
                     this.target.position.y = this.y;
                     this.target.position.z = this.z;
                     this.target.target.position = player.getView().position.clone();
+
+
                 })
                 .onComplete(function() {
                     cam.components = components;
                     that.animateInComplete();
+					cam.getComponentWithName(ChuClone.components.camera.CameraFocusRadiusComponent.prototype.displayName)._mousePosition.x = 3.5
                 })
-                .delay(1000)
-                .easing(TWEEN.Easing.Sinusoidal.EaseInOut)
+                .easing(TWEEN.Easing.Quadratic.EaseInOut)
                 .start();
         },
 

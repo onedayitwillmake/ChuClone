@@ -104,6 +104,7 @@
 
             if( this.netChannel ) this.netChannel.dealloc();
 			this.netChannel = null;
+			this._focusComponent = null;
 			ChuClone.components.player.RemoteJoystickInputComponent.superclass.detach.call(this);
 		},
 

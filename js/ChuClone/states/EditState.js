@@ -51,8 +51,15 @@ Abstract:
 
 
 			this._worldController.setDebugDraw();
-			this._worldController.setupEditor( this._gameView );
-			this._levelManager.setupGui();
+
+			var that = this;
+
+			// Waiting for stuff to be ready hack - there's a bug in DAT.GUI if you try to set it up too early in the page load
+			setTimeout(function(){
+				that._worldController.setupEditor( that._gameView );
+				that._levelManager.setupGui();
+			}, 100);
+
 
             this.setupEvents();
 		},
@@ -114,12 +121,16 @@ Abstract:
 
 		/**
 		 * Called when a player is destroyed
-		 * @param aPlayer
+		 * @param {ChuClone.GameEntity} aPlayer
 		 */
 		onPlayerDestroyed: function( aPlayer ) {
 			console.log("ChuCloneGame.onPlayerDestroyed:", aPlayer);
 		},
 
+		/**
+		 * Called when a level has been created/loaded
+		 * @param {ChuClone.editor.LevelManager} aLevelManager
+		 */
 		onLevelCreated: function( aLevelManager ) {
 			this._worldController.createBox2dWorld();
 			console.log("ChuCloneGame.onLevelCreated:", aLevelManager);

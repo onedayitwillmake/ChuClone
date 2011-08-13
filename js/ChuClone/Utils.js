@@ -244,6 +244,22 @@
 				rememberStyle: rememberStyle,
 				restoreStyle: restoreStyle
 			}
-		})()
+		})(),
+
+		hideAllChildren: function( element, exceptionList ) {
+			for (var j = 0; j < element.children.length; j++) {
+				if ( exceptionList.indexOf(element.children[j]) === -1) {
+					element.children[j].style.display = "none";
+				}
+			}
+		},
+
+		unhideAllChildren: function( element, exceptionList ) {
+			for (var j = 0; j < element.children.length; j++) {
+				if (!exceptionList || exceptionList.indexOf(element.children[j]) != -1) {
+					element.children[j].style.display = "";
+				}
+			}
+		}
     };
 })();
