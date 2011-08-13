@@ -185,7 +185,11 @@
 
             var flashNotice = document.getElementById("flash_notice");
             if (!flashNotice) {
-                logLevels[level]("ChuClone.Utils.displayFlash", message);
+				// TODO: logLevels[level]('someString') causes 'IllegalInvocation error in chrome
+				//logLevels[level]("ChuClone.Utils.displayFlash", message);
+				if(level == 1) console.info("ChuClone.Utils.displayFlash", message);
+				else if (level == 0) console.error("ChuClone.Utils.displayFlash", message);
+
                 return;
             }
 

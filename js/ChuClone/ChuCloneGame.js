@@ -116,10 +116,16 @@
             // MAIN LOOP
             var that = this;
             (function loop() {
+
+				try{
                 that.update();
 				TWEEN.update();
 //				setTimeout( loop, 1000/60 );
-                window.requestAnimationFrame( loop, null );
+                                                     window.requestAnimationFrame( loop );
+				} catch(e) {
+					console.log("ERROR", e)
+				window.requestAnimationFrame( loop );
+				}
             })();
         },
 
