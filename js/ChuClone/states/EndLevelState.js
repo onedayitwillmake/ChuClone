@@ -43,7 +43,26 @@ Abstract:
 		 */
 		enter: function() {
 			ChuClone.states.EndLevelState.superclass.enter.call(this);
-            this._gameView.getCamera().removeAllComponents();
+
+			var gameCamera = this._gameView.getCamera();
+			gameCamera.removeAllComponents();
+
+			// Let's find the radius of the level
+			 var node = this._worldController.getWorld().GetBodyList();
+            while(node) {
+                var b = node;
+                node = node.GetNext();
+			}
+
+			// Allow rotation about target
+			var focusComponent = new ChuClone.components.camera.CameraOrbitRadiusComponent();
+			focusComponent.setTarget( this._player.getView().position );
+			focusComponent.getRadius().x = 4000;
+			focusComponent.getRadius().y = 2000;
+			focusComponent.getRadius().z = 4000;
+			gameCamera.addComponentAndExecute(focusComponent);
+
+			ChuClone.gui.LevelRecap.show( this._completionTime );
 		},
 
 		/**
@@ -69,6 +88,7 @@ Abstract:
 		 * Submits a score for this run
 		 */
         submitScore: function() {
+			return;
             var request = new XMLHttpRequest();
 			var that = this;
 
@@ -143,7 +163,7 @@ Abstract:
             }
             this._record = aRecord;
             this.submitScore();
-        },
+        }
 	};
 
     ChuClone.extend( ChuClone.states.EndLevelState, ChuClone.states.ChuCloneBaseState );

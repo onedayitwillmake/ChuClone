@@ -365,9 +365,15 @@
 
             gameViewController.getCamera().removeAllComponents();
 			ChuClone.Events.Dispatcher.emit(ChuClone.editor.LevelManager.prototype.EVENTS.LEVEL_DESTROYED, this);
-		}
+		},
 
 
 		///// ACCESSORS
+		/**
+		 * @return {ChuClone.editor.LevelModel}
+		 */
+		getModel: function(){
+			return this._levelModel;
+		}
 	}
 })();

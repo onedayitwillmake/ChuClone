@@ -315,6 +315,7 @@ Abstract:
              var endLevelState = new ChuClone.states.EndLevelState();
              endLevelState._gameView = this._gameView;
              endLevelState._worldController = this._worldController;
+			 endLevelState._levelManager = this._levelManager;
              endLevelState.setPlayer( this._player );
              endLevelState.setTime( this._elapsedTime );
              endLevelState.setRecord( playerRecord );

@@ -110,14 +110,9 @@
 				// Tell the gameviewcontroller
 				ChuClone.GameViewController.INSTANCE.setFullscreen( true );
 
-				// Hide all children except the gamecontainers parent
-				ChuClone.utils.hideAllChildren( document.getElementsByTagName('body')[0], [gameContainer.parentNode]);
-				// Hide all children in the parent except gamecontainer
-				ChuClone.utils.hideAllChildren( gameContainer.parentNode, [gameContainer]);
-
 				// Save and set the style for the fullscreen toggle
 				ChuClone.utils.StyleMemoizer.rememberStyle(fullscreenToggle.id);
-				fullscreenToggle.style.display = "block";
+
 				fullscreenToggle.style.position = "absolute";
 				fullscreenToggle.style.top = "47px";
 				fullscreenToggle.style.left = "165px";
@@ -126,9 +121,17 @@
 
 				// Set custom styles for the HUDTime
 				ChuClone.utils.StyleMemoizer.rememberStyle(HUDTime.id);
-				HUDTime.style.display = "";
 				HUDTime.style.position = "absolute";
 				HUDTime.style.zIndex = "2";
+
+				// Hide all children except the gamecontainers parent
+				ChuClone.utils.hideAllChildren( document.getElementsByTagName('body')[0], [gameContainer.parentNode]);
+
+				// Hide all children in the parent except gamecontainer
+				ChuClone.utils.hideAllChildren( gameContainer.parentNode, [gameContainer]);
+				fullscreenToggle.style.display = "block";
+				HUDTime.style.display = "";
+
 			} else {
 
 				// Tell the gameviewcontainer
@@ -140,7 +143,7 @@
 
 				// Restore 'fullscreen_toggle'
 				ChuClone.utils.StyleMemoizer.restoreStyle(fullscreenToggle.id);
-				fullscreenToggle.innerHTML = '<p class="grayBorder"> Exit Fullscreen</p>'
+				fullscreenToggle.innerHTML = '<p class="grayBorder"> Full Screen</p>'
 
 				// Restore 'HUDTime'
 				ChuClone.utils.StyleMemoizer.restoreStyle('HUDTime');
@@ -165,6 +168,7 @@
 				instructions.style.top = gameContainer.offsetTop+1 + "px";
 				instructions.style.left = gameContainer.offsetLeft-9 + "px";
 				instructions.style.opacity = 0;
+				instructions.style.cursor = "pointer"
 
 				new TWEEN.Tween({opacity:0})
 				.to({opacity: 1}, 500)

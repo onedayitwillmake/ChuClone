@@ -88,7 +88,7 @@
         onLevelClicked: function() {
 			var aURL = ChuClone.utils.constructURLForLevelWithID( this.getAttribute("data-id")  );
 			ChuClone.Events.Dispatcher.emit( ChuClone.gui.LevelListing.prototype.EVENTS.SHOULD_CHANGE_LEVEL, aURL);
-			history.pushState(null, null, ChuClone.utils.get);
+			history.pushState(null, null, "/game/"+this.getAttribute("data-id"));
         },
 
         /**
