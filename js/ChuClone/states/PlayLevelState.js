@@ -79,6 +79,9 @@ Abstract:
             // Hide the camera before we animate in
             this._gameView.getCamera().position = new THREE.Vector3(-10000, -10000, -10000);
 
+			// Reset achievement tracker
+			ChuClone.model.AchievementTracker.getInstance().reset();
+
             this._didAnimateIn = false;
             this._beatLevel = false;
             this._previousTime = Date.now();
@@ -371,6 +374,7 @@ Abstract:
                 var playLevelState = new ChuClone.states.PlayLevelState();
                 playLevelState._gameView = this._gameView;
                 playLevelState._worldController = this._worldController;
+                playLevelState._levelManager = this._levelManager;
                 ChuClone.model.FSM.StateMachine.getInstance().changeState(playLevelState);
             }
 
@@ -407,10 +411,9 @@ Abstract:
          */
         exit: function() {
             clearTimeout( this._animateInTimeout );
+
             this._gameView.getCamera().removeComponentWithName( ChuClone.components.camera.CameraFollowPlayerComponent.prototype.displayName );
 			this._gameView.getCamera().removeComponentWithName( ChuClone.components.camera.CameraFocusRadiusComponent.prototype.displayName );
-            this.removeAllListeners();
-
 			ChuClone.states.PlayLevelState.superclass.exit.call(this);
         },
 

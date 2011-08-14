@@ -67,7 +67,6 @@ Abstract:
 
 	ChuClone.components.RespawnComponent = function() {
 		ChuClone.components.RespawnComponent.superclass.constructor.call(this);
-
 	};
 
 	ChuClone.components.RespawnComponent.prototype = {
@@ -99,6 +98,7 @@ Abstract:
 		 * @param {ChuClone.GameEntity} spawnedEntity
 		 */
 		setSpawnedEntityPosition: function( spawnedEntity ) {
+			ChuClone.model.AchievementTracker.getInstance().incrimentDeathCount();
 			spawnedEntity.getBody().SetPosition(new Box2D.Common.Math.b2Vec2( this.attachedEntity.getBody().GetPosition().x, this.attachedEntity.getBody().GetPosition().y - 1));
 		},
 
@@ -179,6 +179,9 @@ Abstract:
 			return __respawnPoints;
 		},
 
+		/**
+		 * Returns the last touched respawn point, or first if none was set
+		 */
 		GET_CURRENT_RESPAWNPOINT: function() {
 			if( !__currentRespawnPoint) {
 				return __respawnPoints[0];

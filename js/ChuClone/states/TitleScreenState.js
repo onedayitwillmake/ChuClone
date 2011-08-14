@@ -222,12 +222,32 @@ Abstract:
         },
 
         /**
+		 * Sets up the camera
+		 */
+		setupCamera: function() {
+			// Attach a few gameplay related components to the camera
+			this._camera = this._gameView.getCamera();
+
+			// Allow rotation about target
+			this._camera.target.position = new THREE.Vector3(0, 100, 0);
+
+			var focusComponent = new ChuClone.components.camera.CameraFocusRadiusComponent();
+			this._camera.addComponentAndExecute(focusComponent);
+			focusComponent.getRadius().x = 2000;
+			focusComponent.getRadius().y = -1000;
+			focusComponent.getRadius().z = 1000;
+
+			this.setupGUI();
+
+		},
+
+		  /**
 		 * Called when a goal is hit
 		 * @param {ChuClone.editor.LevelManager} aLevelManager
 		 */
 		onLevelLoaded: function( aLevelManager ) {
 			if(this._hasShown) {
-				this.pushPlayLevelState();
+				this.pushPlayLevelState( aLevelManager );
 				return;
 			}
 			this._hasShown = true;
@@ -252,26 +272,6 @@ Abstract:
                 this._gameView.removeObjectFromScene(this._backgroundElements[i]);
             }
             this._backgroundElements = [];
-		},
-
-        /**
-		 * Sets up the camera
-		 */
-		setupCamera: function() {
-			// Attach a few gameplay related components to the camera
-			this._camera = this._gameView.getCamera();
-
-			// Allow rotation about target
-			this._camera.target.position = new THREE.Vector3(0, 100, 0);
-
-			var focusComponent = new ChuClone.components.camera.CameraFocusRadiusComponent();
-			this._camera.addComponentAndExecute(focusComponent);
-			focusComponent.getRadius().x = 2000;
-			focusComponent.getRadius().y = -1000;
-			focusComponent.getRadius().z = 1000;
-
-			this.setupGUI();
-
 		},
 
 		/**
@@ -302,6 +302,7 @@ Abstract:
 			var playLevelState = new ChuClone.states.PlayLevelState();
 			playLevelState._gameView = this._gameView;
 			playLevelState._worldController = this._worldController;
+			playLevelState._levelManager = this._levelManager;
 			playLevelState.onLevelLoaded();
 			ChuClone.model.FSM.StateMachine.getInstance().changeState(playLevelState);
 		},

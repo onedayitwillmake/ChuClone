@@ -162,7 +162,7 @@
 				instructions = document.createElement("div");
 				instructions.id = 'instructions'
 				instructions.setAttribute('class', 'grid_12');
-				instructions.innerHTML = '<img src="game/assets/images/page/instructions.png" alt="">';
+				instructions.innerHTML = '<img src="/game/assets/images/page/instructions.png" alt="">';
 				instructions.style.position = "absolute"
 				instructions.style.zIndex = "2"
 				instructions.style.top = gameContainer.offsetTop+1 + "px";

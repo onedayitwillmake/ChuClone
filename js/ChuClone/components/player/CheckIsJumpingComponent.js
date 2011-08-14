@@ -67,8 +67,15 @@
 		 * @param {ChuClone.GameEntity} otherActor
 		 */
         onCollision: function( otherActor ) {
-             this._canJump = true;
+			ChuClone.model.AchievementTracker.getInstance().stopTrackingJump();
+			this._canJump = true;
         },
+
+		// TODO: KIND OF A HACK SINCE THIS SHOULD ALWAYS COLLIDE FIRST
+		forceAllowJump: function() {
+			this.onCollision();
+		},
+
 
         /**
          * @inheritDoc

@@ -21,7 +21,7 @@
         },
 
         exit: function() {
-
+			this.removeAllListeners();
         },
 
         /**
@@ -54,6 +54,8 @@
 				console.log("Removing Listener:", eventName);
 				this.removeListener( eventName );
 			}
+
+			this._closures = {};
 		}
     }
 })();

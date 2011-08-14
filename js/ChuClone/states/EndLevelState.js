@@ -62,14 +62,30 @@ Abstract:
 			focusComponent.getRadius().z = 4000;
 			gameCamera.addComponentAndExecute(focusComponent);
 
-			ChuClone.gui.LevelRecap.show( this._completionTime );
+
 		},
 
 		/**
 		 * @inheritDoc
 		 */
         setupEvents: function() {
+			var that = this;
 
+            this.addListener( ChuClone.editor.LevelManager.prototype.EVENTS.LEVEL_DESTROYED, function( aLevelManager ) {
+				//that.onLevelDestroyed( aLevelManager )
+				console.log("EndLevelState >> LeveLDestroyed!");
+				ChuClone.gui.LevelRecap.destroy();
+				that._gameView.getCamera().removeComponentWithName( ChuClone.components.camera.CameraFocusRadiusComponent.prototype.displayName );
+
+				/**
+				 * @type {ChuClone.states.PlayLevelState}
+				 */
+				var playLevelState = new ChuClone.states.PlayLevelState();
+				playLevelState._gameView = that._gameView;
+				playLevelState._worldController = that._worldController;
+				playLevelState._levelManager = that._levelManager;
+				ChuClone.model.FSM.StateMachine.getInstance().changeState(playLevelState);
+			} );
 		},
 
         /**
@@ -88,7 +104,6 @@ Abstract:
 		 * Submits a score for this run
 		 */
         submitScore: function() {
-			return;
             var request = new XMLHttpRequest();
 			var that = this;
 
@@ -100,6 +115,8 @@ Abstract:
 			request.onreadystatechange = function() {
 				if (request.readyState == 4) {
 
+					ChuClone.gui.LevelRecap.show( that._completionTime, that._levelManager.getModel().levelName );
+
 					// Invalid JSON returned - probably has validation errors
 					try {
 						var result = JSON.parse(request.responseText)[0];
@@ -109,10 +126,12 @@ Abstract:
 					}
 
 					if (result.status == false) {
-						ChuClone.utils.displayFlash( ChuClone.utils.getValidationErrorsFromJSON( result.notice ), 0);
+						ChuClone.utils.displayFlash( result.notice + " - Score not saved", 0);
 					} else {
-						ChuClone.utils.displayFlash("Save To Server Success:", 1);
+						ChuClone.utils.displayFlash("Highscore Saved", 1);
 					}
+
+
 				}
 			};
 
@@ -121,6 +140,7 @@ Abstract:
 			request.open("POST", scoreurl);
 			request.send(formData);
         },
+
 
         /**
          * @inheritDoc

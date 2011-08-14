@@ -115,6 +115,11 @@ Abstract:
 
             if( !this._isReady ) return; // Cannot rejump
 
+			// Always allow jump with actor
+			var checkIsJumping = otherActor.getComponentWithName(ChuClone.components.player.CheckIsJumpingComponent.prototype.displayName);
+			checkIsJumping.forceAllowJump();
+
+
             // Apply a force negating the bodies downward motion, and applying a vertical force of this._force
             var vel = otherActor.getBody().GetLinearVelocity();
             vel.y -= Math.abs(vel.y) + this._force / ChuClone.model.Constants.PTM_RATIO;
@@ -125,8 +130,11 @@ Abstract:
 
             // Note: We have to call it on a timeout for 'next frame', because Box2D locks certain body properties during the collision
 			setTimeout( function() {
-				otherActor.getBody().SetAngularVelocity( otherActor.getBody().GetAngularVelocity() - angle)
+				otherActor.getBody().SetAngularVelocity( otherActor.getBody().GetAngularVelocity() - angle);
+				ChuClone.model.AchievementTracker.getInstance().startTrackingJump();
 			}, 16);
+
+
 
             // Prevent double-jumping
             this.startWaitingForIsReady()

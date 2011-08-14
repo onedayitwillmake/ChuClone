@@ -120,7 +120,7 @@
                 bird.position.y += Math.sin(bird.phase) * 4 + 1;
 
 				if(bird.position.x > this.attachedEntity.getView().position.x + 6000) {
-					bird.position.x = this.attachedEntity.getView().position.x - Math.random() * 1000;
+					bird.position.x = this.attachedEntity.getView().position.x - Math.random() * 2000;
 					bird.position.y = this.attachedEntity.getView().position.y + Math.random() * 1000;
 
 					var range = 600;

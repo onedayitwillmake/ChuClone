@@ -46,6 +46,11 @@ Abstract:
 		 * @inheritDoc
 		 */
 		enter: function() {
+
+			if( !this._levelManager || !this._worldController || !this._gameView ) {
+				debugger;
+			}
+
 			ChuClone.states.ChuCloneBaseState.superclass.enter.call(this);
             this.setupEvents();
 		},

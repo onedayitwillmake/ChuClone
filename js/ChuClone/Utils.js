@@ -191,7 +191,6 @@
 
                 return;
             }
-
             var output = message;
             if(message instanceof Array) {
                 output = ''; // Set as empty string
@@ -201,7 +200,7 @@
             } else {
             }
 
-            flashNotice.innerHTML = output;
+            flashNotice.innerText = output;
 
 			// Fade back to white
             new TWEEN.Tween(colorLevels[level])
@@ -215,27 +214,48 @@
 
 		/**
 		 * Hides all children of an element, except ones in the exception list
-		 * @param {HTMLElement} element
+		 * @param {HTMLElement} anElement
 		 * @param {Array} exceptionList
 		 */
-		hideAllChildren: function( element, exceptionList ) {
-			for (var j = 0; j < element.children.length; j++) {
-				if ( exceptionList.indexOf(element.children[j]) === -1) {
-					element.children[j].style.display = "none";
+		hideAllChildren: function( anElement, exceptionList ) {
+			for (var j = 0; j < anElement.children.length; j++) {
+				if ( exceptionList.indexOf(anElement.children[j]) === -1) {
+					anElement.children[j].style.display = "none";
 				}
 			}
 		},
 
 		/**
 		 * Unhides all children in an element, except ones in the exception list
-		 * @param {HTMLElement} element
+		 * @param {HTMLElement} anElement
 		 * @param {Array} exceptionList
 		 */
-		unhideAllChildren: function( element, exceptionList ) {
-			for (var j = 0; j < element.children.length; j++) {
-				if (!exceptionList || exceptionList.indexOf(element.children[j]) != -1) {
-					element.children[j].style.display = "";
+		unhideAllChildren: function( anElement, exceptionList ) {
+			for (var j = 0; j < anElement.children.length; j++) {
+				if (!exceptionList || exceptionList.indexOf(anElement.children[j]) != -1) {
+					anElement.children[j].style.display = "";
 				}
+			}
+		},
+
+		/**
+		 * Animates all the children of a container from below, to create a staggered sliding up animation
+		 * @param {HTMLElement} aContainer
+		 */
+		animateChildrenInFromBelow: function( aContainer ) {
+			for( var i = 0; i < aContainer.children.length; i++){
+				var child = aContainer.children[i];
+				child.style.top = '0px';
+				child.style.position = 'relative';
+
+				// START FROM BELOW
+				new TWEEN.Tween({target: child, pos: 150, original: parseInt(child.style.top)})
+					.to({pos: 0}, i*20 + 500)
+					.easing( TWEEN.Easing.Sinusoidal.EaseInOut )
+					.onUpdate( function(){
+							this.target.style.top = Math.round(this.original + this.pos) + "px";
+						})
+					.start();
 			}
 		}
     };
