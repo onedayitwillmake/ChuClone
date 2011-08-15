@@ -92,7 +92,6 @@ Abstract:
             this.addListener( ChuClone.editor.LevelManager.prototype.EVENTS.LEVEL_DESTROYED, function( aLevelManager ) { that.onLevelDestroyed( aLevelManager ) } );
             this.addListener( ChuClone.components.player.CharacterControllerComponent.prototype.EVENTS.CREATED, function( aPlayer ) { that.onPlayerCreated(aPlayer) } );
             this.addListener( ChuClone.components.player.CharacterControllerComponent.prototype.EVENTS.REMOVED, function( aPlayer ) { that.onPlayerDestroyed(aPlayer) } );
-            this.addListener( ChuClone.components.GoalPadComponent.prototype.EVENTS.GOAL_REACHED, function( aGoalPad ) { that.onGoalReached( aGoalPad ) } );
         },
 
 
@@ -279,11 +278,11 @@ Abstract:
 		 * @param aPlayer
 		 */
         onPlayerCreated: function( aPlayer ) {
-            this._gameView.removeObjectFromScene( aPlayer.getView() );
-
-            var playerbody = aPlayer.getBody();
-            aPlayer.dealloc();
-            this._worldController.getWorld().DestroyBody( playerbody );
+            //this._gameView.removeObjectFromScene( aPlayer.getView() );
+			//
+			//var playerbody = aPlayer.getBody();
+			//aPlayer.dealloc();
+			//this._worldController.getWorld().DestroyBody( playerbody );
         },
 
         onPlayerDestroyed: function( aPlayer ) {

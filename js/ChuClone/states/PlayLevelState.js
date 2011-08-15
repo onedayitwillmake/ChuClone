@@ -345,6 +345,11 @@ Abstract:
             this.animateIn();
         },
 
+		/**
+		 * Dispatched when a player is destroyed.
+		 * Removes _player reference
+		 * @param {ChuClone.GameEntity} aPlayer
+		 */
         onPlayerDestroyed: function( aPlayer ) {
             if( aPlayer === this._player ) {
                 this._player = null;
