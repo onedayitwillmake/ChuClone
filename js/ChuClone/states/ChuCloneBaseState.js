@@ -91,6 +91,46 @@ Abstract:
             }
 		},
 
+		/**
+		 * Creates a bunch of simple cube entities that can be used as background elements
+		 * @param {Number} amount
+		 * @param {Boolean} shouldAddToView
+		 * @param {THREE.Vector3} centerPosition
+		 * @param {THREE.Vector3} rangeDimensions
+		 * @param {THREE.Vector3} maxDimensions
+		 * @return {Array} backgroundElements An array of THREE.Mesh objects
+		 */
+		createBackgroundElements: function( amount, shouldAddToView, centerPosition, rangeDimensions, maxDimensions) {
+
+			var backgroundElements = [];
+
+			for (var j = 0; j < amount; j++) {
+				var width = Math.random() * maxDimensions.x;
+				var height = Math.random() * maxDimensions.y;
+				var depth = Math.random() * maxDimensions.z;
+
+				var geometry = new THREE.CubeGeometry(width, height, depth);
+
+				var mesh = new THREE.Mesh(geometry, [new THREE.MeshLambertMaterial({
+							color: 0xFFFFFF, shading: THREE.SmoothShading,
+							map : THREE.ImageUtils.loadTexture(ChuClone.model.Constants.SERVER.ASSET_PREFIX + "assets/images/game/floor.png")
+						})]);
+
+				mesh.dynamic = false;
+				mesh.position.x = centerPosition.x + ChuClone.utils.randFloat(-rangeDimensions.x, rangeDimensions.x);
+				mesh.position.y = centerPosition.y + ChuClone.utils.randFloat(-rangeDimensions.y, rangeDimensions.y);
+				mesh.position.z = centerPosition.z - ChuClone.utils.randFloat(rangeDimensions.z/2, rangeDimensions.z);
+
+				backgroundElements.push(mesh);
+
+				if( shouldAddToView ) {
+					this._gameView.addObjectToScene(mesh);
+				}
+			}
+
+			return backgroundElements;
+		},
+
         /**
          * @inheritDoc
          */
@@ -98,6 +138,24 @@ Abstract:
             ChuClone.states.ChuCloneBaseState.superclass.exit.call(this);
             this.dealloc();
         },
+
+		/**
+		 * Removes an entity from the game
+		 * @param entity
+		 */
+		remoteEntity: function( entity ) {
+			var b = entity.getBody();
+
+			if ("getView" in entity) {
+				this._gameView.removeObjectFromScene(entity.getView());
+			}
+
+			if ("dealloc" in entity) {
+				entity.dealloc();
+			}
+
+			this._worldController.getWorld().DestroyBody(b);
+		},
 
         /**
          * @inheritDoc

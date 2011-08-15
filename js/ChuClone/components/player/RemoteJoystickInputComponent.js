@@ -1,17 +1,20 @@
 /**
  File:
- ChaseTrait.js
+ 	RemoteJoystickInputComponent
  Created By:
- Mario Gonzalez
+ 	Mario Gonzalez
  Project	:
- RealtimeMultiplayerNodeJS
+ 	ChuClone
  Abstract:
- This trait will cause an entity to chase a target
+ 	This trait is used for the kiosk mode in ChuClone, it hooks into a NoBarrierOSC server
+ 	and controls the player.
+ 	Because everything is done via remote input, this component is a bit pervasive in how it interacts with the rest of the game.
+
  Basic Usage:
 
  License:
- Creative Commons Attribution-NonCommercial-ShareAlike
- http://creativecommons.org/licenses/by-nc-sa/3.0/
+ 	Creative Commons Attribution-NonCommercial-ShareAlike
+ 	http://creativecommons.org/licenses/by-nc-sa/3.0/
 
  */
 (function() {
@@ -33,15 +36,15 @@
 	ChuClone.namespace("ChuClone.components");
 	ChuClone.components.player.RemoteJoystickInputComponent = function() {
 		ChuClone.components.player.RemoteJoystickInputComponent.superclass.constructor.call(this);
-        this.requiresUpdate = true;
+		this.requiresUpdate = true;
 
-        this.cmdMap[RealtimeMultiplayerGame.Constants.CMDS.JOYSTICK_UPDATE] = this.joystickUpdate;
-        this.cmdMap[RealtimeMultiplayerGame.Constants.CMDS.JOYSTICK_SELECT_LEVEL] = this.joystickSelectLevel;
+		this.cmdMap[RealtimeMultiplayerGame.Constants.CMDS.JOYSTICK_UPDATE] = this.joystickUpdate;
+		this.cmdMap[RealtimeMultiplayerGame.Constants.CMDS.JOYSTICK_SELECT_LEVEL] = this.joystickSelectLevel;
 
-        var address = ChuClone.model.Constants.JOYSTICK.SERVER_LOCATION;
-        var port = ChuClone.model.Constants.JOYSTICK.SERVER_PORT;
-        var transports = ['websocket'];
-        
+		var address = ChuClone.model.Constants.JOYSTICK.SERVER_LOCATION;
+		var port = ChuClone.model.Constants.JOYSTICK.SERVER_PORT;
+		var transports = ['xhr-polling','websocket'];
+
 		this.netChannel = new RealtimeMultiplayerGame.ClientNetChannel(this, address, port, transports, false);
 	};
 
@@ -50,22 +53,30 @@
 		/**
 		 * @type {String}
 		 */
-		displayName						: "RemoteJoystickInputComponent",					// Unique string name for this Trait
-
-		gameClockReal			  : 0,											// Actual time via "new Date().getTime();"
-		gameClock				: 0,											// Seconds since start
-		gameTick				: 0,											// Ticks/frames since start
-
-		_clientId			   : -1,
+		displayName			: "RemoteJoystickInputComponent",				// Unique string name for this Trait
 
 		/**
-		 * @type {Function}
+		 * Actual time via Date.now()
+		 * @type {Number}
 		 */
-		_callback					   :null,
-		
+		gameClockReal		: 0,
+
 		/**
-		* @type {ChuClone.components.camera.CameraFocusComponent}
-		*/
+		 * Time since game start
+		 * @{type} Number
+		 */
+		gameClock			: 0,
+
+		/**
+		 * Frames since game start
+		 * @{type} Number
+		 */
+		gameTick			: 0,
+
+
+		/**
+		 * @type {ChuClone.components.camera.CameraFocusComponent}
+		 */
 		_focusComponent					:null,
 
 		/**
@@ -80,10 +91,15 @@
 			angle: 0,
 		},
 
-        /**
-         * @type {Object}
-         */
-        cmdMap      : {},
+		/**
+		 * @type {Number}
+		 */
+		_idleTimeout					: null,
+
+		/**
+		 * @type {Object}
+		 */
+		cmdMap	  : {},
 
 
 		/**
@@ -93,22 +109,15 @@
 			ChuClone.components.player.RemoteJoystickInputComponent.superclass.attach.call(this, anEntity);
 		},
 
+		/**
+		 * @inheritDoc
+		 */
 		execute: function() {
 			ChuClone.components.player.RemoteJoystickInputComponent.superclass.execute.call(this);
 		},
 
-		/**
-		 * Restore material and restitution
-		 */
-		detach: function() {
 
-            if( this.netChannel ) this.netChannel.dealloc();
-			this.netChannel = null;
-			this._focusComponent = null;
-			ChuClone.components.player.RemoteJoystickInputComponent.superclass.detach.call(this);
-		},
-
-		///// NETCHANNEL DELEGATE
+///// NETCHANNEL DELEGATE
 		netChannelDidConnect: function() {
 			this.netChannel.addMessageToQueue(true, RealtimeMultiplayerGame.Constants.CMDS.PLAYER_JOINED, {type: "cabinet" });
 		},
@@ -121,17 +130,13 @@
 		},
 
 		update: function() {
-            if ( !this.netChannel ) {
-                console.log("NoNetChannel")
-                return;
-            }
-
-
-			if( !this._focusComponent ) {
+			if (!this.netChannel) {
+				return;
+			}
+			if (!this._focusComponent) {
 				this._focusComponent = ChuClone.GameViewController.INSTANCE.getCamera().getComponentWithName(ChuClone.components.camera.CameraFocusRadiusComponent.prototype.displayName)
 			}
-			
-            //ChuClone.GameViewController.INSTANCE
+
 			this.updateClock();
 			this.netChannel.tick();
 		},
@@ -156,33 +161,56 @@
 			if (this.speedFactor <= 0) this.speedFactor = 1;
 		},
 
-        joystickUpdate: function( message ) {
-            var angle = +message.payload.analog
+		/**
+		 * Called when the joystick sends an 'Update' command
+		 * @param {Object} message
+		 */
+		joystickUpdate: function(message) {
+			var angle = +message.payload.analog
 			this._keyStates['left'] = angle != 0 && angle < 360 && angle > 180;
 			this._keyStates['right'] = angle > 0 && angle < 180;
 			this._keyStates['up'] = message.payload.button;
 
-			if( this._focusComponent ) {
-				this._focusComponent._mousePosition.x = (message.payload.accelY)/10;
+			this.resetIdleTimer();
+
+			// Use the accelerometer to move the camera
+			if (this._focusComponent) {
+				this._focusComponent._mousePosition.x = (message.payload.accelY) / 10;
 				this._focusComponent._mousePosition.x *= 0.5;
 				this._focusComponent._mousePosition.x += 0.5;
-				this._focusComponent._mousePosition.y = (message.payload.accelX)/10;
+				this._focusComponent._mousePosition.y = (message.payload.accelX) / 10;
 				this._focusComponent._mousePosition.y *= 0.5;
 				this._focusComponent._mousePosition.y += 0.6;
 			}
-        },
+		},
 
-        joystickSelectLevel: function( message ) {
-            if( !message.payload.level_id ) return;
-			console.log("CHANGE LEVEL");
-            // KILL NET CHANNEL
-            this.netChannel.dealloc();
+		/**
+		 * Called when the joystick sends an 'SelectLevel' command
+		 * @param {Object} message
+		 */
+		joystickSelectLevel: function(message) {
+			if (!message.payload.level_id) return;
+
+
+			// KILL NET CHANNEL
+			this.netChannel.dealloc();
 			this.netChannel = null;
 
-            // LOAD THE LEVEL
-            var url = ChuClone.model.Constants.SERVER.LEVEL_LOAD_LOCATION + message.payload.level_id + ".js?r" + Math.floor(Math.random() * 9999);
-            ChuClone.Events.Dispatcher.emit(ChuClone.gui.LevelListing.prototype.EVENTS.SHOULD_CHANGE_LEVEL, url)
-        },
+			// LOAD THE LEVEL
+			var url = ChuClone.model.Constants.SERVER.LEVEL_LOAD_LOCATION + message.payload.level_id + ".js?r" + Math.floor(Math.random() * 9999);
+			ChuClone.Events.Dispatcher.emit(ChuClone.gui.LevelListing.prototype.EVENTS.SHOULD_CHANGE_LEVEL, url)
+		},
+
+
+		resetIdleTimer: function() {
+			var that = this;
+			clearTimeout( this._idleTimeout );
+			setTimeout( function(){ that.onIdleTimerWasHit(); }, 10000);
+		},
+
+		onIdleTimerWasHit: function() {
+			console.log("Idle for too long!")
+		},
 
 		/**
 		 * Called by the ClientNetChannel, it sends us an array containing tightly packed values and expects us to return a meaningful object
@@ -193,29 +221,29 @@
 		 * @return {Object} An object which will be returned to you later on tied to a specific entity
 		 */
 		parseEntityDescriptionArray: function(entityDescAsArray) {
-			var entityDescription = {};
-
-			// It is left upto each game to implement this function because only the game knows what it needs to send.
-			// However the 4 example projects in RealtimeMultiplayerNodeJS offer this an example
-			entityDescription.entityid = +entityDescAsArray[0];
-			entityDescription.clientid = +entityDescAsArray[1];
-			entityDescription.entityType = entityDescAsArray[2];
-
-			var angle = +entityDescAsArray[3];
-			this._keyStates['left'] = angle != 0 && angle < 360 && angle > 180;
-			this._keyStates['right'] = angle > 0 && angle < 180;
-			this._keyStates['up'] = +entityDescAsArray[4];
-
-
-			return entityDescription;
+			console.error("RemoteJoystickComponent.parseEntityDescriptionArray - Should never be called")
 		},
 
+		/**
+		 * @return {Number}
+		 */
 		getGameClock: function() {
 			return this.gameClock;
 		},
 
-		log: function() { console.log.apply(console, arguments); }
+		log: function() { console.log(arguments); },
 
+		/**
+		 * Destroy the connection and clear memory
+		 */
+		detach: function() {
+			if (this.netChannel) this.netChannel.dealloc();
+
+			clearTimeout( this._idleTimeout );
+			this.netChannel = null;
+			this._focusComponent = null;
+			ChuClone.components.player.RemoteJoystickInputComponent.superclass.detach.call(this);
+		}
 	};
 
 	ChuClone.extend(ChuClone.components.player.RemoteJoystickInputComponent, ChuClone.components.BaseComponent);

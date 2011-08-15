@@ -100,73 +100,31 @@ Abstract:
 		 */
 		animateIn: function() {
 
-			for(var j = 0; j < 50; j++ ) {
-				var width = Math.random() * 100;
-				var height = Math.random() * 100;
-				var depth = Math.random() * 100 * 2;
-				var geometry = new THREE.CubeGeometry( width, height, depth );
-				var mesh = new THREE.Mesh( geometry, [new THREE.MeshLambertMaterial( {
-					color: 0xFFFFFF, shading: THREE.SmoothShading,
-					map : THREE.ImageUtils.loadTexture( ChuClone.model.Constants.SERVER.ASSET_PREFIX + "assets/images/game/floor.png" )
-				})] );
-				mesh.dynamic = false;
-				mesh.position.x = this._camera.position.x + ChuClone.utils.randFloat(1000, 14000);
-				mesh.position.y = this._camera.position.y + ChuClone.utils.randFloat(-2000, 3500);
-				mesh.position.z = this._camera.position.z - ChuClone.utils.randFloat(1000, 4000);
+			this._backgroundElements = this.createBackgroundElements(50, true, this._camera.position, new THREE.Vector3(10000, 2000, 4000), new THREE.Vector3(100, 100, 200) );
 
-                this._backgroundElements.push( mesh );
-				this._gameView.addObjectToScene( mesh );
-			}
-          
 			// Animate all bodys that have a corresponding entity
 			/**
              * @type {Box2D.Dynamics.b2Body}
              */
             var node = this._worldController.getWorld().GetBodyList();
 			var i = 0;
-            while(node) {
-
-				i++;
-                b = node;
-                node = node.GetNext();
+			while (node)  {
+				var b = node;
+				node = node.GetNext();
 
 
 				/**
 				 * @type {ChuClone.GameEntity}
 				 */
 				var entity = b.GetUserData();
-				if (!(entity instanceof ChuClone.GameEntity) ) continue;
-				if( entity.getComponentWithName(ChuClone.components.player.CharacterControllerComponent.prototype.displayName) ) continue;
+				if (!(entity instanceof ChuClone.GameEntity)) continue;
+				if (entity.getComponentWithName(ChuClone.components.player.CharacterControllerComponent.prototype.displayName)) continue;
 				entity.getView().visible = false;
 
 
-                if( i > 5000 ) {
-
-
-                    var b = entity.getBody();
-                    if (!entity) {
-                        this._worldController.getWorld().DestroyBody(b);
-                        continue;
-                    }
-
-                    if ("getView" in entity) {
-                        this._gameView.removeObjectFromScene(entity.getView());
-                    }
-
-                    if ("dealloc" in entity) {
-                        entity.dealloc();
-                    }
-
-                    this._worldController.getWorld().DestroyBody(b);
-                    continue;
-                }
-
-
-				//if( Math.random() < 0.5 ) {
-					var birdComponent = new ChuClone.components.effect.BirdEmitterComponent();
-					birdComponent._count = 1;
-					entity.addComponentAndExecute( birdComponent );
-				//}
+				var birdComponent = new ChuClone.components.effect.BirdEmitterComponent();
+				birdComponent._count = 1;
+				entity.addComponentAndExecute(birdComponent);
 
 
 				var end = b.GetPosition();

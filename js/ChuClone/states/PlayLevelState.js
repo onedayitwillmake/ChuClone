@@ -32,6 +32,7 @@ Abstract:
         _currentTime    : 0,
         _previousTime   : 0,
         _elapsedTime    : 0,
+		_elapsedFrames	: 0,
 
         _lastTextUpdate : 0,
         
@@ -91,23 +92,22 @@ Abstract:
             var player = null;
 			var goalpad = null;
 
-			//for(var j = 0; j < 50; j++ ) {
-			//	var width = Math.random() * 100;
-			//	var height = Math.random() * 100;
-			//	var depth = Math.random() * 100 * 2;
-			//	var geometry = new THREE.CubeGeometry( width, height, depth );
-			//	var mesh = new THREE.Mesh( geometry, [new THREE.MeshLambertMaterial( {
-			//		color: 0xFFFFFF, shading: THREE.SmoothShading,
-			//		map : THREE.ImageUtils.loadTexture( ChuClone.model.Constants.SERVER.ASSET_PREFIX + "assets/images/game/floor.png" )
-			//	})] );
-			//	mesh.dynamic = false;
-			//	mesh.position.x = this._camera.position.x + ChuClone.utils.randFloat(1000, 14000);
-			//	mesh.position.y = this._camera.position.y + ChuClone.utils.randFloat(-2000, 3500);
-			//	mesh.position.z = this._camera.position.z - ChuClone.utils.randFloat(1000, 4000);
-			//
-             //   this._backgroundElements.push( mesh );
-			//	this._gameView.addObjectToScene( mesh );
-			//}
+			var width = 100000;
+			var geometry = new THREE.PlaneGeometry(width, 10000, 10, 1);
+
+			var mesh = new THREE.Mesh(geometry, [new THREE.MeshBasicMaterial({
+						color: 0xeeeeee, shading: THREE.FlatShading,
+						wireframe: true
+					})]);
+
+			var centerPosition = new THREE.Vector3(width/2, -500,0);
+			mesh.dynamic = false;
+			mesh.position.x = centerPosition.x;
+			mesh.position.y = centerPosition.y;
+			mesh.position.z = centerPosition.z;
+			mesh.rotation.x = 90 * Math.PI/180;
+
+				this._gameView.addObjectToScene(mesh);
 
             var node = this._worldController.getWorld().GetBodyList();
             this._player.getBody().SetActive( false );
@@ -215,6 +215,7 @@ Abstract:
             this._currentTime = 0;
             this._previousTime = 0;
             this._elapsedTime = 0;
+			this._elapsedFrames = 0;
 
             this._previousTime = Date.now();
 			this._recording = [];
@@ -240,10 +241,11 @@ Abstract:
          */
         update: function() {
             ChuClone.states.PlayLevelState.superclass.update.call(this);
-
+			  this._elapsedFrames++;
             this.updateTime();
 			this.updatePhysics();
             this._gameView.update( this._currentTime );
+
 
             // Don't update canvas clock every frame
             if( this._currentTime - this._lastTextUpdate > 128 ) {
@@ -252,6 +254,7 @@ Abstract:
             }
 
             this._worldController.update();
+
         },
 
 		/**
@@ -264,6 +267,7 @@ Abstract:
             this._currentTime = Date.now();
             this._elapsedTime += this._currentTime - this._previousTime;
             this._previousTime = this._currentTime;
+
         },
 
 		/**
@@ -309,6 +313,7 @@ Abstract:
              var playerRecord = null;
              if( recorder ) {
                  playerRecord = JSON.stringify( recorder.getRecord() );
+				 console.log(playerRecord)
                  this._player.removeComponentWithName( ChuClone.components.player.PlayerRecordComponent.prototype.displayName);
              }
 
@@ -444,7 +449,7 @@ Abstract:
 		/**
 		 * return @{type} Number The current _elapsedTime
 		 */
-		getCurrentTime: function() { return this._elapsedTime; }
+		getCurrentTime: function() { return this._elapsedFrames; }
 	};
 
     ChuClone.extend( ChuClone.states.PlayLevelState, ChuClone.states.ChuCloneBaseState );

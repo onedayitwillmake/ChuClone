@@ -62,7 +62,7 @@ Abstract:
 			focusComponent.getRadius().z = 4000;
 			gameCamera.addComponentAndExecute(focusComponent);
 
-
+			this._player.removeComponentWithName( ChuClone.components.player.CharacterControllerComponent.prototype.displayName  );
 		},
 
 		/**
