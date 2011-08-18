@@ -25,36 +25,30 @@ Abstract:
 	};
 
 	ChuClone.states.TitleScreenState.prototype = {
-        /**
-         * @type {ChuClone.GameViewController}
-         */
-        _gameView: null,
 		/**
 		 * @type {THREE.Camera}
 		 */
 		_camera: null,
 
-        /**
-         * @type {ChuClone.physics.WorldController}
+		/**
+         * @type {ChuClone.GameEntity}
          */
-        _worldController: null,
-
-        /**
-         * @type {ChuClone.editor.LevelManager}
-         */
-        _levelManager: null,
+        _player         : null,
 
 		/**
 		 * Store all tweens in here for removal on exit
 		 */
 		_tweenList: null,
+
         /**
          * @type {Array}    Array of our extra mesh items
          */
         _backgroundElements: [],
 
 		/**
-		 * When the game is created, it might create a TitleScreenState - however any other time a level is loaded, we listen for that and remove ourselves
+		 * When the game is created, it might create a TitleScreenState.
+		 * However if at any time a level is loaded, we listen for that and remove ourselves if _hasShown is true
+		 * @type {Boolean}
 		 */
 		_hasShown: false,
 
@@ -66,8 +60,6 @@ Abstract:
 		enter: function() {
 			ChuClone.states.TitleScreenState.superclass.enter.call(this);
 			ChuClone.states.PlayLevelState.prototype.removeEditContainer.call( this );
-
-            this.setupEvents();
 		},
 
         /**
@@ -100,7 +92,6 @@ Abstract:
             this.addListener( ChuClone.editor.LevelManager.prototype.EVENTS.LEVEL_DESTROYED, function( aLevelManager ) { that.onLevelDestroyed( aLevelManager ) } );
             this.addListener( ChuClone.components.player.CharacterControllerComponent.prototype.EVENTS.CREATED, function( aPlayer ) { that.onPlayerCreated(aPlayer) } );
             this.addListener( ChuClone.components.player.CharacterControllerComponent.prototype.EVENTS.REMOVED, function( aPlayer ) { that.onPlayerDestroyed(aPlayer) } );
-            this.addListener( ChuClone.components.GoalPadComponent.prototype.EVENTS.GOAL_REACHED, function( aGoalPad ) { that.onGoalReached( aGoalPad ) } );
         },
 
 
@@ -109,73 +100,31 @@ Abstract:
 		 */
 		animateIn: function() {
 
-			for(var j = 0; j < 50; j++ ) {
-				var width = Math.random() * 100;
-				var height = Math.random() * 100;
-				var depth = Math.random() * 100 * 2;
-				var geometry = new THREE.CubeGeometry( width, height, depth );
-				var mesh = new THREE.Mesh( geometry, [new THREE.MeshLambertMaterial( {
-					color: 0xFFFFFF, shading: THREE.SmoothShading,
-					map : THREE.ImageUtils.loadTexture( ChuClone.model.Constants.SERVER.ASSET_PREFIX + "assets/images/game/floor.png" )
-				})] );
-				mesh.dynamic = false;
-				mesh.position.x = this._camera.position.x + ChuClone.utils.randFloat(1000, 14000);
-				mesh.position.y = this._camera.position.y + ChuClone.utils.randFloat(-2000, 3500);
-				mesh.position.z = this._camera.position.z - ChuClone.utils.randFloat(1000, 4000);
+			this._backgroundElements = this.createBackgroundElements(50, true, this._camera.position, new THREE.Vector3(10000, 2000, 4000), new THREE.Vector3(100, 100, 200) );
 
-                this._backgroundElements.push( mesh );
-				this._gameView.addObjectToScene( mesh );
-			}
-          
 			// Animate all bodys that have a corresponding entity
 			/**
              * @type {Box2D.Dynamics.b2Body}
              */
             var node = this._worldController.getWorld().GetBodyList();
-			i = 0;
-            while(node) {
-
-				i++;
-                var b = node;
-                node = node.GetNext();
+			var i = 0;
+			while (node)  {
+				var b = node;
+				node = node.GetNext();
 
 
 				/**
 				 * @type {ChuClone.GameEntity}
 				 */
 				var entity = b.GetUserData();
-				if (!(entity instanceof ChuClone.GameEntity) ) continue;
-				if( entity.getComponentWithName(ChuClone.components.player.CharacterControllerComponent.prototype.displayName) ) continue;
+				if (!(entity instanceof ChuClone.GameEntity)) continue;
+				if (entity.getComponentWithName(ChuClone.components.player.CharacterControllerComponent.prototype.displayName)) continue;
 				entity.getView().visible = false;
 
 
-                if( i > 5000 ) {
-
-
-                    var b = entity.getBody();
-                    if (!entity) {
-                        this._worldController.getWorld().DestroyBody(b);
-                        continue;
-                    }
-
-                    if ("getView" in entity) {
-                        this._gameView.removeObjectFromScene(entity.getView());
-                    }
-
-                    if ("dealloc" in entity) {
-                        entity.dealloc();
-                    }
-
-                    this._worldController.getWorld().DestroyBody(b);
-                    continue;
-                }
-
-
-				//if( Math.random() < 0.5 ) {
-					var birdComponent = new ChuClone.components.effect.BirdEmitterComponent();
-					birdComponent._count = 1;
-					entity.addComponentAndExecute( birdComponent );
-				//}
+				var birdComponent = new ChuClone.components.effect.BirdEmitterComponent();
+				birdComponent._count = 1;
+				entity.addComponentAndExecute(birdComponent);
 
 
 				var end = b.GetPosition();
@@ -224,37 +173,38 @@ Abstract:
 				this._camera.position = new THREE.Vector3(this.propProxy.posX, this.propProxy.posY, this.propProxy.posZ);
 			}
 
-            /**
-             * @type {Box2D.Dynamics.b2Body}
-             */
-            var node = this._worldController.getWorld().GetBodyList();
-            while(node) {
-                var b = node;
-                node = node.GetNext();
-                /**
-                 * @type {ChuClone.GameEntity}
-                 */
-                var entity = b.GetUserData();
-                if(entity)
-                    entity.update();
-
-//				if(b.tween) {
-//					console.log("d")
-//					b.SetPosition( new Box2D.Common.Math.b2Vec2(b.tween.x, b.tween.y))
-//				}
-            }
-
+			this.updatePhysics();
             this._gameView.update( this._currentTime );
             this._worldController.update();
         },
 
         /**
+		 * Sets up the camera
+		 */
+		setupCamera: function() {
+			// Attach a few gameplay related components to the camera
+			this._camera = this._gameView.getCamera();
+
+			// Allow rotation about target
+			this._camera.target.position = new THREE.Vector3(0, 100, 0);
+
+			var focusComponent = new ChuClone.components.camera.CameraFocusRadiusComponent();
+			this._camera.addComponentAndExecute(focusComponent);
+			focusComponent.getRadius().x = 2000;
+			focusComponent.getRadius().y = -1000;
+			focusComponent.getRadius().z = 1000;
+
+			this.setupGUI();
+
+		},
+
+		  /**
 		 * Called when a goal is hit
 		 * @param {ChuClone.editor.LevelManager} aLevelManager
 		 */
 		onLevelLoaded: function( aLevelManager ) {
 			if(this._hasShown) {
-				this.pushPlayLevelState();
+				this.pushPlayLevelState( aLevelManager );
 				return;
 			}
 			this._hasShown = true;
@@ -281,36 +231,16 @@ Abstract:
             this._backgroundElements = [];
 		},
 
-        /**
-		 * Sets up the camera
-		 */
-		setupCamera: function() {
-			// Attach a few gameplay related components to the camera
-			this._camera = this._gameView.getCamera();
-
-			// Allow rotation about target
-			this._camera.target.position = new THREE.Vector3(0, 100, 0);
-
-			var focusComponent = new ChuClone.components.camera.CameraFocusRadiusComponent();
-			this._camera.addComponentAndExecute(focusComponent);
-			focusComponent.getRadius().x = 2000;
-			focusComponent.getRadius().y = -1000;
-			focusComponent.getRadius().z = 1000;
-
-			this.setupGUI();
-
-		},
-
 		/**
 		 * We dont want a player object, but its part of all levels, so we'll just get rid of it when its loaded
 		 * @param aPlayer
 		 */
         onPlayerCreated: function( aPlayer ) {
-            this._gameView.removeObjectFromScene( aPlayer.getView() );
-
-            var playerbody = aPlayer.getBody();
-            aPlayer.dealloc();
-            this._worldController.getWorld().DestroyBody( playerbody );
+            //this._gameView.removeObjectFromScene( aPlayer.getView() );
+			//
+			//var playerbody = aPlayer.getBody();
+			//aPlayer.dealloc();
+			//this._worldController.getWorld().DestroyBody( playerbody );
         },
 
         onPlayerDestroyed: function( aPlayer ) {
@@ -329,6 +259,7 @@ Abstract:
 			var playLevelState = new ChuClone.states.PlayLevelState();
 			playLevelState._gameView = this._gameView;
 			playLevelState._worldController = this._worldController;
+			playLevelState._levelManager = this._levelManager;
 			playLevelState.onLevelLoaded();
 			ChuClone.model.FSM.StateMachine.getInstance().changeState(playLevelState);
 		},
@@ -362,11 +293,10 @@ Abstract:
          * @inheritDoc
          */
         dealloc: function() {
-            this._worldController = null;
-            this._gameView = null;
-            this._player = null;
-        },
+			this._player = null;
+			ChuClone.states.TitleScreenState.superclass.dealloc.call(this);
+        }
 	};
 
-    ChuClone.extend( ChuClone.states.TitleScreenState, ChuClone.model.FSM.State );
+    ChuClone.extend( ChuClone.states.TitleScreenState, ChuClone.states.ChuCloneBaseState);
 })();

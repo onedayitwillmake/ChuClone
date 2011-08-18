@@ -24,16 +24,6 @@ Abstract:
 
 	ChuClone.states.EndLevelState.prototype = {
         /**
-         * @type {ChuClone.GameViewController}
-         */
-        _gameView: null,
-
-        /**
-         * @type {ChuClone.physics.WorldController}
-         */
-        _worldController: null,
-
-        /**
          * @type {ChuClone.GameEntity}
          */
         _player         : null,
@@ -53,13 +43,50 @@ Abstract:
 		 */
 		enter: function() {
 			ChuClone.states.EndLevelState.superclass.enter.call(this);
-            this._gameView.getCamera().removeAllComponents();
-            this.setupEvents();
+
+			var gameCamera = this._gameView.getCamera();
+			gameCamera.removeAllComponents();
+
+			// Let's find the radius of the level
+			 var node = this._worldController.getWorld().GetBodyList();
+            while(node) {
+                var b = node;
+                node = node.GetNext();
+			}
+
+			// Allow rotation about target
+			var focusComponent = new ChuClone.components.camera.CameraOrbitRadiusComponent();
+			focusComponent.setTarget( this._player.getView().position );
+			focusComponent.getRadius().x = 4000;
+			focusComponent.getRadius().y = 2000;
+			focusComponent.getRadius().z = 4000;
+			gameCamera.addComponentAndExecute(focusComponent);
+
+			this._player.removeComponentWithName( ChuClone.components.player.CharacterControllerComponent.prototype.displayName  );
 		},
 
+		/**
+		 * @inheritDoc
+		 */
         setupEvents: function() {
-            console.log("setting up events")
-        },
+			var that = this;
+
+            this.addListener( ChuClone.editor.LevelManager.prototype.EVENTS.LEVEL_DESTROYED, function( aLevelManager ) {
+				//that.onLevelDestroyed( aLevelManager )
+				console.log("EndLevelState >> LeveLDestroyed!");
+				ChuClone.gui.LevelRecap.destroy();
+				that._gameView.getCamera().removeComponentWithName( ChuClone.components.camera.CameraFocusRadiusComponent.prototype.displayName );
+
+				/**
+				 * @type {ChuClone.states.PlayLevelState}
+				 */
+				var playLevelState = new ChuClone.states.PlayLevelState();
+				playLevelState._gameView = that._gameView;
+				playLevelState._worldController = that._worldController;
+				playLevelState._levelManager = that._levelManager;
+				ChuClone.model.FSM.StateMachine.getInstance().changeState(playLevelState);
+			} );
+		},
 
         /**
          * @inheritDoc
@@ -67,42 +94,70 @@ Abstract:
         update: function() {
             ChuClone.states.EndLevelState.superclass.update.call(this);
 
-            /**
-             * @type {Box2D.Dynamics.b2Body}
-             */
-            var node = this._worldController.getWorld().GetBodyList();
-            while(node) {
-                var b = node;
-                node = node.GetNext();
-                /**
-                 * @type {ChuClone.GameEntity}
-                 */
-                var entity = b.GetUserData();
-                if(entity)
-                    entity.update();
-            }
-
+            this.updatePhysics();
             this._worldController.update();
             this._gameView.update( Date.now() );
         },
+
+
+		/**
+		 * Submits a score for this run
+		 */
+        submitScore: function() {
+            var request = new XMLHttpRequest();
+			var that = this;
+
+            // Using window['FormData'] for now because intelli-j doesn't recognize FormData as a HTML5 object
+			var formData = new window['FormData']();
+			formData.append("score", this._completionTime);
+			formData.append("record", this._record);
+
+			request.onreadystatechange = function() {
+				if (request.readyState == 4) {
+
+					ChuClone.gui.LevelRecap.show( that._completionTime, that._levelManager.getModel().levelName );
+
+					// Invalid JSON returned - probably has validation errors
+					try {
+						var result = JSON.parse(request.responseText)[0];
+					} catch (e) {
+						ChuClone.utils.displayFlash( ChuClone.utils.getValidationErrors( request.responseText ), 0);
+						return;
+					}
+
+					if (result.status == false) {
+						ChuClone.utils.displayFlash( result.notice + " - Score not saved", 0);
+					} else {
+						ChuClone.utils.displayFlash("Highscore Saved", 1);
+					}
+
+
+				}
+			};
+
+
+            var scoreurl = ChuClone.model.Constants.SERVER.SCORE_SUBMIT_LOCATION.replace("#", window.location.href.match(/[\/](\d+)/)[1]);
+			request.open("POST", scoreurl);
+			request.send(formData);
+        },
+
 
         /**
          * @inheritDoc
          */
         exit: function() {
             ChuClone.states.EndLevelState.superclass.exit.call(this);
-            this.dealloc();
         },
 
         /**
          * @inheritDoc
          */
         dealloc: function() {
-			this._gameView = null;
+			ChuClone.states.EndLevelState.superclass.dealloc.call(this);
 			this._player = null;
-			this._worldController = null;
         },
 
+		///// ACCESSORS
 		/**
 		 * Sets the current _playerEntity
 		 * @param {ChuClone.GameEntity} aPlayer
@@ -128,42 +183,8 @@ Abstract:
             }
             this._record = aRecord;
             this.submitScore();
-        },
-
-        submitScore: function() {
-            var request = new XMLHttpRequest();
-			var that = this;
-
-            // Using window['FormData'] for now because intelli-j doesn't recognize FormData as a HTML5 object
-			var formData = new window['FormData']();
-			formData.append("score", this._completionTime);
-			formData.append("record", this._record);
-
-			request.onreadystatechange = function() {
-				if (request.readyState == 4) {
-
-					// Invalid JSON returned - probably has validation errors
-					try {
-						var result = JSON.parse(request.responseText)[0];
-					} catch (e) {
-						ChuClone.utils.displayFlash( ChuClone.utils.getValidationErrors( request.responseText ), 0);
-						return;
-					}
-
-					if (result.status == false) {
-						ChuClone.utils.displayFlash( ChuClone.utils.getValidationErrorsFromJSON( result.notice ), 0);
-					} else {
-						ChuClone.utils.displayFlash("Save To Server Success:", 1);
-					}
-				}
-			};
-
-            
-            var scoreurl = ChuClone.model.Constants.SERVER.SCORE_SUBMIT_LOCATION.replace("#", window.location.href.match(/[\/](\d+)/)[1]);
-			request.open("POST", scoreurl);
-			request.send(formData);
         }
 	};
 
-    ChuClone.extend( ChuClone.states.EndLevelState, ChuClone.model.FSM.State );
+    ChuClone.extend( ChuClone.states.EndLevelState, ChuClone.states.ChuCloneBaseState );
 })();

@@ -104,9 +104,9 @@ postprocessing.blurx = new THREE.Vector2( blurAmount, 0.0 ),
 //        this.setupBackgroundParticleManager();
 //        this.setupBloom();
         this.setupStats();
-
-
         this.onSetupComplete();
+
+        ChuClone.GameViewController.INSTANCE = this;
     };
 
     ChuClone.GameViewController.prototype = {
@@ -208,7 +208,7 @@ postprocessing.blurx = new THREE.Vector2( blurAmount, 0.0 ),
          * Setup the camera
          */
         setupCamera: function() {
-            this._camera = new THREE.Camera( 65, 900/400, 1, 20000 );
+            this._camera = new THREE.Camera( 65, 900/400, 1, 22000 );
             this._camera.position.y = 100;
             this._camera.position.z = 1300;
 //            this._camera._isFullScreen = this._isFullScreen;

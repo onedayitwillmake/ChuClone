@@ -99,6 +99,23 @@
             this._gui.open();
         },
 
+		/**
+		 * Sets up callbacks for events - PlayerCreated, 'LevelDestroyed'
+		 */
+		 setupEvents: function() {
+            var that = this;
+
+			// PLAYER CREATED
+            ChuClone.Events.Dispatcher.addListener(ChuClone.components.player.CharacterControllerComponent.prototype.EVENTS.CREATED, function( aPlayer ) {
+                that._player = aPlayer;
+            });
+
+            // LEVEL DESTROYED
+            ChuClone.Events.Dispatcher.addListener(ChuClone.editor.LevelManager.prototype.EVENTS.LEVEL_DESTROYED, function( aLevelModel ) {
+                that._controls['type'].domElement.childNodes[1].selectedIndex = 0;
+            });
+        },
+
 
 		/**
 		 * Wraps callback for fullscreen toggle
@@ -106,10 +123,10 @@
 		setupFullscreenToggle: function() {
 
 			// Store styles
-            ChuClone.utils.styleMemoizer.rememberStyle( "flash_notice" );
-            ChuClone.utils.styleMemoizer.rememberStyle( "editorContainer" );
-			ChuClone.utils.styleMemoizer.rememberStyle( "levelName" );
-			ChuClone.utils.styleMemoizer.rememberStyle( "HUDTime" );
+            ChuClone.utils.StyleMemoizer.rememberStyle( "flash_notice" );
+            ChuClone.utils.StyleMemoizer.rememberStyle( "editorContainer" );
+			ChuClone.utils.StyleMemoizer.rememberStyle( "levelName" );
+			ChuClone.utils.StyleMemoizer.rememberStyle( "HUDTime" );
 
 			//
 			var that = this;
@@ -141,10 +158,10 @@
 					flashNotice.style.opacity = 0.75;
 					flashNotice.style.top = parseInt(editorContainer.style.top) - flashNotice.clientHeight - 10 + "px"
 				} else {
-					ChuClone.utils.styleMemoizer.restoreStyle( "flash_notice" );
-					ChuClone.utils.styleMemoizer.restoreStyle( 'editorContainer' );
-					ChuClone.utils.styleMemoizer.restoreStyle( 'levelName' );
-					ChuClone.utils.styleMemoizer.restoreStyle( 'HUDTime' );
+					ChuClone.utils.StyleMemoizer.restoreStyle( "flash_notice" );
+					ChuClone.utils.StyleMemoizer.restoreStyle( 'editorContainer' );
+					ChuClone.utils.StyleMemoizer.restoreStyle( 'levelName' );
+					ChuClone.utils.StyleMemoizer.restoreStyle( 'HUDTime' );
 				}
 			});
 		},
@@ -156,11 +173,6 @@
 		 */
         onCamTypeChange: function( selectedIndex ) {
 
-			// Reset camera
-//			for(var i = 0; i < this._camTypes.length; i++) {
-//				if(!this._camTypes[i]) continue;
-//				this._camera.removeComponentWithName( this._camTypes[i].prototype.displayName );
-//			}
             this._camera.removeAllComponents();
 
 			// NULL was selected
@@ -172,9 +184,10 @@
             var component = new this._camTypes[selectedIndex];
             this._camera.addComponentAndExecute( component );
 
-            if( selectedIndex == 1 ) {
+            if( this._camTypes[selectedIndex] == ChuClone.components.camera.CameraFollowEditorComponent ) {
                 component.setDebugDraw( this._debugDraw );
-            } else if ( selectedIndex == 2 ) {
+            } else if ( this._camTypes[selectedIndex] == ChuClone.components.camera.CameraFollowPlayerComponent ) {
+				component._damping = 0.25;
                 component.setPlayer( this._player );
             }
 
@@ -198,19 +211,6 @@
 			var focusRadiusComponent = this._camera.getComponentWithName( ChuClone.components.camera.CameraFocusRadiusComponent.prototype.displayName );
 				focusRadiusComponent.getRadius()[guiController.propertyName] = guiController.getValue();
 		},
-
-        setupEvents: function() {
-            var that = this;
-            ChuClone.Events.Dispatcher.addListener(ChuClone.components.player.CharacterControllerComponent.prototype.EVENTS.CREATED, function( aPlayer ) {
-                that._player = aPlayer;
-//                that.onPlayerCreated( aPlayer );
-            });
-
-            // LEVEL DESTROYED
-            ChuClone.Events.Dispatcher.addListener(ChuClone.editor.LevelManager.prototype.EVENTS.LEVEL_DESTROYED, function( aLevelModel ) {
-                that._controls['type'].domElement.childNodes[1].selectedIndex = 0;
-            });
-        },
 
         /**
          * Deallocate resources

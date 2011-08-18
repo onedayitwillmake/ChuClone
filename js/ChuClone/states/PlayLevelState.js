@@ -32,6 +32,7 @@ Abstract:
         _currentTime    : 0,
         _previousTime   : 0,
         _elapsedTime    : 0,
+		_elapsedFrames	: 0,
 
         _lastTextUpdate : 0,
         
@@ -79,19 +80,38 @@ Abstract:
             // Hide the camera before we animate in
             this._gameView.getCamera().position = new THREE.Vector3(-10000, -10000, -10000);
 
+			// Reset achievement tracker
+			ChuClone.model.AchievementTracker.getInstance().reset();
+
             this._didAnimateIn = false;
             this._beatLevel = false;
             this._previousTime = Date.now();
-            this.setupEvents();
 		},
 
         animateIn: function() {
-            //this.animateInComplete();
-            //return;
-            var player, goalpad;
+            var player = null;
+			var goalpad = null;
+
+			var width = 100000;
+			var geometry = new THREE.PlaneGeometry(width, 10000, 10, 1);
+
+			var mesh = new THREE.Mesh(geometry, [new THREE.MeshBasicMaterial({
+						color: 0xeeeeee, shading: THREE.FlatShading,
+						wireframe: true
+					})]);
+
+			var centerPosition = new THREE.Vector3(width/2, -500,0);
+			mesh.dynamic = false;
+			mesh.position.x = centerPosition.x;
+			mesh.position.y = centerPosition.y;
+			mesh.position.z = centerPosition.z;
+			mesh.rotation.x = 90 * Math.PI/180;
+
+				this._gameView.addObjectToScene(mesh);
 
             var node = this._worldController.getWorld().GetBodyList();
             this._player.getBody().SetActive( false );
+
             while(node) {
 
                 var b = node;
@@ -121,8 +141,8 @@ Abstract:
 				b.SetPosition(new Box2D.Common.Math.b2Vec2(start.x, start.y))
 				entity.getView().position.z = start.z;
 				entity.getView().visible = true;
-                var animationTime = 2000;
-                var variation = 400;
+                var animationTime = 1000;
+                var variation = 200;
 
 				var tween = new TWEEN.Tween(prop)
 						.to({x: end.x, y: end.y, z: end.z}, animationTime)
@@ -145,18 +165,25 @@ Abstract:
          * @param {Number} duration
          */
         animateCameraIn: function( player, goalpad, duration) {
+
             var that = this;
 
+
+			var delta = new THREE.Vector3();
+			delta.add(player.getView().position, goalpad.getView().position)
+			//delta.multiplyScalar(0.5);
+
+
             var cam = this._gameView.getCamera();
-            var camStart = goalpad.getView().position.clone();
-            camStart.x += 1000;
-            camStart.y += 5000;
-            camStart.z += 1500;
+            var camStart = delta;
+            camStart.x += 0;
+            //camStart.y += 3000;
+            camStart.z += 0;
 
             var camEnd = player.getView().position.clone();
-            camEnd.x -= 1000;
-            camEnd.y += 1000;
-            camEnd.z += 1000;
+            //camEnd.x = 1000;
+            //camEnd.y += 1000;
+            //camEnd.z += 1000;
 
             // Temporarily remove the components - we'll set them back when we're done animating
             var components = cam.getComponents();
@@ -175,9 +202,9 @@ Abstract:
                 .onComplete(function() {
                     cam.components = components;
                     that.animateInComplete();
+					cam.getComponentWithName(ChuClone.components.camera.CameraFocusRadiusComponent.prototype.displayName)._mousePosition.x = 3.5
                 })
-                .delay(1000)
-                .easing(TWEEN.Easing.Sinusoidal.EaseInOut)
+                .easing(TWEEN.Easing.Quadratic.EaseInOut)
                 .start();
         },
 
@@ -188,6 +215,7 @@ Abstract:
             this._currentTime = 0;
             this._previousTime = 0;
             this._elapsedTime = 0;
+			this._elapsedFrames = 0;
 
             this._previousTime = Date.now();
 			this._recording = [];
@@ -213,27 +241,11 @@ Abstract:
          */
         update: function() {
             ChuClone.states.PlayLevelState.superclass.update.call(this);
+			  this._elapsedFrames++;
             this.updateTime();
-
-            var fixedTimeStepAccumulatorRatio = this._worldController.getFixedTimestepAccumulatorRatio();
-            
-            /**
-             * @type {Box2D.Dynamics.b2Body}
-             */
-            var node = this._worldController.getWorld().GetBodyList();
-            while(node) {
-                var b = node;
-                node = node.GetNext();
-                /**
-                 * @type {ChuClone.GameEntity}
-                 */
-                var entity = b.GetUserData();
-                if(entity)
-                    entity.update( fixedTimeStepAccumulatorRatio );
-            }
-
-
+			this.updatePhysics();
             this._gameView.update( this._currentTime );
+
 
             // Don't update canvas clock every frame
             if( this._currentTime - this._lastTextUpdate > 128 ) {
@@ -242,6 +254,7 @@ Abstract:
             }
 
             this._worldController.update();
+
         },
 
 		/**
@@ -254,6 +267,7 @@ Abstract:
             this._currentTime = Date.now();
             this._elapsedTime += this._currentTime - this._previousTime;
             this._previousTime = this._currentTime;
+
         },
 
 		/**
@@ -299,6 +313,7 @@ Abstract:
              var playerRecord = null;
              if( recorder ) {
                  playerRecord = JSON.stringify( recorder.getRecord() );
+				 console.log(playerRecord)
                  this._player.removeComponentWithName( ChuClone.components.player.PlayerRecordComponent.prototype.displayName);
              }
 
@@ -308,6 +323,7 @@ Abstract:
              var endLevelState = new ChuClone.states.EndLevelState();
              endLevelState._gameView = this._gameView;
              endLevelState._worldController = this._worldController;
+			 endLevelState._levelManager = this._levelManager;
              endLevelState.setPlayer( this._player );
              endLevelState.setTime( this._elapsedTime );
              endLevelState.setRecord( playerRecord );
@@ -334,6 +350,11 @@ Abstract:
             this.animateIn();
         },
 
+		/**
+		 * Dispatched when a player is destroyed.
+		 * Removes _player reference
+		 * @param {ChuClone.GameEntity} aPlayer
+		 */
         onPlayerDestroyed: function( aPlayer ) {
             if( aPlayer === this._player ) {
                 this._player = null;
@@ -363,6 +384,7 @@ Abstract:
                 var playLevelState = new ChuClone.states.PlayLevelState();
                 playLevelState._gameView = this._gameView;
                 playLevelState._worldController = this._worldController;
+                playLevelState._levelManager = this._levelManager;
                 ChuClone.model.FSM.StateMachine.getInstance().changeState(playLevelState);
             }
 
@@ -398,21 +420,19 @@ Abstract:
          * @inheritDoc
          */
         exit: function() {
-            ChuClone.states.PlayLevelState.superclass.exit.call(this);
             clearTimeout( this._animateInTimeout );
 
             this._gameView.getCamera().removeComponentWithName( ChuClone.components.camera.CameraFollowPlayerComponent.prototype.displayName );
 			this._gameView.getCamera().removeComponentWithName( ChuClone.components.camera.CameraFocusRadiusComponent.prototype.displayName );
-            this.removeAllListeners();
+			ChuClone.states.PlayLevelState.superclass.exit.call(this);
         },
 
         /**
          * @inheritDoc
          */
         dealloc: function() {
-            this._worldController = null;
-            this._gameView = null;
-            this._player = null;
+			this._player = null;
+			ChuClone.states.PlayLevelState.superclass.dealloc.call(this);
         },
 
 
@@ -429,8 +449,8 @@ Abstract:
 		/**
 		 * return @{type} Number The current _elapsedTime
 		 */
-		getCurrentTime: function() { return this._elapsedTime; }
+		getCurrentTime: function() { return this._elapsedFrames; }
 	};
 
-    ChuClone.extend( ChuClone.states.PlayLevelState, ChuClone.model.FSM.State );
+    ChuClone.extend( ChuClone.states.PlayLevelState, ChuClone.states.ChuCloneBaseState );
 })();

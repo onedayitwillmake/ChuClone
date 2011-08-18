@@ -19,7 +19,6 @@
 (function() {
     ChuClone.namespace("ChuClone");
     ChuClone.utils = {
-
         /**
          * Reads window.location and returns the current working directory
          * @return {String} Current URL path
@@ -185,10 +184,13 @@
 
             var flashNotice = document.getElementById("flash_notice");
             if (!flashNotice) {
-                logLevels[level]("ChuClone.Utils.displayFlash", message);
+				// TODO: logLevels[level]('someString') causes 'IllegalInvocation error in chrome
+				//logLevels[level]("ChuClone.Utils.displayFlash", message);
+				if(level == 1) console.info("ChuClone.Utils.displayFlash", message);
+				else if (level == 0) console.error("ChuClone.Utils.displayFlash", message);
+
                 return;
             }
-
             var output = message;
             if(message instanceof Array) {
                 output = ''; // Set as empty string
@@ -198,7 +200,7 @@
             } else {
             }
 
-            flashNotice.innerHTML = output;
+            flashNotice.innerText = output;
 
 			// Fade back to white
             new TWEEN.Tween(colorLevels[level])
@@ -211,39 +213,50 @@
         },
 
 		/**
-		 * Utility functions to store styles before modification, and restore them after.
-		 * For example when toggling fullscreen mode
+		 * Hides all children of an element, except ones in the exception list
+		 * @param {HTMLElement} anElement
+		 * @param {Array} exceptionList
 		 */
-		styleMemoizer: (function() {
-			var props = ['z-index', 'position', 'top', 'left'];
-			var storedStyles = {};
-
-			var rememberStyle = function(id) {
-				storedStyles[id] = {};
-				var element = document.getElementById(id);
-				for (var i = 0; i < props.length; i++) {
-					var prop = props[i];
-					storedStyles[id][prop] = window.getComputedStyle(element).getPropertyValue(prop);
+		hideAllChildren: function( anElement, exceptionList ) {
+			for (var j = 0; j < anElement.children.length; j++) {
+				if ( exceptionList.indexOf(anElement.children[j]) === -1) {
+					anElement.children[j].style.display = "none";
 				}
-			};
-
-			var restoreStyle = function(id) {
-				if (!storedStyles[id]) {
-					console.error("ChuClone.utils.styleMemoizer - Cannot restore style, none found!");
-					return;
-				}
-
-				var element = document.getElementById(id);
-				for (var i = 0; i < props.length; i++) {
-					var prop = props[i];
-					element.style[prop] = storedStyles[id][prop];
-				}
-			};
-
-			return {
-				rememberStyle: rememberStyle,
-				restoreStyle: restoreStyle
 			}
-		})()
+		},
+
+		/**
+		 * Unhides all children in an element, except ones in the exception list
+		 * @param {HTMLElement} anElement
+		 * @param {Array} exceptionList
+		 */
+		unhideAllChildren: function( anElement, exceptionList ) {
+			for (var j = 0; j < anElement.children.length; j++) {
+				if (!exceptionList || exceptionList.indexOf(anElement.children[j]) != -1) {
+					anElement.children[j].style.display = "";
+				}
+			}
+		},
+
+		/**
+		 * Animates all the children of a container from below, to create a staggered sliding up animation
+		 * @param {HTMLElement} aContainer
+		 */
+		animateChildrenInFromBelow: function( aContainer ) {
+			for( var i = 0; i < aContainer.children.length; i++){
+				var child = aContainer.children[i];
+				child.style.top = '0px';
+				child.style.position = 'relative';
+
+				// START FROM BELOW
+				new TWEEN.Tween({target: child, pos: 150, original: parseInt(child.style.top)})
+					.to({pos: 0}, i*20 + 500)
+					.easing( TWEEN.Easing.Sinusoidal.EaseInOut )
+					.onUpdate( function(){
+							this.target.style.top = Math.round(this.original + this.pos) + "px";
+						})
+					.start();
+			}
+		}
     };
 })();

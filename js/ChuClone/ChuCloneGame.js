@@ -115,12 +115,30 @@
 
             // MAIN LOOP
             var that = this;
-            (function loop() {
-                that.update();
-				TWEEN.update();
-//				setTimeout( loop, 1000/60 );
-                window.requestAnimationFrame( loop, null );
-            })();
+
+
+			var devTemp = false;
+			// During debuging with canary - i have to wrap the loop in a try catch because of a webgl error
+			// Not to be used in production build!
+			if (devTemp) {
+				(function loop() {
+					try {
+						that.update();
+						TWEEN.update();
+						window.requestAnimationFrame(loop);
+
+					} catch(e) {
+						console.log("ERROR", e)
+						window.requestAnimationFrame(loop);
+					}
+				})();
+			} else {
+				(function loop() {
+						that.update();
+						TWEEN.update();
+						window.requestAnimationFrame(loop);
+				})();
+			}
         },
 
         /**

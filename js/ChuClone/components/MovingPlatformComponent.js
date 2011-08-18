@@ -288,6 +288,8 @@ Math.easeOutQuad = function (t, b, c, d) {
 
 				this._range = new b2Vec2(data.range.x, data.range.y);
 				this._offset = data.offset;
+				if(this._offset == 0) this._offset = 0.01;
+				if(this._offset == 1) this._offset = 0.99;
 				this._speed = new b2Vec2(data.speed, data.speed);
 			} else {
 				this._range = new b2Vec2(data.range.x, data.range.y);

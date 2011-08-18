@@ -75,6 +75,7 @@
          * @inheritDoc
          */
         attach: function( anEntity ) {
+
             ChuClone.components.effect.BirdEmitterComponent.superclass.attach.call(this, anEntity);
 
             this._parent = this.attachedEntity.getView().parent;
@@ -84,7 +85,7 @@
 
             var start = this.attachedEntity.getView().position.clone();
 
-            this._count = 0;
+
             for(var i = 0; i < this._count; i++ ) {
                 var bird = this._birds[ i ] = new THREE.Mesh( new Bird(), new THREE.MeshBasicMaterial( {
                     color:Math.random() * 0x222222 + 0xDDDDDD
@@ -119,7 +120,7 @@
                 bird.position.y += Math.sin(bird.phase) * 4 + 1;
 
 				if(bird.position.x > this.attachedEntity.getView().position.x + 6000) {
-					bird.position.x = this.attachedEntity.getView().position.x - Math.random() * 1000;
+					bird.position.x = this.attachedEntity.getView().position.x - Math.random() * 2000;
 					bird.position.y = this.attachedEntity.getView().position.y + Math.random() * 1000;
 
 					var range = 600;

@@ -24,21 +24,6 @@ Abstract:
 
 	ChuClone.states.EditState.prototype = {
         /**
-         * @type {ChuClone.GameViewController}
-         */
-        _gameView: null,
-
-        /**
-         * @type {ChuClone.physics.WorldController}
-         */
-        _worldController: null,
-
-        /**
-         * @type {ChuClone.editor.LevelManager}
-         */
-        _levelManager: null,
-
-        /**
          * @type {ChuClone.GameEntity}
          */
         _player         : null,
@@ -51,10 +36,14 @@ Abstract:
 
 
 			this._worldController.setDebugDraw();
-			this._worldController.setupEditor( this._gameView );
-			this._levelManager.setupGui();
 
-            this.setupEvents();
+			var that = this;
+
+			// Waiting for stuff to be ready hack - there's a bug in DAT.GUI if you try to set it up too early in the page load
+			setTimeout(function(){
+				that._worldController.setupEditor( that._gameView );
+				that._levelManager.setupGui();
+			}, 100);
 		},
 
         setupEvents: function() {
@@ -75,22 +64,7 @@ Abstract:
          */
         update: function() {
             ChuClone.states.EditState.superclass.update.call(this);
-
-            /**
-             * @type {Box2D.Dynamics.b2Body}
-             */
-            var node = this._worldController.getWorld().GetBodyList();
-            while(node) {
-                var b = node;
-                node = node.GetNext();
-                /**
-                 * @type {ChuClone.GameEntity}
-                 */
-                var entity = b.GetUserData();
-                if(entity)
-                    entity.update();
-            }
-
+			this.updatePhysics();
             this._worldController.update();
             this._gameView.update( Date.now() );
         },
@@ -100,8 +74,6 @@ Abstract:
          */
         exit: function() {
             ChuClone.states.EditState.superclass.exit.call(this);
-
-
         },
 
         /**
@@ -114,12 +86,16 @@ Abstract:
 
 		/**
 		 * Called when a player is destroyed
-		 * @param aPlayer
+		 * @param {ChuClone.GameEntity} aPlayer
 		 */
 		onPlayerDestroyed: function( aPlayer ) {
 			console.log("ChuCloneGame.onPlayerDestroyed:", aPlayer);
 		},
 
+		/**
+		 * Called when a level has been created/loaded
+		 * @param {ChuClone.editor.LevelManager} aLevelManager
+		 */
 		onLevelCreated: function( aLevelManager ) {
 			this._worldController.createBox2dWorld();
 			console.log("ChuCloneGame.onLevelCreated:", aLevelManager);
@@ -135,9 +111,10 @@ Abstract:
          * @inheritDoc
          */
         dealloc: function() {
-
+			ChuClone.states.EditState.dealloc.exit.call(this);
+			this._player = null;
         }
 	};
 
-    ChuClone.extend( ChuClone.states.EditState, ChuClone.model.FSM.State );
+    ChuClone.extend( ChuClone.states.EditState, ChuClone.states.ChuCloneBaseState );
 })();

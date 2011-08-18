@@ -119,7 +119,7 @@ Version:
 		/**
 		 * Called when ServerNetChannel has accepted your connection and given you a client id
 		 * This is only called once, use the info to set some properties
-		 */
+		 */ 
 		onSocketDidAcceptConnection: function(  aNetChannelMessage ) {
 
 			// Should not have received this msg

@@ -86,6 +86,7 @@ Abstract:
             if (this._input._keyStates.up && this._jumpCheckComponent._canJump) {
                 force.y = -1;
                 this._jumpCheckComponent._canJump = false;
+				ChuClone.model.AchievementTracker.getInstance().startTrackingJump();
 
             } else if (this._input._keyStates.down) force.y = 0.25;
 

@@ -23,7 +23,7 @@ Version:
 
 		SERVER_SETTING: {
 			CLIENT_ID	: 0,						// If an object has a client id of zero, that means it is owned by the serverm
-			SOCKET_ADDRESS: "10.29.62.170",
+			SOCKET_ADDRESS: "10.0.2.1",
 			SOCKET_PORT	: 8081
 		},
 

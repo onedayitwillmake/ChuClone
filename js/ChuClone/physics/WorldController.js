@@ -227,6 +227,11 @@
 				fixedTimestepAccumulatorRatio_ = 1;
 				this._world.Step(FIXED_TIMESTEP, 5, 3);
 				this._world.ClearForces();
+
+				if(this._debugDraw) {
+					this._world.DrawDebugData();
+				}
+
 				return;
 			}
             var now = Date.now();

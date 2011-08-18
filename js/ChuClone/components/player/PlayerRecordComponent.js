@@ -170,7 +170,10 @@ Abstract:
 		/**
 		 * @return {Array}
 		 */
-		getRecord: function() { return this._record }
+		getRecord: function() {
+			console.log( this._record );
+			return this._record;
+		}
 	};
 
     ChuClone.extend( ChuClone.components.player.PlayerRecordComponent, ChuClone.components.BaseComponent );

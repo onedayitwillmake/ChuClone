@@ -24,8 +24,6 @@ Abstract:
         this.requiresUpdate = true;
 	};
 
-	var t = 0.1;
-	var id = 0;
 	ChuClone.components.camera.CameraFocusRadiusComponent.prototype = {
         /**
          * @type {String}
@@ -40,7 +38,7 @@ Abstract:
 		/**
          * @type {THREE.Vector2}
          */
-        _mousePosition: new THREE.Vector2(0, 0),
+        _mousePosition: new THREE.Vector2(3.05, 1),
 
         /**
          * @type {THREE.Vector3}
@@ -66,6 +64,7 @@ Abstract:
 		 * Move the camera around it's current 'position'
 		 */
         update: function() {
+
             this.attachedEntity.position.x += Math.cos( this._mousePosition.x * Math.PI ) * this._radius.x;
             this.attachedEntity.position.y += (this._mousePosition.y*2-1) * this._radius.y;
             this.attachedEntity.position.z += this._radius.z;

@@ -297,7 +297,6 @@
 			model.fromJsonString(JSONString, aWorldController, gameViewController);
 
 			if (this._controllers.hasOwnProperty('name')) {
-
 				// Set the current name, and emit the loaded event
 				this._controllers['name'].setValue(model.levelName);
 				document.getElementById("levelName").innerText = model.levelName
@@ -366,9 +365,15 @@
 
             gameViewController.getCamera().removeAllComponents();
 			ChuClone.Events.Dispatcher.emit(ChuClone.editor.LevelManager.prototype.EVENTS.LEVEL_DESTROYED, this);
-		}
+		},
 
 
 		///// ACCESSORS
+		/**
+		 * @return {ChuClone.editor.LevelModel}
+		 */
+		getModel: function(){
+			return this._levelModel;
+		}
 	}
 })();
