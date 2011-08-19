@@ -86,6 +86,8 @@ Abstract:
             this._didAnimateIn = false;
             this._beatLevel = false;
             this._previousTime = Date.now();
+
+			ChuClone.DOM_ELEMENT.focus();
 		},
 
         animateIn: function() {

@@ -179,6 +179,7 @@ postprocessing.blurx = new THREE.Vector2( blurAmount, 0.0 ),
             }
 
             ChuClone.DOM_ELEMENT = this._domElement;
+			ChuClone.DOM_ELEMENT.tabIndex = 1;
         },
 
         /**
