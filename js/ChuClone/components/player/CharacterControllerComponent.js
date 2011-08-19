@@ -68,6 +68,14 @@ Abstract:
             this.attachedEntity.addComponentAndExecute( this._jumpCheckComponent );
             this.attachedEntity.addComponentAndExecute( new ChuClone.components.BoundsYCheckComponent() );
 
+			// Swap materials
+			var view = this.attachedEntity.getView();
+            this._previousMaterial = view.materials[0];
+            view.materials[0] = new THREE.MeshLambertMaterial( {
+                color: 0xFFFFFF, shading: THREE.SmoothShading,
+                map : ChuClone.utils.TextureUtils.GET_TEXTURE( ChuClone.model.Constants.SERVER.ASSET_PREFIX + "assets/images/game/crate.png" )
+            });
+
 			this.dispatchCreatedEvent();
 		},
 
@@ -80,8 +88,8 @@ Abstract:
             var body = this.attachedEntity.getBody();
 
             // x-axis
-            if (this._input._keyStates.left) force.x = -1;
-            else if (this._input._keyStates.right) force.x = 1;
+            if (this._input._keyStates.left) { force.x = -1; }
+            else if (this._input._keyStates.right) { force.x = 1;}
             // y-axis
             if (this._input._keyStates.up && this._jumpCheckComponent._canJump) {
                 force.y = -1;

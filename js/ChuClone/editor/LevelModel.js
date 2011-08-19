@@ -10,7 +10,6 @@
 
  Data Structure:
     levelmodel
-    AUTHOR
     CREATION_DATE
     MODIFICATION_DATE
     PTM_RATIO
@@ -106,7 +105,7 @@
             var PTM_RATIO = ChuClone.model.Constants.PTM_RATIO;
 
             returnObject.editingInfo = {
-                author: "mario gonzalez",
+                author: "#{user_name}",
                 levelName: aLevelName,
                 creationDate: this.creationDate || new Date().getTime(),
                 modificationDate: new Date().getTime()
@@ -164,7 +163,6 @@
 
             //
 			this.levelJSONString = JSON.stringify( returnObject, null, "\t" );
-			this.author = returnObject.editingInfo.author;
 			this.levelName = returnObject.editingInfo.levelName;
 
             return this.levelJSONString;
@@ -180,7 +178,6 @@
         fromJsonString: function( aJsonString, aWorldController, aGameView ) {
 			this.levelJSONString = aJsonString;
             var levelObject = JSON.parse(aJsonString);
-            this.author = levelObject.editingInfo.author;
             this.levelName = levelObject.editingInfo.levelName;
             this.creationDate = levelObject.editingInfo.creationDate;
             this.modificationDate = levelObject.editingInfo.modificationDate;

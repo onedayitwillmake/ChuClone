@@ -78,6 +78,7 @@
 			// Create a save slot control
 			this._controllers['slot'] = this._gui.add(this, '_currentSlot').options([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]).name("Active Save Slot");
 			var slotIndex = parseInt(localStorage.getItem("lastSlot"));
+
 			this._controllers['slot'].domElement.childNodes[1].selectedIndex = slotIndex;
 			this._controllers['slot'].setValue(slotIndex);
 			// Local Save
@@ -91,6 +92,7 @@
 			 * Creates the Load From Server drop down
 			 */
 			that._controllers['level'] = that._gui.add(that, '_userLevels');
+			that._controllers['level'].domElement.lastChild.style.width = "120px";
 			that._controllers['level'].options([]);
 			that._controllers['level'].onChange(function() {
 				var selected = this.domElement.childNodes[1].selectedIndex;

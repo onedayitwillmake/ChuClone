@@ -101,11 +101,6 @@
 		 */
 		_idleTimeout					: null,
 
-		/**
-		 * @type {Object}
-		 */
-		cmdMap	  : {},
-
 
 		/**
 		 * @inheritDoc
