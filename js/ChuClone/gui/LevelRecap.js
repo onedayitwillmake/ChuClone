@@ -56,17 +56,26 @@
 
 			// Where we will place our recap div
 			htmlElement = document.createElement("div");
+			htmlElement.innerHTML = partial;
 			htmlElement.id = 'level_recap'
 			htmlElement.setAttribute('class', 'container_12');
 			htmlElement.setAttribute('style', 'margin-left:20px');
 			htmlElement.style.position = "absolute";
 			htmlElement.style.zIndex = "2";
-			htmlElement.style.top = gameContainer.offsetTop + "px";
-			htmlElement.style.left = gameContainer.offsetLeft + "px";
+
+			if( ChuClone.GameViewController.INSTANCE.getFullscreen() ) {
+				htmlElement.style.top = gameContainer.offsetTop + 150 + "px";
+				htmlElement.style.left = gameContainer.offsetLeft + (gameContainer.clientWidth/2) - 290  + "px";
+			} else {
+				htmlElement.style.top = gameContainer.offsetTop + "px";
+				htmlElement.style.left = gameContainer.offsetLeft + "px";
+			}
+
+
 			htmlElement.style.opacity = 0;
 			htmlElement.style.cursor = "pointer";
-			htmlElement.innerHTML = partial;
 
+			debugger;
 			// Center if not inside of a div
 			if(gameContainer.parentNode.tagName === "BODY") {
 				// Container width - 960/2 (960 comes from the fact that we're using grid960 css)

@@ -117,7 +117,7 @@
             var that = this;
 
 
-			var devTemp = false;
+			var devTemp = true;
 			// During debuging with canary - i have to wrap the loop in a try catch because of a webgl error
 			// Not to be used in production build!
 			if (devTemp) {

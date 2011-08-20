@@ -70,7 +70,7 @@ Abstract:
 		/**
 		 * Overwrite to allow component specific GUI
 		 */
-		_editableProperties: {rangeX: {value: 0, min: 0, max: 30}, rangeY: {value: 0, min: 0, max: 30}, speed: {value: 1, min: 0, max: 30}, offset: {value: 0,  min: -1, max: 1}, active: true},
+		_editableProperties: {rangeX: {value: 0, min: 0, max: 30}, rangeY: {value: 0, min: 0, max: 30}, speed: {value: 1, min: 0, max: 30}, offset: {value: 0,  min: -0.99, max: 0.99}, active: true},
 
 		/**
 		 * @inheritDoc

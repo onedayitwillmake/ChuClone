@@ -568,9 +568,9 @@ postprocessing.blurx = new THREE.Vector2( blurAmount, 0.0 ),
          */
         getDimensions: function() {
             if( this._isFullScreen ) {
-                return new THREE.Vector2( window.innerWidth, window.innerHeight );
+                return new THREE.Vector2( window.innerWidth, window.innerHeight-10 );
             }
-            
+
             return this._dimensions;
         },
 		/**

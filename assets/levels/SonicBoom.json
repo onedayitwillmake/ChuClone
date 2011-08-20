@@ -2,8 +2,8 @@
 	"editingInfo": {
 		"author": "#{user_name}",
 		"levelName": "SonicBoom",
-		"creationDate": 1313788181541,
-		"modificationDate": 1313788181541
+		"creationDate": 1313814843123,
+		"modificationDate": 1313814843123
 	},
 	"worldSettings": {
 		"PTM_RATIO": 64
@@ -11,7 +11,183 @@
 	"playerInfo": null,
 	"bodyList": [
 		{
-			"x": 389.37735978537233,
+			"x": 554.1286083998142,
+			"y": -3.8983276729682923,
+			"dimensions": {
+				"width": 320,
+				"height": 32,
+				"depth": 448
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "MovingPlatformComponent",
+					"initialPosition": {
+						"x": 559.1776083998142,
+						"y": -3.8983276729682923
+					},
+					"range": {
+						"x": 5.1,
+						"y": 0
+					},
+					"offset": -0.99,
+					"speed": 6.3
+				},
+				{
+					"displayName": "GoalPadComponent",
+					"textureSource": "assets/images/game/floorgreen.png"
+				}
+			]
+		},
+		{
+			"x": 561.2230719941804,
+			"y": 0.5461167714761385,
+			"dimensions": {
+				"width": 320,
+				"height": 32,
+				"depth": 448
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "GoalPadComponent",
+					"textureSource": "assets/images/game/floorgreen.png"
+				},
+				{
+					"displayName": "MovingPlatformComponent",
+					"initialPosition": {
+						"x": 559.3627935849993,
+						"y": 0.5461167714761385
+					},
+					"range": {
+						"x": 5.1,
+						"y": 0
+					},
+					"offset": 0.99,
+					"speed": 6.3
+				}
+			]
+		},
+		{
+			"x": 546.955386177592,
+			"y": 0.9164871418465077,
+			"dimensions": {
+				"width": 128,
+				"height": 336,
+				"depth": 384
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "DeathPadComponent",
+					"textureSource": "assets/images/game/floordark.png",
+					"inactiveDelay": 1000
+				}
+			]
+		},
+		{
+			"x": 2.4833220382209666,
+			"y": -3.461724797744085,
+			"dimensions": {
+				"width": 30,
+				"height": 30,
+				"depth": 30
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 0,
+				"friction": 0,
+				"restitution": 0,
+				"bodyType": 2
+			},
+			"entityType": 2,
+			"components": [
+				{
+					"displayName": "PhysicsVelocityLimitComponent"
+				},
+				{
+					"displayName": "BoundsYCheckComponent"
+				},
+				{
+					"displayName": "CheckIsJumpingComponent"
+				},
+				{
+					"displayName": "KeyboardInputComponent"
+				},
+				{
+					"displayName": "CharacterControllerComponent"
+				}
+			]
+		},
+		{
+			"x": 2.4833220382209666,
+			"y": -2.461724797744085,
+			"dimensions": {
+				"width": 128,
+				"height": 128,
+				"depth": 256
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "RespawnComponent",
+					"textureSource": "assets/images/game/flooraqua.png"
+				}
+			]
+		},
+		{
+			"x": 198.6186441692542,
+			"y": -4.488632170714034,
+			"dimensions": {
+				"width": 256,
+				"height": 128,
+				"depth": 256
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "RespawnComponent",
+					"textureSource": "assets/images/game/flooraqua.png"
+				}
+			]
+		},
+		{
+			"x": 389.3773597853724,
 			"y": 0.1893258086561685,
 			"dimensions": {
 				"width": 128,
@@ -35,45 +211,7 @@
 			]
 		},
 		{
-			"x": 376.5728392693934,
-			"y": -40.84431319156295,
-			"dimensions": {
-				"width": 128,
-				"height": 384,
-				"depth": 320
-			},
-			"angle": 0,
-			"physicsInfo": {
-				"density": 1,
-				"friction": 1,
-				"restitution": 0.1,
-				"bodyType": 1
-			},
-			"entityType": 4,
-			"components": [
-				{
-					"displayName": "FrictionPadComponent",
-					"textureSource": "assets/images/game/floorred.png",
-					"inactiveDelay": 250,
-					"damping": 0.25
-				},
-				{
-					"displayName": "MovingPlatformComponent",
-					"initialPosition": {
-						"x": 376.5728392693934,
-						"y": -41.502995491254374
-					},
-					"range": {
-						"x": 0,
-						"y": 5.1
-					},
-					"offset": 0,
-					"speed": 3.9
-				}
-			]
-		},
-		{
-			"x": 371.7783187214482,
+			"x": 371.77831872144816,
 			"y": -5.338611929610584,
 			"dimensions": {
 				"width": 128,
@@ -97,8 +235,8 @@
 			]
 		},
 		{
-			"x": 362.87420913240715,
-			"y": -2.0509406967338766,
+			"x": 533.8222813084252,
+			"y": -2.1065182820387474,
 			"dimensions": {
 				"width": 128,
 				"height": 512,
@@ -121,35 +259,11 @@
 			]
 		},
 		{
-			"x": 358.3536611872017,
-			"y": -5.6125845323503105,
+			"x": 358.35366118720174,
+			"y": -5.612584532350311,
 			"dimensions": {
 				"width": 128,
 				"height": 768,
-				"depth": 320
-			},
-			"angle": 0,
-			"physicsInfo": {
-				"density": 1,
-				"friction": 1,
-				"restitution": 0.1,
-				"bodyType": 1
-			},
-			"entityType": 4,
-			"components": [
-				{
-					"displayName": "DeathPadComponent",
-					"textureSource": "assets/images/game/floordark.png",
-					"inactiveDelay": 1000
-				}
-			]
-		},
-		{
-			"x": 376.4365734899298,
-			"y": -4.928852115002042,
-			"dimensions": {
-				"width": 128,
-				"height": 704,
 				"depth": 320
 			},
 			"angle": 0,
@@ -189,30 +303,6 @@
 					"displayName": "DeathPadComponent",
 					"textureSource": "assets/images/game/floordark.png",
 					"inactiveDelay": 1000
-				}
-			]
-		},
-		{
-			"x": 393.83311324199616,
-			"y": -3.5577900118023678,
-			"dimensions": {
-				"width": 128,
-				"height": 128,
-				"depth": 384
-			},
-			"angle": 0,
-			"physicsInfo": {
-				"density": 1,
-				"friction": 1,
-				"restitution": 0.1,
-				"bodyType": 1
-			},
-			"entityType": 4,
-			"components": [
-				{
-					"displayName": "JumpPadComponent",
-					"textureSource": "assets/images/game/jumppad_right.png",
-					"inactiveDelay": 500
 				}
 			]
 		},
@@ -289,30 +379,6 @@
 			]
 		},
 		{
-			"x": 416.92466872802504,
-			"y": -14.113375924525725,
-			"dimensions": {
-				"width": 128,
-				"height": 448,
-				"depth": 448
-			},
-			"angle": 0,
-			"physicsInfo": {
-				"density": 1,
-				"friction": 1,
-				"restitution": 0.1,
-				"bodyType": 1
-			},
-			"entityType": 4,
-			"components": [
-				{
-					"displayName": "DeathPadComponent",
-					"textureSource": "assets/images/game/floordark.png",
-					"inactiveDelay": 1000
-				}
-			]
-		},
-		{
 			"x": 384.94997935535906,
 			"y": 3.0941086081296034,
 			"dimensions": {
@@ -337,7 +403,7 @@
 			]
 		},
 		{
-			"x": 380.4572404596898,
+			"x": 380.45724045968973,
 			"y": 1.0547260524678843,
 			"dimensions": {
 				"width": 128,
@@ -385,8 +451,8 @@
 			]
 		},
 		{
-			"x": 402.01084031527995,
-			"y": 3.400887430494776,
+			"x": 506.0582503799468,
+			"y": 2.3249434446278614,
 			"dimensions": {
 				"width": 128,
 				"height": 256,
@@ -410,7 +476,7 @@
 		},
 		{
 			"x": 348.4899779304004,
-			"y": -3.504680886883738,
+			"y": -3.5046808868837385,
 			"dimensions": {
 				"width": 128,
 				"height": 608,
@@ -486,30 +552,6 @@
 			"dimensions": {
 				"width": 128,
 				"height": 704,
-				"depth": 384
-			},
-			"angle": 0,
-			"physicsInfo": {
-				"density": 1,
-				"friction": 1,
-				"restitution": 0.1,
-				"bodyType": 1
-			},
-			"entityType": 4,
-			"components": [
-				{
-					"displayName": "DeathPadComponent",
-					"textureSource": "assets/images/game/floordark.png",
-					"inactiveDelay": 1000
-				}
-			]
-		},
-		{
-			"x": 333.463522936191,
-			"y": -3.76009390496014,
-			"dimensions": {
-				"width": 128,
-				"height": 640,
 				"depth": 384
 			},
 			"angle": 0,
@@ -693,29 +735,6 @@
 					"displayName": "DeathPadComponent",
 					"textureSource": "assets/images/game/floordark.png",
 					"inactiveDelay": 1000
-				}
-			]
-		},
-		{
-			"x": 198.6477413161655,
-			"y": -4.932039500308448,
-			"dimensions": {
-				"width": 256,
-				"height": 128,
-				"depth": 256
-			},
-			"angle": 0,
-			"physicsInfo": {
-				"density": 1,
-				"friction": 1,
-				"restitution": 0.1,
-				"bodyType": 1
-			},
-			"entityType": 4,
-			"components": [
-				{
-					"displayName": "RespawnComponent",
-					"textureSource": "assets/images/game/flooraqua.png"
 				}
 			]
 		},
@@ -1020,31 +1039,8 @@
 			]
 		},
 		{
-			"x": 3.46025084583103,
-			"y": -10.0684926392415,
-			"dimensions": {
-				"width": 192,
-				"height": 192,
-				"depth": 192
-			},
-			"angle": 0,
-			"physicsInfo": {
-				"density": 1,
-				"friction": 1,
-				"restitution": 0.1,
-				"bodyType": 1
-			},
-			"entityType": 4,
-			"components": [
-				{
-					"displayName": "RespawnComponent",
-					"textureSource": "assets/images/game/flooraqua.png"
-				}
-			]
-		},
-		{
 			"x": 3.4675401568315607,
-			"y": 2.8718366299483704,
+			"y": 2.87183662994837,
 			"dimensions": {
 				"width": 192,
 				"height": 192,
@@ -1059,40 +1055,6 @@
 			},
 			"entityType": 4,
 			"components": []
-		},
-		{
-			"x": 3.46025084583103,
-			"y": -11.0684926392415,
-			"dimensions": {
-				"width": 30,
-				"height": 30,
-				"depth": 30
-			},
-			"angle": 5824.512915211267,
-			"physicsInfo": {
-				"density": 0,
-				"friction": 0,
-				"restitution": 0,
-				"bodyType": 2
-			},
-			"entityType": 2,
-			"components": [
-				{
-					"displayName": "PhysicsVelocityLimitComponent"
-				},
-				{
-					"displayName": "BoundsYCheckComponent"
-				},
-				{
-					"displayName": "CheckIsJumpingComponent"
-				},
-				{
-					"displayName": "KeyboardInputComponent"
-				},
-				{
-					"displayName": "CharacterControllerComponent"
-				}
-			]
 		},
 		{
 			"x": 49.6,
@@ -1187,29 +1149,6 @@
 					"displayName": "DeathPadComponent",
 					"textureSource": "assets/images/game/floordark.png",
 					"inactiveDelay": 1000
-				}
-			]
-		},
-		{
-			"x": 63.8505209675418,
-			"y": 16.3030303115385,
-			"dimensions": {
-				"width": 128,
-				"height": 512,
-				"depth": 288
-			},
-			"angle": 0,
-			"physicsInfo": {
-				"density": 1,
-				"friction": 1,
-				"restitution": 0.1,
-				"bodyType": 1
-			},
-			"entityType": 4,
-			"components": [
-				{
-					"displayName": "GoalPadComponent",
-					"textureSource": "assets/images/game/floorgreen.png"
 				}
 			]
 		},
@@ -1569,7 +1508,7 @@
 			]
 		},
 		{
-			"x": 198.70906217950613,
+			"x": 198.7090621795061,
 			"y": 1.9054272297830508,
 			"dimensions": {
 				"width": 256,
@@ -1719,7 +1658,7 @@
 			"components": []
 		},
 		{
-			"x": 269.2079792813107,
+			"x": 279.5736762896447,
 			"y": 0.434155901153487,
 			"dimensions": {
 				"width": 512,
@@ -1756,8 +1695,8 @@
 			]
 		},
 		{
-			"x": 232.73068729075942,
-			"y": -3.19247699384033,
+			"x": 232.72542728799525,
+			"y": -3.7690742787333984,
 			"dimensions": {
 				"width": 128,
 				"height": 192,
@@ -1780,8 +1719,8 @@
 			]
 		},
 		{
-			"x": 251.49869789675128,
-			"y": -3.472647079425642,
+			"x": 250.74522926819327,
+			"y": -3.8680841797234975,
 			"dimensions": {
 				"width": 128,
 				"height": 192,
@@ -1804,8 +1743,8 @@
 			]
 		},
 		{
-			"x": 270.9274086022347,
-			"y": -3.684280272528854,
+			"x": 270.5947342186883,
+			"y": -3.8403614074462724,
 			"dimensions": {
 				"width": 128,
 				"height": 192,
@@ -1905,6 +1844,906 @@
 			"dimensions": {
 				"width": 128,
 				"height": 320,
+				"depth": 384
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "DeathPadComponent",
+					"textureSource": "assets/images/game/floordark.png",
+					"inactiveDelay": 1000
+				}
+			]
+		},
+		{
+			"x": 393.8331132419962,
+			"y": -3.557790011802367,
+			"dimensions": {
+				"width": 128,
+				"height": 128,
+				"depth": 384
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "JumpPadComponent",
+					"textureSource": "assets/images/game/jumppad_right.png",
+					"inactiveDelay": 500
+				}
+			]
+		},
+		{
+			"x": 412.49042704654556,
+			"y": 0.31151227884788485,
+			"dimensions": {
+				"width": 128,
+				"height": 384,
+				"depth": 320
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "DeathPadComponent",
+					"textureSource": "assets/images/game/floordark.png",
+					"inactiveDelay": 1000
+				}
+			]
+		},
+		{
+			"x": 439.04274650397826,
+			"y": -1.1523544512746566,
+			"dimensions": {
+				"width": 128,
+				"height": 128,
+				"depth": 256
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "JumpPadComponent",
+					"textureSource": "assets/images/game/jumppad_right.png",
+					"inactiveDelay": 500
+				}
+			]
+		},
+		{
+			"x": 425.70713610879665,
+			"y": 0.038325886089082155,
+			"dimensions": {
+				"width": 128,
+				"height": 384,
+				"depth": 256
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "DeathPadComponent",
+					"textureSource": "assets/images/game/floordark.png",
+					"inactiveDelay": 1000
+				}
+			]
+		},
+		{
+			"x": 430.00538172283177,
+			"y": -0.9265863946126727,
+			"dimensions": {
+				"width": 128,
+				"height": 448,
+				"depth": 224
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "DeathPadComponent",
+					"textureSource": "assets/images/game/floordark.png",
+					"inactiveDelay": 1000
+				}
+			]
+		},
+		{
+			"x": 407.98476316927713,
+			"y": 0.614323702936158,
+			"dimensions": {
+				"width": 128,
+				"height": 352,
+				"depth": 320
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "DeathPadComponent",
+					"textureSource": "assets/images/game/floordark.png",
+					"inactiveDelay": 1000
+				}
+			]
+		},
+		{
+			"x": 416.81475137086994,
+			"y": 4.09529606263167,
+			"dimensions": {
+				"width": 128,
+				"height": 128,
+				"depth": 256
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "DeathPadComponent",
+					"textureSource": "assets/images/game/floordark.png",
+					"inactiveDelay": 1000
+				}
+			]
+		},
+		{
+			"x": 421.23438607848476,
+			"y": 1.8402251986419116,
+			"dimensions": {
+				"width": 128,
+				"height": 272,
+				"depth": 192
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "DeathPadComponent",
+					"textureSource": "assets/images/game/floordark.png",
+					"inactiveDelay": 1000
+				}
+			]
+		},
+		{
+			"x": 434.3825697969702,
+			"y": 1.5341352046024008,
+			"dimensions": {
+				"width": 128,
+				"height": 304,
+				"depth": 256
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "DeathPadComponent",
+					"textureSource": "assets/images/game/floordark.png",
+					"inactiveDelay": 1000
+				}
+			]
+		},
+		{
+			"x": 403.4976140447579,
+			"y": -0.6782541759285736,
+			"dimensions": {
+				"width": 128,
+				"height": 448,
+				"depth": 352
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "DeathPadComponent",
+					"textureSource": "assets/images/game/floordark.png",
+					"inactiveDelay": 1000
+				}
+			]
+		},
+		{
+			"x": 333.463522936191,
+			"y": -3.76009390496014,
+			"dimensions": {
+				"width": 128,
+				"height": 640,
+				"depth": 384
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "DeathPadComponent",
+					"textureSource": "assets/images/game/floordark.png",
+					"inactiveDelay": 1000
+				}
+			]
+		},
+		{
+			"x": 474.62414185281534,
+			"y": 0.9406688045392873,
+			"dimensions": {
+				"width": 128,
+				"height": 128,
+				"depth": 256
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "JumpPadComponent",
+					"textureSource": "assets/images/game/jumppad_right.png",
+					"inactiveDelay": 500
+				}
+			]
+		},
+		{
+			"x": 487.8447097059643,
+			"y": -2.8125850767760774,
+			"dimensions": {
+				"width": 128,
+				"height": 576,
+				"depth": 384
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "DeathPadComponent",
+					"textureSource": "assets/images/game/floordark.png",
+					"inactiveDelay": 1000
+				}
+			]
+		},
+		{
+			"x": 448.1125139458387,
+			"y": 0.7081106650044044,
+			"dimensions": {
+				"width": 128,
+				"height": 128,
+				"depth": 256
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "JumpPadComponent",
+					"textureSource": "assets/images/game/jumppad_right.png",
+					"inactiveDelay": 500
+				}
+			]
+		},
+		{
+			"x": 461.01344571206425,
+			"y": -2.1933458455982424,
+			"dimensions": {
+				"width": 128,
+				"height": 512,
+				"depth": 384
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "DeathPadComponent",
+					"textureSource": "assets/images/game/floordark.png",
+					"inactiveDelay": 1000
+				}
+			]
+		},
+		{
+			"x": 500.90321162025714,
+			"y": -12.315145148949023,
+			"dimensions": {
+				"width": 128,
+				"height": 128,
+				"depth": 256
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "JumpPadComponent",
+					"textureSource": "assets/images/game/jumppad_right.png",
+					"inactiveDelay": 500
+				}
+			]
+		},
+		{
+			"x": 470.46520009802884,
+			"y": -1.171416021036955,
+			"dimensions": {
+				"width": 128,
+				"height": 480,
+				"depth": 384
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "DeathPadComponent",
+					"textureSource": "assets/images/game/floordark.png",
+					"inactiveDelay": 1000
+				}
+			]
+		},
+		{
+			"x": 465.7869325504898,
+			"y": 3.7313664789578787,
+			"dimensions": {
+				"width": 128,
+				"height": 128,
+				"depth": 256
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "JumpPadComponent",
+					"textureSource": "assets/images/game/jumppad_right.png",
+					"inactiveDelay": 500
+				}
+			]
+		},
+		{
+			"x": 479.1683176049147,
+			"y": -1.7344850945665007,
+			"dimensions": {
+				"width": 128,
+				"height": 512,
+				"depth": 384
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "DeathPadComponent",
+					"textureSource": "assets/images/game/floordark.png",
+					"inactiveDelay": 1000
+				}
+			]
+		},
+		{
+			"x": 456.7171651086294,
+			"y": 2.1034595022137004,
+			"dimensions": {
+				"width": 128,
+				"height": 128,
+				"depth": 256
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "JumpPadComponent",
+					"textureSource": "assets/images/game/jumppad_right.png",
+					"inactiveDelay": 500
+				}
+			]
+		},
+		{
+			"x": 452.24151588750294,
+			"y": -3.07053882805438,
+			"dimensions": {
+				"width": 128,
+				"height": 576,
+				"depth": 384
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "DeathPadComponent",
+					"textureSource": "assets/images/game/floordark.png",
+					"inactiveDelay": 1000
+				}
+			]
+		},
+		{
+			"x": 496.47484669226566,
+			"y": -3.90847548773498,
+			"dimensions": {
+				"width": 128,
+				"height": 640,
+				"depth": 384
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "DeathPadComponent",
+					"textureSource": "assets/images/game/floordark.png",
+					"inactiveDelay": 1000
+				}
+			]
+		},
+		{
+			"x": 483.46135115514096,
+			"y": 0.010436246399756492,
+			"dimensions": {
+				"width": 128,
+				"height": 128,
+				"depth": 256
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "JumpPadComponent",
+					"textureSource": "assets/images/game/jumppad_right.png",
+					"inactiveDelay": 500
+				}
+			]
+		},
+		{
+			"x": 376.53458825840653,
+			"y": -27.786449032509402,
+			"dimensions": {
+				"width": 128,
+				"height": 384,
+				"depth": 384
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "DeathPadComponent",
+					"textureSource": "assets/images/game/floordark.png",
+					"inactiveDelay": 1000
+				},
+				{
+					"displayName": "MovingPlatformComponent",
+					"initialPosition": {
+						"x": 376.53458825840653,
+						"y": -28.010940618051457
+					},
+					"range": {
+						"x": 0,
+						"y": 4.5
+					},
+					"offset": 0.01,
+					"speed": 12.6
+				}
+			]
+		},
+		{
+			"x": 393.87730740482033,
+			"y": -7.079069069152796,
+			"dimensions": {
+				"width": 128,
+				"height": 64,
+				"depth": 384
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "RespawnComponent",
+					"textureSource": "assets/images/game/flooraqua.png"
+				}
+			]
+		},
+		{
+			"x": 492.0660023179317,
+			"y": -0.45468003267000884,
+			"dimensions": {
+				"width": 128,
+				"height": 128,
+				"depth": 256
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "JumpPadComponent",
+					"textureSource": "assets/images/game/jumppad_right.png",
+					"inactiveDelay": 500
+				}
+			]
+		},
+		{
+			"x": 399.0678301377101,
+			"y": 2.2538215606067062,
+			"dimensions": {
+				"width": 128,
+				"height": 256,
+				"depth": 256
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "DeathPadComponent",
+					"textureSource": "assets/images/game/floordark.png",
+					"inactiveDelay": 1000
+				}
+			]
+		},
+		{
+			"x": 376.0582503799475,
+			"y": -5.056008936324483,
+			"dimensions": {
+				"width": 128,
+				"height": 704,
+				"depth": 320
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "DeathPadComponent",
+					"textureSource": "assets/images/game/floordark.png",
+					"inactiveDelay": 1000
+				}
+			]
+		},
+		{
+			"x": 510.8201551418515,
+			"y": -4.817913698229245,
+			"dimensions": {
+				"width": 128,
+				"height": 704,
+				"depth": 320
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "DeathPadComponent",
+					"textureSource": "assets/images/game/floordark.png",
+					"inactiveDelay": 1000
+				}
+			]
+		},
+		{
+			"x": 515.343964665661,
+			"y": -2.6750565553721137,
+			"dimensions": {
+				"width": 128,
+				"height": 576,
+				"depth": 384
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "DeathPadComponent",
+					"textureSource": "assets/images/game/floordark.png",
+					"inactiveDelay": 1000
+				}
+			]
+		},
+		{
+			"x": 519.8677741894705,
+			"y": 0.18208630177072913,
+			"dimensions": {
+				"width": 128,
+				"height": 384,
+				"depth": 256
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "DeathPadComponent",
+					"textureSource": "assets/images/game/floordark.png",
+					"inactiveDelay": 1000
+				}
+			]
+		},
+		{
+			"x": 362.87420913240715,
+			"y": -2.0509406967338766,
+			"dimensions": {
+				"width": 128,
+				"height": 512,
+				"depth": 352
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "DeathPadComponent",
+					"textureSource": "assets/images/game/floordark.png",
+					"inactiveDelay": 1000
+				}
+			]
+		},
+		{
+			"x": 443.43920276089955,
+			"y": -3.8655327458482986,
+			"dimensions": {
+				"width": 128,
+				"height": 640,
+				"depth": 384
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "DeathPadComponent",
+					"textureSource": "assets/images/game/floordark.png",
+					"inactiveDelay": 1000
+				}
+			]
+		},
+		{
+			"x": 524.536567022711,
+			"y": -3.773184948705406,
+			"dimensions": {
+				"width": 128,
+				"height": 640,
+				"depth": 384
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "DeathPadComponent",
+					"textureSource": "assets/images/game/floordark.png",
+					"inactiveDelay": 1000
+				}
+			]
+		},
+		{
+			"x": 529.2984717846157,
+			"y": -4.487470662991116,
+			"dimensions": {
+				"width": 128,
+				"height": 678.4,
+				"depth": 224
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "DeathPadComponent",
+					"textureSource": "assets/images/game/floordark.png",
+					"inactiveDelay": 1000
+				}
+			]
+		},
+		{
+			"x": 542.8227365227302,
+			"y": 3.2065393330026217,
+			"dimensions": {
+				"width": 128,
+				"height": 192,
+				"depth": 224
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "DeathPadComponent",
+					"textureSource": "assets/images/game/floordark.png",
+					"inactiveDelay": 1000
+				}
+			]
+		},
+		{
+			"x": 538.1885901812668,
+			"y": -0.20809481333882418,
+			"dimensions": {
+				"width": 128,
+				"height": 400,
 				"depth": 384
 			},
 			"angle": 0,
