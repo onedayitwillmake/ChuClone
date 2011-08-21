@@ -86,14 +86,15 @@ Abstract:
             this._didAnimateIn = false;
             this._beatLevel = false;
             this._previousTime = Date.now();
+			this.addFloorPlane();
 
 			ChuClone.DOM_ELEMENT.focus();
 		},
 
-        animateIn: function() {
-            var player = null;
-			var goalpad = null;
-
+		/**
+		 * Adds a gray plane to represent the floor
+		 */
+		addFloorPlane: function() {
 			var width = 100000;
 			var geometry = new THREE.PlaneGeometry(width, 10000, 10, 1);
 
@@ -102,18 +103,30 @@ Abstract:
 						wireframe: true
 					})]);
 
-			var centerPosition = new THREE.Vector3(width/2, -500,0);
+			var centerPosition = new THREE.Vector3(width / 2, -500, 0);
 			mesh.dynamic = false;
 			mesh.position.x = centerPosition.x;
 			mesh.position.y = centerPosition.y;
 			mesh.position.z = centerPosition.z;
-			mesh.rotation.x = 90 * Math.PI/180;
+			mesh.rotation.x = 90 * Math.PI / 180;
 
-				this._gameView.addObjectToScene(mesh);
+			this._gameView.addObjectToScene(mesh);
+		},
+
+
+        animateIn: function() {
+            var player = null;
+			var goalpad = null;
+
+			// This object will represent the level boundary
+			var bounds = {left: Number.MAX_VALUE, top: Number.MIN_VALUE, right:Number.MIN_VALUE, bottom:Number.MAX_VALUE };
 
             var node = this._worldController.getWorld().GetBodyList();
             this._player.getBody().SetActive( false );
 
+
+
+			var entityCount = 0;
             while(node) {
 
                 var b = node;
@@ -132,6 +145,15 @@ Abstract:
                     goalpad = entity;
                     continue;
                 }
+
+				entityCount++;
+				// Use the entity postition to get the level boundaries
+				var pos = b.GetPosition();
+
+				if(pos.x < bounds.left ) bounds.left = pos.x;
+				else if (pos.x > bounds.right ) bounds.right = pos.x;
+				if( -pos.y > bounds.top ) bounds.top = -pos.y;
+				else if (-pos.y < bounds.bottom ) bounds.bottom = -pos.y;
 
 				entity.getView().visible = false;
 
@@ -157,6 +179,13 @@ Abstract:
 						.start();
 			}
 
+
+			bounds.left *= ChuClone.model.Constants.PTM_RATIO;
+			bounds.top *= ChuClone.model.Constants.PTM_RATIO;
+			bounds.right *= ChuClone.model.Constants.PTM_RATIO;
+			bounds.bottom *= ChuClone.model.Constants.PTM_RATIO;
+
+			this._backgroundElements = this.createBackgroundElements( 25, true, bounds, new THREE.Vector3(200, 100, 100) );
             this.animateCameraIn( player, goalpad, animationTime+variation);
         },
 
@@ -423,6 +452,15 @@ Abstract:
          */
         exit: function() {
             clearTimeout( this._animateInTimeout );
+
+			if( this._backgroundElements ) {
+                var len = this._backgroundElements.length;
+                for (var i = 0; i < len; i++) {
+					console.log(this._backgroundElements[i])
+                    this._gameView.removeObjectFromScene(this._backgroundElements[i]);
+                }
+                this._backgroundElements = [];
+            }
 
             this._gameView.getCamera().removeComponentWithName( ChuClone.components.camera.CameraFollowPlayerComponent.prototype.displayName );
 			this._gameView.getCamera().removeComponentWithName( ChuClone.components.camera.CameraFocusRadiusComponent.prototype.displayName );

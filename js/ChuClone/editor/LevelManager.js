@@ -53,17 +53,20 @@
 		 * @type {Number}
 		 */
 		_userLevels			: 0,
+
+
 		/**
+		 * Events emitted from this object
 		 * @type {Object}
 		 */
-		_userLevelList		: {},
-
-
 		EVENTS			  : {
 			LEVEL_CREATED   : "LevelManager.Events.WorldCreated",
 			LEVEL_DESTROYED : "LevelManager.Events.LevelDestroyed"
 		},
 
+		/**
+		 * Setup the DAT.GUI controls
+		 */
 		setupGui: function() {
 			var that = this;
 			// Creation gui
@@ -89,7 +92,7 @@
 			this._controllers['saveToServer'] = this._gui.add(this, 'onShouldSaveToServer').name("Save To Server");
 
 			/**
-			 * Creates the Load From Server drop down
+			 * Creates the 'LoadFromServer' drop down list
 			 */
 			that._controllers['level'] = that._gui.add(that, '_userLevels');
 			that._controllers['level'].domElement.lastChild.style.width = "120px";
@@ -99,8 +102,9 @@
 				that.onLevelDropDownItemSelected(selected);
 			});
 			that._controllers['level'].name("Load From Server");
-			this.loadServerLeveList();
 
+
+			this.loadServerLeveList();
 		},
 
 		/**
@@ -151,7 +155,7 @@
 			var aURL = ChuClone.model.Constants.SERVER.LEVEL_LOAD_LOCATION + itemValue + ".js?r" + Math.floor(Math.random() * 9999);
 			this.loadLevelFromURL(worldController, aWorldEditor, aURL);
 
-//				Remove focus from the element otherwise it interferes with the kb
+			// Remove focus from the element otherwise it interferes with the kb
 			document.getElementsByTagName("canvas")[0].focus();
 		},
 

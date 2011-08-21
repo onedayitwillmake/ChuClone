@@ -40,8 +40,6 @@
 
         this._mousePosition = new Box2D.Common.Math.b2Vec2(0,0);
 
-        this.setupMouseEvents();
-        this.setupKeyboardEvents();
         this.setupGui();
 		this.setupEvents();
 
@@ -68,6 +66,12 @@
          * @type {Box2D.Common.Math.b2Vec2}
          */
         _mousePosition  : null,
+
+		/**
+         * @type {Box2D.Common.Math.b2Vec2}
+         */
+		_dragOffset		: null,
+
         /**
          * The currently edited b2Body
          * @type {Box2D.Dynamics.b2Body}
@@ -159,8 +163,10 @@
 
             this._closures['keydown'] = function(e) { that.onKeyDown(e); };
             this._closures['keyup'] = function(e) { that.onKeyUp(e); };
+			this._closures['keypress'] = function(e) { that.handleKeyboardShortcuts(e); };
 
             document.addEventListener('keydown', this._closures['keydown'], false);
+            document.addEventListener('keypress', this._closures['keypress'], false);
             document.addEventListener('keyup', this._closures['keyup'], false);
         },
 
@@ -168,7 +174,8 @@
 		 * Listen for ChuClone related events
 		 */
 		setupEvents: function(){
-			var that = this;
+			this.setupMouseEvents();
+			this.setupKeyboardEvents();
 		},
 
 
@@ -418,11 +425,12 @@
             pos.Multiply( 1.0 / this._worldController.getDebugDraw().GetDrawScale() );
 
             var selectedBody = this.getBodyAtPosition( pos );
+			this._currentBody = selectedBody;
 
             if(selectedBody) {
-                this._currentBody = selectedBody;
                 this._worldController.getDebugDraw().GetSprite().canvas.removeEventListener( 'mousemove', this._closures['mousemove'], false );
                 this._worldController.getDebugDraw().GetSprite().canvas.addEventListener( 'mousemove', this._closures['mousemove'], false );
+				this._dragOffset = new Box2D.Common.Math.b2Vec2(pos.x - this._currentBody.GetPosition().x, pos.y - this._currentBody.GetPosition().y);
 				this.populateComponentGUI();
             }
         },
@@ -436,6 +444,7 @@
 
             var pos = new Box2D.Common.Math.b2Vec2(this._mousePosition.x, this._mousePosition.y);
             pos.Multiply( 1.0 / this._worldController.getDebugDraw().GetDrawScale() );
+			pos.Subtract( this._dragOffset )
 
             this._currentBody.SetPosition(pos);
             this._currentBody.GetUserData().onEditorDidDragEntity();
@@ -483,6 +492,8 @@
 
                 this._worldController.getDebugDraw().GetSprite().canvas.addEventListener( 'mousemove', this._closures['pan'], false );
             }
+
+			this.handleKeyboardShortcuts(e);
         },
 
         /**
@@ -496,13 +507,79 @@
             }
         },
 
+		/**
+		 * Handles the shortcut keys in the editor
+		 * ALT or CTRL + Arrow keys will nudge the Height/Width and X/Y position respectively
+		 * @param {KeyboardEvent} e
+		 */
+		handleKeyboardShortcuts: function( e ) {
+
+			// Arrow keys not pressed
+			if( e.keyCode < ChuClone.model.Constants.KEYS.LEFT_ARROW || e.keyCode > ChuClone.model.Constants.KEYS.DOWN_ARROW) {
+				return;
+			}
+
+			// HEIGHT / WIDTH
+			if (e.altKey) {
+				// Scale height
+				if (e.keyCode == ChuClone.model.Constants.KEYS.UP_ARROW || e.keyCode == ChuClone.model.Constants.KEYS.DOWN_ARROW) {
+					var delta = e.keyCode == ChuClone.model.Constants.KEYS.UP_ARROW ? 0.25 : -0.25;
+
+					// Amplify if shift is pressed
+					if(e.shiftKey) delta *= 4;
+
+					// Set the value and call onControllerWasChanged
+					this._controllers['height'].setValue(this._controllers['height'].getValue() + delta);
+					this.onControllerWasChanged(null);
+				}
+
+				// Scale width
+				if (e.keyCode == ChuClone.model.Constants.KEYS.LEFT_ARROW || e.keyCode == ChuClone.model.Constants.KEYS.RIGHT_ARROW) {
+					var delta = e.keyCode == ChuClone.model.Constants.KEYS.RIGHT_ARROW ? 0.25 : -0.25;
+					// Amplify if shift is pressed
+					if(e.shiftKey) delta *= 4;
+
+					// Set the value and call onControllerWasChanged
+					this._controllers['width'].setValue(this._controllers['width'].getValue() + delta);
+					this.onControllerWasChanged(null);
+				}
+			}
+			// X / Y
+			else if( e.ctrlKey ) {
+				// Nudge UP/DOWN
+				if (e.keyCode == ChuClone.model.Constants.KEYS.UP_ARROW || e.keyCode == ChuClone.model.Constants.KEYS.DOWN_ARROW) {
+					var delta = e.keyCode == ChuClone.model.Constants.KEYS.DOWN_ARROW ? 0.25 : -0.25;
+
+					// Amplify if shift is pressed
+					if(e.shiftKey) delta *= 4;
+
+					// Set the value and call onControllerWasChanged
+					this._controllers['y'].setValue(this._controllers['y'].getValue() + delta);
+					this.onControllerWasChanged(null);
+				}
+
+				// Nude LEFT/RIGHT
+				if (e.keyCode == ChuClone.model.Constants.KEYS.LEFT_ARROW || e.keyCode == ChuClone.model.Constants.KEYS.RIGHT_ARROW) {
+					var delta = e.keyCode == ChuClone.model.Constants.KEYS.RIGHT_ARROW ? 0.25 : -0.25;
+
+					// Amplify if shift is pressed
+					if(e.shiftKey) delta *= 4;
+
+					// Set the value and call onControllerWasChanged
+					this._controllers['x'].setValue(this._controllers['x'].getValue() + delta);
+					this.onControllerWasChanged(null);
+				}
+			}
+		},
+
 
 		/**
 		 * Updates the entity to match the new values
 		 * @param {Number} newValue Whatever property was changed, this is not explicitely use. We just change all properties to match 'propProxy'
 		 */
         onControllerWasChanged: function( newValue ) {
-            
+
+
             if(this._currentBody == null) return;
             // Entities properties match our GUI - no change needed
             
@@ -688,6 +765,7 @@
             window.removeEventListener('mouseup', this._closures['mouseup'], false );
 
             document.removeEventListener('keydown', this._closures['keydown'], false);
+            document.removeEventListener('keypress', this._closures['keypress'], false);
             document.removeEventListener('keyup', this._closures['keyup'], false);
 
             this._closures = null;

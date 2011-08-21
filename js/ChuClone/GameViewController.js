@@ -194,7 +194,7 @@ postprocessing.blurx = new THREE.Vector2( blurAmount, 0.0 ),
          * Setup the WebGLRenderer that will draw our scene
          */
         setupRenderer: function() {
-            this._renderer = new THREE.WebGLRenderer({antialias: false});
+            this._renderer = new THREE.WebGLRenderer({antialias: true});
             initPostprocessing();
             this._renderer.autoClear = false;
             this._renderer.sortObjects = false;

@@ -95,12 +95,11 @@ Abstract:
 		 * Creates a bunch of simple cube entities that can be used as background elements
 		 * @param {Number} amount
 		 * @param {Boolean} shouldAddToView
-		 * @param {THREE.Vector3} centerPosition
-		 * @param {THREE.Vector3} rangeDimensions
+		 * @param {Object} Bounds
 		 * @param {THREE.Vector3} maxDimensions
 		 * @return {Array} backgroundElements An array of THREE.Mesh objects
 		 */
-		createBackgroundElements: function( amount, shouldAddToView, centerPosition, rangeDimensions, maxDimensions) {
+		createBackgroundElements: function( amount, shouldAddToView, bounds, maxDimensions) {
 
 			var backgroundElements = [];
 
@@ -117,9 +116,9 @@ Abstract:
 						})]);
 
 				mesh.dynamic = false;
-				mesh.position.x = centerPosition.x + ChuClone.utils.randFloat(-rangeDimensions.x, rangeDimensions.x);
-				mesh.position.y = centerPosition.y + ChuClone.utils.randFloat(-rangeDimensions.y, rangeDimensions.y);
-				mesh.position.z = centerPosition.z - ChuClone.utils.randFloat(rangeDimensions.z/2, rangeDimensions.z);
+				mesh.position.x = ChuClone.utils.randFloat( bounds.left, bounds.right );
+				mesh.position.y = ChuClone.utils.randFloat( bounds.bottom, bounds.top );
+				mesh.position.z = ChuClone.utils.randFloat( -1000, -2000);
 
 				backgroundElements.push(mesh);
 

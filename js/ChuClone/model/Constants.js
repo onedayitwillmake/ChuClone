@@ -51,7 +51,11 @@
             A: 65,
             W: 87,
             D: 68,
-            S: 83
+            S: 83,
+			UP_ARROW: 38,
+			DOWN_ARROW: 40,
+			LEFT_ARROW: 37,
+			RIGHT_ARROW: 39
         },
 
         EDITOR: {
