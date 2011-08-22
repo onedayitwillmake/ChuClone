@@ -129,14 +129,13 @@ Abstract:
 						ChuClone.utils.displayFlash( result.notice + " - Score not saved", 0);
 					} else {
 						ChuClone.utils.displayFlash("Highscore Saved", 1);
+						ChuClone.gui.HUDController.updateScores( true );
 					}
-
-
 				}
 			};
 
 
-            var scoreurl = ChuClone.model.Constants.SERVER.SCORE_SUBMIT_LOCATION.replace("#", window.location.href.match(/[\/](\d+)/)[1]);
+            var scoreurl = ChuClone.model.Constants.SERVER.SCORE_SUBMIT_LOCATION.replace("#", ChuClone.utils.getLevelIDFromURL() );
 			request.open("POST", scoreurl);
 			request.send(formData);
         },

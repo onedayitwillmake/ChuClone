@@ -456,7 +456,6 @@ Abstract:
 			if( this._backgroundElements ) {
                 var len = this._backgroundElements.length;
                 for (var i = 0; i < len; i++) {
-					console.log(this._backgroundElements[i])
                     this._gameView.removeObjectFromScene(this._backgroundElements[i]);
                 }
                 this._backgroundElements = [];

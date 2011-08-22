@@ -20,6 +20,8 @@
 	var domElementTime = null;
 	var timeCanvas = null;
 	var timeContext = null;
+	var lastScoreUpdate = Date.now();
+
 	ChuClone.gui.HUDController = {
 		onDomReady: function(e) {
 			window.removeEventListener('DOMContentLoaded', ChuClone.gui.HUDController.onDomReady, false);
@@ -35,10 +37,14 @@
 		 */
 		setupEvents: function() {
 
+			var that = this;
 			ChuClone.Events.Dispatcher.addListener(ChuClone.editor.LevelManager.prototype.EVENTS.LEVEL_CREATED, function( aLevelManager ) {
 				if(document.getElementById('leveltitle'))
-				document.getElementById('leveltitle').innerHTML = aLevelManager._levelModel.levelName;
-			});
+					document.getElementById('leveltitle').innerHTML = aLevelManager._levelModel.levelName;
+
+				if( document.getElementById('score_container') )
+					that.updateScores();
+			})
 
 			if( document.getElementById('fullscreen_toggle') ) {
 				document.getElementById('fullscreen_toggle').style.cursor = "pointer"
@@ -75,7 +81,7 @@
 			context.font = "48px Jura";
 			context.textAlign = "center";
 			context.textBaseline = "middle";
-			context.fillStyle = "rgba(32, 45, 21, " + 1 + ")";
+			context.fillStyle = "rgba(45, 45, 45, " + 1 + ")";
 
 			timeContext = context;
 			timeContext.width = container.offsetWidth;
@@ -94,7 +100,7 @@
 			seconds += (seconds % 1) ? " secs" : ".0 secs"; // eg Adds .0 to 12 -
 
 			timeContext.clearRect(0, 0, timeContext.width, timeContext.height);
-			timeContext.fillText(seconds, 150, Math.round(timeContext.height * 0.5));
+			timeContext.fillText(seconds, 150, Math.round(timeContext.height * 0.4));
 		},
 
 		/**
@@ -187,6 +193,41 @@
 				.onComplete( function() { gameContainer.parentNode.removeChild( instructions ) })
 				.start();
 			}
+		},
+
+		/**
+		 * Populates the score container gui with new scores
+		 * @param {Boolean} force If true, will always update (ignoring id/time check)
+		 */
+		updateScores: function( force ) {
+
+			var level_id = ChuClone.utils.getLevelIDFromURL();
+			if( !level_id ) return; // No level-id in address bar, probably at titlescreen
+
+
+			var scoresContainer = document.getElementById('score_container');
+
+			// level_id is different, or at least a minute has passed since getting the score
+			if(!force && scoresContainer.getAttribute("data-id") == level_id && Date.now()-lastScoreUpdate < 60 * 1000) {
+				console.log("Same id ");
+				return;
+			}
+			// remove whats there
+			lastScoreUpdate = Date.now();
+			scoresContainer.innerHTML = "";
+			scoresContainer.setAttribute("data-id", level_id);
+
+			// Fetch the results
+			var request = new XMLHttpRequest();
+			var that = this;
+			request.onreadystatechange = function() {
+				if (request.readyState == 4) {
+					scoresContainer.innerHTML = request.responseText;
+					ChuClone.utils.animateChildrenInFromBelow( scoresContainer, 400);
+				}
+			};
+			request.open("GET", ChuClone.model.Constants.SERVER.SCORE_LOAD_LOCATION.replace("#", level_id ));
+			request.send(null);
 		}
 	};
 

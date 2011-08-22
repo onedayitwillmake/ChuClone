@@ -100,7 +100,8 @@ Abstract:
 		 */
 		animateIn: function() {
 
-			this._backgroundElements = this.createBackgroundElements(50, true, this._camera.position, new THREE.Vector3(10000, 2000, 4000), new THREE.Vector3(100, 100, 200) );
+			//, true, this._camera.position, new THREE.Vector3(10000, 2000, 4000), new THREE.Vector3(100, 100, 200) );
+			this._backgroundElements = this.createBackgroundElements(50, true, {left: 10, right: 15000, top: 4000, bottom:-2000}, new THREE.Vector3(100, 100, 200) );
 
 			// Animate all bodys that have a corresponding entity
 			/**

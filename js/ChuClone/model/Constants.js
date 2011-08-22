@@ -36,7 +36,8 @@
 			LEVEL_LOAD_LOCATION		: "/levels/",			// Location of where levels can be loaded from
 			USER_LEVELS_LOCATION	: "/levels/data.json",	// Location to retrieve user levels
 			USER_SUBMIT_LOCATION	: "/levels/create_from_editor.js",	// Location to retrieve user levels
-			SCORE_SUBMIT_LOCATION   : "/levels/#/highscores.json"	// Location to retrieve user levels
+			SCORE_SUBMIT_LOCATION   : "/levels/#/highscores.json",	// Location to retrieve user levels
+			SCORE_LOAD_LOCATION		: "/levels/#/highscores"	// Location to retrieve user levels
 		},
 
         // Joystick component

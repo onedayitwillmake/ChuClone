@@ -37,6 +37,15 @@
 		},
 
 		/**
+		 * Retrieves the level ID from the address bar
+		 */
+		getLevelIDFromURL: function() {
+			var result = window.location.href.match(/[\/](\d+)/);
+			if( result ) return result[1];
+			else return null;
+		},
+
+		/**
 		 * Returns a random float between min and max
 		 * @param {Number} min
 		 * @param {Number} max
@@ -242,14 +251,14 @@
 		 * Animates all the children of a container from below, to create a staggered sliding up animation
 		 * @param {HTMLElement} aContainer
 		 */
-		animateChildrenInFromBelow: function( aContainer ) {
+		animateChildrenInFromBelow: function( aContainer, offset ) {
 			for( var i = 0; i < aContainer.children.length; i++){
 				var child = aContainer.children[i];
 				child.style.top = '0px';
 				child.style.position = 'relative';
 
 				// START FROM BELOW
-				new TWEEN.Tween({target: child, pos: 150, original: parseInt(child.style.top)})
+				new TWEEN.Tween({target: child, pos: offset || 150, original: parseInt(child.style.top)})
 					.to({pos: 0}, i*20 + 500)
 					.easing( TWEEN.Easing.Sinusoidal.EaseInOut )
 					.onUpdate( function(){

@@ -103,7 +103,7 @@ postprocessing.blurx = new THREE.Vector2( blurAmount, 0.0 ),
         this.setupEvents();
 //        this.setupBackgroundParticleManager();
 //        this.setupBloom();
-        this.setupStats();
+//        this.setupStats();
         this.onSetupComplete();
 
         ChuClone.GameViewController.INSTANCE = this;
