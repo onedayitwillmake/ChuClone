@@ -161,26 +161,6 @@
 			if (this.speedFactor <= 0) this.speedFactor = 1;
 		},
 
-        joystickUpdate: function( message ) {
-            var angle = +message.payload.analog
-			this._keyStates['left'] = angle != 0 && angle < 360 && angle > 180;
-			this._keyStates['right'] = angle > 0 && angle < 180;
-			this._keyStates['up'] = message.payload.button
-        },
-
-        joystickSelectLevel: function( message ) {
-            return;
-            if( !message.payload.level_id ) return;
-
-            // KILL NET CHANNEL
-            this.netChannel.dealloc();
-			this.netChannel = null;
-
-            // LOAD THE LEVEL
-            var url = ChuClone.model.Constants.SERVER.LEVEL_LOAD_LOCATION + message.payload.level_id + ".js?r" + Math.floor(Math.random() * 9999);
-            ChuClone.Events.Dispatcher.emit(ChuClone.gui.LevelListing.prototype.EVENTS.SHOULD_CHANGE_LEVEL, url)
-        },
-
 		/**
 		 * Called when the joystick sends an 'Update' command
 		 * @param {Object} message

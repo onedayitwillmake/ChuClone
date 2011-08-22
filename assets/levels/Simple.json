@@ -1,9 +1,9 @@
 {
 	"editingInfo": {
-		"author": "1dayitwillmake",
+		"author": "#{user_name}",
 		"levelName": "Simple",
-		"creationDate": 1312519821994,
-		"modificationDate": 1312519821994
+		"creationDate": 1314041223773,
+		"modificationDate": 1314041223773
 	},
 	"worldSettings": {
 		"PTM_RATIO": 64
@@ -11,11 +11,173 @@
 	"playerInfo": null,
 	"bodyList": [
 		{
-			"x": 17.822716777832543,
-			"y": 1.4083493567381482,
+			"x": 104.5312220045378,
+			"y": 2.191925620438024,
 			"dimensions": {
-				"width": 192,
-				"height": 192,
+				"width": 12.8,
+				"height": 0.64,
+				"depth": 128
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": []
+		},
+		{
+			"x": 98.5312220045378,
+			"y": 2.191925620438024,
+			"dimensions": {
+				"width": 12.8,
+				"height": 0.64,
+				"depth": 128
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": []
+		},
+		{
+			"x": 85.5312220045378,
+			"y": -0.05807437956197603,
+			"dimensions": {
+				"width": 12.8,
+				"height": 0.64,
+				"depth": 128
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": []
+		},
+		{
+			"x": 67.5312220045378,
+			"y": -0.808074379561976,
+			"dimensions": {
+				"width": 12.8,
+				"height": 0.64,
+				"depth": 128
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": []
+		},
+		{
+			"x": 73.5312220045378,
+			"y": -0.808074379561976,
+			"dimensions": {
+				"width": 12.8,
+				"height": 0.64,
+				"depth": 128
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": []
+		},
+		{
+			"x": 57.5312220045378,
+			"y": -1.308074379561976,
+			"dimensions": {
+				"width": 12.8,
+				"height": 0.64,
+				"depth": 128
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": []
+		},
+		{
+			"x": 63.5312220045378,
+			"y": -1.308074379561976,
+			"dimensions": {
+				"width": 12.8,
+				"height": 0.64,
+				"depth": 128
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": []
+		},
+		{
+			"x": 43.51185328143884,
+			"y": -1.3603221079216123,
+			"dimensions": {
+				"width": 12.8,
+				"height": 0.64,
+				"depth": 128
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": []
+		},
+		{
+			"x": 87.03770240316739,
+			"y": 6.571292936623123,
+			"dimensions": {
+				"width": 448,
+				"height": 416,
+				"depth": 512
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": []
+		},
+		{
+			"x": 114.69218154487142,
+			"y": 4.356783447355516,
+			"dimensions": {
+				"width": 384,
+				"height": 128,
 				"depth": 192
 			},
 			"angle": 0,
@@ -34,14 +196,520 @@
 			]
 		},
 		{
-			"x": 11.722716777832542,
-			"y": -7.491650643261853,
+			"x": 101.37732504467677,
+			"y": 5.330726898887269,
+			"dimensions": {
+				"width": 448,
+				"height": 192,
+				"depth": 512
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": []
+		},
+		{
+			"x": 21.52939247068802,
+			"y": 13.367391304347846,
+			"dimensions": {
+				"width": 304,
+				"height": 80,
+				"depth": 241.6
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": []
+		},
+		{
+			"x": 31.094609861992325,
+			"y": 64.8891304347824,
+			"dimensions": {
+				"width": 304,
+				"height": 80,
+				"depth": 241.6
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": []
+		},
+		{
+			"x": 15.429762114033675,
+			"y": 26.06293361068795,
+			"dimensions": {
+				"width": 176,
+				"height": 224,
+				"depth": 241.6
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": []
+		},
+		{
+			"x": 23.25584907055538,
+			"y": 43.0194553498183,
+			"dimensions": {
+				"width": 176,
+				"height": 224,
+				"depth": 241.6
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": []
+		},
+		{
+			"x": 15.864544722729327,
+			"y": 61.49771621938345,
+			"dimensions": {
+				"width": 304,
+				"height": 496,
+				"depth": 241.6
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": []
+		},
+		{
+			"x": 38.473240374903156,
+			"y": 32.149890132427046,
+			"dimensions": {
+				"width": 304,
+				"height": 496,
+				"depth": 241.6
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": []
+		},
+		{
+			"x": 67.20771242459249,
+			"y": 23.83311994609164,
+			"dimensions": {
+				"width": 304,
+				"height": 368,
+				"depth": 241.6
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": []
+		},
+		{
+			"x": 67.06485528173535,
+			"y": 13.547405660377374,
+			"dimensions": {
+				"width": 304,
+				"height": 32,
+				"depth": 241.6
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": []
+		},
+		{
+			"x": 39.05384899242717,
+			"y": 13.712500000000018,
+			"dimensions": {
+				"width": 704,
+				"height": 368,
+				"depth": 241.6
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": []
+		},
+		{
+			"x": 86.31013830060328,
+			"y": 16.56627358490566,
+			"dimensions": {
+				"width": 304,
+				"height": 64,
+				"depth": 241.6
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": []
+		},
+		{
+			"x": 72.88675900694102,
+			"y": 4.31657595549105,
+			"dimensions": {
+				"width": 448,
+				"height": 320,
+				"depth": 512
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "TutorialNoteComponent",
+					"message": "See that <strong>green</strong> block over there?<br><strong>Touch</strong> it to complete the level!"
+				}
+			]
+		},
+		{
+			"x": 60.74134899242722,
+			"y": 0.08749999999999833,
+			"dimensions": {
+				"width": 304,
+				"height": 80,
+				"depth": 320
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": []
+		},
+		{
+			"x": 51.0538489924272,
+			"y": 1.275,
+			"dimensions": {
+				"width": 304,
+				"height": 176,
+				"depth": 320
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": []
+		},
+		{
+			"x": 61.30802959443376,
+			"y": 56.87972408026743,
+			"dimensions": {
+				"width": 704,
+				"height": 368,
+				"depth": 241.6
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": []
+		},
+		{
+			"x": 55.30384899242719,
+			"y": 9.962500000000015,
+			"dimensions": {
+				"width": 304,
+				"height": 64,
+				"depth": 241.6
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": []
+		},
+		{
+			"x": 25.99134899242716,
+			"y": 1.1500000000000001,
+			"dimensions": {
+				"width": 304,
+				"height": 176,
+				"depth": 241.6
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": []
+		},
+		{
+			"x": 11.666972257802266,
+			"y": -15.731068632679838,
+			"dimensions": {
+				"width": 192,
+				"height": 192,
+				"depth": 192
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "RespawnComponent",
+					"textureSource": "assets/images/game/flooraqua.png"
+				}
+			]
+		},
+		{
+			"x": 15.283673469387754,
+			"y": -5.631368102796673,
+			"dimensions": {
+				"width": 6.4,
+				"height": 48,
+				"depth": 192
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": []
+		},
+		{
+			"x": 8.116061980347691,
+			"y": -15.768367346938772,
+			"dimensions": {
+				"width": 6.4,
+				"height": 192,
+				"depth": 192
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": []
+		},
+		{
+			"x": 8.13458049886621,
+			"y": -9.564663643235068,
+			"dimensions": {
+				"width": 6.4,
+				"height": 192,
+				"depth": 192
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": []
+		},
+		{
+			"x": 8.154043839758145,
+			"y": -5.6776643990929685,
+			"dimensions": {
+				"width": 6.4,
+				"height": 48,
+				"depth": 192
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": []
+		},
+		{
+			"x": 15.2734693877551,
+			"y": -15.76836734693877,
+			"dimensions": {
+				"width": 6.4,
+				"height": 192,
+				"depth": 192
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": []
+		},
+		{
+			"x": 15.2734693877551,
+			"y": -9.518367346938772,
+			"dimensions": {
+				"width": 6.4,
+				"height": 192,
+				"depth": 192
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": []
+		},
+		{
+			"x": 13.11634899242714,
+			"y": 7.650000000000008,
+			"dimensions": {
+				"width": 304,
+				"height": 64,
+				"depth": 241.6
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": []
+		},
+		{
+			"x": 11.839630503369484,
+			"y": 1.565016501650165,
+			"dimensions": {
+				"width": 192,
+				"height": 192,
+				"depth": 192
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "TutorialNoteComponent",
+					"message": "Welcome to ChuClone.<br><br>Use <strong>WASD</strong> to move Chu around."
+				}
+			]
+		},
+		{
+			"x": 18.05735559308723,
+			"y": 1.3339933993399344,
+			"dimensions": {
+				"width": 192,
+				"height": 176,
+				"depth": 128
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "TutorialNoteComponent",
+					"message": "Now we're moving.<br><br>Dont forget to move the camera with the mouse."
+				}
+			]
+		},
+		{
+			"x": 11.666972257802266,
+			"y": -16.731068632679836,
 			"dimensions": {
 				"width": 30,
 				"height": 30,
 				"depth": 30
 			},
-			"angle": 0,
+			"angle": 25.137271104705793,
 			"physicsInfo": {
 				"density": 0,
 				"friction": 0,
@@ -68,12 +736,12 @@
 			]
 		},
 		{
-			"x": 11.600000000000001,
-			"y": 1.4000000000000001,
+			"x": 12.746690305081536,
+			"y": -1.4700808606106226,
 			"dimensions": {
-				"width": 192,
-				"height": 192,
-				"depth": 192
+				"width": 12.8,
+				"height": 0.64,
+				"depth": 128
 			},
 			"angle": 0,
 			"physicsInfo": {
@@ -86,12 +754,48 @@
 			"components": []
 		},
 		{
-			"x": 11.722716777832542,
-			"y": -6.491650643261853,
+			"x": 18.583281852867408,
+			"y": -1.516484572907606,
 			"dimensions": {
-				"width": 192,
-				"height": 192,
-				"depth": 192
+				"width": 12.8,
+				"height": 0.64,
+				"depth": 241.6
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": []
+		},
+		{
+			"x": 53.53122200453781,
+			"y": -1.5580743795619763,
+			"dimensions": {
+				"width": 12.8,
+				"height": 0.64,
+				"depth": 128
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": []
+		},
+		{
+			"x": 38.355455012193566,
+			"y": 1.439721677693376,
+			"dimensions": {
+				"width": 480,
+				"height": 176,
+				"depth": 256
 			},
 			"angle": 0,
 			"physicsInfo": {
@@ -103,10 +807,28 @@
 			"entityType": 4,
 			"components": [
 				{
-					"displayName": "RespawnComponent",
-					"textureSource": "assets/images/game/flooraqua.png"
+					"displayName": "TutorialNoteComponent",
+					"message": "<strong>Thats the stuff!</strong><br><span class=\"jura_18\">Now lets get some speed!<br>Chu all about speed.<br>The wind in Chu's perfectly aerodynamic body.</span>"
 				}
 			]
+		},
+		{
+			"x": 37.29756756715312,
+			"y": -1.3736274300504638,
+			"dimensions": {
+				"width": 12.8,
+				"height": 0.64,
+				"depth": 128
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": []
 		}
 	]
 }

@@ -23,7 +23,7 @@ Abstract:
 		ChuClone.components.player.KeyboardInputComponent .superclass.constructor.call(this);
 	};
 
-	ChuClone.components.player.KeyboardInputComponent .prototype = {
+	ChuClone.components.player.KeyboardInputComponent.prototype = {
         /**
          * @type {String}
          */
@@ -98,6 +98,13 @@ Abstract:
 			}
 
         },
+
+		/**
+		 * Sets all keystates to false
+		 */
+		resetState: function() {
+			this._keyStates.left = this._keyStates.right = this._keyStates.up = this._keyStates.down = false;
+		},
 
         /**
          * Restore material and restitution

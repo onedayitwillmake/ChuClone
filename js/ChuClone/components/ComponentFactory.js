@@ -50,6 +50,7 @@
     lookup[ChuClone.components.camera.CameraFollowEditorComponent.prototype.displayName] = ChuClone.components.camera.CameraFollowEditorComponent;
     lookup[ChuClone.components.camera.CameraFollowPlayerComponent.prototype.displayName] = ChuClone.components.camera.CameraFollowPlayerComponent;
 	lookup[ChuClone.components.effect.ParticleEmitterComponent.prototype.displayName] = ChuClone.components.effect.ParticleEmitterComponent;
+	lookup[ChuClone.components.misc.TutorialNoteComponent.prototype.displayName] = ChuClone.components.misc.TutorialNoteComponent;
 
 
 

@@ -70,7 +70,7 @@ Abstract:
 		/**
 		 * Overwrite to allow component specific GUI
 		 */
-		_editableProperties: {rangeX: {value: 0, min: 0, max: 30}, rangeY: {value: 0, min: 0, max: 30}, speed: {value: 1, min: 0, max: 30}, offset: {value: 0,  min: -0.99, max: 0.99}, active: true},
+		_editableProperties: {rangeX: {value: 0, min: 0, max: 30}, rangeY: {value: 0, min: 0, max: 30}, speed: {value: 1, min: 0, max: 30}, offset: {value: 0,  min: -0.99, max: 0.99}},
 
 		/**
 		 * @inheritDoc
@@ -211,7 +211,6 @@ Math.easeOutQuad = function (t, b, c, d) {
 			this._editableProperties.rangeY.value = this._range.y;
 			this._editableProperties.speed.value = this._speed.x;
 			this._editableProperties.offset.value = this._offset;
-            this._editableProperties.active = this.requiresUpdate;
         },
 
         /**
@@ -232,7 +231,6 @@ Math.easeOutQuad = function (t, b, c, d) {
 			this._offset = this._editableProperties.offset.value;
 
             this.reset();
-			this.requiresUpdate = this._editableProperties.active;
 		},
 
         /**
