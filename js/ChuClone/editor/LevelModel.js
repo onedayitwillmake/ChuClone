@@ -200,6 +200,7 @@
                     entityInfo.physicsInfo.bodyType == Box2D.Dynamics.b2Body.b2_kinematicBody
                 );
 
+
                 var view = aGameView.createEntityView(
                     entityInfo.x*this.ptmRatio,
                     entityInfo.y*this.ptmRatio,

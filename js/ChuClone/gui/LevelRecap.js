@@ -75,7 +75,6 @@
 			htmlElement.style.opacity = 0;
 			htmlElement.style.cursor = "pointer";
 
-			debugger;
 			// Center if not inside of a div
 			if(gameContainer.parentNode.tagName === "BODY") {
 				// Container width - 960/2 (960 comes from the fact that we're using grid960 css)

@@ -36,6 +36,12 @@ Abstract:
 		 * type {Boolean}
 		 */
 		_isReady						: true,
+
+		/**
+		 * @type {Number}
+		 */
+		_destroyNoteTimeout				: null,
+
 		/**
 		 * @type {Object}
 		 */
@@ -59,14 +65,30 @@ Abstract:
 
 			//See that <strong>green</strong> block over there?<br><strong>Touch</strong> it to complete the level!
 			//<strong>Thats the stuff!</strong><br><span class="jura_18">Now lets get some speed!<br>Chu all about speed.<br>The wind in Chu's perfectly aerodynamic body.</span>
+			// <strong>Alright!</strong><br>Now here comes a <strong>jumppad</strong><br><br><span class="jura_24">Get ready!</span>
+			// <strong>Nice Landing!</strong><br>Lets do another one!
+			//<br>Now here comes a <strong>jumppad</strong><br><br><span class="jura_24">Get ready!</span>
             this.interceptedProperties.onCollision.call(this.attachedEntity, otherActor );
             if( !this._isReady || ChuClone.model.Constants.IS_EDIT_MODE() ) return;
 			this._isReady = false;
 
 			var input = otherActor.getComponentWithName(ChuClone.components.player.KeyboardInputComponent.prototype.displayName);
-			input.resetState();
+
+			// Slow down
+			otherActor.getBody().SetLinearVelocity( new Box2D.Common.Math.b2Vec2(0, 0) );
+
+			//input.resetState();
 
 			ChuClone.gui.TutorialNoteDisplay.show(this._message);
+
+			var that = this;
+			this._destroyNoteTimeout = setTimeout( function(){
+				if( ChuClone.gui.TutorialNoteDisplay.noteText == that._message ) {
+					ChuClone.gui.TutorialNoteDisplay.fadeOutAndDestroy();
+				}
+
+				//that._destroyNoteTimeout = null;
+			}, ChuClone.model.Constants.TIMINGS.TUTORIAL_FADE_OUT_TIME);
         },
 
 		 /**

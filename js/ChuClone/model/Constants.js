@@ -40,6 +40,10 @@
 			SCORE_LOAD_LOCATION		: "/levels/#/highscores"	// Location to retrieve user levels
 		},
 
+		TIMINGS: {
+			TUTORIAL_FADE_OUT_TIME	: 3500
+		},
+
         // Joystick component
         JOYSTICK: {
             ENABLED: false,

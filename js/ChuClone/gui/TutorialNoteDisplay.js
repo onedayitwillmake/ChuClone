@@ -10,14 +10,19 @@
 	var htmlElement = null;
 	var gameContainer = null;
 	ChuClone.gui.TutorialNoteDisplay = {
+		noteText: null,
+
 		show: function(noteText) {
+			this.noteText = noteText;
 			if( htmlElement ) {
-				console.error(" Already have an HTMLElement. Aborting...");
-				return;
+				this.destroy( true );
 			}
 
-			//Welcome to ChuClone.<br><br>Use <strong>WASD</strong> to move Chu around.
+			// Welcome to ChuClone.<br><br>Use <strong>WASD</strong> to move Chu around.
 			// Now we're moving.<br><br>Dont forget to move the camera with the mouse.
+			// <strong>Thats the stuff!</strong><br><span class="jura_18">Now lets get some speed!<br>Chu all about speed.<br>The wind in Chu's perfectly aerodynamic body.</span>
+			// See that <strong>green</strong> block over there?<br><strong>Touch</strong> it to complete the level!
+
 			var partial = partial_html.replace("#{note}", noteText);
 
 			// Reference to games htmlElement
@@ -63,7 +68,7 @@
 			new TWEEN.Tween({opacity:0})
 				.to({opacity: 1}, 800)
 				.easing( TWEEN.Easing.Sinusoidal.EaseIn )
-				.onUpdate( function(){ htmlElement.style.opacity = this.opacity; })
+				.onUpdate( function(){ if(htmlElement) htmlElement.style.opacity = this.opacity; })
 				.start();
 
 
@@ -77,27 +82,45 @@
 			var that = this;
 			this._callback = function(e){
 				if( e.type == 'mousedown' ) {
-					that.destroy();
+					that.fadeOutAndDestroy( noteText );
 				}
                 e.stopPropagation();
             };
 
             window.addEventListener('mousedown', this._callback, false);
-            ChuClone.DOM_ELEMENT.addEventListener('keydown', this._callback, false);
-            ChuClone.DOM_ELEMENT.addEventListener('keyup', this._callback, false);
+			ChuClone.DOM_ELEMENT.tabIndex = 0;
+					ChuClone.DOM_ELEMENT.focus();
+            //ChuClone.DOM_ELEMENT.addEventListener('keydown', this._callback, false);
+            //ChuClone.DOM_ELEMENT.addEventListener('keyup', this._callback, false);
 
 		},
 
 
 		/**
+		 * Fade out the TutorialNote and call destroy on complete
+		 */
+		fadeOutAndDestroy: function( noteText ) {
+			var that = this;
+			new TWEEN.Tween({opacity:1})
+					.to({opacity: 0}, 400)
+					.easing(TWEEN.Easing.Sinusoidal.EaseIn)
+					.onUpdate(function() { htmlElement.style.opacity = this.opacity; })
+					.onComplete(function() { that.destroy( noteText ) })
+					.start();
+		},
+
+		/**
 		 * Removes the HTMLElement from the DOM
 		 */
-		destroy: function() {
+		destroy: function( noteText ) {
 			if(!htmlElement) return;
 
 			window.removeEventListener('mousedown', this._callback);
-            ChuClone.DOM_ELEMENT.removeEventListener('keydown', this._callback);
-            ChuClone.DOM_ELEMENT.removeEventListener('keyup', this._callback);
+            //ChuClone.DOM_ELEMENT.removeEventListener('keydown', this._callback);
+            //ChuClone.DOM_ELEMENT.removeEventListener('keyup', this._callback);
+
+			if(noteText == this.noteText)
+				this.noteText = null;
 
 			this._callback = null;
 			htmlElement.parentNode.removeChild(htmlElement);
