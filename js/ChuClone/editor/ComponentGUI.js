@@ -58,7 +58,7 @@
 
 
 			// Create new one
-			var gui = new DAT.GUI({width: ChuClone.model.Constants.EDITOR.PANEL_WIDTH});
+			var gui = new DAT.GUI({width: ChuClone.model.Constants.EDITOR.PANEL_WIDTH + 10});
 			gui.componentControllers = {};
 			gui.name( componentName );
 			gui.autoListen = false;

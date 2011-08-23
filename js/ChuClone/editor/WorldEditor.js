@@ -68,6 +68,11 @@
         _mousePosition  : null,
 
 		/**
+		 * @type {ChuClone.editor.ShiftDragHelper}
+		 */
+		_shiftDragHelper : null,
+
+		/**
          * @type {Box2D.Common.Math.b2Vec2}
          */
 		_dragOffset		: null,
@@ -422,6 +427,10 @@
             e.preventDefault();
             this.updateMousePosition(e);
 
+			if (e.shiftKey) {
+				this._shiftDragHelper = new ChuClone.editor.ShiftDragHelper(this._mousePosition);
+			}
+
             var pos = new Box2D.Common.Math.b2Vec2(this._mousePosition.x, this._mousePosition.y);
             pos.Multiply( 1.0 / this._worldController.getDebugDraw().GetDrawScale() );
 
@@ -441,11 +450,18 @@
          */
         onDraggingPiece: function(e) {
             if( !this._currentBody ) return;
+
+
             this.updateMousePosition(e);
+
+			// Shift key is being pressed, but we have no shiftdraghelper
+			if (e.shiftKey && !this._shiftDragHelper) {
+				this._shiftDragHelper = new ChuClone.editor.ShiftDragHelper(this._mousePosition);
+			}
 
             var pos = new Box2D.Common.Math.b2Vec2(this._mousePosition.x, this._mousePosition.y);
             pos.Multiply( 1.0 / this._worldController.getDebugDraw().GetDrawScale() );
-			pos.Subtract( this._dragOffset )
+			pos.Subtract( this._dragOffset );
 
             this._currentBody.SetPosition(pos);
             this._currentBody.GetUserData().onEditorDidDragEntity();
@@ -460,7 +476,11 @@
          */
         onMouseUp: function(e) {
             this._worldController.getDebugDraw().GetSprite().canvas.removeEventListener( 'mousemove', this._closures['mousemove'], false );
-//            this.updateMousePosition(e);
+
+			if(this._shiftDragHelper) {
+				this._shiftDragHelper.dealloc();
+				this._shiftDragHelper = null;
+			}
         },
 
 
@@ -514,7 +534,19 @@
 		 * @param {KeyboardEvent} e
 		 */
 		handleKeyboardShortcuts: function( e ) {
+			if(e.target.nodeName != 'BODY') {
+				//console.log("Ignoring shortcut!", e.target);
+				return;
+			}
 
+			if( e.shiftKey && e.type == 'keydown') {
+				// d
+				if(e.keyCode == 68) {
+					this.onShouldDelete()
+				} else if (e.keyCode == 67 ) {
+					this.onShouldCloneEntity();
+				}
+			}
 			// Arrow keys not pressed
 			if( e.keyCode < ChuClone.model.Constants.KEYS.LEFT_ARROW || e.keyCode > ChuClone.model.Constants.KEYS.DOWN_ARROW) {
 				return;
@@ -698,6 +730,11 @@
             // Offset for DEBUGDRAW
             this._mousePosition.x -= this._worldController.getDebugDraw().offsetX*this._worldController.getDebugDraw().GetDrawScale();
             this._mousePosition.y -= this._worldController.getDebugDraw().offsetY*this._worldController.getDebugDraw().GetDrawScale();
+
+			// Allow the shiftDragHelper to constrain the position if we have one
+			if( this._shiftDragHelper ) {
+				this._mousePosition = this._shiftDragHelper.adjustPosition( this._mousePosition );
+			}
         },
 
         /**

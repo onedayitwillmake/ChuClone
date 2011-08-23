@@ -1,9 +1,9 @@
 {
 	"editingInfo": {
-		"author": "1dayitwillmake",
+		"author": "#{user_name}",
 		"levelName": "Tutorial One",
-		"creationDate": 1314050547060,
-		"modificationDate": 1314050547060
+		"creationDate": 1314053437085,
+		"modificationDate": 1314053437085
 	},
 	"worldSettings": {
 		"PTM_RATIO": 64
@@ -433,12 +433,7 @@
 				"bodyType": 1
 			},
 			"entityType": 4,
-			"components": [
-				{
-					"displayName": "TutorialNoteComponent",
-					"message": "<strong>Nice Landing!</strong><br>Lets do another one!"
-				}
-			]
+			"components": []
 		},
 		{
 			"x": 308.33291157463356,
@@ -459,13 +454,13 @@
 			"components": [
 				{
 					"displayName": "TutorialNoteComponent",
-					"message": "<strong>Nice Landing!</strong><br>Lets do another one!"
+					"message": "<strong>Nice Landing!</strong><br>Lets do another one! "
 				}
 			]
 		},
 		{
 			"x": 236.57062740287776,
-			"y": -7.852196969696965,
+			"y": -7.5396969696969665,
 			"dimensions": {
 				"width": 880,
 				"height": 768,
@@ -1009,8 +1004,8 @@
 			"components": []
 		},
 		{
-			"x": 11.839630503369477,
-			"y": -23.43498349834984,
+			"x": 11.839630503369474,
+			"y": -23.434983498349837,
 			"dimensions": {
 				"width": 192,
 				"height": 192,
@@ -1057,7 +1052,7 @@
 				"height": 30,
 				"depth": 30
 			},
-			"angle": 78.53609241850893,
+			"angle": 73.82922608988773,
 			"physicsInfo": {
 				"density": 0,
 				"friction": 0,
@@ -1085,7 +1080,7 @@
 		},
 		{
 			"x": 12.746690305081536,
-			"y": -26.470080860610622,
+			"y": -26.47008086061062,
 			"dimensions": {
 				"width": 12.8,
 				"height": 1.1,
@@ -1599,7 +1594,7 @@
 			"components": [
 				{
 					"displayName": "TutorialNoteComponent",
-					"message": "<strong>Alright!</strong><br>Now here comes a <strong>jumppad</strong><br><span class=\"jura_18\">Get ready!</span>"
+					"message": "<strong>Alright!</strong><br>Now here comes a <strong>jumppad</strong>"
 				}
 			]
 		},
@@ -1676,7 +1671,7 @@
 			"components": [
 				{
 					"displayName": "TutorialNoteComponent",
-					"message": "<strong>Thats the stuff!</strong><br><span class=\"jura_18\">Now lets get some speed!<br>Chu all about speed.<br>The wind in Chu's perfectly aerodynamic body.</span>   "
+					"message": "<strong>Thats the stuff!</strong><br><span class=\"jura_18\">Now lets get some speed!<br>Chu loves the speed"
 				}
 			]
 		},

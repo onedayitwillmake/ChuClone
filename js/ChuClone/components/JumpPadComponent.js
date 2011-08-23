@@ -169,13 +169,13 @@ Abstract:
                 newOrientation = 1;
                 this._textureSource = ChuClone.components.JumpPadComponent.prototype._textureSource + "right.png";
             } else {
-                newOrientation = 0;
+                newOrientation = -1;
                 this._textureSource = ChuClone.components.JumpPadComponent.prototype._textureSource + "left.png";
             }
 
             // No change
             if( newOrientation == this._textureOrientation ) return;
-            this._textureOrientation = newOrientation;
+            this.getOrientationFromTexture( this._textureSource );
 
             // Load the image and set the texture
             var texture = this.attachedEntity.getView().materials[0];
@@ -200,7 +200,6 @@ Abstract:
          */
         getModel: function() {
             var returnObject = ChuClone.components.JumpPadComponent.superclass.getModel.call(this);
-            console.log("T", this._textureSource)
             returnObject.textureSource = this._textureSource;
 			returnObject.inactiveDelay = this._inactiveDelay;
 
@@ -214,12 +213,24 @@ Abstract:
             ChuClone.components.JumpPadComponent.superclass.fromModel.call(this, data);
             this._textureSource = this.fixTextureSource( data.textureSource );
             this._inactiveDelay = data.inactiveDelay;
+
+			this.getOrientationFromTexture( this._textureSource );
         },
+
+		/**
+		 * Determins the textureOrientation based on the image given
+		 * @param {String} imageSource
+		 */
+		getOrientationFromTexture: function( imageSource ) {
+			if(imageSource.indexOf("right") != -1) this._textureOrientation = 1;
+			else if( imageSource.indexOf("left") != -1 ) this._textureOrientation = -1;
+		},
 
         // TEMP FUNCTION DURING DEV
         fixTextureSource: function( originalSource ) {
             if(originalSource.indexOf("_") == -1) {
-                console.log("BAD SOURCE" + originalSource);
+                console.log("BAD SOURCE: " + originalSource);
+				this._textureOrientation = 1;
                 return ChuClone.components.JumpPadComponent.prototype._textureSource + "right.png";
             }
 

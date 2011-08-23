@@ -1,9 +1,9 @@
 {
 	"editingInfo": {
-		"author": "1dayitwillmake",
+		"author": "#{user_name}",
 		"levelName": "SunsetMountain",
-		"creationDate": 1313213339847,
-		"modificationDate": 1313213339847
+		"creationDate": 1314063343746,
+		"modificationDate": 1314063343746
 	},
 	"worldSettings": {
 		"PTM_RATIO": 64
@@ -76,7 +76,7 @@
 			"components": [
 				{
 					"displayName": "JumpPadComponent",
-					"textureSource": "assets/images/game/jumppad_right.png",
+					"textureSource": "assets/images/game/jumppad_left.png",
 					"inactiveDelay": 500
 				}
 			]
@@ -100,7 +100,7 @@
 			"components": [
 				{
 					"displayName": "JumpPadComponent",
-					"textureSource": "assets/images/game/jumppad_right.png",
+					"textureSource": "assets/images/game/jumppad_left.png",
 					"inactiveDelay": 500
 				}
 			]
@@ -124,7 +124,7 @@
 			"components": [
 				{
 					"displayName": "JumpPadComponent",
-					"textureSource": "assets/images/game/jumppad_right.png",
+					"textureSource": "assets/images/game/jumppad_left.png",
 					"inactiveDelay": 500
 				}
 			]
@@ -148,7 +148,7 @@
 			"components": [
 				{
 					"displayName": "JumpPadComponent",
-					"textureSource": "assets/images/game/jumppad_right.png",
+					"textureSource": "assets/images/game/jumppad_left.png",
 					"inactiveDelay": 500
 				}
 			]
@@ -523,7 +523,7 @@
 			]
 		},
 		{
-			"x": 132.8975567611597,
+			"x": 130.18849083510048,
 			"y": -95.3439814741972,
 			"dimensions": {
 				"width": 192,
@@ -549,7 +549,7 @@
 						"x": 5.4,
 						"y": 0
 					},
-					"offset": 0,
+					"offset": 0.01,
 					"speed": 3.9
 				},
 				{
@@ -838,7 +838,7 @@
 			]
 		},
 		{
-			"x": 7.8997646734276525,
+			"x": 13.59206197683066,
 			"y": -285.126043901647,
 			"dimensions": {
 				"width": 256,
@@ -875,7 +875,7 @@
 			]
 		},
 		{
-			"x": 142.37125827731987,
+			"x": 138.53551383870507,
 			"y": -279.161770655078,
 			"dimensions": {
 				"width": 320,
@@ -1756,7 +1756,7 @@
 			]
 		},
 		{
-			"x": 61.47120481807647,
+			"x": 63.353031859486705,
 			"y": -346.811428035604,
 			"dimensions": {
 				"width": 647.68,
@@ -1782,7 +1782,7 @@
 						"x": 5.1,
 						"y": 0
 					},
-					"offset": 0,
+					"offset": 0.01,
 					"speed": 4.2
 				},
 				{
@@ -1911,7 +1911,7 @@
 		},
 		{
 			"x": 110.952621907602,
-			"y": -401.12463563657565,
+			"y": -406.2923644580976,
 			"dimensions": {
 				"width": 640,
 				"height": 305.28,
@@ -1948,7 +1948,7 @@
 		},
 		{
 			"x": 90.0702689664253,
-			"y": -411.2411971178457,
+			"y": -397.64969957108104,
 			"dimensions": {
 				"width": 640,
 				"height": 305.28,
@@ -2061,7 +2061,7 @@
 			"components": [
 				{
 					"displayName": "JumpPadComponent",
-					"textureSource": "assets/images/game/jumppad_right.png",
+					"textureSource": "assets/images/game/jumppad_left.png",
 					"inactiveDelay": 500
 				}
 			]
@@ -2338,7 +2338,7 @@
 		},
 		{
 			"x": 27.5586904835487,
-			"y": -407.0121760631193,
+			"y": -407.025087952303,
 			"dimensions": {
 				"width": 640,
 				"height": 305.28,
@@ -2363,7 +2363,7 @@
 						"x": 0,
 						"y": 7.2
 					},
-					"offset": 1,
+					"offset": 0.99,
 					"speed": 7.2
 				},
 				{
@@ -2375,7 +2375,7 @@
 		},
 		{
 			"x": 48.2817296992348,
-			"y": -411.7941666634686,
+			"y": -398.1326531353012,
 			"dimensions": {
 				"width": 640,
 				"height": 305.28,
@@ -2412,7 +2412,7 @@
 		},
 		{
 			"x": 69.3233963659014,
-			"y": -411.3578879233676,
+			"y": -398.01753364430215,
 			"dimensions": {
 				"width": 640,
 				"height": 305.28,
@@ -2437,7 +2437,7 @@
 						"x": 0,
 						"y": 7.2
 					},
-					"offset": 0,
+					"offset": 0.01,
 					"speed": 7.2
 				},
 				{
@@ -2915,7 +2915,7 @@
 			]
 		},
 		{
-			"x": 11.853637085824413,
+			"x": 9.700416743523434,
 			"y": -311.802709394786,
 			"dimensions": {
 				"width": 256,
@@ -2952,7 +2952,7 @@
 			]
 		},
 		{
-			"x": 25.683467589824755,
+			"x": 27.50452082507477,
 			"y": -311.802709394786,
 			"dimensions": {
 				"width": 256,
@@ -2989,7 +2989,7 @@
 			]
 		},
 		{
-			"x": 7.985939993416121,
+			"x": 13.649063971234689,
 			"y": -303.1193309828,
 			"dimensions": {
 				"width": 256,
@@ -3026,7 +3026,7 @@
 			]
 		},
 		{
-			"x": 23.321054402063726,
+			"x": 29.19196235562325,
 			"y": -302.960043283752,
 			"dimensions": {
 				"width": 256,
@@ -3063,7 +3063,7 @@
 			]
 		},
 		{
-			"x": 8.22198384826676,
+			"x": 13.780464797877336,
 			"y": -293.935657513413,
 			"dimensions": {
 				"width": 256,
@@ -3094,13 +3094,13 @@
 						"x": 3,
 						"y": 0
 					},
-					"offset": 0,
+					"offset": 0.01,
 					"speed": 3
 				}
 			]
 		},
 		{
-			"x": 23.14522765106932,
+			"x": 29.08656326456225,
 			"y": -294.004044374783,
 			"dimensions": {
 				"width": 256,
@@ -3137,7 +3137,7 @@
 			]
 		},
 		{
-			"x": 23.525070490377036,
+			"x": 28.459489408726263,
 			"y": -285.226043901647,
 			"dimensions": {
 				"width": 256,
@@ -3174,7 +3174,7 @@
 			]
 		},
 		{
-			"x": 23.465250699574433,
+			"x": 28.940151234864263,
 			"y": -276.398375865004,
 			"dimensions": {
 				"width": 224,
@@ -3211,7 +3211,7 @@
 			]
 		},
 		{
-			"x": 10.345746045095494,
+			"x": 10.340366091269239,
 			"y": -276.288485755114,
 			"dimensions": {
 				"width": 320,
@@ -3242,7 +3242,7 @@
 						"x": 3,
 						"y": 0
 					},
-					"offset": 1,
+					"offset": 0.99,
 					"speed": 3
 				}
 			]

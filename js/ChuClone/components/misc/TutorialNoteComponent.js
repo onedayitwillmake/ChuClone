@@ -63,11 +63,13 @@ Abstract:
             if( otherActor._type != ChuClone.model.Constants.ENTITY_TYPES.PLAYER )
                 return;
 
-			//See that <strong>green</strong> block over there?<br><strong>Touch</strong> it to complete the level!
+			//<strong>Thats the stuff!</strong><br><span class="jura_18">Now lets get some speed!<br>Chu loves the speed.<br>
+			//See t  hat <strong>green</strong> block over there?<br><strong>Touch</strong> it to complete the level!
 			//<strong>Thats the stuff!</strong><br><span class="jura_18">Now lets get some speed!<br>Chu all about speed.<br>The wind in Chu's perfectly aerodynamic body.</span>
 			// <strong>Alright!</strong><br>Now here comes a <strong>jumppad</strong><br><br><span class="jura_24">Get ready!</span>
 			// <strong>Nice Landing!</strong><br>Lets do another one!
 			//<br>Now here comes a <strong>jumppad</strong><br><br><span class="jura_24">Get ready!</span>
+			// <strong>Alright!</strong><br>Now here comes a <strong>jumppad</strong>
             this.interceptedProperties.onCollision.call(this.attachedEntity, otherActor );
             if( !this._isReady || ChuClone.model.Constants.IS_EDIT_MODE() ) return;
 			this._isReady = false;

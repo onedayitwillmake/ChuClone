@@ -23,6 +23,10 @@
 			// <strong>Thats the stuff!</strong><br><span class="jura_18">Now lets get some speed!<br>Chu all about speed.<br>The wind in Chu's perfectly aerodynamic body.</span>
 			// See that <strong>green</strong> block over there?<br><strong>Touch</strong> it to complete the level!
 
+			// <strong>Major Air!</strong>Lets try a PeakJump</strong><br>span class="jura_18">Jump at the peak of being launched for a extra lift</span>
+			// <strong>Nice!</strong><br>Chu loves to get air.
+			// <strong>Checkpoint!</strong><br>Now Chu can restart from this location
+			// <strong>Ouch!</strong><br>This will kill Chu
 			var partial = partial_html.replace("#{note}", noteText);
 
 			// Reference to games htmlElement
@@ -101,10 +105,16 @@
 		 */
 		fadeOutAndDestroy: function( noteText ) {
 			var that = this;
-			new TWEEN.Tween({opacity:1})
-					.to({opacity: 0}, 400)
+
+			if(this.tween) {
+				TWEEN.remove( this.tween );
+				this.tween = null;
+			}
+
+			this.tween = new TWEEN.Tween({opacity:1})
+					.to({opacity: 0}, 200)
 					.easing(TWEEN.Easing.Sinusoidal.EaseIn)
-					.onUpdate(function() { htmlElement.style.opacity = this.opacity; })
+					.onUpdate(function() { if(htmlElement) htmlElement.style.opacity = this.opacity; })
 					.onComplete(function() { that.destroy( noteText ) })
 					.start();
 		},
