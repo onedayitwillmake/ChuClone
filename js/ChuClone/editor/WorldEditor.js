@@ -144,21 +144,25 @@
             this._worldController.getDebugDraw().GetSprite().canvas.addEventListener( 'mousedown', this._closures['mousedown'], false );
             window.addEventListener( 'mouseup', this._closures['mouseup'], false );
 
-            this._worldController.getDebugDraw().GetSprite().canvas.addEventListener( 'mousewheel', function(e){
-                var speed = (e.wheelDelta < 0) ? -1 : 1;
-                speed *= 0.1;
+			this._closures['mousewheel'] = function(e) {
+				var delta = e.wheelDelta || -e.detail;
+				var speed = (delta < 0) ? -1 : 1;
+				speed *= 0.1;
 
-                var scale = that._worldController.getDebugDraw().GetDrawScale();
-                scale += speed;
+				var scale = that._worldController.getDebugDraw().GetDrawScale();
+				scale += speed;
 
 				// Apply scale - only if not negative
-				if( scale > 0) that._worldController.getDebugDraw().SetDrawScale( scale );
+				if (scale > 0) that._worldController.getDebugDraw().SetDrawScale(scale);
 
 				e.preventDefault();
-            }, false );
+			};
 
 
-        },
+			this._worldController.getDebugDraw().GetSprite().canvas.addEventListener( 'mousewheel',this._closures['mousewheel'], false );
+			this._worldController.getDebugDraw().GetSprite().canvas.addEventListener( 'DOMMouseScroll',this._closures['mousewheel'], false );
+		},
+
 
         /**
          * Sets up keyboard related event callbacks
@@ -534,9 +538,11 @@
 		 * @param {KeyboardEvent} e
 		 */
 		handleKeyboardShortcuts: function( e ) {
-			if(e.target.nodeName != 'BODY') {
-				//console.log("Ignoring shortcut!", e.target);
-				return;
+			if(e.target.nodeName == "INPUT") {
+				//console.dir( e.target);
+				//console.log("Ignoring input");
+				//console.dir(e.target)
+				//return;
 			}
 
 			if( e.shiftKey && e.type == 'keydown') {

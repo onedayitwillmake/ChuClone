@@ -70,6 +70,13 @@ Abstract:
 			// <strong>Nice Landing!</strong><br>Lets do another one!
 			//<br>Now here comes a <strong>jumppad</strong><br><br><span class="jura_24">Get ready!</span>
 			// <strong>Alright!</strong><br>Now here comes a <strong>jumppad</strong>
+			// Alright!<br><br>Lets test those abilities            ask.ivillage.cc
+
+			// WallClimb<br><br>Jump at the wall at an <b>angle</b><br>and hold <span class="jura_28"><b>UP+FORWARD</b></span><br><br>Chu will try and <b>climb it</b>
+			//
+			// <strong>JumpWallClimb</strong><br><span class="jura_21">Wall Climbing works extra well on jump pads.</style>
+			// <strong>FrictionPads</strong><br><span class="jura_18">Friction pads <b>slow you down.</b><br>Avoid them to get the best time.</span>
+			// <strong>FrictionPads</strong><br><span class="jura_18">They aren't always bad.<br>Try using it these to help slow your fall</span>
             this.interceptedProperties.onCollision.call(this.attachedEntity, otherActor );
             if( !this._isReady || ChuClone.model.Constants.IS_EDIT_MODE() ) return;
 			this._isReady = false;
@@ -77,7 +84,9 @@ Abstract:
 			var input = otherActor.getComponentWithName(ChuClone.components.player.KeyboardInputComponent.prototype.displayName);
 
 			// Slow down
-			otherActor.getBody().SetLinearVelocity( new Box2D.Common.Math.b2Vec2(0, 0) );
+			var v = otherActor.getBody().GetLinearVelocity();
+			v.Multiply(0.2);
+			otherActor.getBody().SetLinearVelocity( v );
 
 			//input.resetState();
 
@@ -86,7 +95,7 @@ Abstract:
 			var that = this;
 			this._destroyNoteTimeout = setTimeout( function(){
 				if( ChuClone.gui.TutorialNoteDisplay.noteText == that._message ) {
-					ChuClone.gui.TutorialNoteDisplay.fadeOutAndDestroy();
+					//ChuClone.gui.TutorialNoteDisplay.fadeOutAndDestroy();
 				}
 
 				//that._destroyNoteTimeout = null;

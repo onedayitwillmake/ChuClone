@@ -126,7 +126,7 @@ Abstract:
 
             // Apply a rotation to the body based on it's position relative to our center
 			var distx = this.attachedEntity.getBody().GetPosition().x - otherActor.getBody().GetPosition().x;
-			var angle = Math.min( distx / (this.attachedEntity.getDimensions().width/ChuClone.model.Constants.PTM_RATIO), 1) * Math.PI;
+			var angle = Math.min( distx / (this.attachedEntity.getDimensions().width/ChuClone.model.Constants.PTM_RATIO), 1) * Math.PI*1.5;
 
             // Note: We have to call it on a timeout for 'next frame', because Box2D locks certain body properties during the collision
 			setTimeout( function() {
@@ -202,7 +202,6 @@ Abstract:
             var returnObject = ChuClone.components.JumpPadComponent.superclass.getModel.call(this);
             returnObject.textureSource = this._textureSource;
 			returnObject.inactiveDelay = this._inactiveDelay;
-
             return returnObject;
         },
 
@@ -213,6 +212,7 @@ Abstract:
             ChuClone.components.JumpPadComponent.superclass.fromModel.call(this, data);
             this._textureSource = this.fixTextureSource( data.textureSource );
             this._inactiveDelay = data.inactiveDelay;
+
 
 			this.getOrientationFromTexture( this._textureSource );
         },
