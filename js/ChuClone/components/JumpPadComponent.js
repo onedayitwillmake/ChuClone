@@ -73,8 +73,8 @@ Abstract:
 		_editableProperties: {orientation: {value: 1, min: -1, max: 1, step: 1}},
 
         ORIENTATION: {
-            0: "left",
-            1: "right"
+            "-1": "left",
+            "1": "right"
         },
 
 		/**

@@ -129,7 +129,6 @@
 		 */
         _controllers        : {},
 
-                            // Store reference for remval later: HACK?
         _closures           : {'mousemove':null, 'mouseup':null, 'mousedown': null},
 
         /**
@@ -542,7 +541,7 @@
 				//console.dir( e.target);
 				//console.log("Ignoring input");
 				//console.dir(e.target)
-				//return;
+				return;
 			}
 
 			if( e.shiftKey && e.type == 'keydown') {
@@ -551,6 +550,10 @@
 					this.onShouldDelete()
 				} else if (e.keyCode == 67 ) {
 					this.onShouldCloneEntity();
+				}
+
+				if(e.keyCode == 70) {
+					this._controllers['depth'].setValue(this._controllers['depth'].getValue() + ChuClone.utils.randFloat(-1,1));
 				}
 			}
 			// Arrow keys not pressed
@@ -622,7 +625,8 @@
             if(this._currentBody == null) return;
             // Entities properties match our GUI - no change needed
             
-            if(! this.entityNeedsUpdate( this._currentBody.GetUserData() ) ) return;
+            if( !this.entityNeedsUpdate( this._currentBody.GetUserData() ) ) return;
+
             // Create a new using current body's data
             var newBody = this._worldController.createRect(
                 this._controllers['x'].getValue() * PTM_RATIO,
@@ -645,6 +649,9 @@
             this._currentBody = newBody;
         },
 
+		/**
+		 * Checks the properties of an entity and returns true, if it needs an update to avoid needlessly destroying/recreating objects if we don't need to
+		 */
         entityNeedsUpdate: function() {
             var needsChange = false;
 
