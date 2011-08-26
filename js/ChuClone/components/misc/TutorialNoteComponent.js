@@ -95,7 +95,7 @@ Abstract:
 			var that = this;
 			this._destroyNoteTimeout = setTimeout( function(){
 				if( ChuClone.gui.TutorialNoteDisplay.noteText == that._message ) {
-					//ChuClone.gui.TutorialNoteDisplay.fadeOutAndDestroy();
+					ChuClone.gui.TutorialNoteDisplay.fadeOutAndDestroy();
 				}
 
 				//that._destroyNoteTimeout = null;
