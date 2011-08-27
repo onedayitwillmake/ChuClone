@@ -59,7 +59,6 @@ Abstract:
 		 */
 		enter: function() {
 			ChuClone.states.TitleScreenState.superclass.enter.call(this);
-			ChuClone.states.PlayLevelState.prototype.removeEditContainer.call( this );
 		},
 
         /**
@@ -92,8 +91,26 @@ Abstract:
             this.addListener( ChuClone.editor.LevelManager.prototype.EVENTS.LEVEL_DESTROYED, function( aLevelManager ) { that.onLevelDestroyed( aLevelManager ) } );
             this.addListener( ChuClone.components.player.CharacterControllerComponent.prototype.EVENTS.CREATED, function( aPlayer ) { that.onPlayerCreated(aPlayer) } );
             this.addListener( ChuClone.components.player.CharacterControllerComponent.prototype.EVENTS.REMOVED, function( aPlayer ) { that.onPlayerDestroyed(aPlayer) } );
+
+			this._closures.onKeyDown = function(e) { that.onKeyDown(e); };
+			document.addEventListener('keydown', this._closures.onKeyDown, false);
         },
 
+
+		/*79,78,69,68,65,89*/
+		code: [38, 38, 40, 40, 37, 39, 37, 39, 66, 65, 13],
+		codeIndex: 0,
+		onKeyDown: function(e) {
+			//this.code.push(e.keyCode);
+			if(e.keyCode == this.code[this.codeIndex] ) {
+				this.codeIndex++;
+				if(this.codeIndex == this.code.length) {
+					this._gameView.startPostProcessing();
+				}
+			}
+			//
+			console.log(this.code)
+		},
 
 		/**
 		 * Animate title blocks in
@@ -269,7 +286,7 @@ Abstract:
          * @inheritDoc
          */
         exit: function() {
-
+			document.removeEventListener('keydown', this._closures.onKeyDown, false);
 			if( this._tweenList ) {
 				var len = this._tweenList.length;
 				for(var i = 0; i < len; i++) {

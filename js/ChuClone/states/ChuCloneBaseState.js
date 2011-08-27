@@ -160,9 +160,9 @@ Abstract:
          * @inheritDoc
          */
         dealloc: function() {
-			this._gameView = null;
-			this._worldController = null;
-			this._levelManager = null;
+			//this._gameView = null;
+			//this._worldController = null;
+			//this._levelManager = null;
         }
 	};
 

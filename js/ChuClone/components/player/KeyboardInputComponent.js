@@ -20,6 +20,8 @@ Abstract:
 	ChuClone.namespace("ChuClone.components.player");
 
 	ChuClone.components.player.KeyboardInputComponent = function() {
+		this._callback = null;
+		this._keyStates = {left:false, right:false, up:false, down: false};
 		ChuClone.components.player.KeyboardInputComponent .superclass.constructor.call(this);
 	};
 

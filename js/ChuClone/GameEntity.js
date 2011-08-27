@@ -115,9 +115,10 @@
         /**
          * Adds and attaches a component, to this entity
          * @param {ChuClone.components.BaseComponent}  aComponent
+         * @param {Boolean}	If true will be placed before other components in the array
          * @return {ChuClone.components.BaseComponent}
          */
-        addComponent: function(aComponent) {
+        addComponent: function(aComponent, insertAsFirst) {
             // Check if we already have this component, if we do - make sure the component allows stacking
             var existingVersionOfComponent = this.getComponentWithName(aComponent.displayName);
             if (existingVersionOfComponent && !existingVersionOfComponent.canStack) {
@@ -131,7 +132,12 @@
             }
 
 
-            this.components.push(aComponent);
+			if( !insertAsFirst ) {
+            	this.components.push(aComponent);
+			} else {
+				this.components.unshift(aComponent);
+			}
+
             aComponent.attach(this);
 
             return aComponent;

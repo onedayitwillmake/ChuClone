@@ -209,7 +209,7 @@
             } else {
             }
 
-            flashNotice.innerText = output;
+            flashNotice.innerHTML = output;
 
 			// Fade back to white
             new TWEEN.Tween(colorLevels[level])

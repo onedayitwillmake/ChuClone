@@ -19,7 +19,7 @@
     var postprocessing = { enabled : false };
 
 
-    function initPostprocessing() {
+    function initPostprocessing(that) {
 
         postprocessing.scene = new THREE.Scene();
 
@@ -29,8 +29,8 @@
 
         var pars = { minFilter: THREE.LinearFilter, magFilter: THREE.LinearFilter, format: THREE.RGBFormat };
         postprocessing.rtTexture1 = new THREE.WebGLRenderTarget( window.innerWidth, window.innerHeight, pars );
-        postprocessing.rtTexture2 = new THREE.WebGLRenderTarget( 512, 512, pars );
-        postprocessing.rtTexture3 = new THREE.WebGLRenderTarget( 512, 512, pars );
+        postprocessing.rtTexture2 = new THREE.WebGLRenderTarget( 256, 256, pars );
+        postprocessing.rtTexture3 = new THREE.WebGLRenderTarget( 256, 256, pars );
 
         var screen_shader = THREE.ShaderUtils.lib["screen"];
         var screen_uniforms = THREE.UniformsUtils.clone( screen_shader.uniforms );
@@ -52,43 +52,23 @@
         var convolution_uniforms = THREE.UniformsUtils.clone( convolution_shader.uniforms );
 
         var blurAmount = 0.001;
-postprocessing.blurx = new THREE.Vector2( blurAmount, 0.0 ),
-				postprocessing.blury = new THREE.Vector2( 0.0, blurAmount );
+		postprocessing.blurx = new THREE.Vector2( blurAmount, 0.0 ),
+		postprocessing.blury = new THREE.Vector2( 0.0, blurAmount );
 
         convolution_uniforms["tDiffuse"].texture = postprocessing.rtTexture1;
         convolution_uniforms["uImageIncrement"].value = postprocessing.blurx;
         convolution_uniforms["cKernel"].value = THREE.ShaderUtils.buildKernel( 4.0 );
 
         postprocessing.materialConvolution = new THREE.MeshShaderMaterial( {
-
             uniforms: convolution_uniforms,
             vertexShader:   "#define KERNEL_SIZE 25.0\n" + convolution_shader.vertexShader,
             fragmentShader: "#define KERNEL_SIZE 25\n"   + convolution_shader.fragmentShader
-
         } );
 
-
-        var film_shader = THREE.ShaderUtils.lib["film"];
-        var film_uniforms = THREE.UniformsUtils.clone( film_shader.uniforms );
-
-        film_uniforms["tDiffuse"].texture = postprocessing.rtTexture1;
-
-        /*
-        effect.materialFilm.uniforms.grayscale.value = 0;
-            effect.materialFilm.uniforms.nIntensity.value = 0.5;
-            effect.materialFilm.uniforms.sIntensity.value = 0.5;
-            effect.materialFilm.uniforms.sCount.value = 1448;
-         */
-        postprocessing.materialFilm = new THREE.MeshShaderMaterial( { uniforms: film_uniforms, vertexShader: film_shader.vertexShader, fragmentShader: film_shader.fragmentShader } );
-        postprocessing.materialFilm.uniforms.grayscale.value = 0;
-        postprocessing.materialFilm.uniforms.nIntensity.value = 0;
-        postprocessing.materialFilm.uniforms.sIntensity.value = 0;
-        postprocessing.materialFilm.uniforms.sCount.value = 1000;
 
         postprocessing.quad = new THREE.Mesh( new THREE.PlaneGeometry( window.innerWidth, window.innerHeight ), postprocessing.materialConvolution );
         postprocessing.quad.position.z = - 500;
         postprocessing.scene.addObject( postprocessing.quad );
-
     }
 
 
@@ -187,7 +167,7 @@ postprocessing.blurx = new THREE.Vector2( blurAmount, 0.0 ),
          */
         setupScene: function() {
             this._scene = new THREE.Scene();
-            //this._scene.fog = new THREE.FogExp2( 0xFFFFFF, 0.00005 );
+            //this._scene.fog = new THREE.FogExp2( 0x000000, 0.00006 );
         },
 
         /**
@@ -195,7 +175,7 @@ postprocessing.blurx = new THREE.Vector2( blurAmount, 0.0 ),
          */
         setupRenderer: function() {
             this._renderer = new THREE.WebGLRenderer({antialias: true});
-            initPostprocessing();
+
             this._renderer.autoClear = false;
             this._renderer.sortObjects = false;
             this._renderer.setClearColor(new THREE.Color(0xFFFFFF), 1);
@@ -203,7 +183,15 @@ postprocessing.blurx = new THREE.Vector2( blurAmount, 0.0 ),
 
             this._renderer.domElement.tabIndex = "1";
             this._domElement.appendChild( this._renderer.domElement );
+			this.startPostProcessing()
         },
+
+		startPostProcessing: function() {
+			return;
+			initPostprocessing( this );
+			postprocessing.enabled = true;
+			this._renderer.setClearColor(new THREE.Color(0x040404), 1);
+		},
 
         /**
          * Setup the camera
@@ -220,9 +208,10 @@ postprocessing.blurx = new THREE.Vector2( blurAmount, 0.0 ),
          * Setup scene lights
          */
         setupLights: function() {
+
             this._ambientLight = new THREE.AmbientLight(0x608090);
 
-            this._directionalLight = new THREE.DirectionalLight( 0x608090, 1.6, 0, true );
+            this._directionalLight = new THREE.DirectionalLight( 0x608090, 1.6, 0, false );
             this._directionalLight.position.set( 0, 2, 1 );
 
             this._scene.addLight( this._ambientLight );
@@ -258,78 +247,6 @@ postprocessing.blurx = new THREE.Vector2( blurAmount, 0.0 ),
             this.stats.domElement.style.top = '0px';
             container.appendChild( this.stats.domElement );
             document.body.appendChild( container );
-        },
-
-        setupBloom: function() {
-            var effect = postprocessing1;
-            var SCREEN_WIDTH = this.getDimensions().x;
-            var SCREEN_HEIGHT = this.getDimensions().y;
-
-            effect.type = "bloomnoise";
-
-            effect.scene = new THREE.Scene();
-
-            effect.camera = new THREE.Camera();
-            effect.camera.projectionMatrix = THREE.Matrix4.makeOrtho(SCREEN_WIDTH / - 2, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, SCREEN_HEIGHT / - 2, -10000, 10000);
-            effect.camera.position.z = 100;
-
-            var pars = { minFilter: THREE.LinearFilter, magFilter: THREE.LinearFilter, format: THREE.RGBFormat };
-
-            effect.rtTexture1 = new THREE.WebGLRenderTarget(SCREEN_WIDTH, SCREEN_HEIGHT, pars);
-            effect.rtTexture2 = new THREE.WebGLRenderTarget(256, 512, pars);
-            effect.rtTexture3 = new THREE.WebGLRenderTarget(512, 256, pars);
-
-            var screen_shader = THREE.ShaderUtils.lib["screen"];
-            var screen_uniforms = THREE.UniformsUtils.clone(screen_shader.uniforms);
-
-            screen_uniforms["tDiffuse"].texture = effect.rtTexture3;
-            screen_uniforms["opacity"].value = 0.0;
-
-            effect.materialScreen = new THREE.MeshShaderMaterial({
-
-                uniforms: screen_uniforms,
-                vertexShader: screen_shader.vertexShader,
-                fragmentShader: screen_shader.fragmentShader,
-                blending: THREE.AdditiveBlending,
-                transparent: true
-
-            });
-
-            var convolution_shader = THREE.ShaderUtils.lib["convolution"];
-            var convolution_uniforms = THREE.UniformsUtils.clone(convolution_shader.uniforms);
-
-            //effect.blurx = new THREE.Vector2(0.001953125, 0.0),
-            //    effect.blury = new THREE.Vector2(0.0, 0.001953125);
-
-            effect.blurx = new THREE.Vector2(0.0, 0.0),
-            effect.blury = new THREE.Vector2(0.0, 0.0000);
-
-            convolution_uniforms["tDiffuse"].texture = effect.rtTexture1;
-            convolution_uniforms["uImageIncrement"].value = effect.blurx;
-            convolution_uniforms["cKernel"].value = THREE.ShaderUtils.buildKernel(4.0);
-
-            effect.materialConvolution = new THREE.MeshShaderMaterial({
-
-                uniforms: convolution_uniforms,
-                vertexShader:   "#define KERNEL_SIZE 12.0\n" + convolution_shader.vertexShader,
-                fragmentShader: "#define KERNEL_SIZE 12\n" + convolution_shader.fragmentShader
-
-            });
-
-            var film_shader = THREE.ShaderUtils.lib["film"];
-            var film_uniforms = THREE.UniformsUtils.clone(film_shader.uniforms);
-
-            film_uniforms["tDiffuse"].texture = effect.rtTexture1;
-
-            effect.materialFilm = new THREE.MeshShaderMaterial({ uniforms: film_uniforms, vertexShader: film_shader.vertexShader, fragmentShader: film_shader.fragmentShader });
-            effect.materialFilm.uniforms.grayscale.value = 0;
-            effect.materialFilm.uniforms.nIntensity.value = 0.5;
-            effect.materialFilm.uniforms.sIntensity.value = 0.5;
-            effect.materialFilm.uniforms.sCount.value = 1448;
-
-            effect.quad = new THREE.Mesh(new THREE.PlaneGeometry(SCREEN_WIDTH, SCREEN_HEIGHT), effect.materialConvolution);
-            effect.quad.position.z = -500;
-            effect.scene.addObject(effect.quad);
         },
 
 
@@ -433,10 +350,6 @@ postprocessing.blurx = new THREE.Vector2( blurAmount, 0.0 ),
 
                 renderer.render(postprocessing.scene, postprocessing.camera, postprocessing.rtTexture1, false);
 
-                // Render to screen
-
-                postprocessing.materialFilm.uniforms.time.value += 0.01;
-                postprocessing.quad.materials = [ postprocessing.materialFilm ];
 
                 postprocessing.materialScreen.uniforms.tDiffuse.texture = postprocessing.rtTexture1;
                 renderer.render(postprocessing.scene, postprocessing.camera);

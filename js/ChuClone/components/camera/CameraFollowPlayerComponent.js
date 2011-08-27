@@ -44,9 +44,12 @@ Abstract:
         attach: function( anEntity ) {
             ChuClone.components.camera.CameraFollowPlayerComponent.superclass.attach.call(this, anEntity);
 
-//            ChuClone.Events.Dispatcher.addListener(ChuClone.components.player.CharacterControllerComponent.prototype.EVENTS.CREATED, function( aPlayer ) {
-//                that.onPlayerCreated( aPlayer );
-//            });
+			var that = this;
+            ChuClone.Events.Dispatcher.addListener(ChuClone.components.player.CharacterControllerComponent.prototype.EVENTS.REMOVED, function( aPlayer ) {
+				if(aPlayer == that._player) {
+					that.detach();
+				}
+            });
         },
 
         update: function() {
@@ -87,6 +90,7 @@ Abstract:
          */
         detach: function() {
             ChuClone.components.camera.CameraFollowPlayerComponent.superclass.detach.call(this);
+			this._player = null;
             this._debugDraw = null;
         },
 

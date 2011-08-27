@@ -37,6 +37,7 @@
          */
         changeState: function( aState ) {
             this._currentState.exit();
+
             this._previousState = this._currentState;
 
             this._currentState = aState;

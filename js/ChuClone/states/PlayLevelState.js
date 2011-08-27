@@ -57,6 +57,11 @@ Abstract:
         _player         : null,
 
 		/**
+		 * @type {THREE.Mesh}
+		 */
+		_floorPlane		: null,
+
+		/**
 		 * @type {Array}
 		 */
 		_record			: null,
@@ -75,7 +80,6 @@ Abstract:
 		 */
 		enter: function() {
 			ChuClone.states.PlayLevelState.superclass.enter.call(this);
-            this.removeEditContainer();
 
             // Hide the camera before we animate in
             this._gameView.getCamera().position = new THREE.Vector3(-10000, -10000, -10000);
@@ -99,7 +103,7 @@ Abstract:
 			var geometry = new THREE.PlaneGeometry(width, 10000, 10, 1);
 
 			var mesh = new THREE.Mesh(geometry, [new THREE.MeshBasicMaterial({
-						color: 0xeeeeee, shading: THREE.FlatShading,
+						color: 0xFF00FF, shading: THREE.FlatShading,
 						wireframe: true
 					})]);
 
@@ -110,6 +114,7 @@ Abstract:
 			mesh.position.z = centerPosition.z;
 			mesh.rotation.x = 90 * Math.PI / 180;
 
+			this._floorPlane = mesh;
 			this._gameView.addObjectToScene(mesh);
 		},
 
@@ -314,6 +319,7 @@ Abstract:
 		 * Sets up the camera
 		 */
 		setupCamera: function() {
+			console.log("SETTING UP CAMERA")
 			// Attach a few gameplay related components to the camera
 			var gameCamera = this._gameView.getCamera();
 
@@ -330,47 +336,18 @@ Abstract:
 			focusComponent.getRadius().z = 2000;
 		},
 
-         /**
-		 * Called when a goal is hit
-		 * @param {ChuClone.components.GoalPadComponent} aGoalComponent
-		 */
-		onGoalReached: function( aGoalComponent ) {
-			 ChuClone.gui.HUDController.setTimeInSeconds( this._elapsedTime );
-
-             this._beatLevel = true;
-             
-
-             var recorder = this._player.getComponentWithName( ChuClone.components.player.PlayerRecordComponent.prototype.displayName);
-             var playerRecord = null;
-             if( recorder ) {
-                 playerRecord = JSON.stringify( recorder.getRecord() );
-				 console.log(playerRecord)
-                 this._player.removeComponentWithName( ChuClone.components.player.PlayerRecordComponent.prototype.displayName);
-             }
-
-             /**
-              * @type {ChuClone.states.EndLevelState}
-              */
-             var endLevelState = new ChuClone.states.EndLevelState();
-             endLevelState._gameView = this._gameView;
-             endLevelState._worldController = this._worldController;
-			 endLevelState._levelManager = this._levelManager;
-             endLevelState.setPlayer( this._player );
-             endLevelState.setTime( this._elapsedTime );
-             endLevelState.setRecord( playerRecord );
-             ChuClone.model.FSM.StateMachine.getInstance().changeState(endLevelState);
-		},
 
         onPlayerCreated: function( aPlayer ) {
             this._player = aPlayer;
 
             // Add component to check the players boundary
             this._player.addComponentAndExecute( new ChuClone.components.BoundsYCheckComponent() );
+			var camera = this._gameView.getCamera();
 
-            // Set the player target for the follow player component
-            this._gameView.getCamera()
-                    .getComponentWithName( ChuClone.components.camera.CameraFollowPlayerComponent.prototype.displayName )
-                    .setPlayer( this._player );
+			//camera.removeComponentWithName( ChuClone.components.camera.CameraFollowPlayerComponent.prototype.displayName );
+			//Set the player target for the follow player component
+			camera.getComponentWithName( ChuClone.components.camera.CameraFollowPlayerComponent.prototype.displayName )
+			.setPlayer( this._player );
 
             // Respawn at nearest respawnpoint
             var respawnPoint = ChuClone.components.RespawnComponent.prototype.GET_CURRENT_RESPAWNPOINT();
@@ -418,8 +395,38 @@ Abstract:
                 playLevelState._levelManager = this._levelManager;
                 ChuClone.model.FSM.StateMachine.getInstance().changeState(playLevelState);
             }
-
         },
+
+
+         /**
+		 * Called when a goal is hit
+		 * @param {ChuClone.components.GoalPadComponent} aGoalComponent
+		 */
+		onGoalReached: function( aGoalComponent ) {
+			 ChuClone.gui.HUDController.setTimeInSeconds( this._elapsedTime );
+
+             this._beatLevel = true;
+
+
+             var recorder = this._player.getComponentWithName( ChuClone.components.player.PlayerRecordComponent.prototype.displayName);
+             var playerRecord = null;
+             if( recorder ) {
+                 playerRecord = JSON.stringify( recorder.getRecord() );
+                 this._player.removeComponentWithName( ChuClone.components.player.PlayerRecordComponent.prototype.displayName);
+             }
+
+             /**
+              * @type {ChuClone.states.EndLevelState}
+              */
+             var endLevelState = new ChuClone.states.EndLevelState();
+             endLevelState._gameView = this._gameView;
+             endLevelState._worldController = this._worldController;
+			 endLevelState._levelManager = this._levelManager;
+             endLevelState.setPlayer( this._player );
+             endLevelState.setTime( this._elapsedTime );
+             endLevelState.setRecord( playerRecord );
+             ChuClone.model.FSM.StateMachine.getInstance().changeState(endLevelState);
+		},
 
 		/**
 		 * Records the players movements
@@ -439,20 +446,23 @@ Abstract:
 			this._player.addComponentAndExecute( playerPlayback );
 		},
 
-		/**
-		 * Removes the editcontainer node if it's around
-		 */
-		removeEditContainer: function(){
-			if(!document.getElementById("editorContainer")) return;
-				document.getElementById("editorContainer").parentNode.removeChild(document.getElementById("editorContainer")); // Remove the editcontainer
-		},
-
         /**
          * @inheritDoc
          */
         exit: function() {
             clearTimeout( this._animateInTimeout );
 
+			this.removeBackgroundElements();
+			this._gameView.removeObjectFromScene( this._floorPlane );
+            this._gameView.getCamera().removeComponentWithName( ChuClone.components.camera.CameraFollowPlayerComponent.prototype.displayName );
+			this._gameView.getCamera().removeComponentWithName( ChuClone.components.camera.CameraFocusRadiusComponent.prototype.displayName );
+			ChuClone.states.PlayLevelState.superclass.exit.call(this);
+        },
+
+		/**
+		 * Removes extra cubes created as background elements
+		 */
+		removeBackgroundElements: function() {
 			if( this._backgroundElements ) {
                 var len = this._backgroundElements.length;
                 for (var i = 0; i < len; i++) {
@@ -460,17 +470,14 @@ Abstract:
                 }
                 this._backgroundElements = [];
             }
-
-            this._gameView.getCamera().removeComponentWithName( ChuClone.components.camera.CameraFollowPlayerComponent.prototype.displayName );
-			this._gameView.getCamera().removeComponentWithName( ChuClone.components.camera.CameraFocusRadiusComponent.prototype.displayName );
-			ChuClone.states.PlayLevelState.superclass.exit.call(this);
-        },
+		},
 
         /**
          * @inheritDoc
          */
         dealloc: function() {
 			this._player = null;
+			this._floorPlane = null;
 			ChuClone.states.PlayLevelState.superclass.dealloc.call(this);
         },
 

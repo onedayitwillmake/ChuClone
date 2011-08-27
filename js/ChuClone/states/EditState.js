@@ -20,6 +20,7 @@ Abstract:
 
 	ChuClone.states.EditState = function() {
 		ChuClone.states.EditState.superclass.constructor.call(this);
+		this._hasEntered = false;
 	};
 
 	ChuClone.states.EditState.prototype = {
@@ -27,6 +28,10 @@ Abstract:
          * @type {ChuClone.GameEntity}
          */
         _player         : null,
+		/**
+		 * @type {Boolean}
+		 */
+		_hasEntered		: false,
 
 		/**
 		 * @inheritDoc
@@ -34,16 +39,17 @@ Abstract:
 		enter: function() {
 			ChuClone.states.EditState.superclass.enter.call(this);
 
+			if( !this._hasEntered ) {
+				this._hasEntered = true;
+				this._worldController.setDebugDraw();
+				var that = this;
 
-			this._worldController.setDebugDraw();
-
-			var that = this;
-
-			// Waiting for stuff to be ready hack - there's a bug in DAT.GUI if you try to set it up too early in the page load
-			setTimeout(function(){
-				that._worldController.setupEditor( that._gameView );
-				that._levelManager.setupGui();
-			}, 100);
+				// Waiting for stuff to be ready hack - there's a bug in DAT.GUI if you try to set it up too early in the page load
+				setTimeout(function(){
+					that._worldController.setupEditor( that._gameView );
+					that._levelManager.setupGui();
+				}, 100);
+			}
 		},
 
         setupEvents: function() {
@@ -111,7 +117,7 @@ Abstract:
          * @inheritDoc
          */
         dealloc: function() {
-			ChuClone.states.EditState.dealloc.exit.call(this);
+			ChuClone.states.EditState.superclass.dealloc.call(this);
 			this._player = null;
         }
 	};

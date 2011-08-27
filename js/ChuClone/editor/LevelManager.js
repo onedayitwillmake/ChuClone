@@ -102,9 +102,33 @@
 				that.onLevelDropDownItemSelected(selected);
 			});
 			that._controllers['level'].name("Load From Server");
-
-
+			// Playtest
+			// TODO: REMOVED DUE TO BUGS - ADD BACK LATER
+			//this._controllers['playtestLevel'] = this._gui.add(this, 'playtestLevel').name("PLAY TEST");
 			this.loadServerLeveList();
+			this.setupEvents();
+
+			that._gui.close();
+			that._gui.open();
+		},
+
+		/**
+		 * Sets up game related events
+		 */
+		setupEvents: function() {
+			var that = this;
+
+			// Listen for PLAYER created/destroyed
+            ChuClone.Events.Dispatcher.addListener(ChuClone.components.player.CharacterControllerComponent.prototype.EVENTS.CREATED, function( aPlayer ) {
+				that._player = aPlayer;
+			});
+            ChuClone.Events.Dispatcher.addListener(ChuClone.components.player.CharacterControllerComponent.prototype.EVENTS.REMOVED, function( aPlayer ) {
+				if( that._player == aPlayer) {
+					that._player = null;
+				} else {
+					console.log("Removing player but our player is different!")
+				}
+			});
 		},
 
 		/**
@@ -118,7 +142,7 @@
 					that.populateServerLevelList(request);
 				}
 			};
-			request.open("GET", ChuClone.model.Constants.SERVER.USER_LEVELS_LOCATION);
+			request.open("GET", ChuClone.model.Constants.SERVER.USER_LEVELS_LOCATION, true);
 			request.send(null);
 		},
 
@@ -136,8 +160,7 @@
 				aSelectOption.label = myData.level.title;
 			});
 
-			that._gui.close();
-			that._gui.open();
+
 		},
 
 		/**
@@ -220,6 +243,7 @@
 			// Using window['FormData'] for now because intelli-j doesn't recognize FormData as a HTML5 object
 			var formData = new window['FormData']();
 			formData.append("level_json", model.levelJSONString);
+			formData.append("levelName", model.levelName);
 			formData.append("levelName", model.levelName);
 
 			var request = new XMLHttpRequest();
@@ -327,11 +351,47 @@
 				return
 			}
 
-			var playLevelState = new ChuClone.states.PlayLevelState(this._world);
-			playLevelState._gameView = ChuClone.editor.WorldEditor.getInstance().getViewController();
-			playLevelState._worldController = ChuClone.editor.WorldEditor.getInstance().getWorldController();
-			FSM.changeState(playLevelState);
 
+			// Let's try to go into play level state - if it fails just revert
+			//console.log()
+
+
+			try {
+				// Initialize the new PlayLevelState
+				var playLevelState = new ChuClone.states.PlayLevelState(this._world);
+				playLevelState._levelManager = this;
+				playLevelState._gameView = ChuClone.editor.WorldEditor.getInstance().getViewController();
+				playLevelState._worldController = ChuClone.editor.WorldEditor.getInstance().getWorldController();
+				playLevelState.onPlayerCreated( this._player );
+				FSM.changeState(playLevelState);
+
+				playLevelState.removeListener(ChuClone.components.GoalPadComponent.EVENTS.GOAL_REACHED);
+			} catch (e) {
+				ChuClone.utils.displayFlash("Error setting up level.<br> Make sure you have a player, and goal", 0);
+
+				// We made if far enough that we switched
+				if( FSM._currentState && !(FSM._currentState instanceof ChuClone.states.EditState) ) {
+					FSM.gotoPreviousState();
+
+				} else { // IN some scary neitherworld state - wellp lets try and see what happens
+					if( playLevelState._backgroundElements )
+						playLevelState.removeBackgroundElements();
+				}
+
+				if( this._player ) {
+					ChuClone.editor.WorldEditor.getInstance()._guiPlayer.destroyPlayer();
+					ChuClone.editor.WorldEditor.getInstance()._guiPlayer.createPlayer();
+				}
+
+
+				return;
+			}
+
+
+			// Everything went alright - hide the GUI's
+			for (var i = 0; i < DAT.GUI.allGuis.length; i++) {
+				DAT.GUI.allGuis[i].close();
+			}
 			this._controllers['playtestLevel'].name("STOP");
 		},
 
