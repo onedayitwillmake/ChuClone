@@ -43,7 +43,7 @@
         this.setupGui();
 		this.setupEvents();
 
-		document.body.style.overflowY = "hidden"
+		//document.body.style.overflowY = "hidden"
 
         // Little hack to prevent accidently leaving the page
         window.onbeforeunload = function(e) {
@@ -492,8 +492,10 @@
          */
         onKeyDown: function(e) {
             var that = this;
+			console.log(e.keyCode);
 
             if(e.keyCode == 32) {
+				e.preventDefault();
                 if(this._closures['pan']) // already panning
                     return;
 

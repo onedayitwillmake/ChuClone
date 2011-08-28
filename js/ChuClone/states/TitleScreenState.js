@@ -108,7 +108,8 @@ Abstract:
 					this._gameView.startPostProcessing();
 				}
 			}
-			//
+
+			ChuClone.model.IS_BLOOM = true;
 			console.log(this.code)
 		},
 

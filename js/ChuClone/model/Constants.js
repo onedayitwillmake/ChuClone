@@ -30,6 +30,8 @@
         IS_EDIT_MODE            : function(){
             return window.location.href.toLowerCase().indexOf("edit") != -1;
         },
+		IS_BLOOM				: false,
+		MAX_LEVEL_AREA			: 400000000,
 
 		SERVER: {
 			ASSET_PREFIX			: "", 					// Prefix all asset request with this

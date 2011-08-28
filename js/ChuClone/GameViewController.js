@@ -256,6 +256,7 @@
          */
         onSetupComplete: function() {
 			this._domElement.firstChild.focus();
+			//this.setupParticles();
         },
 
         /**
@@ -422,7 +423,9 @@
             if(this._sceneEditor)
                 this._sceneEditor.startPlottingObject( anEntityView, THREE.SceneEditor.ScenePlotterDot.prototype.TYPES.SQUARE, false, false );
 
+			//this._scene.removeObject( this.backgroundParticles );
             this._scene.addObject( anEntityView );
+
         },
 
         /**

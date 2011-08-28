@@ -130,10 +130,55 @@ Abstract:
 			return backgroundElements;
 		},
 
+		setupParticles: function( amount, shouldAddToView, bounds, maxDimensions) {
+
+			var base = bounds.right-bounds.left;
+			var height = bounds.top-bounds.bottom;
+			var area = base*height;
+			var ratio = Math.min(area/ChuClone.model.Constants.MAX_LEVEL_AREA, 1);
+			var amount = ratio*1000;
+
+			console.log("Creating "+amount+' background particles');
+
+			var backgroundParticleGeometry = new THREE.Geometry();
+			var backgroundParticleSprite = new THREE.ImageUtils.loadTexture(ChuClone.model.Constants.SERVER.ASSET_PREFIX + "assets/images/game/particle.png");
+			var backgroundParticleColors = [];
+
+			for ( var i = 0; i < amount; i++ ) {
+
+					var x = ChuClone.utils.randFloat( bounds.left, bounds.right );
+					var y = ChuClone.utils.randFloat( bounds.bottom, bounds.top );
+					var z = ChuClone.utils.randFloat( -3000, 3000);
+					var vector = new THREE.Vector3( x, y, z );
+					backgroundParticleGeometry.vertices.push( new THREE.Vertex( vector ) );
+
+					backgroundParticleColors[ i ] = new THREE.Color( 0xffffff );
+					backgroundParticleColors [ i ].setHSV( ChuClone.utils.randFloat(0.7, 1), 1.0, 1.0 );
+				}
+
+			backgroundParticleGeometry.colors = backgroundParticleColors;
+
+			var material = new THREE.ParticleBasicMaterial( { size: 85, map: backgroundParticleSprite, vertexColors: true } );
+			material.transparent = true;
+
+			var particles = new THREE.ParticleSystem( backgroundParticleGeometry, material );
+			particles.sortParticles = true;
+			particles.updateMatrix();
+
+			this.backgroundParticles = particles;
+			this._gameView.addObjectToScene(this.backgroundParticles);
+		},
+
         /**
          * @inheritDoc
          */
         exit: function() {
+			if(this.backgroundParticles) {
+				this._gameView.removeObjectFromScene( this.backgroundParticles );
+				this.backgroundParticles = null;
+				console.log("Removed particles");
+			}
+
             ChuClone.states.ChuCloneBaseState.superclass.exit.call(this);
             this.dealloc();
         },
