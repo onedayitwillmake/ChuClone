@@ -183,7 +183,7 @@
 
             this._renderer.domElement.tabIndex = "1";
             this._domElement.appendChild( this._renderer.domElement );
-			this.startPostProcessing()
+			//this.startPostProcessing()
         },
 
 		startPostProcessing: function() {
