@@ -158,12 +158,14 @@ Abstract:
 
 			backgroundParticleGeometry.colors = backgroundParticleColors;
 
-			var material = new THREE.ParticleBasicMaterial( { size: 85, map: backgroundParticleSprite, vertexColors: true } );
-			material.transparent = true;
+			var material = new THREE.ParticleBasicMaterial( { size: 185, map: backgroundParticleSprite, vertexColors: true } );
+			material.transparent = ChuClone.model.Constants.IS_BLOOM ? false : true;
+			material.blending = ChuClone.model.Constants.IS_BLOOM ? THREE.AdditiveBlending : THREE.NormalBlending;
 
 			var particles = new THREE.ParticleSystem( backgroundParticleGeometry, material );
-			particles.sortParticles = true;
+			particles.sortParticles = !ChuClone.model.Constants.IS_BLOOM;
 			particles.updateMatrix();
+
 
 			this.backgroundParticles = particles;
 			this._gameView.addObjectToScene(this.backgroundParticles);
@@ -176,7 +178,6 @@ Abstract:
 			if(this.backgroundParticles) {
 				this._gameView.removeObjectFromScene( this.backgroundParticles );
 				this.backgroundParticles = null;
-				console.log("Removed particles");
 			}
 
             ChuClone.states.ChuCloneBaseState.superclass.exit.call(this);

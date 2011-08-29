@@ -103,7 +103,9 @@ Abstract:
 			var geometry = new THREE.PlaneGeometry(width, 10000, 10, 1);
 
 			var mesh = new THREE.Mesh(geometry, [new THREE.MeshBasicMaterial({
-						color: ChuClone.model.IS_BLOOM ? 0xFF00FF : 0xeeeeee, shading: THREE.FlatShading,
+						color: ChuClone.model.Constants.IS_BLOOM ? 0xFF00FF : 0xeeeeee,
+						shading: THREE.FlatShading,
+						opacity: ChuClone.model.Constants.IS_BLOOM ? 0.25 : 1,
 						wireframe: true
 					})]);
 
@@ -190,7 +192,7 @@ Abstract:
 			bounds.right *= ChuClone.model.Constants.PTM_RATIO;
 			bounds.bottom *= ChuClone.model.Constants.PTM_RATIO;
 
-			this._backgroundElements = this.setupParticles(25, true, bounds, new THREE.Vector3(200, 100, 100) );
+			this.setupParticles(25, true, bounds, new THREE.Vector3(200, 100, 100) );
             this.animateCameraIn( player, goalpad, animationTime+variation);
         },
 

@@ -105,6 +105,7 @@ Abstract:
 			if(e.keyCode == this.code[this.codeIndex] ) {
 				this.codeIndex++;
 				if(this.codeIndex == this.code.length) {
+
 					this._gameView.startPostProcessing();
 				}
 			}

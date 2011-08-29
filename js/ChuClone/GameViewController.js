@@ -36,7 +36,7 @@
         var screen_uniforms = THREE.UniformsUtils.clone( screen_shader.uniforms );
 
         screen_uniforms["tDiffuse"].texture = postprocessing.rtTexture1;
-        screen_uniforms["opacity"].value = 1.0;
+        screen_uniforms["opacity"].value = 1;
 
         postprocessing.materialScreen = new THREE.MeshShaderMaterial( {
 
@@ -53,7 +53,7 @@
 
         var blurAmount = 0.001;
 		postprocessing.blurx = new THREE.Vector2( blurAmount, 0.0 ),
-		postprocessing.blury = new THREE.Vector2( 0.0, blurAmount );
+		postprocessing.blury = new THREE.Vector2( 0.0, blurAmount*2 );
 
         convolution_uniforms["tDiffuse"].texture = postprocessing.rtTexture1;
         convolution_uniforms["uImageIncrement"].value = postprocessing.blurx;
@@ -61,8 +61,8 @@
 
         postprocessing.materialConvolution = new THREE.MeshShaderMaterial( {
             uniforms: convolution_uniforms,
-            vertexShader:   "#define KERNEL_SIZE 25.0\n" + convolution_shader.vertexShader,
-            fragmentShader: "#define KERNEL_SIZE 25\n"   + convolution_shader.fragmentShader
+            vertexShader:   "#define KERNEL_SIZE 15.0\n" + convolution_shader.vertexShader,
+            fragmentShader: "#define KERNEL_SIZE 15\n"   + convolution_shader.fragmentShader
         } );
 
 
@@ -187,10 +187,10 @@
         },
 
 		startPostProcessing: function() {
-			return;
 			initPostprocessing( this );
+			ChuClone.model.Constants.IS_BLOOM = true;
 			postprocessing.enabled = true;
-			this._renderer.setClearColor(new THREE.Color(0x040404), 1);
+			this._renderer.setClearColor(new THREE.Color(0x060606), 1);
 		},
 
         /**
