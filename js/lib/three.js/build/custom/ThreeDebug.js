@@ -730,7 +730,7 @@ THREE.Vector4.prototype = {
 
 		return this;
 
-	},
+	}
 
 };
 /**
@@ -18207,7 +18207,7 @@ THREE.CylinderGeometry.prototype.constructor = THREE.CylinderGeometry;
  * @author oosmoxiecode
 
  * uvs are messed up in this one, and commented away for now. There is an ugly "seam" by the shared vertices
- * when it "wraps" around, that needs to be fixed. It´s because they share the first and the last vertices
+ * when it "wraps" around, that needs to be fixed. Itï¿½s because they share the first and the last vertices
  * so it draws the entire texture on the seam-faces, I think...
  */
 

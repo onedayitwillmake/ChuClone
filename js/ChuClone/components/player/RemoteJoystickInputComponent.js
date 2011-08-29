@@ -88,7 +88,7 @@
 			right: false,
 			up: false,
 			down: false,
-			angle: 0,
+			angle: 0
 		},
 
         /**
