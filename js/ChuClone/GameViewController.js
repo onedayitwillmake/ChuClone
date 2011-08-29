@@ -187,6 +187,8 @@
         },
 
 		startPostProcessing: function() {
+
+
 			initPostprocessing( this );
 			ChuClone.model.Constants.IS_BLOOM = true;
 			postprocessing.enabled = true;

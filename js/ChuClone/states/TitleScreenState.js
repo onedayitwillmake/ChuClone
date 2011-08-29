@@ -101,17 +101,18 @@ Abstract:
 		code: [38, 38, 40, 40, 37, 39, 37, 39, 66, 65, 13],
 		codeIndex: 0,
 		onKeyDown: function(e) {
-			//this.code.push(e.keyCode);
 			if(e.keyCode == this.code[this.codeIndex] ) {
 				this.codeIndex++;
 				if(this.codeIndex == this.code.length) {
-
+                    console.log("KonamiCode!");
 					this._gameView.startPostProcessing();
 				}
-			}
+			} else {
+                this.codeIndex = 0;
+            }
 
 			ChuClone.model.IS_BLOOM = true;
-			console.log(this.code)
+			//console.log(this.code)
 		},
 
 		/**
