@@ -72,6 +72,13 @@ Abstract:
         _textureSource	: "assets/images/game/flooraqua.png",
         _respawnState   : 0,
 
+        /**
+         * Portals are always linked.
+         * If a portal does not have an 'otherPortal' property - it does nothing on collision
+         * @type {ChuClone.components.PortalComponent}
+         */
+        _otherPortal  : null,
+
         EVENTS: {
             CREATED     : "ChuClone.components.PortalComponent.events.CREATED",
             DESTROYED   : "ChuClone.components.PortalComponent.events.DESTROYED"

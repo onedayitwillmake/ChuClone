@@ -257,7 +257,6 @@
 			// Setup component gui
 			this._guiComponent = new ChuClone.editor.ComponentGUIController();
         },
-
 		/**
 		 * Adds certain components to the GUI controls
 		 */
@@ -268,9 +267,11 @@
 			this._toggableComponents[ChuClone.components.FrictionPadComponent.prototype.displayName] = ChuClone.components.FrictionPadComponent;
 			this._toggableComponents[ChuClone.components.RespawnComponent.prototype.displayName] = ChuClone.components.RespawnComponent;
 			this._toggableComponents[ChuClone.components.GoalPadComponent.prototype.displayName] = ChuClone.components.GoalPadComponent;
-			//this._toggableComponents[ChuClone.components.AutoRotationComponent.prototype.displayName] = ChuClone.components.AutoRotationComponent;
 			this._toggableComponents[ChuClone.components.MovingPlatformComponent.prototype.displayName] = ChuClone.components.MovingPlatformComponent;
 			this._toggableComponents[ChuClone.components.DeathPadComponent.prototype.displayName] = ChuClone.components.DeathPadComponent;
+			this._toggableComponents[ChuClone.components.PortalComponent.prototype.displayName] = ChuClone.components.PortalComponent;
+
+            //this._toggableComponents[ChuClone.components.AutoRotationComponent.prototype.displayName] = ChuClone.components.AutoRotationComponent;
 			//this._toggableComponents[ChuClone.components.misc.TutorialNoteComponent.prototype.displayName] = ChuClone.components.misc.TutorialNoteComponent;
 
 			// Add a gui control for each component

@@ -36,7 +36,7 @@
     lookup[ChuClone.components.player.CharacterControllerComponent.prototype.displayName] = ChuClone.components.player.CharacterControllerComponent;
     lookup[ChuClone.components.JumpPadComponent.prototype.displayName] = ChuClone.components.JumpPadComponent;
     lookup[ChuClone.components.RespawnComponent.prototype.displayName] = ChuClone.components.RespawnComponent;
-    //lookup[ChuClone.components.PortalComponent.prototype.displayName] = ChuClone.components.PortalComponent;
+    lookup[ChuClone.components.PortalComponent.prototype.displayName] = ChuClone.components.PortalComponent;
     lookup[ChuClone.components.GoalPadComponent.prototype.displayName] = ChuClone.components.GoalPadComponent;
     lookup[ChuClone.components.FrictionPadComponent.prototype.displayName] = ChuClone.components.FrictionPadComponent;
     lookup[ChuClone.components.MovingPlatformComponent.prototype.displayName] = ChuClone.components.MovingPlatformComponent;
