@@ -183,13 +183,21 @@
 
             this._renderer.domElement.tabIndex = "1";
             this._domElement.appendChild( this._renderer.domElement );
+
+            var that = this;
+            //setTimeout(function(){that.startPostProcessing();}, 1000);
 			//this.startPostProcessing()
         },
 
 		startPostProcessing: function() {
 
-
-			initPostprocessing( this );
+            if( postprocessing.enabled ) return;
+            
+            var toneURL = ChuClone.model.Constants.SERVER.ASSET_PREFIX + "assets/sounds/fx/secrettone.wav";
+            var tone = document.createElement("div");
+            tone.innerHTML = '<video controls="" autoplay="" style="margin: auto; position: absolute; top: -1000px;" name="media" src="' + toneURL + '"></video>';
+            document.getElementsByTagName('body')[0].appendChild(tone)
+            initPostprocessing( this );
 			ChuClone.model.Constants.IS_BLOOM = true;
 			postprocessing.enabled = true;
 			this._renderer.setClearColor(new THREE.Color(0x060606), 1);
@@ -202,7 +210,6 @@
             this._camera = new THREE.Camera( 65, 900/400, 1, 22000 );
             this._camera.position.y = 100;
             this._camera.position.z = 1300;
-//            this._camera._isFullScreen = this._isFullScreen;
             this._camera.name = "camera";
         },
 
