@@ -1,0 +1,129 @@
+
+<!DOCTYPE html> 
+<html lang="en"> 
+<head> 
+ 
+    <meta charset="utf-8"/> 
+    <title>ChuClone</title> 
+
+
+    <script type='text/javascript' src='js/lib/DAT.GUI.js'></script>
+    <script type='text/javascript' src='js/lib/Stats.js'></script>
+    <script type='text/javascript' src='js/lib/three.js/build/custom/ThreeDebug.js'></script>
+    <script type='text/javascript' src='js/lib/three.js/examples/js/RequestAnimationFrame.js'></script>
+    <script type='text/javascript' src='js/lib/three.js/examples/js/Stats.js'></script>
+    <script type='text/javascript' src='js/lib/Tween.js'></script>
+
+    <script type='text/javascript' src='assets/geometry/Bird.js'></script>
+
+    <script type='text/javascript' src='js/lib/Box2DWeb.js'></script>
+    <script type='text/javascript' src='js/lib/EventEmitter.js'></script>
+
+    <script type='text/javascript' src='js/ChuClone/namespace.js'></script>
+    <script type='text/javascript' src='js/ChuClone/model/Constants.js'></script>
+    <script type='text/javascript' src='js/ChuClone/model/AchievementTracker.js'></script>
+
+    <script type='text/javascript' src='js/ChuClone/Utils.js'></script>
+    <script type='text/javascript' src='js/ChuClone/utils/TextureUtils.js'></script>
+    <script type='text/javascript' src='js/ChuClone/utils/StyleMemoizer.js'></script>
+
+    <script type='text/javascript' src='js/ChuClone/gui/LevelListing.js'></script>
+    <script type='text/javascript' src='js/ChuClone/gui/HUDController.js'></script>
+    <script type='text/javascript' src='js/ChuClone/gui/LevelRecap.js'></script>
+    <script type='text/javascript' src='js/ChuClone/gui/TutorialNoteDisplay.js'></script>
+
+    <script type='text/javascript' src='js/ChuClone/components/BaseComponent.js'></script>
+    <script type='text/javascript' src='js/ChuClone/components/JumpPadComponent.js'></script>
+    <script type='text/javascript' src='js/ChuClone/components/FrictionPadComponent.js'></script>
+    <script type='text/javascript' src='js/ChuClone/components/MovingPlatformComponent.js'></script>
+    <script type='text/javascript' src='js/ChuClone/components/RespawnPointComponent.js'></script>
+    <script type='text/javascript' src='js/ChuClone/components/GoalPadComponent.js'></script>
+    <script type='text/javascript' src='js/ChuClone/components/DeathPadComponent.js'></script>
+    <script type='text/javascript' src='js/ChuClone/components/AutoRotationComponent.js'></script>
+
+    <script type='text/javascript' src='js/ChuClone/components/effect/ParticleEmitterComponent.js'></script>
+    <script type='text/javascript' src='js/ChuClone/components/effect/BirdEmitterComponent.js'></script>
+
+    <script type='text/javascript' src='js/ChuClone/components/player/CharacterControllerComponent.js'></script>
+    <script type='text/javascript' src='js/ChuClone/components/player/CheckIsJumpingComponent.js'></script>
+    <script type='text/javascript' src='js/ChuClone/components/player/KeyboardInputComponent.js'></script>
+    <script type='text/javascript' src='js/ChuClone/components/player/PlayerRecordComponent.js'></script>
+    <script type='text/javascript' src='js/ChuClone/components/player/PlayerPlaybackComponent.js'></script>
+    <script type='text/javascript' src='js/ChuClone/components/player/RemoteJoystickInputComponent.js'></script>
+
+    <script type='text/javascript' src='js/ChuClone/components/PhysicsVelocityLimitComponent.js'></script>
+    <script type='text/javascript' src='js/ChuClone/components/BoundsYCheckComponent.js'></script>
+
+    <script type='text/javascript' src='js/ChuClone/components/camera/CameraFocusRadiusComponent.js'></script>
+    <script type='text/javascript' src='js/ChuClone/components/camera/CameraFollowEditorComponent.js'></script>
+    <script type='text/javascript' src='js/ChuClone/components/camera/CameraFollowPlayerComponent.js'></script>
+    <script type='text/javascript' src='js/ChuClone/components/camera/CameraOrbitRadiusComponent.js'></script>
+
+    <script type='text/javascript' src='js/ChuClone/components/misc/TutorialNoteComponent.js'></script>
+
+    <script type='text/javascript' src='js/ChuClone/components/ComponentFactory.js'></script>
+
+    <script type='text/javascript' src='js/ChuClone/model/FSM/State.js'></script>
+    <script type='text/javascript' src='js/ChuClone/model/FSM/StateMachine.js'></script>
+
+    <script type='text/javascript' src='js/ChuClone/Dispatcher.js'></script>
+
+    <script type='text/javascript' src='js/ChuClone/editor/LevelModel.js'></script>
+    <script type='text/javascript' src='js/ChuClone/editor/LevelManager.js'></script>
+    <script type='text/javascript' src='js/ChuClone/editor/CameraGUI.js'></script>
+    <script type='text/javascript' src='js/ChuClone/editor/PlayerGUI.js'></script>
+    <script type='text/javascript' src='js/ChuClone/editor/ShiftDragHelper.js'></script>
+    <script type='text/javascript' src='js/ChuClone/editor/WorldEditor.js'></script>
+    <script type='text/javascript' src='js/ChuClone/editor/ComponentGUI.js'></script>
+
+    <script type='text/javascript' src='js/ChuClone/physics/ContactListener.js'></script>
+    <script type='text/javascript' src='js/ChuClone/physics/DestructionListener.js'></script>
+    <script type='text/javascript' src='js/ChuClone/physics/WorldController.js'></script>
+
+    <script type='text/javascript' src='js/ChuClone/GameViewController.js'></script>
+    <script type='text/javascript' src='js/ChuClone/GameEntity.js'></script>
+
+    <script type='text/javascript' src='js/ChuClone/states/ChuCloneBaseState.js'></script>
+    <script type='text/javascript' src='js/ChuClone/states/EditState.js'></script>
+    <script type='text/javascript' src='js/ChuClone/states/EndLevelState.js'></script>
+    <script type='text/javascript' src='js/ChuClone/states/PlayLevelState.js'></script>
+    <script type='text/javascript' src='js/ChuClone/states/TitleScreenState.js'></script>
+
+    <script type='text/javascript' src='js/ChuClone/ChuCloneGame.js'></script>
+
+    <!--MINIFIED VERSION-->
+	<!--<script type='text/javascript' src='js/chuclone_min.js'></script>-->
+	<script type="text/javascript"> 
+		ChuClone.model.Constants.GAME_WIDTH = 800;
+		ChuClone.model.Constants.GAME_HEIGHT = 400;
+		ChuClone.model.Constants.INITIAL_STATE = 'Edit';
+		ChuClone.model.Constants.SERVER.ASSET_PREFIX = "";
+        
+		new ChuClone.ChuCloneGame(  );
+	</script> 
+ 
+        <link rel="shortcut icon" href="/favicon.ico"/> 
+<link rel="stylesheet" href="assets/css/960/reset.css"/>
+<link rel="stylesheet" href="assets/css/960/text.css"/>
+<link rel="stylesheet" href="assets/css/960/960.css"/>
+<link href="/stylesheets/ChuClone.css?1314651528" media="screen" rel="stylesheet" type="text/css" /> 
+ 
+ 
+ 
+<link href="http://fonts.googleapis.com/css?family=Jura:300,400,500,600&v1" rel="stylesheet" type="text/css">
+</head> 
+<body> 
+	
+ 
+<div class="container_12">
+    <div class="flash_notice" id="flash_notice">
+		<a href="/EditMode">Notices:</a>
+	</div> 
+	<div id="gameContainer" class="push_1 grid_12" style="width:800px; height:400px;"></div>
+	<div id="editorContainer" class="push_1 grid_12" style="width:800px; height: 400px;"></div>
+ 
+	<div class="grid_4 push_1 lineBorder" id="HUDTime" style="margin-left:10px">00.0 secs</div> 
+	<div class="jura_36 grid_4"><p class="grayBorder push_1" id="levelName"> Level Name </p></div> 
+</div> 
+</body> 
+</html> 
