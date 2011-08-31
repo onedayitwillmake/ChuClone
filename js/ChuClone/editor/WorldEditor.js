@@ -493,7 +493,7 @@
          */
         onKeyDown: function(e) {
             var that = this;
-			console.log(e.keyCode);
+			//console.log(e.keyCode);
 
             if(e.keyCode == 32) {
 				e.preventDefault();
