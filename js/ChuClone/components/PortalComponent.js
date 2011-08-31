@@ -51,20 +51,41 @@ Abstract:
      * @param {ChuClone.components.PortalComponent} aPortalPoint
      */
     var __addPortalPoint = function( aPortalPoint ) {
-        __portalPoints.push(aPortalPoint);
-        __portalPoints.sort( function( a, b ) {
-            var posA = a.attachedEntity.getBody().GetPosition().x;
-            var posB = b.attachedEntity.getBody().GetPosition().x;
 
-            if(posA < posB) return -1;
-            else if (posA > posB) return 1;
-            else return 0;
-        });
+        // Check if the one before this one, and the one passed both don't have mirrors
+        // If they don't... Create a relationship between them
+        if( __portalPoints[__portalPoints.length-1 ] ) {
+            var otherPortal = __portalPoints[__portalPoints.length - 1];
+            if( !otherPortal.getMirror() && !aPortalPoint.getMirror() ) {
+                __createRelationship( otherPortal, aPortalPoint );
+            }
+        }
+        __portalPoints.push(aPortalPoint);
     };
+
+    /**
+     * Creates a relationship between two portals
+     * If force is true, destroys any existing relationship
+     *
+     * @param {ChuClone.components.PortalComponent} portalA
+     * @param {ChuClone.components.PortalComponent} portalB
+     * @param {Boolean} force
+     */
+    var __createRelationship = function( portalA, portalB ) {
+        if( portalA.getMirror() || portalB.getMirror() ) {
+            console.log("Destroying relationship for portalA or portalB!");
+        }
+
+        portalA.setMirror( portalB );
+        portalB.setMirror( portalA );
+    };
+
+
 	
 
 	ChuClone.components.PortalComponent = function() {
 		ChuClone.components.PortalComponent.superclass.constructor.call(this);
+        this._isReady = true;
 	};
 
 	ChuClone.components.PortalComponent.prototype = {
@@ -73,11 +94,20 @@ Abstract:
         _respawnState   : 0,
 
         /**
+         * @type {ChuClone.components.PortalComponent}
+         */
+        _mirror         : null,
+
+        /**
          * Portals are always linked.
          * If a portal does not have an 'otherPortal' property - it does nothing on collision
          * @type {ChuClone.components.PortalComponent}
          */
         _otherPortal  : null,
+
+        _inactiveDelay                  : 1000,
+        _isReady                        : true,
+        _isReadyTimeout                 : null,
 
         EVENTS: {
             CREATED     : "ChuClone.components.PortalComponent.events.CREATED",
@@ -133,10 +163,38 @@ Abstract:
         onCollision: function( otherActor ) {
             if( otherActor._type != ChuClone.model.Constants.ENTITY_TYPES.PLAYER )
                 return;
+            if( !this.getMirror() ) return;
 
             this.interceptedProperties.onCollision.call(this.attachedEntity, otherActor );
-			__currentPortalPoint = this;
+            if( !this._isReady ) return;
+
+
+            // Place at mirrors position and flip Y velocity
+            var that = this;
+            setTimeout( function() {
+                otherActor.getBody().SetPosition( that.getMirror().attachedEntity.getBody().GetPosition() );
+                var velocity =  otherActor.getBody().GetLinearVelocity();
+                otherActor.getBody().SetLinearVelocity( new Box2D.Common.Math.b2Vec2(velocity.x, -velocity.y) );
+            }, 1);
+
+            this.getMirror().startWaitingForIsReady();
+            this.startWaitingForIsReady();
         },
+
+         /**
+         * Once set _isReady is locked for N milliseconds
+         */
+        startWaitingForIsReady: function() {
+            var that = this;
+            this._isReady = false;
+
+
+            clearTimeout( this._isReadyTimeout );
+            this._isReadyTimeout = setTimeout( function(){
+                that._isReady = true;
+            }, this._inactiveDelay );
+        },
+
 
         /**
          * Override the setBody function of the entity, to turn this entity's b2Body into a 'sensor' type
@@ -175,24 +233,18 @@ Abstract:
             this._textureSource = data.textureSource;
 		},
 
+        ///// ACCESSORS
+        getIsReady: function() { return this._isReady; },
+        /**
+         * @return {ChuClone.components.PortalComponent}
+         */
+        getMirror: function() { return this._mirror },
 
-		/**
-		 * Returns all PortalPoints (Static function)
-		 * @return {Array} An Array of respawn points
-		 */
-		GET_ALL_PortalPointS: function() {
-			return __portalPoints;
-		},
+        /**
+         * @param {ChuClone.components.PortalComponent} aPortal
+         */
+        setMirror: function(aPortal) { this._mirror = aPortal; }
 
-		/**
-		 * Returns the last touched respawn point, or first if none was set
-		 */
-		GET_CURRENT_PortalPoint: function() {
-			if( !__currentPortalPoint) {
-				return __portalPoints[0];
-			}
-			return __currentPortalPoint;
-		}
 	};
 
     ChuClone.extend( ChuClone.components.PortalComponent, ChuClone.components.BaseComponent );

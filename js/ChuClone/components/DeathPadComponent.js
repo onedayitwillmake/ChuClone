@@ -22,6 +22,7 @@ Abstract:
 
 	ChuClone.components.DeathPadComponent = function() {
 		ChuClone.components.DeathPadComponent.superclass.constructor.call(this);
+        this._isReady = true;
 	};
 
 	ChuClone.components.DeathPadComponent.prototype = {

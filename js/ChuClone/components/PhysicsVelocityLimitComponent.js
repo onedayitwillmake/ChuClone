@@ -50,10 +50,10 @@ Abstract:
                 body.m_linearVelocity.x = this._maxSpeed.x * (body.m_linearVelocity.x < 0 ? -1 : 1);
             }
 
-            // only care about compromised Y up velocity
-            if(body.m_linearVelocity.y < -this._maxSpeed.y * PTM_RATIO) {
-                body.m_linearVelocity.y = -this._maxSpeed.y * PTM_RATIO;
-            }
+            //only care about compromised Y up velocity
+            //if(body.m_linearVelocity.y < -this._maxSpeed.y * PTM_RATIO) {
+            //    body.m_linearVelocity.y = -this._maxSpeed.y * PTM_RATIO;
+            //}
         },
 
         /**
