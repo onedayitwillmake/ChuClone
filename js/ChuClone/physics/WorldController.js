@@ -110,8 +110,9 @@
          * Creates the Box2D world with 4 walls around the edges
          */
         createBox2dWorld: function() {
+			console.log(PTM_RATIO/2 - 2);
             var didNotHaveWorld = (this._world == null);
-            this._world = this._world || new b2World( new b2Vec2(0, 30), true );
+            this._world = this._world || new b2World( new b2Vec2(0, PTM_RATIO/2 - 2), true );
 
             if(didNotHaveWorld) {
 				this._world.SetContactListener( new ChuClone.physics.ContactListener() );

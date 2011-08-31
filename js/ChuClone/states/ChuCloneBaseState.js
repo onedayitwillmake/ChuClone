@@ -159,7 +159,7 @@ Abstract:
 			backgroundParticleGeometry.colors = backgroundParticleColors;
 
 			var material = new THREE.ParticleBasicMaterial( { size: 185, map: backgroundParticleSprite, vertexColors: true } );
-			material.transparent = ChuClone.model.Constants.IS_BLOOM ? false : true;
+			material.transparent = true;
 			material.blending = ChuClone.model.Constants.IS_BLOOM ? THREE.AdditiveBlending : THREE.NormalBlending;
 
 			var particles = new THREE.ParticleSystem( backgroundParticleGeometry, material );
