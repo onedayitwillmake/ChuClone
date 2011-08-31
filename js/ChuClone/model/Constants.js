@@ -30,6 +30,9 @@
         IS_EDIT_MODE            : function(){
             return window.location.href.toLowerCase().indexOf("edit") != -1;
         },
+        IS_KONGREGATE           : function() {
+            return window.location.href.indexOf("kongregate") != -1;
+        },
 		IS_BLOOM				: false,
 		MAX_LEVEL_AREA			: 400000000,
 

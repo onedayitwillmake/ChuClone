@@ -50,7 +50,16 @@
          */
         setupDivs: function( ) {
             var levelListing = document.getElementById("levellisting");
-            if( !levelListing ) { console.info("Could not find levellisting element. Aborting..."); return; }
+            if( !levelListing ) {
+
+                if( window.location.href.indexOf("kongregate") > -1 ) {
+                    this.createKongregateLevelListing();
+                    return;
+                }
+                
+                console.info("Could not find levellisting element. Aborting...");
+                return;
+            }
 
             for (var i = 0; i < levelListing.children.length; ++i) {
                 var item = levelListing.children[i];
@@ -58,6 +67,68 @@
                 item.addEventListener('mouseover', this.onLevelRollover, false);
             }
         },
+
+        /**
+		 * Sets up the drop down list that displays this users levels
+		 */
+		createKongregateLevelListing: function() {
+			var that = this;
+			var request = new XMLHttpRequest();
+			request.onreadystatechange = function() {
+				if (request.readyState == 4) {
+					that.populateServerLevelList(request);
+				}
+			};
+			request.open("GET", ChuClone.model.Constants.SERVER.USER_LEVELS_LOCATION, true);
+			request.send(null);
+		},
+
+		/**
+		 * Called once the level list has been loaded
+		 * @param request
+		 */
+		populateServerLevelList: function(request) {
+            var container = document.createElement("div");
+            container.id = "levellistingcontainer";
+            container.style.zIndex= "1";
+            container.style.position = "absolute";
+            container.setAttribute("class", "container_16");
+
+             var levelListingElement = document.createElement("div");
+             levelListingElement.id = "levellisting";
+            levelListingElement.style.position = "absolute";
+            levelListingElement.style.top = "25px";
+            levelListingElement.style.left = "170px";
+            container.appendChild(levelListingElement);
+
+
+            //"<div data-location='' data-id='105' class='grid_2 levelThumbnail' ><p>Slinkee</p></div>"
+			var that = this;
+			var levelListing = JSON.parse(request.responseText);
+            for (var i = 0; i < levelListing.length; ++i) {
+                var levelInfo = levelListing[i].level;
+
+
+
+                var levelItem = document.createElement("div");
+                levelItem.setAttribute("data-id", levelInfo.id);
+                levelItem.setAttribute('class', "grid_2 grayBorder");
+                levelItem.innerHTML = levelInfo.title
+                levelItem.style.backgroundColor = "rgba(255, 255, 255, 0.5)";
+                levelItem.style.marginBottom = "5px";
+                //level
+
+                if(i % 4 == 0 && i > 1) {
+                    var clear = document.createElement("div");
+                    clear.setAttribute("class", "clear");
+                    levelListingElement.appendChild(clear);
+                }
+                levelListingElement.appendChild( levelItem );
+            }
+
+            document.getElementsByTagName('body')[0].appendChild(container);
+            this.setupDivs();
+		},
 
         onLevelRollover: function(e) {
             if( _lastItem == this ) return;
@@ -86,9 +157,16 @@
 		 * Load the sleected level
 		 */
         onLevelClicked: function() {
-			var aURL = ChuClone.utils.constructURLForLevelWithID( this.getAttribute("data-id")  );
-			ChuClone.Events.Dispatcher.emit( ChuClone.gui.LevelListing.prototype.EVENTS.SHOULD_CHANGE_LEVEL, aURL);
-			history.pushState(null, null, "/game/"+this.getAttribute("data-id"));
+
+            var aURL = ChuClone.utils.constructURLForLevelWithID(this.getAttribute("data-id"));
+            ChuClone.Events.Dispatcher.emit(ChuClone.gui.LevelListing.prototype.EVENTS.SHOULD_CHANGE_LEVEL, aURL);
+
+            // Don't change the history state if on kongregate
+            if( !ChuClone.model.Constants.IS_KONGREGATE() ) {
+                history.pushState(null, null, "/game/"+this.getAttribute("data-id"));
+            } else {
+                document.getElementById('levellistingcontainer').style.display = 'none';
+            }
         },
 
         /**
