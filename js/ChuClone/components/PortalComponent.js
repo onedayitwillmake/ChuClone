@@ -92,6 +92,7 @@ Abstract:
 		displayName		: "PortalComponent",					// Unique string name for this Trait
         _textureSource	: "assets/images/game/flooraqua.png",
         _respawnState   : 0,
+		_previousDimensions : null,
 
         /**
          * @type {ChuClone.components.PortalComponent}
@@ -122,20 +123,13 @@ Abstract:
 			__addPortalPoint( this );
 
 			this.attachedEntity.getBody().GetFixtureList().SetSensor( true );
-            
+			this._previousDimensions = this.attachedEntity.getDimensions();
+			this.attachedEntity.setDimensions( this._previousDimensions.width, ChuClone.model.Constants.PTM_RATIO/4, this._previousDimensions.depth );
             // Intercept collision
             this.intercept(['onCollision', 'setBody']);
             ChuClone.Events.Dispatcher.emit(ChuClone.components.PortalComponent.prototype.EVENTS.CREATED, this);
 		},
 
-		/**
-		 * Sets the position of another entity relative to this respawn point
-		 * @param {ChuClone.GameEntity} spawnedEntity
-		 */
-		setSpawnedEntityPosition: function( spawnedEntity ) {
-			ChuClone.model.AchievementTracker.getInstance().incrimentDeathCount();
-			spawnedEntity.getBody().SetPosition(new Box2D.Common.Math.b2Vec2( this.attachedEntity.getBody().GetPosition().x, this.attachedEntity.getBody().GetPosition().y - 1));
-		},
 
 		/**
 		 * @inheritDoc
@@ -167,6 +161,17 @@ Abstract:
 
             this.interceptedProperties.onCollision.call(this.attachedEntity, otherActor );
             if( !this._isReady ) return;
+
+			var posA = this.attachedEntity.getBody().GetPosition().Copy()	;
+			var posB = otherActor.getBody().GetPosition().Copy();
+			var dot = Box2D.Common.Math.b2Math.Dot( posA, posB );
+			//debugger;
+			console.log("PreDot: " + dot);
+
+			posA.Normalize();
+			posB.Normalize();
+			dot = Box2D.Common.Math.b2Math.Dot( posA, posB );
+			console.log("NormalDot: " + dot);
 
 
             // Place at mirrors position and flip Y velocity
