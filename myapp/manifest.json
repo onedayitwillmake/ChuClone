@@ -1,0 +1,17 @@
+{
+  "name": "ChuClone",
+  "description": "ChuClone is an WebGL based 2.5D platformer",
+  "version": "1.0",
+  "icons": {
+    "128": "http://chuclone.com/game/assets/images/game/logo.png"
+  },
+  "app": {
+    "urls": [
+	"http://chuclone.com/game",
+	"http://chuclone.com/editor"
+    ],
+    "launch": {
+      "web_url": "http://chuclone.com/game"
+    }
+  }
+}
