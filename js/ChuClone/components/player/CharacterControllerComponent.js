@@ -90,6 +90,7 @@ Abstract:
             // x-axis
             if (this._input._keyStates.left) { force.x = -1; }
             else if (this._input._keyStates.right) { force.x = 1;}
+
             // y-axis
             if (this._input._keyStates.up && this._jumpCheckComponent._canJump) {
                 force.y = -1;

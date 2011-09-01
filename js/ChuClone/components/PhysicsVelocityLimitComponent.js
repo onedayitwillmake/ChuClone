@@ -39,6 +39,7 @@ Abstract:
          * @type {Number}
          */
         _maxSpeed                       : new Box2D.Common.Math.b2Vec2(22, 0.36),
+        //_maxSpeed                       : new Box2D.Common.Math.b2Vec2(2, 0.1),
 
         update: function() {
 
@@ -51,9 +52,9 @@ Abstract:
             }
 
             //only care about compromised Y up velocity
-            //if(body.m_linearVelocity.y < -this._maxSpeed.y * PTM_RATIO) {
-            //    body.m_linearVelocity.y = -this._maxSpeed.y * PTM_RATIO;
-            //}
+            if(body.m_linearVelocity.y < -this._maxSpeed.y * PTM_RATIO) {
+                body.m_linearVelocity.y = -this._maxSpeed.y * PTM_RATIO;
+            }
         },
 
         /**

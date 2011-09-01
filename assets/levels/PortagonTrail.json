@@ -1,0 +1,434 @@
+{
+	"editingInfo": {
+		"author": "#{user_name}",
+		"levelName": "PortagonTrail",
+		"creationDate": 1314833470189,
+		"modificationDate": 1314833470189
+	},
+	"worldSettings": {
+		"PTM_RATIO": 64
+	},
+	"playerInfo": null,
+	"bodyList": [
+		{
+			"x": 44.29516775997808,
+			"y": -54.80828958465511,
+			"dimensions": {
+				"width": 128,
+				"height": 16.64,
+				"depth": 228.8
+			},
+			"angle": 1.5707963267948966,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "ParticleEmitterComponent",
+					"count": 50,
+					"color": {
+						"r": 0.3239999999999995,
+						"g": 0.17999999999999997,
+						"b": 0.9
+					}
+				},
+				{
+					"displayName": "PortalComponent",
+					"textureSource": "assets/images/game/flooraqua.png",
+					"mirrorId": 0,
+					"angle": 90
+				}
+			]
+		},
+		{
+			"x": 40.00301194099954,
+			"y": -49.95816885762015,
+			"dimensions": {
+				"width": 256,
+				"height": 176,
+				"depth": 192
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": []
+		},
+		{
+			"x": 30.729039338259827,
+			"y": -49.95816885762015,
+			"dimensions": {
+				"width": 320,
+				"height": 176,
+				"depth": 192
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": []
+		},
+		{
+			"x": 49.50986125606804,
+			"y": -49.95816885762015,
+			"dimensions": {
+				"width": 320,
+				"height": 176,
+				"depth": 192
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": []
+		},
+		{
+			"x": 37.988162863136765,
+			"y": -53.29415889498006,
+			"dimensions": {
+				"width": 128,
+				"height": 16.64,
+				"depth": 192
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "JumpPadComponent",
+					"textureSource": "assets/images/game/jumppad_right.png",
+					"inactiveDelay": 500
+				}
+			]
+		},
+		{
+			"x": 227.79068545470005,
+			"y": -62.610856588720495,
+			"dimensions": {
+				"width": 1104.64,
+				"height": 16,
+				"depth": 192
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "GoalPadComponent",
+					"textureSource": "assets/images/game/floorgreen.png"
+				}
+			]
+		},
+		{
+			"x": 127.36444502845994,
+			"y": -52.790975320563646,
+			"dimensions": {
+				"width": 704,
+				"height": 176,
+				"depth": 192
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": []
+		},
+		{
+			"x": 127.36444502845995,
+			"y": -24.84225737184585,
+			"dimensions": {
+				"width": 704,
+				"height": 176,
+				"depth": 192
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": []
+		},
+		{
+			"x": 127.36444502845995,
+			"y": -32.27815480774325,
+			"dimensions": {
+				"width": 704,
+				"height": 176,
+				"depth": 192
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": []
+		},
+		{
+			"x": 127.36444502845995,
+			"y": -39.20123173082013,
+			"dimensions": {
+				"width": 704,
+				"height": 176,
+				"depth": 192
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": []
+		},
+		{
+			"x": 127.36444502845995,
+			"y": -46.12430865389701,
+			"dimensions": {
+				"width": 704,
+				"height": 176,
+				"depth": 192
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": []
+		},
+		{
+			"x": 127.36444502845997,
+			"y": -17.40635993594846,
+			"dimensions": {
+				"width": 704,
+				"height": 176,
+				"depth": 192
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": []
+		},
+		{
+			"x": 90.8482408566174,
+			"y": -31.19214070089207,
+			"dimensions": {
+				"width": 192,
+				"height": 16,
+				"depth": 228.8
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "ParticleEmitterComponent",
+					"count": 50,
+					"color": {
+						"r": 0.3239999999999995,
+						"g": 0.17999999999999997,
+						"b": 0.9
+					}
+				},
+				{
+					"displayName": "PortalComponent",
+					"textureSource": "assets/images/game/flooraqua.png",
+					"mirrorId": 0,
+					"angle": 0
+				}
+			]
+		},
+		{
+			"x": 19.928547592563156,
+			"y": -50.483283012871354,
+			"dimensions": {
+				"width": 192,
+				"height": 192,
+				"depth": 192
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": []
+		},
+		{
+			"x": 28.796958805335713,
+			"y": 1.8847823760308238,
+			"dimensions": {
+				"width": 192,
+				"height": 16,
+				"depth": 228.8
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "ParticleEmitterComponent",
+					"count": 50,
+					"color": {
+						"r": 0.3239999999999995,
+						"g": 0.17999999999999997,
+						"b": 0.9
+					}
+				},
+				{
+					"displayName": "PortalComponent",
+					"textureSource": "assets/images/game/flooraqua.png",
+					"mirrorId": 0,
+					"angle": 0
+				}
+			]
+		},
+		{
+			"x": 49.33045619824738,
+			"y": -41.281821228871955,
+			"dimensions": {
+				"width": 192,
+				"height": 16,
+				"depth": 342.40000000000003
+			},
+			"angle": 1.0471975511965976,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "ParticleEmitterComponent",
+					"count": 50,
+					"color": {
+						"r": 0.3239999999999995,
+						"g": 0.17999999999999997,
+						"b": 0.9
+					}
+				},
+				{
+					"displayName": "PortalComponent",
+					"textureSource": "assets/images/game/flooraqua.png",
+					"mirrorId": 0,
+					"angle": 60
+				}
+			]
+		},
+		{
+			"x": 43.47392950488582,
+			"y": -56.8067487526641,
+			"dimensions": {
+				"width": 30,
+				"height": 30,
+				"depth": 30
+			},
+			"angle": 121.0732584853568,
+			"physicsInfo": {
+				"density": 0,
+				"friction": 0,
+				"restitution": 0,
+				"bodyType": 2
+			},
+			"entityType": 2,
+			"components": [
+				{
+					"displayName": "PhysicsVelocityLimitComponent"
+				},
+				{
+					"displayName": "BoundsYCheckComponent"
+				},
+				{
+					"displayName": "CheckIsJumpingComponent"
+				},
+				{
+					"displayName": "KeyboardInputComponent"
+				},
+				{
+					"displayName": "CharacterControllerComponent"
+				}
+			]
+		},
+		{
+			"x": 19.763928174161762,
+			"y": -58.18347370093746,
+			"dimensions": {
+				"width": 32,
+				"height": 32,
+				"depth": 32
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "RespawnComponent",
+					"textureSource": "assets/images/game/flooraqua.png"
+				}
+			]
+		}
+	]
+}

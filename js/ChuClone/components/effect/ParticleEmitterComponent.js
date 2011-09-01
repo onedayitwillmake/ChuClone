@@ -19,6 +19,7 @@
 	ChuClone.namespace("ChuClone.components.effect");
 	ChuClone.components.effect.ParticleEmitterComponent = function() {
 		ChuClone.components.effect.ParticleEmitterComponent.superclass.constructor.call(this);
+        this._yLimit = 500;
 		this.requiresUpdate = true;
 	};
 
@@ -32,7 +33,7 @@
 		 * Amount of particles created
 		 * @type {Number}
 		 */
-		_count			: 200,
+		_count			: 25,
 
 		/**
 		 * @type {THREE.Color}
@@ -65,38 +66,51 @@
 		 */
 		_parent			: null,
 
+        _yLimit         : 500,
+        _maxSpeed       : 20,
+        _minSpeed       : 5,
+
         /**
          * @inheritDoc
          */
         attach: function( anEntity ) {
             ChuClone.components.effect.ParticleEmitterComponent.superclass.attach.call(this, anEntity);
 
-			this._parent = this.attachedEntity.getView().parent;
+			this._parent = this.attachedEntity.getView();
 			this._geometry = new THREE.Geometry();
-            var radius = 600;
             for( var i = 0; i < this._count; i++) {
                 var vector = new THREE.Vector3(
-						this.attachedEntity.getView().position.x + (Math.random()*this.attachedEntity.getDimensions().width*2) - this.attachedEntity.getDimensions().width,
-						-this.attachedEntity.getView().position.y + this.attachedEntity.getDimensions().height + Math.random() * radius,
-						this.attachedEntity.getView().position.z + (Math.random() * this.attachedEntity.getDimensions().depth*2) - this.attachedEntity.getDimensions().depth);
-                this._geometry.vertices.push( new THREE.Vertex( vector ) );
+						(Math.random()*this.attachedEntity.getDimensions().width*2) - this.attachedEntity.getDimensions().width,
+						Math.random()*500,
+						(Math.random() * this.attachedEntity.getDimensions().depth*2) - this.attachedEntity.getDimensions().depth);
+
+                var vertex = new THREE.Vertex( vector );
+                vertex.speed = ChuClone.utils.randFloat(this._minSpeed, this._maxSpeed);
+                this._geometry.vertices.push(vertex);
             }
 
 			this._color = new THREE.Color();
-			this._color.setHSV(Math.random() * 0.2 + 0.8, 0.5, 1.0);
+			this._color.setHSV(180/360+0.2, 0.8, 0.9);
 
-			var material = new THREE.ParticleBasicMaterial({size: ChuClone.utils.randFloat(this._sizeMin, this._sizeMax) });
+			var material = new THREE.ParticleBasicMaterial({size: 15 });
 			material.color.setRGB(this._color.r, this._color.g, this._color.b);
+            material.transparent = true;
+            material.opacity = 0.75;
 
 			this._system = new THREE.ParticleSystem(this._geometry, material);
-			this._parent.addObject( this._system );
+			this._parent.addChild( this._system );
         },
 
         update: function() {
+            //var entity = this.attachedEntity.getView().position.clone();
+
 			for( var i = 0; i < this._count; i++) {
-                this._geometry.vertices[i].position.y += Math.random() * 4;
-				if(this._geometry.vertices[i].position.y > 1000)
+                this._geometry.vertices[i].position.y += this._geometry.vertices[i].speed;
+				if(this._geometry.vertices[i].position.y > 500) {
+
+                    this._geometry.vertices[i].speed = ChuClone.utils.randFloat(this._minSpeed, this._maxSpeed);
 					this._geometry.vertices[i].position.y = 0;
+                }
             }
 			this._geometry.__dirtyVertices = true;
         },

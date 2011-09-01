@@ -97,10 +97,14 @@
 		 */
 		_editableProperties		: {},
 
-        setupEditableProperties : function() {
-//            this._editableProperties = JSON.parse( JSON.stringify(this._editableProperties) );
 
-        },
+        /**
+         * If you use the _editableProperties option, this will be called when your entity is selected in the editor.
+         * Set the properties of _editableProperties to the values for your specific instance
+         *      // e.g.
+         *      // this._editableProperties.angle.value = this._angle;
+         */
+        setupEditableProperties : function() {},
         
         /**
          * Attach the component to the host object
@@ -115,6 +119,10 @@
          * For example if you needed to cause an animation to start when a character is 'unfrozen', this is when you would do it
          */
         execute: function() {},
+        /**
+         * This will be called by the attached entity everyframe
+         * If you would like to be updated everyframe, set 'requiresUpdate' to true
+         */
         update: function() { throw new Error("BaseComponent update method has been called. Overwrite!")},
 
         /**

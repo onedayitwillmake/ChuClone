@@ -86,29 +86,72 @@ Abstract:
 	ChuClone.components.PortalComponent = function() {
 		ChuClone.components.PortalComponent.superclass.constructor.call(this);
         this._isReady = true;
+        this._angle = 0;
 	};
 
 	ChuClone.components.PortalComponent.prototype = {
 		displayName		: "PortalComponent",					// Unique string name for this Trait
-        _textureSource	: "assets/images/game/flooraqua.png",
-        _respawnState   : 0,
-		_previousDimensions : null,
 
         /**
-         * @type {ChuClone.components.PortalComponent}
+         * @type {String}
          */
-        _mirror         : null,
+        _textureSource	: "assets/images/game/flooraqua.png",
+
+        /**
+         * @type {Object}
+         */
+		_previousDimensions : null,
 
         /**
          * Portals are always linked.
          * If a portal does not have an 'otherPortal' property - it does nothing on collision
          * @type {ChuClone.components.PortalComponent}
          */
-        _otherPortal  : null,
+        _mirror         : null,
 
-        _inactiveDelay                  : 1000,
+        /**
+         * @type {Number}
+         */
+        _mirrorId       : 0,
+
+        /**
+         * @type {Number}
+         */
+        _angle          : 0,
+
+        /**
+         * @type {THREE.Mesh}
+         */
+        _pointerHelper  : null,
+
+        /**
+         * @type {ChuClone.components.effect.ParticleEmitterComponent}
+         */
+        _particleController : null,
+
+        /**
+         * If false, collision is ignroed.
+         * This happens if there is technically another collision, say the frame after we did our stuff
+         * @type {Boolean}
+         */
         _isReady                        : true,
+
+        /**
+         * How long to wait before being considered ready again
+         * @type {Number}
+         */
+        _inactiveDelay                  : 100,
+
+        /**
+         * Store the timeout
+         * @type {Number}
+         */
         _isReadyTimeout                 : null,
+
+         /**
+		 * Overwrite to allow component specific GUI
+		 */
+		_editableProperties: {angle: {value: 90, min: 0, max: 360, step: 10}},
 
         EVENTS: {
             CREATED     : "ChuClone.components.PortalComponent.events.CREATED",
@@ -125,10 +168,34 @@ Abstract:
 			this.attachedEntity.getBody().GetFixtureList().SetSensor( true );
 			this._previousDimensions = this.attachedEntity.getDimensions();
 			this.attachedEntity.setDimensions( this._previousDimensions.width, ChuClone.model.Constants.PTM_RATIO/4, this._previousDimensions.depth );
+
+            // Particle component
+            this._particleController = new ChuClone.components.effect.ParticleEmitterComponent();
+            this.attachedEntity.addComponentAndExecute( this._particleController );
+
             // Intercept collision
             this.intercept(['onCollision', 'setBody']);
-            ChuClone.Events.Dispatcher.emit(ChuClone.components.PortalComponent.prototype.EVENTS.CREATED, this);
+
+            if(ChuClone.model.Constants.IS_EDIT_MODE) {
+                this.setupDebug();
+            }
 		},
+
+        /**
+         * Creates a cube that we re-orientate to show us the direction we're traveling in
+         */
+        setupDebug: function() {
+            return;
+            this.requiresUpdate = true;
+            var geometry = new THREE.CubeGeometry( 25, 100, 25 );
+            this._pointerHelper = new THREE.Mesh( geometry, [new THREE.MeshLambertMaterial( {
+                color: 0xFFFFFF,
+                shading: THREE.SmoothShading,
+                map : ChuClone.utils.TextureUtils.GET_TEXTURE( ChuClone.model.Constants.SERVER.ASSET_PREFIX + "assets/images/game/floor.png" )
+            })] );
+
+            ChuClone.GameViewController.INSTANCE.addObjectToScene(this._pointerHelper );
+        },
 
 
 		/**
@@ -143,7 +210,6 @@ Abstract:
             // Swap materials
             this._previousMaterial = view.materials[0];
             view.materials[0] = new THREE.MeshLambertMaterial( {
-//						color: 0xFFFFFF,
 						opacity: 0.75,
 						transparent: true,
 						shading: THREE.SmoothShading,
@@ -151,39 +217,103 @@ Abstract:
             });
         },
 
+        /**
+         * Debug update, orientate our debugpoint to show us where we're facing
+         */
+        update: function() {
+            var direction = this.getDirection();
+
+            this._pointerHelper.position = this.attachedEntity.getView().position.clone();
+
+            var scalar = 100;
+            var pointPosition = this.attachedEntity.getView().position.clone();
+            pointPosition.x += direction.x * scalar;
+            pointPosition.y += direction.y * scalar;
+            this._pointerHelper.position = pointPosition;
+
+            var newRotation = this.attachedEntity.getView().rotation.clone();
+            var glide = 0.1;
+            this._pointerHelper.rotation.x -= (this._pointerHelper.rotation.x - newRotation.x) * glide;
+            this._pointerHelper.rotation.y -= (this._pointerHelper.rotation.y - newRotation.y) * glide;
+            this._pointerHelper.rotation.z -= (this._pointerHelper.rotation.z - newRotation.z) * glide;
+        },
+
 		/**
 		 * Override oncollision to set this as the current respawn point
 		 */
         onCollision: function( otherActor ) {
-            if( otherActor._type != ChuClone.model.Constants.ENTITY_TYPES.PLAYER )
+
+            // Other actor is not a player, or we don't have a mirror - nothing to do!
+            if( otherActor._type != ChuClone.model.Constants.ENTITY_TYPES.PLAYER || !this.getMirror() )
                 return;
-            if( !this.getMirror() ) return;
 
+            // Not ready or mirror is not ready!
+            if( !this._isReady || !this.getMirror().getIsReady() ) {
+                //console.log("NotReady!");
+                return;
+            }
             this.interceptedProperties.onCollision.call(this.attachedEntity, otherActor );
-            if( !this._isReady ) return;
-
-			var posA = this.attachedEntity.getBody().GetPosition().Copy()	;
-			var posB = otherActor.getBody().GetPosition().Copy();
-			var dot = Box2D.Common.Math.b2Math.Dot( posA, posB );
-			//debugger;
-			console.log("PreDot: " + dot);
-
-			posA.Normalize();
-			posB.Normalize();
-			dot = Box2D.Common.Math.b2Math.Dot( posA, posB );
-			console.log("NormalDot: " + dot);
 
 
-            // Place at mirrors position and flip Y velocity
+            // Get the players direction, velocity and speed
+            var playerPosition = otherActor.getBody().GetPosition().Copy();
+			var playerVelocity = otherActor.getBody().GetLinearVelocity().Copy();
+            var playerSpeed = Math.abs(playerVelocity.x + playerVelocity.y);
+            var playerDirection = playerPosition.Copy();
+            playerDirection.Add( playerVelocity );
+            playerDirection.Subtract( playerPosition );
+            playerDirection.Normalize();
+
+
+
+
+            var direction = this.getDirection();
+            var angle = Math.atan2(direction.y, direction.x);
+            var playerAngle = Math.atan2( playerDirection.y, playerDirection.x );
+            playerAngle = Math.atan2(Math.sin(playerAngle), Math.cos(playerAngle));
+
+            console.log(Math.round(angle*180/Math.PI), Math.round(playerAngle*180/Math.PI), "delta:", Math.round((playerAngle-angle)*180/Math.PI));
+            //console.log("PlayerDirection:", Math.round(direction.x*100)/100, Math.round(direction.y*100)/100)
+            //console.log( "Angle:", , Box2D.Common.Math.b2Math.Dot(playerDirection, direction) );
+            this.onPlayerEnterPortal( otherActor, playerDirection, playerSpeed );
+        },
+
+        /**
+         * Called by us when a player has successfully entered this portal.
+         * @param {ChuClone.GameEntity} playerActor
+         * @param {Box2D.Common.Math.b2Vec2} playerDirection Direction of the players movement
+         * @param {Number} playerSpeed Combined linear velocity of the player
+         */
+        onPlayerEnterPortal: function( playerActor, playerDirection, playerSpeed ) {
             var that = this;
-            setTimeout( function() {
-                otherActor.getBody().SetPosition( that.getMirror().attachedEntity.getBody().GetPosition() );
-                var velocity =  otherActor.getBody().GetLinearVelocity();
-                otherActor.getBody().SetLinearVelocity( new Box2D.Common.Math.b2Vec2(velocity.x, -velocity.y) );
-            }, 1);
 
-            this.getMirror().startWaitingForIsReady();
+
+            // Stop checking the X/Y velocity until this player hits something
+            playerActor.addComponentAndExecute( new ChuClone.components.AntiPhysicsVelocityLimitComponent() );
+            
+            // We have to do it 'next frame' because box2d locks all these properties during a collision
+            setTimeout( function() { that.getMirror().onPlayerExitPortal( playerActor, playerDirection, playerSpeed ); }, 1);
+
             this.startWaitingForIsReady();
+        },
+
+        /**
+         * Called by us when a player has successfully entered this portal.
+         * @param {ChuClone.GameEntity} playerActor
+         * @param {Box2D.Common.Math.b2Vec2} playerDirection Direction of the players movement
+         * @param {Number} playerSpeed Combined linear velocity of the player
+         */
+        onPlayerExitPortal: function( playerActor, playerDirection, playerSpeed ) {
+
+            this.startWaitingForIsReady();
+            playerActor.getBody().SetPosition( this.attachedEntity.getBody().GetPosition().Copy() );
+
+
+            // Rotate the players velocity
+            var directionVector = this.getDirection();
+            directionVector.Multiply( playerSpeed );
+            directionVector.y *= -1; // Flip Y for box2d
+            playerActor.getBody().SetLinearVelocity( directionVector );
         },
 
          /**
@@ -216,7 +346,18 @@ Abstract:
         detach: function() {
 			__removePortalPoint( this );
             this.attachedEntity.getView().materials[0] = this._previousMaterial;
-            ChuClone.Events.Dispatcher.emit(ChuClone.components.PortalComponent.prototype.EVENTS.DESTROYED, this);
+
+            if( this._pointerHelper ) {
+                this._pointerHelper.parent.removeChild( this._pointerHelper );
+                this._pointerHelper = null;
+            }
+
+            var aParticleEmitterComponent = this.attachedEntity.getComponentByName(ChuClone.components.effect.ParticleEmitterComponent.prototype.displayName);
+            if( aParticleEmitterComponent == this._particleController ) {
+                this.attachedEntity.removeComponentWithName( ChuClone.components.effect.ParticleEmitterComponent.prototype.displayName );
+                this._particleController = null;
+            }
+
             ChuClone.components.PortalComponent.superclass.detach.call(this);
         },
 
@@ -226,6 +367,8 @@ Abstract:
         getModel: function() {
             var returnObject = ChuClone.components.PortalComponent.superclass.getModel.call(this);
             returnObject.textureSource = this._textureSource;
+            returnObject.mirrorId = this._mirrorId;
+            returnObject.angle = this._angle;
 
             return returnObject;
         },
@@ -236,6 +379,26 @@ Abstract:
         fromModel: function( data, futureEntity ) {
 			ChuClone.components.PortalComponent.superclass.fromModel.call(this, data);
             this._textureSource = data.textureSource;
+            this._mirrorId  = data._mirrorId || 0;
+            this._angle = data.angle || 0;
+		},
+
+        ///// EDITABLE PROPERTIES
+        /**
+         * Set the '_editableProperties' object to our values
+         */
+        setEditableProps: function() {
+			this._editableProperties.angle.value = this._angle;
+        },
+
+        /**
+		 * Modify the texture to face left or right
+		 */
+		onEditablePropertyWasChanged: function() {
+            this._angle = this._editableProperties.angle.value;
+
+            //console.log( this.getDirection().x, this.getDirection().y );
+            this.attachedEntity.getBody().SetAngle( this._angle * Math.PI/180 );
 		},
 
         ///// ACCESSORS
@@ -248,8 +411,20 @@ Abstract:
         /**
          * @param {ChuClone.components.PortalComponent} aPortal
          */
-        setMirror: function(aPortal) { this._mirror = aPortal; }
+        setMirror: function(aPortal) { this._mirror = aPortal; },
 
+        /**
+         * @return {Box2D.Common.Math.b2Vec2} direction
+         */
+        getDirection: function() {
+            var angleInRadians = (this._angle * Math.PI/180) + Math.PI/2; // +90 degrees in radians
+            
+            var normalizedPosition = this.attachedEntity.getBody().GetPosition().Copy();
+            normalizedPosition.Normalize();
+            normalizedPosition.x = -(Math.cos( angleInRadians ));
+            normalizedPosition.y = Math.sin( angleInRadians );
+            return normalizedPosition;
+        }
 	};
 
     ChuClone.extend( ChuClone.components.PortalComponent, ChuClone.components.BaseComponent );
