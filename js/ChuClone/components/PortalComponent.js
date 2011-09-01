@@ -259,23 +259,22 @@ Abstract:
 
 			// Check if the portal and player are facing opposite directions using the dot product
 			//var direction = this.getDirection();
-			var angleInRadians = (this._angle * Math.PI/180) // +90 degrees in radians
-
+			var angleInRadians = (this._angle * Math.PI/180) + Math.PI/2;// +90 degrees in radians
             var normalizedPosition = this.attachedEntity.getBody().GetPosition().Copy();
             normalizedPosition.Normalize();
             normalizedPosition.x = Math.cos( angleInRadians );
             normalizedPosition.y = Math.sin( angleInRadians );
 			var direction = normalizedPosition;
+
+            console.log("Direction:", direction, this.getDirection() );
+            return;
 			var playerToPortal = new Box2D.Common.Math.b2Vec2(playerPosition.x - this.attachedEntity.getBody().GetPosition().x, playerPosition.y - this.attachedEntity.getBody().GetPosition().y);
 			playerToPortal.Normalize();
 
-			var angle = Math.acos( Box2D.Common.Math.b2Math.Dot(direction, playerToPortal) );
-			console.log("Angle:", Box2D.Common.Math.b2Math.Dot(direction, playerToPortal));
-			//var dot = ;
-			//if( dot > 0 ) {
-			//	console.log("Collision ignored - Dot:", dot);
-			//	return;
-			//}
+            var dot =  Box2D.Common.Math.b2Math.Dot( direction, playerToPortal );
+            if( dot > 0 ) return;
+            
+			//console.log("Dot:", dot, "Direction:", Math.round(direction.x*100)/100, Math.round(direction.y*100)/100, "PlayerToPortal:", Math.round(playerToPortal.x*100)/100, Math.round(playerToPortal.y*100)/100);
 
 
             this.interceptedProperties.onCollision.call(this.attachedEntity, otherActor );
