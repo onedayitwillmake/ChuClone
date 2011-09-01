@@ -252,11 +252,35 @@ Abstract:
                 //console.log("NotReady!");
                 return;
             }
+
+
+            var playerPosition = otherActor.getBody().GetPosition().Copy();
+
+
+			// Check if the portal and player are facing opposite directions using the dot product
+			//var direction = this.getDirection();
+			var angleInRadians = (this._angle * Math.PI/180) // +90 degrees in radians
+
+            var normalizedPosition = this.attachedEntity.getBody().GetPosition().Copy();
+            normalizedPosition.Normalize();
+            normalizedPosition.x = Math.cos( angleInRadians );
+            normalizedPosition.y = Math.sin( angleInRadians );
+			var direction = normalizedPosition;
+			var playerToPortal = new Box2D.Common.Math.b2Vec2(playerPosition.x - this.attachedEntity.getBody().GetPosition().x, playerPosition.y - this.attachedEntity.getBody().GetPosition().y);
+			playerToPortal.Normalize();
+
+			var angle = Math.acos( Box2D.Common.Math.b2Math.Dot(direction, playerToPortal) );
+			console.log("Angle:", Box2D.Common.Math.b2Math.Dot(direction, playerToPortal));
+			//var dot = ;
+			//if( dot > 0 ) {
+			//	console.log("Collision ignored - Dot:", dot);
+			//	return;
+			//}
+
+
             this.interceptedProperties.onCollision.call(this.attachedEntity, otherActor );
 
-
-            // Get the players direction, velocity and speed
-            var playerPosition = otherActor.getBody().GetPosition().Copy();
+			// Get the players direction, velocity and speed
 			var playerVelocity = otherActor.getBody().GetLinearVelocity().Copy();
             var playerSpeed = Math.abs(playerVelocity.x + playerVelocity.y);
             var playerDirection = playerPosition.Copy();
@@ -267,14 +291,14 @@ Abstract:
 
 
 
-            var direction = this.getDirection();
-            var angle = Math.atan2(direction.y, direction.x);
-            var playerAngle = Math.atan2( playerDirection.y, playerDirection.x );
-            playerAngle = Math.atan2(Math.sin(playerAngle), Math.cos(playerAngle));
 
-            console.log(Math.round(angle*180/Math.PI), Math.round(playerAngle*180/Math.PI), "delta:", Math.round((playerAngle-angle)*180/Math.PI));
+            //var angle = Math.atan2(direction.y, direction.x);
+            //var playerAngle = Math.atan2( playerDirection.y, playerDirection.x );
+            //playerAngle = Math.atan2(Math.sin(playerAngle), Math.cos(playerAngle));
+
+            //console.log(Math.round(angle*180/Math.PI), Math.round(playerAngle*180/Math.PI), "delta:", Math.round((playerAngle-angle)*180/Math.PI));
             //console.log("PlayerDirection:", Math.round(direction.x*100)/100, Math.round(direction.y*100)/100)
-            //console.log( "Angle:", , Box2D.Common.Math.b2Math.Dot(playerDirection, direction) );
+            //console.log( "DOT:", Box2D.Common.Math.b2Math.Dot(playerToPortal, direction) );
             this.onPlayerEnterPortal( otherActor, playerDirection, playerSpeed );
         },
 
@@ -351,6 +375,7 @@ Abstract:
                 this._pointerHelper.parent.removeChild( this._pointerHelper );
                 this._pointerHelper = null;
             }
+
 
             var aParticleEmitterComponent = this.attachedEntity.getComponentByName(ChuClone.components.effect.ParticleEmitterComponent.prototype.displayName);
             if( aParticleEmitterComponent == this._particleController ) {
