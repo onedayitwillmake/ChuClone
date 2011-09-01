@@ -249,32 +249,23 @@ Abstract:
 
             // Not ready or mirror is not ready!
             if( !this._isReady || !this.getMirror().getIsReady() ) {
-                //console.log("NotReady!");
                 return;
             }
 
 
+
+
+
+            // Check if the portal and player are facing opposite directions using the dot product
+            var direction = this.getDirection();
             var playerPosition = otherActor.getBody().GetPosition().Copy();
-
-
-			// Check if the portal and player are facing opposite directions using the dot product
-			//var direction = this.getDirection();
-			var angleInRadians = (this._angle * Math.PI/180) + Math.PI/2;// +90 degrees in radians
-            var normalizedPosition = this.attachedEntity.getBody().GetPosition().Copy();
-            normalizedPosition.Normalize();
-            normalizedPosition.x = Math.cos( angleInRadians );
-            normalizedPosition.y = Math.sin( angleInRadians );
-			var direction = normalizedPosition;
-
-            console.log("Direction:", direction, this.getDirection() );
-            return;
 			var playerToPortal = new Box2D.Common.Math.b2Vec2(playerPosition.x - this.attachedEntity.getBody().GetPosition().x, playerPosition.y - this.attachedEntity.getBody().GetPosition().y);
 			playerToPortal.Normalize();
-
             var dot =  Box2D.Common.Math.b2Math.Dot( direction, playerToPortal );
+
+            // Player is attempting to enter from back area, ignore collision
             if( dot > 0 ) return;
             
-			//console.log("Dot:", dot, "Direction:", Math.round(direction.x*100)/100, Math.round(direction.y*100)/100, "PlayerToPortal:", Math.round(playerToPortal.x*100)/100, Math.round(playerToPortal.y*100)/100);
 
 
             this.interceptedProperties.onCollision.call(this.attachedEntity, otherActor );
@@ -287,17 +278,6 @@ Abstract:
             playerDirection.Subtract( playerPosition );
             playerDirection.Normalize();
 
-
-
-
-
-            //var angle = Math.atan2(direction.y, direction.x);
-            //var playerAngle = Math.atan2( playerDirection.y, playerDirection.x );
-            //playerAngle = Math.atan2(Math.sin(playerAngle), Math.cos(playerAngle));
-
-            //console.log(Math.round(angle*180/Math.PI), Math.round(playerAngle*180/Math.PI), "delta:", Math.round((playerAngle-angle)*180/Math.PI));
-            //console.log("PlayerDirection:", Math.round(direction.x*100)/100, Math.round(direction.y*100)/100)
-            //console.log( "DOT:", Box2D.Common.Math.b2Math.Dot(playerToPortal, direction) );
             this.onPlayerEnterPortal( otherActor, playerDirection, playerSpeed );
         },
 
@@ -335,6 +315,7 @@ Abstract:
             // Rotate the players velocity
             var directionVector = this.getDirection();
             directionVector.Multiply( playerSpeed );
+            directionVector.x *= -1; // Flip X for box2d
             directionVector.y *= -1; // Flip Y for box2d
             playerActor.getBody().SetLinearVelocity( directionVector );
         },
@@ -420,8 +401,6 @@ Abstract:
 		 */
 		onEditablePropertyWasChanged: function() {
             this._angle = this._editableProperties.angle.value;
-
-            //console.log( this.getDirection().x, this.getDirection().y );
             this.attachedEntity.getBody().SetAngle( this._angle * Math.PI/180 );
 		},
 
@@ -445,7 +424,7 @@ Abstract:
             
             var normalizedPosition = this.attachedEntity.getBody().GetPosition().Copy();
             normalizedPosition.Normalize();
-            normalizedPosition.x = -(Math.cos( angleInRadians ));
+            normalizedPosition.x = Math.cos( angleInRadians );
             normalizedPosition.y = Math.sin( angleInRadians );
             return normalizedPosition;
         }
