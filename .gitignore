@@ -8,3 +8,4 @@ workspace.xml
 *_t.json
 /ChuCloneDB/app/tmp/
 /compiler/
+# js/lib/three.js/

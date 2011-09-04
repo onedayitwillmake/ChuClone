@@ -269,20 +269,11 @@ Abstract:
 			var playerToPortal = new Box2D.Common.Math.b2Vec2(playerPosition.x - this.attachedEntity.getBody().GetPosition().x, playerPosition.y - this.attachedEntity.getBody().GetPosition().y);
 			playerToPortal.Normalize();
 
-			var angle = Math.acos( Box2D.Common.Math.b2Math.Dot(direction, playerToPortal) );
-			console.log("Angle:", Box2D.Common.Math.b2Math.Dot(direction, playerToPortal));
-			//var dot = ;
-			//if( dot > 0 ) {
-			//	console.log("Collision ignored - Dot:", dot);
-			//	return;
-			//}
-
-
             this.interceptedProperties.onCollision.call(this.attachedEntity, otherActor );
 
 			// Get the players direction, velocity and speed
 			var playerVelocity = otherActor.getBody().GetLinearVelocity().Copy();
-            var playerSpeed = Math.abs(playerVelocity.x + playerVelocity.y);
+            var playerSpeed = Math.abs(playerVelocity.x) + Math.abs(playerVelocity.y);
             var playerDirection = playerPosition.Copy();
             playerDirection.Add( playerVelocity );
             playerDirection.Subtract( playerPosition );
@@ -377,7 +368,7 @@ Abstract:
             }
 
 
-            var aParticleEmitterComponent = this.attachedEntity.getComponentByName(ChuClone.components.effect.ParticleEmitterComponent.prototype.displayName);
+            var aParticleEmitterComponent = this.attachedEntity.getComponentWithName(ChuClone.components.effect.ParticleEmitterComponent.prototype.displayName);
             if( aParticleEmitterComponent == this._particleController ) {
                 this.attachedEntity.removeComponentWithName( ChuClone.components.effect.ParticleEmitterComponent.prototype.displayName );
                 this._particleController = null;

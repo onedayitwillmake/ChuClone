@@ -64,7 +64,6 @@ Abstract:
 		 * Move the camera around it's current 'position'
 		 */
         update: function() {
-
             this.attachedEntity.position.x += Math.cos( this._mousePosition.x * Math.PI ) * this._radius.x;
             this.attachedEntity.position.y += (this._mousePosition.y*2-1) * this._radius.y;
             this.attachedEntity.position.z += this._radius.z;
@@ -75,6 +74,7 @@ Abstract:
          * @param {MouseEvent} event
          */
         onDocumentMouseMove: function( event ) {
+			if( event.shiftKey ) return;
             event.preventDefault();
             this._mousePosition.x = event.clientX / ChuClone.DOM_ELEMENT.offsetWidth;
             this._mousePosition.y = (event.clientY / ChuClone.DOM_ELEMENT.offsetHeight);

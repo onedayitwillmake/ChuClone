@@ -75,8 +75,9 @@ Abstract:
         _respawnState   : 0,
 
         EVENTS: {
-            CREATED     : "ChuClone.components.RespawnComponent.events.CREATED",
-            DESTROYED   : "ChuClone.components.RespawnComponent.events.DESTROYED"
+            CREATED     	: "ChuClone.components.RespawnComponent.events.CREATED",
+            SPAWNED_PLAYER  : "ChuClone.components.RespawnComponent.events.SPAWNED_PLAYER",
+            DESTROYED   	: "ChuClone.components.RespawnComponent.events.DESTROYED"
         },
 
 		/**
@@ -100,6 +101,7 @@ Abstract:
 		setSpawnedEntityPosition: function( spawnedEntity ) {
 			ChuClone.model.AchievementTracker.getInstance().incrimentDeathCount();
 			spawnedEntity.getBody().SetPosition(new Box2D.Common.Math.b2Vec2( this.attachedEntity.getBody().GetPosition().x, this.attachedEntity.getBody().GetPosition().y - 1));
+			ChuClone.Events.Dispatcher.emit( ChuClone.components.RespawnComponent.prototype.EVENTS.SPAWNED_PLAYER, this );
 		},
 
 		/**

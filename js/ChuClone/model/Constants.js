@@ -56,6 +56,12 @@
             SERVER_PORT: "8081"
         },
 
+		VIEW: {
+			DIMENSIONS: {
+				width: 0,
+				height:0
+			}
+		},
 		// WASD KEYS
         KEYS: {
             A: 65,

@@ -76,6 +76,16 @@
     ChuClone.GameViewController = function() {
         this.setDimensions( ChuClone.model.Constants.GAME_WIDTH, ChuClone.model.Constants.GAME_HEIGHT );
         this.setupContainer();
+
+		if ( !Detector.webgl ) {
+			Detector.addGetWebGLMessage({
+				parent: document.getElementById('gameContainer'),
+				id: "no_webgl"
+			});
+
+			return;
+		}
+
         this.setupScene();
         this.setupRenderer();
         this.setupCamera();
@@ -181,12 +191,18 @@
             this._renderer.setClearColor(new THREE.Color(0xFFFFFF), 1);
             this._renderer.setSize( this.getDimensions().x, this.getDimensions().y );
 
+
+
+			//this._renderer.shadowMapBias = 0.0039 * 4;
+			//this._renderer.shadowMapDarkness = 0.5;
+			//this._renderer.shadowMapWidth = 1024;
+			//this._renderer.shadowMapHeight = 1024;
+			//
+			//this._renderer.shadowMapEnabled = true;
+			//this._renderer.shadowMapSoft = true;
+
             this._renderer.domElement.tabIndex = "1";
             this._domElement.appendChild( this._renderer.domElement );
-
-            var that = this;
-            //setTimeout(function(){that.startPostProcessing();}, 1000);
-			//this.startPostProcessing()
         },
 
 		startPostProcessing: function() {
@@ -221,7 +237,11 @@
             this._ambientLight = new THREE.AmbientLight(0x608090);
 
             this._directionalLight = new THREE.DirectionalLight( 0x608090, 1.6, 0, false );
-            this._directionalLight.position.set( 0, 2, 1 );
+			this._directionalLight.position.set( 0, 2, 1 );
+
+
+			//this._directionalLight.rotation.z = 45 * Math.PI/180
+			//this._directionalLight.castShadow = true;
 
             this._scene.addLight( this._ambientLight );
             this._scene.addLight( this._directionalLight );
@@ -407,8 +427,7 @@
                 shading: THREE.SmoothShading,
                 map : ChuClone.utils.TextureUtils.GET_TEXTURE( ChuClone.model.Constants.SERVER.ASSET_PREFIX + "assets/images/game/floor.png" )
             })] );
-            mesh.dynamic = false;
-
+            //mesh.dynamic = false;
 
 
             var id = ChuClone.GameViewController.prototype.GET_NEXT_VIEW_ID();
@@ -416,6 +435,9 @@
             mesh.position.x = x;
             mesh.position.y = y;
             mesh.position.z = 0;
+
+			//mesh.castShadow = true;
+			//mesh.receiveShadow = true;
 
             this.addObjectToScene( mesh );
 
@@ -427,12 +449,13 @@
          * @param {THREE.Mesh} anEntityView
          */
         addObjectToScene: function( anEntityView ) {
-            anEntityView.dynamic = true;
+
+			if( ChuClone.model.Constants.IS_EDIT_MODE() )
+            	anEntityView.dynamic = true;
 
             if(this._sceneEditor)
                 this._sceneEditor.startPlottingObject( anEntityView, THREE.SceneEditor.ScenePlotterDot.prototype.TYPES.SQUARE, false, false );
 
-			//this._scene.removeObject( this.backgroundParticles );
             this._scene.addObject( anEntityView );
 
         },
@@ -465,9 +488,15 @@
          * @param {Event} e
          */
         onResize: function( e ) {
+			return;
             this._renderer.setSize( this.getDimensions().x, this.getDimensions().y );
             this._camera.aspect = this.getDimensions().x/this.getDimensions().y;
             this._camera.updateProjectionMatrix();
+
+
+			this._renderer.shadowCameraNear = 3;
+			this._renderer.shadowCameraFar = this._camera.far;
+			this._renderer.shadowCameraFov = 50;
         },
 
 
@@ -485,6 +514,10 @@
          */
         setDimensions: function( aWidth, aHeight ){
             this._dimensions = new THREE.Vector2( aWidth, aHeight );
+
+			ChuClone.model.Constants.VIEW.DIMENSIONS.width = aWidth;
+			ChuClone.model.Constants.VIEW.DIMENSIONS.height = aHeight;
+
             return this._dimensions;
         },
         /**

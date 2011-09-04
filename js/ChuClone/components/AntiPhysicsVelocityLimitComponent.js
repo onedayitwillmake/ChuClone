@@ -40,6 +40,8 @@ Abstract:
          */
         _isWaitingToBeDetached          : false,
 
+		_motionStreak:null,
+
         /**
 		 * @inheritDoc
 		 */
@@ -47,6 +49,10 @@ Abstract:
 			ChuClone.components.AntiPhysicsVelocityLimitComponent.superclass.attach.call(this, anEntity);
 
             this.attachedEntity.removeComponentWithName( ChuClone.components.PhysicsVelocityLimitComponent.prototype.displayName );
+
+			// Attach a motionstreak component
+            this.attachedEntity.addComponentAndExecute( new ChuClone.components.effect.MotionStreakComponent() );
+
             this.intercept(['onCollision']);
         },
 
@@ -75,6 +81,7 @@ Abstract:
          */
         detach: function() {
             this.attachedEntity.addComponentAndExecute( new ChuClone.components.PhysicsVelocityLimitComponent );
+			this.attachedEntity.removeComponentWithName( ChuClone.components.effect.MotionStreakComponent.prototype.displayName );
             ChuClone.components.AntiPhysicsVelocityLimitComponent.superclass.detach.call(this);
         }
 

@@ -68,6 +68,11 @@ Abstract:
             this.attachedEntity.addComponentAndExecute( this._jumpCheckComponent );
             this.attachedEntity.addComponentAndExecute( new ChuClone.components.BoundsYCheckComponent() );
 
+			//// Attach a motionstreak component
+			//ChuClone.components.player.PortalGunComponent
+			//this.attachedEntity.addComponentAndExecute( new ChuClone.components.player.PortalGunComponent() );
+
+
 			// Swap materials
 			var view = this.attachedEntity.getView();
             this._previousMaterial = view.materials[0];
