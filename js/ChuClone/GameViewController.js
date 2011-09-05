@@ -51,7 +51,8 @@
         var convolution_shader = THREE.ShaderUtils.lib["convolution"];
         var convolution_uniforms = THREE.UniformsUtils.clone( convolution_shader.uniforms );
 
-        var blurAmount = 0.001;
+
+		var blurAmount = 0.001953125;
 		postprocessing.blurx = new THREE.Vector2( blurAmount, 0.0 ),
 		postprocessing.blury = new THREE.Vector2( 0.0, blurAmount*2 );
 
@@ -203,6 +204,7 @@
 
             this._renderer.domElement.tabIndex = "1";
             this._domElement.appendChild( this._renderer.domElement );
+
         },
 
 		startPostProcessing: function() {
@@ -213,9 +215,26 @@
             var tone = document.createElement("div");
             tone.innerHTML = '<video controls="" autoplay="" style="margin: auto; position: absolute; top: -1000px;" name="media" src="' + toneURL + '"></video>';
             document.getElementsByTagName('body')[0].appendChild(tone)
-            initPostprocessing( this );
+            //initPostprocessing( this );
 			ChuClone.model.Constants.IS_BLOOM = true;
 			postprocessing.enabled = true;
+
+			var renderModel = new THREE.RenderPass( this._scene, this._camera );
+
+			var blurAmount = 0.001953125;
+			THREE.BloomPass.blurX = new THREE.Vector2( blurAmount, 0.0 );
+			THREE.BloomPass.blurY = new THREE.Vector2( 0.0, blurAmount);
+			var effectBloom = new THREE.BloomPass( 1.6, 15 );
+			var effectScreen = new THREE.ShaderPass( THREE.ShaderExtras[ "screen" ] );
+
+			effectScreen.renderToScreen = true;
+
+			this.composer = new THREE.EffectComposer( this._renderer);
+
+			this.composer.addPass( renderModel );
+			this.composer.addPass( effectBloom );
+			this.composer.addPass( effectScreen );
+
 			this._renderer.setClearColor(new THREE.Color(0x060606), 1);
 		},
 
@@ -351,39 +370,40 @@
             if (postprocessing.enabled) {
 
                 renderer.clear();
-
-                // Render scene into texture
-
-                renderer.render(scene, camera, postprocessing.rtTexture1, true);
-
-                // Render quad with blured scene into texture (convolution pass 1)
-
-                postprocessing.quad.materials = [ postprocessing.materialConvolution ];
-
-                postprocessing.materialConvolution.uniforms.tDiffuse.texture = postprocessing.rtTexture1;
-                postprocessing.materialConvolution.uniforms.uImageIncrement.value = postprocessing.blurx;
-
-                renderer.render(postprocessing.scene, postprocessing.camera, postprocessing.rtTexture2, true);
-
-                // Render quad with blured scene into texture (convolution pass 2)
-
-                postprocessing.materialConvolution.uniforms.tDiffuse.texture = postprocessing.rtTexture2;
-                postprocessing.materialConvolution.uniforms.uImageIncrement.value = postprocessing.blury;
-
-                renderer.render(postprocessing.scene, postprocessing.camera, postprocessing.rtTexture3, true);
-
-                // Render original scene with superimposed blur to texture
-
-                postprocessing.quad.materials = [ postprocessing.materialScreen ];
-
-                postprocessing.materialScreen.uniforms.tDiffuse.texture = postprocessing.rtTexture3;
-                postprocessing.materialScreen.uniforms.opacity.value = 1.25;
-
-                renderer.render(postprocessing.scene, postprocessing.camera, postprocessing.rtTexture1, false);
-
-
-                postprocessing.materialScreen.uniforms.tDiffuse.texture = postprocessing.rtTexture1;
-                renderer.render(postprocessing.scene, postprocessing.camera);
+				this.composer.render();
+				//
+                //// Render scene into texture
+				//
+                //renderer.render(scene, camera, postprocessing.rtTexture1, true);
+				//
+                //// Render quad with blured scene into texture (convolution pass 1)
+				//
+                //postprocessing.quad.materials = [ postprocessing.materialConvolution ];
+				//
+                //postprocessing.materialConvolution.uniforms.tDiffuse.texture = postprocessing.rtTexture1;
+                //postprocessing.materialConvolution.uniforms.uImageIncrement.value = postprocessing.blurx;
+				//
+                //renderer.render(postprocessing.scene, postprocessing.camera, postprocessing.rtTexture2, true);
+				//
+                //// Render quad with blured scene into texture (convolution pass 2)
+				//
+                //postprocessing.materialConvolution.uniforms.tDiffuse.texture = postprocessing.rtTexture2;
+                //postprocessing.materialConvolution.uniforms.uImageIncrement.value = postprocessing.blury;
+				//
+                //renderer.render(postprocessing.scene, postprocessing.camera, postprocessing.rtTexture3, true);
+				//
+                //// Render original scene with superimposed blur to texture
+				//
+                //postprocessing.quad.materials = [ postprocessing.materialScreen ];
+				//
+                //postprocessing.materialScreen.uniforms.tDiffuse.texture = postprocessing.rtTexture3;
+                //postprocessing.materialScreen.uniforms.opacity.value = 1.25;
+				//
+                //renderer.render(postprocessing.scene, postprocessing.camera, postprocessing.rtTexture1, false);
+				//
+				//
+                //postprocessing.materialScreen.uniforms.tDiffuse.texture = postprocessing.rtTexture1;
+                //renderer.render(postprocessing.scene, postprocessing.camera);
 
             } else {
 

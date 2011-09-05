@@ -91,7 +91,7 @@ Abstract:
             this._beatLevel = false;
             this._previousTime = Date.now();
 			this.addFloorPlane();
-			this.setupPortalGun();
+			//this.setupPortalGun();
 
 			ChuClone.DOM_ELEMENT.focus();
 		},

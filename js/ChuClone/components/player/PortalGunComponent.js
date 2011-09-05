@@ -113,7 +113,7 @@
 				console.error("PortalGunController - Could not attach. Please call setWorldController & setGameViewController before attaching!");
 				return;
 			}
-
+			 debugger;
 			// If edit mode, start our extra draw
 			if( ChuClone.model.Constants.IS_EDIT_MODE() ) {
 				var that = this;
@@ -364,7 +364,7 @@
 				var aLine = lines[i];
 				var result = intersectLineLine(playerToTracer.a, playerToTracer.b, aLine.a, aLine.b);
 				for(var j = 0; j < result.length; j++) {
-					lineTestResults.push({line: aLine, point: result});
+					lineTestResults.push({line: aLine, point: result[j]});
 				}
 			}
 
@@ -373,7 +373,7 @@
 			var playerPosition = playerBody.GetPosition();
 			var lineSegmentHit = null;
 			for(i = 0; i < lineTestResults.length; i++) {
-				var dist = playerPosition.DistanceSquared( lineTestResults[i].point );
+				var dist = Box2D.Common.Math.b2Math.DistanceSquared( playerPosition, lineTestResults[i].point );
 				if( dist < closestDistance ) {
 					closestDistance = dist;
 					lineSegmentHit = aLine;

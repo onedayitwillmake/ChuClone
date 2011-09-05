@@ -153,7 +153,7 @@
 		///// Accessors
 		setColor: function( aColor ) {
 			this._system.materials[0].color = new THREE.Color( aColor );
-		},
+		}
 	};
 
     ChuClone.extend( ChuClone.components.effect.ParticleEmitterComponent, ChuClone.components.BaseComponent );
