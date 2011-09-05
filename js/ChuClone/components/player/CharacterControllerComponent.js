@@ -57,6 +57,9 @@ Abstract:
 			this.intercept(['_type']);
 			this.attachedEntity.getBody().SetBullet( true );
 
+			// Set collisionfiltering
+			this.setFilterData( this.attachedEntity.getBody() );
+
             // Attach a RemoteJoystickInput or KeyboardInput controller
 			if( ChuClone.model.Constants.JOYSTICK.ENABLED )this._input = new ChuClone.components.player.RemoteJoystickInputComponent();
 			else this._input = new ChuClone.components.player.KeyboardInputComponent ();
@@ -68,9 +71,11 @@ Abstract:
             this.attachedEntity.addComponentAndExecute( this._jumpCheckComponent );
             this.attachedEntity.addComponentAndExecute( new ChuClone.components.BoundsYCheckComponent() );
 
-			//// Attach a motionstreak component
 			//ChuClone.components.player.PortalGunComponent
-			//this.attachedEntity.addComponentAndExecute( new ChuClone.components.player.PortalGunComponent() );
+			var portalGunComponent = new ChuClone.components.player.PortalGunComponent();
+			portalGunComponent.setGameView( ChuClone.GameViewController.INSTANCE );
+			portalGunComponent.setWorldController( ChuClone.model.Constants.PHYSICS.CONTROLLER );
+			this.attachedEntity.addComponentAndExecute( portalGunComponent );
 
 
 			// Swap materials
@@ -129,8 +134,21 @@ Abstract:
          */
         setBody: function( aBody ) {
 			this.interceptedProperties['setBody'].call( this.attachedEntity, aBody );
-            aBody.GetFixtureList().m_filter.groupIndex = ChuClone.components.player.CharacterControllerComponent.prototype.GROUP;
+			this.setFilterData( aBody )
+            //aBody.GetFixtureList().m_filter.groupIndex = ChuClone.components.player.CharacterControllerComponent.prototype.GROUP;
         },
+
+		/**
+		 * Sets the collision filter data for our body
+		 * @param {Box2D.Dynamics.b2Body} aBody
+		 */
+		setFilterData: function( aBody ) {
+			var filter = new Box2D.Dynamics.b2FilterData();
+			filter.categoryBits = ChuClone.model.Constants.PHYSICS.COLLISION_CATEGORY.PLAYER;
+			filter.maskBits = ChuClone.model.Constants.PHYSICS.COLLISION_CATEGORY.WORLD_OBJECT;
+			filter.groupIndex = ChuClone.model.Constants.PHYSICS.COLLISION_GROUP.PLAYER;
+			aBody.GetFixtureList().SetFilterData(filter);
+		},
 
         /**
          * Restore material and restitution

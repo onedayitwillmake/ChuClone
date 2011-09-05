@@ -89,9 +89,9 @@
 
 			// Radius component
 			var maxRadius = 7000;
-			this._gui.add(this._propProxy.radius, 'x').onChange( function( aValue ) { that.onRadiusChange(this); }).min(-maxRadius).max(maxRadius);
-			this._gui.add(this._propProxy.radius, 'y').onChange( function( aValue ) { that.onRadiusChange(this); }).min(-maxRadius/2).max(maxRadius/2);
-			this._gui.add(this._propProxy.radius, 'z').onChange( function( aValue ) { that.onRadiusChange(this); }).min(0).max(maxRadius*2);
+			this._controls['radiusX'] = this._gui.add(this._propProxy.radius, 'x').onChange( function( aValue ) { that.onRadiusChange(this); }).min(-maxRadius).max(maxRadius);
+			this._controls['radiusY'] = this._gui.add(this._propProxy.radius, 'y').onChange( function( aValue ) { that.onRadiusChange(this); }).min(-maxRadius/2).max(maxRadius/2);
+			this._controls['radiusZ'] = this._gui.add(this._propProxy.radius, 'z').onChange( function( aValue ) { that.onRadiusChange(this); }).min(0).max(maxRadius*2);
 
 
 			this.setupFullscreenToggle();
@@ -197,6 +197,12 @@
 			focusComponent.getRadius().x = this._propProxy.radius.x;
 			focusComponent.getRadius().y = this._propProxy.radius.y;
 			focusComponent.getRadius().z = this._propProxy.radius.z;
+
+			if( this._camTypes[selectedIndex] == ChuClone.components.camera.CameraFollowPlayerComponent ) {
+				this._controls['radiusX'].setValue(200);
+				this._controls['radiusY'].setValue(200);
+				this._controls['radiusZ'].setValue(2000);
+			}
 
             if( this._player ) {
                 this._camera.position = this._player.getView().position.clone();

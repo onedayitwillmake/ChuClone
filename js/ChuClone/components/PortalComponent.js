@@ -95,7 +95,7 @@ Abstract:
         /**
          * @type {String}
          */
-        _textureSource	: "assets/images/game/flooraqua.png",
+        _textureSource	: "assets/images/game/floor.png",
 
         /**
          * @type {Object}
@@ -122,7 +122,7 @@ Abstract:
         /**
          * @type {THREE.Mesh}
          */
-        _pointerHelper  : null,
+        _pointer  : null,
 
         /**
          * @type {ChuClone.components.effect.ParticleEmitterComponent}
@@ -188,13 +188,13 @@ Abstract:
             return;
             this.requiresUpdate = true;
             var geometry = new THREE.CubeGeometry( 25, 100, 25 );
-            this._pointerHelper = new THREE.Mesh( geometry, [new THREE.MeshLambertMaterial( {
+            this._pointer = new THREE.Mesh( geometry, [new THREE.MeshLambertMaterial( {
                 color: 0xFFFFFF,
                 shading: THREE.SmoothShading,
                 map : ChuClone.utils.TextureUtils.GET_TEXTURE( ChuClone.model.Constants.SERVER.ASSET_PREFIX + "assets/images/game/floor.png" )
             })] );
 
-            ChuClone.GameViewController.INSTANCE.addObjectToScene(this._pointerHelper );
+            ChuClone.GameViewController.INSTANCE.addObjectToScene(this._pointer );
         },
 
 
@@ -210,7 +210,8 @@ Abstract:
             // Swap materials
             this._previousMaterial = view.materials[0];
             view.materials[0] = new THREE.MeshLambertMaterial( {
-						opacity: 0.75,
+						opacity: 0.65,
+						color: 0xFFFFFF,
 						transparent: true,
 						shading: THREE.SmoothShading,
 						map : ChuClone.utils.TextureUtils.GET_TEXTURE( ChuClone.model.Constants.SERVER.ASSET_PREFIX + this._textureSource )
@@ -223,19 +224,19 @@ Abstract:
         update: function() {
             var direction = this.getDirection();
 
-            this._pointerHelper.position = this.attachedEntity.getView().position.clone();
+            this._pointer.position = this.attachedEntity.getView().position.clone();
 
             var scalar = 100;
             var pointPosition = this.attachedEntity.getView().position.clone();
             pointPosition.x += direction.x * scalar;
             pointPosition.y += direction.y * scalar;
-            this._pointerHelper.position = pointPosition;
+            this._pointer.position = pointPosition;
 
             var newRotation = this.attachedEntity.getView().rotation.clone();
             var glide = 0.1;
-            this._pointerHelper.rotation.x -= (this._pointerHelper.rotation.x - newRotation.x) * glide;
-            this._pointerHelper.rotation.y -= (this._pointerHelper.rotation.y - newRotation.y) * glide;
-            this._pointerHelper.rotation.z -= (this._pointerHelper.rotation.z - newRotation.z) * glide;
+            this._pointer.rotation.x -= (this._pointer.rotation.x - newRotation.x) * glide;
+            this._pointer.rotation.y -= (this._pointer.rotation.y - newRotation.y) * glide;
+            this._pointer.rotation.z -= (this._pointer.rotation.z - newRotation.z) * glide;
         },
 
 		/**
@@ -244,7 +245,7 @@ Abstract:
         onCollision: function( otherActor ) {
 
             // Other actor is not a player, or we don't have a mirror - nothing to do!
-            if( otherActor._type != ChuClone.model.Constants.ENTITY_TYPES.PLAYER || !this.getMirror() )
+            if( !otherActor || otherActor._type != ChuClone.model.Constants.ENTITY_TYPES.PLAYER || !this.getMirror() )
                 return;
 
             // Not ready or mirror is not ready!
@@ -305,7 +306,7 @@ Abstract:
 
             // Stop checking the X/Y velocity until this player hits something
             playerActor.addComponentAndExecute( new ChuClone.components.AntiPhysicsVelocityLimitComponent() );
-            
+
             // We have to do it 'next frame' because box2d locks all these properties during a collision
             setTimeout( function() { that.getMirror().onPlayerExitPortal( playerActor, playerDirection, playerSpeed ); }, 1);
 
@@ -322,7 +323,15 @@ Abstract:
 
             this.startWaitingForIsReady();
             playerActor.getBody().SetPosition( this.attachedEntity.getBody().GetPosition().Copy() );
+			     /*
+var filter = new Box2D.Dynamics.b2FilterData();
+			filter.categoryBits = ChuClone.model.Constants.PHYSICS.COLLISION_CATEGORY.PLAYER;
+			filter.maskBits = ChuClone.model.Constants.PHYSICS.COLLISION_CATEGORY.WORLD_OBJECT;
+			filter.groupIndex = ChuClone.model.Constants.PHYSICS.COLLISION_GROUP.PLAYER;
+			playerActor.getBody().GetFixtureList().SetFilterData(filter);
 
+
+			      */
 
             // Rotate the players velocity
             var directionVector = this.getDirection();
@@ -362,9 +371,9 @@ Abstract:
 			__removePortalPoint( this );
             this.attachedEntity.getView().materials[0] = this._previousMaterial;
 
-            if( this._pointerHelper ) {
-                this._pointerHelper.parent.removeChild( this._pointerHelper );
-                this._pointerHelper = null;
+            if( this._pointer ) {
+                this._pointer.parent.removeChild( this._pointer );
+                this._pointer = null;
             }
 
 
@@ -411,10 +420,7 @@ Abstract:
 		 * Modify the texture to face left or right
 		 */
 		onEditablePropertyWasChanged: function() {
-            this._angle = this._editableProperties.angle.value;
-
-            //console.log( this.getDirection().x, this.getDirection().y );
-            this.attachedEntity.getBody().SetAngle( this._angle * Math.PI/180 );
+			this.setAngle( this._editableProperties.angle.value );
 		},
 
         ///// ACCESSORS
@@ -428,6 +434,22 @@ Abstract:
          * @param {ChuClone.components.PortalComponent} aPortal
          */
         setMirror: function(aPortal) { this._mirror = aPortal; },
+		/**
+		 * Sets the angle this portal is facing
+		 * @param {Number} aColor
+		 */
+		setAngle: function( anAngle ) {
+			this._angle = anAngle;
+			this.attachedEntity.getBody().SetAngle( this._angle * Math.PI/180 );
+		},
+		/**
+		 * Sets the material color for the portal
+		 * @param {Number} aColor
+		 */
+		setColor: function( aColor ) {
+			this.attachedEntity.getView().materials[0].color = new THREE.Color( aColor );
+			this._particleController.setColor( aColor );
+		},
 
         /**
          * @return {Box2D.Common.Math.b2Vec2} direction

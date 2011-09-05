@@ -139,6 +139,9 @@
                  */
                 var entity = b.GetUserData();
                 if(!entity) continue;
+				if( !entity.getIsSavable() ) {
+					continue;
+				}
 
                 var entityInfo = {
                     x: b.GetPosition().x,

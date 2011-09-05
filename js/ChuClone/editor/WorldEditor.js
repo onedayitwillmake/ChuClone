@@ -548,7 +548,7 @@
 
 			if( e.shiftKey && e.type == 'keydown') {
 				// d
-				if(e.keyCode == 68) {
+				if(e.keyCode == 88) {
 					this.onShouldDelete()
 				} else if (e.keyCode == 67 ) {
 					this.onShouldCloneEntity();

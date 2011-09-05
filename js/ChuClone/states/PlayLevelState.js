@@ -91,6 +91,7 @@ Abstract:
             this._beatLevel = false;
             this._previousTime = Date.now();
 			this.addFloorPlane();
+			this.setupPortalGun();
 
 			ChuClone.DOM_ELEMENT.focus();
 		},
@@ -492,6 +493,23 @@ Abstract:
 			var respawnPoint = ChuClone.components.RespawnComponent.prototype.GET_CURRENT_RESPAWNPOINT();
 			respawnPoint.setSpawnedEntityPosition( aPlayer );
 			this._player = aPlayer;
+
+			this.setupPortalGun();
+		},
+
+		setupPortalGun: function() {
+			// No player
+			if( !this._player ) { console.error("PlayLevelState - Cannot setup portal gun. There is no player!"); return; }
+
+			// Already has portal gun
+			if( this._player.getComponentWithName(ChuClone.components.player.PortalGunComponent) ) {
+				console.error("PlayLevelState - Cannot setup portal gun. Player already has portal gun!"); return;
+			}
+
+			//var portalGunComponent = new ChuClone.components.player.PortalGunComponent();
+			//portalGunComponent.setGameView( this._gameView );
+			//portalGunComponent.setWorldController( this._worldController );
+			//this.attachedEntity.addComponentAndExecute( portalGunComponent );
 		},
 
 		/**

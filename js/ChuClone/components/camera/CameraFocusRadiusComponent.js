@@ -76,6 +76,7 @@ Abstract:
         onDocumentMouseMove: function( event ) {
 			if( event.shiftKey ) return;
             event.preventDefault();
+
             this._mousePosition.x = event.clientX / ChuClone.DOM_ELEMENT.offsetWidth;
             this._mousePosition.y = (event.clientY / ChuClone.DOM_ELEMENT.offsetHeight);
         },

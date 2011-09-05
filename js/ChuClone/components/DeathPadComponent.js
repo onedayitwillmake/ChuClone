@@ -70,7 +70,7 @@ Abstract:
          * @inheritDoc
          */
         onCollision: function( otherActor ) {
-            if( otherActor._type != ChuClone.model.Constants.ENTITY_TYPES.PLAYER )
+            if( !otherActor || otherActor._type != ChuClone.model.Constants.ENTITY_TYPES.PLAYER )
                 return;
 
             this.interceptedProperties.onCollision.call(this.attachedEntity, otherActor );
@@ -132,9 +132,7 @@ Abstract:
             ChuClone.components.DeathPadComponent.superclass.fromModel.call(this, data);
             this._textureSource = data.textureSource;
             this._inactiveDelay = data.inactiveDelay;
-
         }
-
 	};
 
     ChuClone.extend( ChuClone.components.DeathPadComponent, ChuClone.components.BaseComponent );

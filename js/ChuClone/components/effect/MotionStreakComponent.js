@@ -34,10 +34,10 @@
          */
         _textureSource                  : "assets/images/game/motionstreak.png",
 
-        /**
-         * @inheritDoc
-         */
-        canStack        : false,
+		/**
+		 * Rotation angle of the streak
+		 */
+		angle			:0,
         
         /**
          * @inheritDoc
@@ -92,7 +92,6 @@
 						shading: THREE.SmoothShading,
 						transparent: true,
 						opacity: 0.75,
-						//blending: THREE.Mult,
 						map: this._texture
 					})]);
 
@@ -114,12 +113,13 @@
 			ChuClone.Events.Dispatcher.addListener(spawnedPlayerEventString, this._closures[spawnedPlayerEventString])
 		},
 
-		angle:0,
+
         update: function() {
 
 			var vector = this.attachedEntity.getView().position.clone();
 			vector.x -= this.attachedEntity.getView().boundRadius*0.5;
 			vector.y -= this.attachedEntity.getView().boundRadius*0.5;
+			this.attachedEntity.getView().geometry.boundingSphere.radius = Number.MAX_VALUE;
 
 
 			var result = vector.clone();
@@ -187,6 +187,10 @@
 			this._geometry.__dirtyVertices = true;
         },
 
+		/**
+		 * Resets the streak - used when the player goes respawns to avoid having a streak the size of the entire map
+		 * @param respawnPoint
+		 */
 		resetStreak: function( respawnPoint ) {
 			var positionSource = respawnPoint || this;
 			var vector = positionSource.attachedEntity.getView().position.clone();

@@ -227,6 +227,7 @@
             this._camera.position.y = 100;
             this._camera.position.z = 1300;
             this._camera.name = "camera";
+			ChuClone.model.Constants.VIEW.camera = this._camera;
         },
 
         /**
@@ -504,6 +505,9 @@
 
         // Memory
         dealloc: function() {
+			if(ChuClone.model.Constants.VIEW.camera == this._camera)
+					ChuClone.model.Constants.VIEW.camera = null;
+
             // TODO: Deallocate resources
         },
 

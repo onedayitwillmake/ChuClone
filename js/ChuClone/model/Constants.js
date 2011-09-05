@@ -60,7 +60,8 @@
 			DIMENSIONS: {
 				width: 0,
 				height:0
-			}
+			},
+			CAMERA: null
 		},
 		// WASD KEYS
         KEYS: {
@@ -85,11 +86,26 @@
             PLATFORM: 1 << 2
         },
 
+
         PLAYER: {
             WIDTH: 30,
             HEIGHT: 30,
             DEPTH: 30,
             MATERIAL: new THREE.MeshPhongMaterial( { ambient: 0xff, color: 0x666666, specular: 0xDDDDDD, shininess:1, shading: THREE.FlatShading } )
-        }
+        },
+
+		PHYSICS: {
+			COLLISION_CATEGORY: {
+					PLAYER: 0x0001,
+					WORLD_OBJECT: 0x0002
+			},
+			COLLISION_GROUP: {
+				PLAYER: -1,
+				WORLD_OBJECT: -2
+			},
+
+			CONTROLLER: null,
+			WORLD: null
+		}
     }
 })();

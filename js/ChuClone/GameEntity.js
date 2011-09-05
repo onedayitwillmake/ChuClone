@@ -31,8 +31,10 @@
     "use strict";
     var PTM_RATIO = ChuClone.model.Constants.PTM_RATIO;
     var b2Body = Box2D.Dynamics.b2Body;
+	var id = 0;
     ChuClone.GameEntity = function() {
         this.components = [];
+		this.id = ++id;
     };
 
     ChuClone.GameEntity.prototype = {
@@ -64,6 +66,11 @@
          * @type {Number}
          */
         _type       : ChuClone.model.Constants.ENTITY_TYPES.PLATFORM,
+
+		/**
+		 * @type {Boolean}
+		 */
+		_isSavable	: true,
 
 
 
@@ -234,7 +241,9 @@
          * Deallocate
          */
         dealloc: function() {
-            this.removeAllComponents();
+			if( this.components )
+            	this.removeAllComponents();
+
             this.view = null;
 
             // If we have a .body and it's pointing to us, null the reference
@@ -307,9 +316,11 @@
             this.view.geometry.computeBoundingBox();
         },
 
-        getType: function() {
-            return this._type;
-        }
+        getType: function() { return this._type; },
+
+		// Prevent or allow this entity to be saved when the level is parsed
+		getIsSavable: function() { return this._isSavable; },
+		setIsSavable: function( value ) { this._isSavable = value }
     }
 
 })();
