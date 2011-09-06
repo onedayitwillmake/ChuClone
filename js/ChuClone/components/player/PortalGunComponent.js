@@ -355,43 +355,6 @@
 			var shape = otherBody.GetFixtureList().GetShape();
 			var bodyPos = otherBody.GetPosition();
 
-			function intersectLineLine(a1, a2, b1, b2) {
-				var result = [];
-				var ua_t = (b2.x - b1.x) * (a1.y - b1.y) - (b2.y - b1.y) * (a1.x - b1.x);
-				var ub_t = (a2.x - a1.x) * (a1.y - b1.y) - (a2.y - a1.y) * (a1.x - b1.x);
-				var u_b  = (b2.y - b1.y) * (a2.x - a1.x) - (b2.x - b1.x) * (a2.y - a1.y);
-
-				if ( u_b != 0 ) {
-					var ua = ua_t / u_b;
-					var ub = ub_t / u_b;
-
-
-					if ( 0 <= ua && ua <= 1 && 0 <= ub && ub <= 1 ) {
-						result.push(
-							new Box2D.Common.Math.b2Vec2(
-								a1.x + ua * (a2.x - a1.x),
-								a1.y + ua * (a2.y - a1.y)
-							)
-						);
-					} else {
-
-					}
-				} else {
-				}
-
-				return result;
-			}
-
-
-			function makeLine( id, bodyPosition, pointA, pointB ) {
-				return {id: id, a: new b2Vec2(bodyPosition.x + pointA.x, bodyPosition.y + pointA.y),
-						b: new b2Vec2(bodyPosition.x + pointB.x,bodyPosition.y + pointB.y) };
-			}
-
-			var lineA = makeLine( "A", bodyPos, shape.m_vertices[0], shape.m_vertices[1] );
-			var lineB = makeLine( "B", bodyPos, shape.m_vertices[1], shape.m_vertices[2] );
-			var lineC = makeLine( "C", bodyPos, shape.m_vertices[2], shape.m_vertices[3] );
-			var lineD = makeLine( "D", bodyPos, shape.m_vertices[3], shape.m_vertices[0] );
 
 
 			// Extend the position of the tracer bullet a bit
@@ -399,14 +362,14 @@
 			var fakeVelocity = this._tracer.GetLinearVelocity();
 			fakeVelocity.Multiply(0.01);
 			fakePosition.Add( fakeVelocity );
-			var playerToTracer = {a: playerBody.GetPosition().Copy(), b: fakePosition };
+			var playerToTracer = new ChuClone.model.LineSegment(playerBody.GetPosition().Copy(), fakePosition );
 
 			// Compare all 4 lines to the line segment from the player to the tracer
-			var lines = [lineA, lineB, lineC, lineD];
+			var lines = ChuClone.model.LineSegment.prototype.FROM_BODY( otherBody );
 			var lineTestResults = [];
 			for(var i = 0; i < lines.length; i++) {
 				var aLine = lines[i];
-				var result = intersectLineLine(playerToTracer.a, playerToTracer.b, aLine.a, aLine.b);
+				var result = ChuClone.model.LineSegment.prototype.INTERSECT_LINES( playerToTracer, aLine );
 				for(var j = 0; j < result.length; j++) {
 					//lineTestResults.push({line: aLine, point: result[j]});
 					this._lastLine = aLine; // debug draw
@@ -427,7 +390,7 @@
 				}
 			}
 
-			if( !lineSegmentHit ) {
+			if( !this._lastLine ) {
 				return;
 			}
 
@@ -436,7 +399,7 @@
 			fakeVelocity.Multiply(0.2);
 			fakePosition.Subtract( fakeVelocity );
 
-			this._collisionAngle  = Math.atan2(lineSegmentHit.a.y - lineSegmentHit.b.y, lineSegmentHit.a.x - lineSegmentHit.b.x);
+			this._collisionAngle = this._lastLine.getAngle();
 			this._lastCollisionLocation = fakePosition;
 			this._tracerActive = false;
 
@@ -490,10 +453,11 @@
          */
         drawPlatformForEditor: function( b2World ) {
 			if(this._lastLine) {
-				var x0 = (this._lastLine.a.x + b2World.m_debugDraw.offsetX) * b2World.m_debugDraw.m_drawScale;
-				var y0 = (this._lastLine.a.y + b2World.m_debugDraw.offsetY) * b2World.m_debugDraw.m_drawScale;
-				var x1 = (this._lastLine.b.x + b2World.m_debugDraw.offsetX) * b2World.m_debugDraw.m_drawScale;
-				var y1 = (this._lastLine.b.y + b2World.m_debugDraw.offsetY) * b2World.m_debugDraw.m_drawScale;
+				var line = this._lastLine.clone();
+				var x0 = (line._a.x + b2World.m_debugDraw.offsetX) * b2World.m_debugDraw.m_drawScale;
+				var y0 = (line._a.y + b2World.m_debugDraw.offsetY) * b2World.m_debugDraw.m_drawScale;
+				var x1 = (line._b.x + b2World.m_debugDraw.offsetX) * b2World.m_debugDraw.m_drawScale;
+				var y1 = (line._b.y + b2World.m_debugDraw.offsetY) * b2World.m_debugDraw.m_drawScale;
 
 				b2World.m_debugDraw.m_ctx.moveTo( x0, y0 );
 				b2World.m_debugDraw.m_ctx.lineTo( x1, y1 );
