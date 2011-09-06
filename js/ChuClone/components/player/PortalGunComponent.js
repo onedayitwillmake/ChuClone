@@ -296,9 +296,15 @@
 			// Set the portal by left or right click mouse
 			this._nextPortal = (e.button == 0) ? this._bluePortal : this._orangePortal;
 
+			///*
+			var radius = 50 / PTM_RATIO;
+			var pointPosition = this.attachedEntity.getBody().GetPosition().Copy();
+			pointPosition.x += Math.cos(-this._angle)*radius;
+			pointPosition.y += Math.sin(-this._angle)*radius;
+
 			this._tracerActive = true;
 			this._lastCollisionLocation = null;
-			this._tracer.SetPositionAndAngle( new b2Vec2(this.attachedEntity.getBody().GetPosition().x, this.attachedEntity.getBody().GetPosition().y), 0);
+			this._tracer.SetPositionAndAngle( new b2Vec2(pointPosition.x, pointPosition.y), 0);
 
 			var force = 1000;
 			this._tracer.SetLinearVelocity( new b2Vec2(Math.cos(-this._angle) * force, Math.sin(-this._angle) * force) );
@@ -394,13 +400,23 @@
 				return;
 			}
 
-			fakePosition = this._tracer.GetPosition().Copy();
-			fakeVelocity = this._tracer.GetLinearVelocity();
-			fakeVelocity.Multiply(0.2);
-			fakePosition.Subtract( fakeVelocity );
+			// Some final checks to see if the collision was valid
+			var portalWidth = this._nextPortal.getDimensions().width / PTM_RATIO * 2;
+			var lineDistance = this._lastLine.getLength();
+			var portalToA = new ChuClone.model.LineSegment( this._lastLine.getA(), this._tracer.GetPosition()).getLength();
+			var portalToB = new ChuClone.model.LineSegment( this._lastLine.getB(), this._tracer.GetPosition()).getLength();
+
+			// Not enough space for the portal to go there
+			if( portalWidth >= lineDistance || portalWidth*0.3 >= portalToA || portalWidth*0.3 >= portalToB ) {
+				//console.log("Can't fit!");
+				this._tracerEntity.removeComponentWithName( ChuClone.components.effect.MotionStreakComponent.prototype.displayName );
+				this._tracerActive = false;
+				return;
+			}
+
 
 			this._collisionAngle = this._lastLine.getAngle();
-			this._lastCollisionLocation = fakePosition;
+			this._lastCollisionLocation = this._tracer.GetPosition().Copy();
 			this._tracerActive = false;
 
 			var that = this;

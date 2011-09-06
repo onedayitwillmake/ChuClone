@@ -199,9 +199,9 @@
 			focusComponent.getRadius().z = this._propProxy.radius.z;
 
 			if( this._camTypes[selectedIndex] == ChuClone.components.camera.CameraFollowPlayerComponent ) {
-				this._controls['radiusX'].setValue(200);
-				this._controls['radiusY'].setValue(200);
-				this._controls['radiusZ'].setValue(2000);
+				this._controls['radiusX'].setValue(500);
+				this._controls['radiusY'].setValue(500);
+				this._controls['radiusZ'].setValue(4500);
 			}
 
             if( this._player ) {

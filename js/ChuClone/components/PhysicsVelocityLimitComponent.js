@@ -38,7 +38,7 @@ Abstract:
         /**
          * @type {Number}
          */
-        _maxSpeed                       : new Box2D.Common.Math.b2Vec2(22, 0.36),
+        _maxSpeed                       : new Box2D.Common.Math.b2Vec2(22, 23.04 ),
         //_maxSpeed                       : new Box2D.Common.Math.b2Vec2(2, 0.1),
 
         update: function() {
@@ -51,9 +51,14 @@ Abstract:
                 body.m_linearVelocity.x = this._maxSpeed.x * (body.m_linearVelocity.x < 0 ? -1 : 1);
             }
 
-            //only care about compromised Y up velocity
-            if(body.m_linearVelocity.y < -this._maxSpeed.y * PTM_RATIO) {
-                body.m_linearVelocity.y = -this._maxSpeed.y * PTM_RATIO;
+            // Cap Y up more strongly than Y down
+            if(body.m_linearVelocity.y < -this._maxSpeed.y) {
+                body.m_linearVelocity.y = -this._maxSpeed.y;
+            }
+
+			//only care about compromised Y up velocity
+            if(body.m_linearVelocity.y > this._maxSpeed.y * 2) {
+                body.m_linearVelocity.y = this._maxSpeed.y * 2;
             }
         },
 

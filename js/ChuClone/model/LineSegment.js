@@ -82,7 +82,9 @@
 			if(!this._distanceDirty) return this._distance;
 
 			this._distance = Box2D.Common.Math.b2Math.Distance( this._a, this._b );
-			this._distance = false;
+			this._distanceDirty = false;
+
+			return this._distance
 		},
 
         /**
