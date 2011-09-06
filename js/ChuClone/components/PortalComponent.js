@@ -264,7 +264,10 @@ Abstract:
             var dot =  Box2D.Common.Math.b2Math.Dot( direction, playerToPortal );
 
             // Player is attempting to enter from back area, ignore collision
-            if( dot > 0 ) return;
+            if( dot > 0 ) {
+                console.log("Bad Dot!:", Math.round(dot*10000)/10000);
+                return;
+            }
             
 
 
@@ -272,7 +275,7 @@ Abstract:
 
 			// Get the players direction, velocity and speed
 			var playerVelocity = otherActor.getBody().GetLinearVelocity().Copy();
-            var playerSpeed = Math.abs(playerVelocity.x + playerVelocity.y);
+            var playerSpeed = Math.abs(playerVelocity.x) + Math.abs(playerVelocity.y);
             var playerDirection = playerPosition.Copy();
             playerDirection.Add( playerVelocity );
             playerDirection.Subtract( playerPosition );
@@ -357,7 +360,7 @@ Abstract:
             }
 
 
-            var aParticleEmitterComponent = this.attachedEntity.getComponentByName(ChuClone.components.effect.ParticleEmitterComponent.prototype.displayName);
+            var aParticleEmitterComponent = this.attachedEntity.getComponentWithName(ChuClone.components.effect.ParticleEmitterComponent.prototype.displayName);
             if( aParticleEmitterComponent == this._particleController ) {
                 this.attachedEntity.removeComponentWithName( ChuClone.components.effect.ParticleEmitterComponent.prototype.displayName );
                 this._particleController = null;

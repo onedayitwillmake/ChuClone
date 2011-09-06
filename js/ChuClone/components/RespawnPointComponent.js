@@ -100,6 +100,7 @@ Abstract:
 		setSpawnedEntityPosition: function( spawnedEntity ) {
 			ChuClone.model.AchievementTracker.getInstance().incrimentDeathCount();
 			spawnedEntity.getBody().SetPosition(new Box2D.Common.Math.b2Vec2( this.attachedEntity.getBody().GetPosition().x, this.attachedEntity.getBody().GetPosition().y - 1));
+			spawnedEntity.getBody().SetAngle(Math.random() * Math.PI * 2);
 		},
 
 		/**
