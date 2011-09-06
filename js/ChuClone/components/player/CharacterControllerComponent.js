@@ -72,10 +72,10 @@ Abstract:
             this.attachedEntity.addComponentAndExecute( new ChuClone.components.BoundsYCheckComponent() );
 
 			//ChuClone.components.player.PortalGunComponent
-			//var portalGunComponent = new ChuClone.components.player.PortalGunComponent();
-			//portalGunComponent.setGameView( ChuClone.GameViewController.INSTANCE );
-			//portalGunComponent.setWorldController( ChuClone.model.Constants.PHYSICS.CONTROLLER );
-			//this.attachedEntity.addComponentAndExecute( portalGunComponent );
+			var portalGunComponent = new ChuClone.components.player.PortalGunComponent();
+			portalGunComponent.setGameView( ChuClone.GameViewController.INSTANCE );
+			portalGunComponent.setWorldController( ChuClone.model.Constants.PHYSICS.CONTROLLER );
+			this.attachedEntity.addComponentAndExecute( portalGunComponent );
 
 
 			// Swap materials

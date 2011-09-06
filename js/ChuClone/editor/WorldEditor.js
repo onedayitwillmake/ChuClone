@@ -547,10 +547,10 @@
 			}
 
 			if( e.shiftKey && e.type == 'keydown') {
-				// d
-				if(e.keyCode == 88) {
+				// x
+				if(e.keyCode == ChuClone.model.Constants.KEYS.X) {
 					this.onShouldDelete()
-				} else if (e.keyCode == 67 ) {
+				} else if (e.keyCode == ChuClone.model.Constants.KEYS.C) {
 					this.onShouldCloneEntity();
 				}
 

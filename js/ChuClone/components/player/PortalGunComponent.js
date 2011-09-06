@@ -61,6 +61,11 @@
 		_tracer				: null,
 
 		/**
+		 * @type {ChuClone.GameEntity}
+		 */
+		_tracerEntity		: null,
+
+		/**
 		 * When we fire this is true, until the tracer hits something
 		 * @type {Boolean}
 		 */
@@ -113,14 +118,11 @@
 				console.error("PortalGunController - Could not attach. Please call setWorldController & setGameViewController before attaching!");
 				return;
 			}
-			 debugger;
 			// If edit mode, start our extra draw
 			if( ChuClone.model.Constants.IS_EDIT_MODE() ) {
 				var that = this;
 				this.attachedEntity.drawCustom = function( b2World ){ that.drawPlatformForEditor( b2World ) };
 			}
-
-
 
 
 			this._mousePosition = new THREE.Vector2();
@@ -135,12 +137,14 @@
 		 * Sets up the object used as a visual guide for our pointer
 		 */
 		setupPointerHelper: function() {
-			var geometry = new THREE.CubeGeometry( 10, 50, 10 );
+			var geometry = new THREE.CubeGeometry( 5, 30, 5 );
             this._pointer = new THREE.Mesh( geometry, [new THREE.MeshLambertMaterial( {
-                color: 0xFF0000,
+                color: 0x05f4ff,
                 shading: THREE.SmoothShading,
                 map : ChuClone.utils.TextureUtils.GET_TEXTURE( ChuClone.model.Constants.SERVER.ASSET_PREFIX + "assets/images/game/floor.png" )
             })] );
+
+
             this._gameViewController.addObjectToScene(this._pointer );
 		},
 
@@ -176,6 +180,14 @@
 
 			this._tracer = body;
 			this._antiGravity = new b2Vec2(0, this._tracer.GetMass() * -this._worldController.getWorld().GetGravity().y);
+
+
+			this._tracerEntity = new ChuClone.GameEntity();
+			this._tracerEntity.setBody( this._tracer);
+			this._tracerEntity.setView( this._pointer );
+			this._tracerEntity.setDimensions( 10, 50, 10 );
+			this._tracerEntity.setIsSavable( false );
+			this._tracerEntity.getView().visible = false;
 		},
 
 
@@ -219,13 +231,39 @@
 		setupEvents: function() {
 			var that = this;
 
+			this._closures['onKeyDown'] = function(e){ that.onKeyDown(e); };
+			this._closures['onKeyUp'] = function(e){ that.onKeyUp(e); };
+			this._closures['onMouseMove'] = function(e){ that.onMouseMove(e); };
 			this._closures['onMouseMove'] = function(e){ that.onMouseMove(e); };
 			this._closures['onMouseDown'] = function(e){ that.onMouseDown(e); };
 			this._closures['onContextMenu'] = function(e){ that.onContextMenu(e); };
 
+			ChuClone.DOM_ELEMENT.addEventListener('keydown', this._closures.onKeyDown, true);
+			ChuClone.DOM_ELEMENT.addEventListener('keyup', this._closures.onKeyUp, true);
 			ChuClone.DOM_ELEMENT.addEventListener('mousemove', this._closures.onMouseMove, true);
 			ChuClone.DOM_ELEMENT.addEventListener('mousedown', this._closures.onMouseDown, true);
 			ChuClone.DOM_ELEMENT.addEventListener('contextmenu',this._closures.onContextMenu, true);
+		},
+
+		/**
+		 * Toggles aimer visiblity
+		 * @param e
+		 */
+		onKeyDown: function(e) {
+			if( e.keyCode == ChuClone.model.Constants.KEYS.LEFT_SHIFT ) {
+				//this.displayTracer();
+				this._tracerEntity.getView().visible = true;
+			}
+		},
+
+		/**
+		 * Toggles aimer visiblity
+		 * @param e
+		 */
+		onKeyUp: function(e) {
+			if( e.keyCode == ChuClone.model.Constants.KEYS.LEFT_SHIFT && !this._tracerActive ) {
+				this._tracerEntity.getView().visible = false;
+			}
 		},
 
 		/**
@@ -238,6 +276,7 @@
 			//
 			this._mousePosition.x = ( event.layerX / ChuClone.model.Constants.VIEW.DIMENSIONS.width  ) * 2 - 1;
             this._mousePosition.y = - ( event.layerY / ChuClone.model.Constants.VIEW.DIMENSIONS.height ) * 2 + 1;
+
 
 
 
@@ -264,6 +303,12 @@
 			var force = 1000;
 			this._tracer.SetLinearVelocity( new b2Vec2(Math.cos(-this._angle) * force, Math.sin(-this._angle) * force) );
 
+			// Place the tracer entity at our location
+			this._tracerEntity.getView().position = this.attachedEntity.getView().position.clone();
+
+			// Attach a motionstreak component and reset it
+            var motionstreak = this._tracerEntity.getComponentWithName( ChuClone.components.effect.MotionStreakComponent.prototype.displayName ) || this._tracerEntity.addComponentAndExecute( new ChuClone.components.effect.MotionStreakComponent() );
+			motionstreak.resetStreak();
 
 			e.preventDefault();
 			e.stopImmediatePropagation();
@@ -288,14 +333,13 @@
 		 */
 		onCollision: function( otherActor ) {
 			if( !otherActor ) return;
-			if( !this._tracerActive ) return; // Did not fire - probably a double collision
-
 
 			// Things that if we hit them - our tracer bullet is considered inactive
-			if( otherActor.getComponentWithName(ChuClone.components.FrictionPadComponent.prototype.displayName )
+			if( !this._tracerActive || otherActor.getComponentWithName(ChuClone.components.FrictionPadComponent.prototype.displayName )
 					|| otherActor.getComponentWithName(ChuClone.components.DeathPadComponent.prototype.displayName )
 					|| otherActor.getComponentWithName(ChuClone.components.JumpPadComponent.prototype.displayName ) ) {
 
+				this._tracerEntity.removeComponentWithName( ChuClone.components.effect.MotionStreakComponent.prototype.displayName );
 				this._tracerActive = false;
 				return;
 			}
@@ -364,14 +408,16 @@
 				var aLine = lines[i];
 				var result = intersectLineLine(playerToTracer.a, playerToTracer.b, aLine.a, aLine.b);
 				for(var j = 0; j < result.length; j++) {
-					lineTestResults.push({line: aLine, point: result[j]});
+					//lineTestResults.push({line: aLine, point: result[j]});
+					this._lastLine = aLine; // debug draw
+					//break;
 				}
 			}
 
 			// Determine which of the collisions was the closest to the player
 			var closestDistance = Number.MAX_VALUE;
 			var playerPosition = playerBody.GetPosition();
-			var lineSegmentHit = null;
+			var lineSegmentHit = this._lastLine;
 			for(i = 0; i < lineTestResults.length; i++) {
 				var dist = Box2D.Common.Math.b2Math.DistanceSquared( playerPosition, lineTestResults[i].point );
 				if( dist < closestDistance ) {
@@ -411,25 +457,21 @@
 			this.setNextPortal();
 		},
 
-		/**
-		 * Called after a collision places the portal at new location with the information derived from the collision
-		 */
-		placePortal: function() {
-
-		},
 
 		/**
 		 * Positions the portal gun
 		 */
 		update: function() {
             var scalar = 120;
-            var pointPosition = this.attachedEntity.getView().position.clone();
-            pointPosition.x += Math.cos(this._angle) * scalar;
-            pointPosition.y += Math.sin(this._angle) * scalar;
-			this._pointer.position = pointPosition;
+			if( !this._tracerActive ) {
+				var pointPosition = this.attachedEntity.getView().position.clone();
+				pointPosition.x += Math.cos(this._angle) * scalar;
+				pointPosition.y += Math.sin(this._angle) * scalar;
+				this._pointer.position = pointPosition;
+			}
 
-            var glide = 0.4;
-            this._pointer.rotation.z -= (this._pointer.rotation.z - this._angle+Math.PI/2) * glide;
+			//var glide = 0.4;
+            this._pointer.rotation.z = this._angle+Math.PI/2;
 
 			// Apply a force to counteract gravity
 			if( this._tracer ) {
@@ -464,6 +506,8 @@
          * @inheritDoc
          */
         detach: function() {
+			ChuClone.DOM_ELEMENT.removeEventListener('keydown', this._closures.onKeyDown);
+			ChuClone.DOM_ELEMENT.removeEventListener('keyup', this._closures.onKeyUp);
             ChuClone.DOM_ELEMENT.removeEventListener('mousemove', this._closures.onMouseMove);
 			ChuClone.DOM_ELEMENT.removeEventListener('mousedown', this._closures.onMouseDown);
 			ChuClone.DOM_ELEMENT.removeEventListener('contextmenu',this._closures.onContextMenu);
