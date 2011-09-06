@@ -255,20 +255,23 @@ Abstract:
             }
 
 
+
+
+
+            // Check if the portal and player are facing opposite directions using the dot product
+            var direction = this.getDirection();
             var playerPosition = otherActor.getBody().GetPosition().Copy();
-
-
-			// Check if the portal and player are facing opposite directions using the dot product
-			//var direction = this.getDirection();
-			var angleInRadians = (this._angle * Math.PI/180) // +90 degrees in radians
-
-            var normalizedPosition = this.attachedEntity.getBody().GetPosition().Copy();
-            normalizedPosition.Normalize();
-            normalizedPosition.x = Math.cos( angleInRadians );
-            normalizedPosition.y = Math.sin( angleInRadians );
-			var direction = normalizedPosition;
 			var playerToPortal = new Box2D.Common.Math.b2Vec2(playerPosition.x - this.attachedEntity.getBody().GetPosition().x, playerPosition.y - this.attachedEntity.getBody().GetPosition().y);
 			playerToPortal.Normalize();
+            var dot =  Box2D.Common.Math.b2Math.Dot( direction, playerToPortal );
+
+            // Player is attempting to enter from back area, ignore collision
+            if( dot > 0 ) {
+                console.log("Bad Dot!:", Math.round(dot*10000)/10000);
+                return;
+            }
+            
+
 
             this.interceptedProperties.onCollision.call(this.attachedEntity, otherActor );
 
@@ -280,17 +283,6 @@ Abstract:
             playerDirection.Subtract( playerPosition );
             playerDirection.Normalize();
 
-
-
-
-
-            //var angle = Math.atan2(direction.y, direction.x);
-            //var playerAngle = Math.atan2( playerDirection.y, playerDirection.x );
-            //playerAngle = Math.atan2(Math.sin(playerAngle), Math.cos(playerAngle));
-
-            //console.log(Math.round(angle*180/Math.PI), Math.round(playerAngle*180/Math.PI), "delta:", Math.round((playerAngle-angle)*180/Math.PI));
-            //console.log("PlayerDirection:", Math.round(direction.x*100)/100, Math.round(direction.y*100)/100)
-            //console.log( "DOT:", Box2D.Common.Math.b2Math.Dot(playerToPortal, direction) );
             this.onPlayerEnterPortal( otherActor, playerDirection, playerSpeed );
         },
 
@@ -306,7 +298,7 @@ Abstract:
 
             // Stop checking the X/Y velocity until this player hits something
             playerActor.addComponentAndExecute( new ChuClone.components.AntiPhysicsVelocityLimitComponent() );
-
+            
             // We have to do it 'next frame' because box2d locks all these properties during a collision
             setTimeout( function() { that.getMirror().onPlayerExitPortal( playerActor, playerDirection, playerSpeed ); }, 1);
 
@@ -323,19 +315,12 @@ Abstract:
 
             this.startWaitingForIsReady();
             playerActor.getBody().SetPosition( this.attachedEntity.getBody().GetPosition().Copy() );
-			     /*
-var filter = new Box2D.Dynamics.b2FilterData();
-			filter.categoryBits = ChuClone.model.Constants.PHYSICS.COLLISION_CATEGORY.PLAYER;
-			filter.maskBits = ChuClone.model.Constants.PHYSICS.COLLISION_CATEGORY.WORLD_OBJECT;
-			filter.groupIndex = ChuClone.model.Constants.PHYSICS.COLLISION_GROUP.PLAYER;
-			playerActor.getBody().GetFixtureList().SetFilterData(filter);
 
-
-			      */
 
             // Rotate the players velocity
             var directionVector = this.getDirection();
             directionVector.Multiply( playerSpeed );
+            directionVector.x *= -1; // Flip X for box2d
             directionVector.y *= -1; // Flip Y for box2d
             playerActor.getBody().SetLinearVelocity( directionVector );
         },
@@ -459,7 +444,7 @@ var filter = new Box2D.Dynamics.b2FilterData();
             
             var normalizedPosition = this.attachedEntity.getBody().GetPosition().Copy();
             normalizedPosition.Normalize();
-            normalizedPosition.x = -(Math.cos( angleInRadians ));
+            normalizedPosition.x = Math.cos( angleInRadians );
             normalizedPosition.y = Math.sin( angleInRadians );
             return normalizedPosition;
         }
