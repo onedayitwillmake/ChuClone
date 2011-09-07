@@ -54,7 +54,7 @@ Abstract:
             this.attachedEntity.addComponentAndExecute( new ChuClone.components.effect.MotionStreakComponent() );
 			var physicsVelocityLimitComponent = this.attachedEntity.getComponentWithName( ChuClone.components.PhysicsVelocityLimitComponent.prototype.displayName );
 			this._oldLimit = physicsVelocityLimitComponent._maxSpeed.Copy();
-			physicsVelocityLimitComponent.setMaxSpeedXY( this._oldLimit.x*2, this._oldLimit.y*2.2);
+			physicsVelocityLimitComponent.setMaxSpeedXY( this._oldLimit.x*40, this._oldLimit.y*30);
 
             this.intercept(['onCollision']);
         },

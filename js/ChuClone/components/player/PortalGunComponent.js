@@ -110,6 +110,11 @@
 		_gameViewController : null,
 
         /**
+         * @type {Boolean}
+         */
+        _shiftIsDown        : false,
+
+        /**
          * Creates a fixture and attaches to the attachedEntity's Box2D body
          */
         attach: function( anEntity ) {
@@ -252,6 +257,7 @@
 		onKeyDown: function(e) {
 			if( e.keyCode == ChuClone.model.Constants.KEYS.LEFT_SHIFT ) {
 				//this.displayTracer();
+                this._shiftIsDown = true;
 				this._tracerEntity.getView().visible = true;
 			}
 		},
@@ -262,6 +268,7 @@
 		 */
 		onKeyUp: function(e) {
 			if( e.keyCode == ChuClone.model.Constants.KEYS.LEFT_SHIFT && !this._tracerActive ) {
+                this._shiftIsDown = true;
 				this._tracerEntity.getView().visible = false;
 			}
 		},
@@ -271,13 +278,12 @@
 		 * @param e
 		 */
 		onMouseMove: function(e) {
-			if( !e.shiftKey ) return;
-
+			if( !this._shiftIsDown ) return;
 			//
-			this._mousePosition.x = ( event.layerX / ChuClone.model.Constants.VIEW.DIMENSIONS.width  ) * 2 - 1;
-            this._mousePosition.y = - ( event.layerY / ChuClone.model.Constants.VIEW.DIMENSIONS.height ) * 2 + 1;
-
-
+            if( e ) {
+			    this._mousePosition.x = ( event.layerX / ChuClone.model.Constants.VIEW.DIMENSIONS.width  ) * 2 - 1;
+                this._mousePosition.y = - ( event.layerY / ChuClone.model.Constants.VIEW.DIMENSIONS.height ) * 2 + 1;
+            }
 
 
 			// Convert the characters position to 2D screen cordinates and use that to get the angle
@@ -306,8 +312,7 @@
 			this._lastCollisionLocation = null;
 			this._tracer.SetPositionAndAngle( new b2Vec2(pointPosition.x, pointPosition.y), 0);
 
-			var force = 1000;
-			this._tracer.SetLinearVelocity( new b2Vec2(Math.cos(-this._angle) * force, Math.sin(-this._angle) * force) );
+
 
 			// Place the tracer entity at our location
 			this._tracerEntity.getView().position = this.attachedEntity.getView().position.clone();
@@ -319,7 +324,105 @@
 			e.preventDefault();
 			e.stopImmediatePropagation();
 			e.stopPropagation();
+
+            this.castPortalRay();
 		},
+
+
+        /**
+         * Cast a ray from the portalgun to nearest fixture
+         */
+        castPortalRay: function() {
+            var force = 1000;
+
+            // Cast a ray from where we are to somewhere far away along the direction of our angle
+            var bodyPosition = this.attachedEntity.getBody().GetPosition().Copy();
+            var pointA = bodyPosition.Copy();
+            pointA.x += Math.cos(this._angle);
+            pointA.y += Math.sin(this._angle)*-1;
+
+            var pointB = bodyPosition.Copy();
+            pointB.x += Math.cos(this._angle) * force;
+            pointB.y += Math.sin(this._angle) * -force;
+
+
+            var rayFixture = null;
+            var rayPoint = null;
+            var rayNormal = null;
+            var rayFraction = 1;
+            this._tracerActive = true;
+            var that = this;
+            var callback = function RayCastOneWrapper(fixture, point, normal, fraction) {
+                //debugger;
+                if (fraction === undefined) fraction = 0;
+                if (fraction > rayFraction) return;
+                //if( fraction)
+
+                if ( !that._tracerActive || !fixture.GetBody() ) return;
+
+                var otherActor = fixture.GetBody().GetUserData();
+                if ( !otherActor ) return;
+
+
+                // Things that if we hit them - our tracer bullet is considered inactive
+                if (otherActor.getComponentWithName(ChuClone.components.FrictionPadComponent.prototype.displayName)
+                    || otherActor.getComponentWithName(ChuClone.components.DeathPadComponent.prototype.displayName)
+                    || otherActor.getComponentWithName(ChuClone.components.JumpPadComponent.prototype.displayName)) {
+
+                    rayFixture = null;
+                    rayPoint = null;
+                    rayNormal = null;
+                    return;
+                }
+
+                // Things that if we hit - we ignore and allow the tracer bullet to pass through it
+                if( otherActor.getComponentWithName(ChuClone.components.PortalComponent.prototype.displayName )
+                    || otherActor.getComponentWithName(ChuClone.components.RespawnComponent.prototype.displayName ) ) {
+                    return;
+                }
+
+                rayFixture = fixture;
+                rayPoint = point;
+                rayNormal = normal;
+                rayFraction = fraction;
+                //that._tracerActive = false;
+                return fraction;
+            };
+
+            this._worldController.getWorld().RayCast(callback, pointA, pointB);
+            this._tracerActive = false;
+            
+            if(!rayFixture) return;
+
+            this._rayPoint = rayPoint;
+
+            var that = this;
+
+			setTimeout( function() {
+				var finalAngle = Math.atan2(rayNormal.y, rayNormal.x);
+                
+
+
+				// Offset the position so that the back of the portal is touching it, not the center
+				var finalPosition = rayPoint.Copy();
+                finalPosition.x += rayNormal.x;
+                finalPosition.y += rayNormal.y;
+
+
+                //finalPosition.x += 20;
+				//finalPosition.x += Math.cos(finalAngle + Math.PI/2) * 2;
+				//finalPosition.y += Math.sin(finalAngle + Math.PI/2) * 2;
+
+				that._nextPortal.getBody().SetPositionAndAngle( finalPosition, finalAngle);
+				that._nextPortal.getComponentWithName(ChuClone.components.PortalComponent.prototype.displayName).setAngle( (finalAngle+Math.PI/2) * 180/Math.PI );
+                that._tracer.SetPositionAndAngle( new b2Vec2(finalPosition.x, finalPosition.y), 0);
+			}, 1);
+
+
+			this.setNextPortal();
+
+            //if( ray)
+        },
 
 		/**
 		 * Disables the rightcick context menu so we can use that for the portal
@@ -338,6 +441,7 @@
 		 * Called when our portal 'bullet' collides with something
 		 */
 		onCollision: function( otherActor ) {
+            return;
 			if( !otherActor ) return;
 
 			// Things that if we hit them - our tracer bullet is considered inactive
@@ -442,6 +546,11 @@
 		 */
 		update: function() {
             var scalar = 120;
+
+            if( this._shiftIsDown ) {
+                this.onMouseMove();
+            }
+
 			if( !this._tracerActive ) {
 				var pointPosition = this.attachedEntity.getView().position.clone();
 				pointPosition.x += Math.cos(this._angle) * scalar;
@@ -479,6 +588,14 @@
 				b2World.m_debugDraw.m_ctx.lineTo( x1, y1 );
 				b2World.m_debugDraw.m_ctx.strokeStyle = "#eee";
 				b2World.m_debugDraw.m_ctx.stroke();
+			}
+
+            if(this._rayPoint) {
+				var rayPoint = this._rayPoint.Copy();
+                rayPoint.x = (rayPoint.x + b2World.m_debugDraw.offsetX) * b2World.m_debugDraw.m_drawScale;
+                rayPoint.y = (rayPoint.y + b2World.m_debugDraw.offsetY) * b2World.m_debugDraw.m_drawScale;
+
+                b2World.m_debugDraw.m_ctx.arc(rayPoint.x, rayPoint.y, 10* b2World.m_debugDraw.m_drawScale, 0, Math.PI*2, false);
 			}
 		},
 

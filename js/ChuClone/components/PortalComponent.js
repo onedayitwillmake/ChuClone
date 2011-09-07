@@ -295,6 +295,7 @@ Abstract:
         onPlayerEnterPortal: function( playerActor, playerDirection, playerSpeed ) {
             var that = this;
 
+            playerActor.getBody().SetType(Box2D.Dynamics.b2Body.b2_kinematicBody);
 
             // Stop checking the X/Y velocity until this player hits something
             playerActor.addComponentAndExecute( new ChuClone.components.AntiPhysicsVelocityLimitComponent() );
@@ -315,6 +316,8 @@ Abstract:
 
             this.startWaitingForIsReady();
             playerActor.getBody().SetPosition( this.attachedEntity.getBody().GetPosition().Copy() );
+
+            playerActor.getBody().SetType(Box2D.Dynamics.b2Body.b2_dynamicBody);
 
 
             // Rotate the players velocity
