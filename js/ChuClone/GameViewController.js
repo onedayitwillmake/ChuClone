@@ -511,15 +511,15 @@
          * @param {Event} e
          */
         onResize: function( e ) {
-			return;
+
             this._renderer.setSize( this.getDimensions().x, this.getDimensions().y );
             this._camera.aspect = this.getDimensions().x/this.getDimensions().y;
             this._camera.updateProjectionMatrix();
-
-
-			this._renderer.shadowCameraNear = 3;
-			this._renderer.shadowCameraFar = this._camera.far;
-			this._renderer.shadowCameraFov = 50;
+			//
+			//
+			//this._renderer.shadowCameraNear = 3;
+			//this._renderer.shadowCameraFar = this._camera.far;
+			//this._renderer.shadowCameraFov = 50;
         },
 
 

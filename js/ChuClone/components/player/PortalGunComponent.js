@@ -15,12 +15,13 @@
     http://creativecommons.org/licenses/by-nc-sa/3.0/
  */
 (function(){
+	"use strict";
+
 	var b2Vec2 = Box2D.Common.Math.b2Vec2;
     var b2BodyDef = Box2D.Dynamics.b2BodyDef;
     var b2Body = Box2D.Dynamics.b2Body;
     var b2FixtureDef = Box2D.Dynamics.b2FixtureDef;
 
-    "use strict";
     ChuClone.namespace("ChuClone.components.player");
     
     var PTM_RATIO = ChuClone.model.Constants.PTM_RATIO;
