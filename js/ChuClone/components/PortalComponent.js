@@ -85,8 +85,10 @@ Abstract:
 
 	ChuClone.components.PortalComponent = function() {
 		ChuClone.components.PortalComponent.superclass.constructor.call(this);
-        this._isReady = true;
+        //this._isReady = true;
         this._angle = 0;
+		this._inactiveList = {};
+		//this._inactiveList = [];
 	};
 
 	ChuClone.components.PortalComponent.prototype = {
@@ -134,7 +136,7 @@ Abstract:
          * This happens if there is technically another collision, say the frame after we did our stuff
          * @type {Boolean}
          */
-        _isReady                        : true,
+        //_isReady                        : true,
 
         /**
          * How long to wait before being considered ready again
@@ -146,7 +148,9 @@ Abstract:
          * Store the timeout
          * @type {Number}
          */
-        _isReadyTimeout                 : null,
+        //_isReadyTimeout                 : null,
+
+
 
          /**
 		 * Overwrite to allow component specific GUI
@@ -249,7 +253,7 @@ Abstract:
                 return;
 
             // Not ready or mirror is not ready!
-            if( !this._isReady || !this.getMirror().getIsReady() ) {
+            if( !this.getIsReady( otherActor.getId() ) || !this.getMirror().getIsReady( otherActor.getId() ) ) {
                 //console.log("NotReady!");
                 return;
             }
@@ -303,7 +307,7 @@ Abstract:
             // We have to do it 'next frame' because box2d locks all these properties during a collision
             setTimeout( function() { that.getMirror().onPlayerExitPortal( playerActor, playerDirection, playerSpeed ); }, 1);
 
-            this.startWaitingForIsReady();
+            this.startWaitingForIsReady( playerActor.getId() );
         },
 
         /**
@@ -314,10 +318,13 @@ Abstract:
          */
         onPlayerExitPortal: function( playerActor, playerDirection, playerSpeed ) {
 
-            this.startWaitingForIsReady();
+            this.startWaitingForIsReady( playerActor.getId() );
             playerActor.getBody().SetPosition( this.attachedEntity.getBody().GetPosition().Copy() );
 
-            playerActor.getBody().SetType(Box2D.Dynamics.b2Body.b2_dynamicBody);
+			setTimeout( function(){
+				playerActor.getBody().SetType(Box2D.Dynamics.b2Body.b2_dynamicBody);
+			}, 16);
+
 
 
             // Rotate the players velocity
@@ -331,15 +338,15 @@ Abstract:
          /**
          * Once set _isReady is locked for N milliseconds
          */
-        startWaitingForIsReady: function() {
-            var that = this;
-            this._isReady = false;
+        startWaitingForIsReady: function( entityId ) {
+			 var that = this;
+			 this._inactiveList[entityId] = Date.now();
 
-
-            clearTimeout( this._isReadyTimeout );
-            this._isReadyTimeout = setTimeout( function(){
-                that._isReady = true;
-            }, this._inactiveDelay );
+			 //this._isReady = false;
+			 //clearTimeout(this._isReadyTimeout);
+			 setTimeout(function() {
+				 delete that._inactiveList[entityId];
+			 }, this._inactiveDelay);
         },
 
 
@@ -412,7 +419,7 @@ Abstract:
 		},
 
         ///// ACCESSORS
-        getIsReady: function() { return this._isReady; },
+        getIsReady: function( entityId ) { return !this._inactiveList.hasOwnProperty(entityId); }, // if we do have such a property, we're not ready
         /**
          * @return {ChuClone.components.PortalComponent}
          */

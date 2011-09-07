@@ -75,6 +75,8 @@ Abstract:
             if(this._isWaitingToBeDetached) return;
             this._isWaitingToBeDetached = true;
 
+			console.log("HIT SOMETHING!")
+
             this.detachAfterDelay(1);
         },
 

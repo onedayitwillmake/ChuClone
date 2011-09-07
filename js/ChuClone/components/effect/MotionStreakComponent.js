@@ -119,7 +119,7 @@
 			var vector = this.attachedEntity.getView().position.clone();
 			vector.x -= this.attachedEntity.getView().boundRadius*0.5;
 			vector.y -= this.attachedEntity.getView().boundRadius*0.5;
-			this.attachedEntity.getView().geometry.boundingSphere.radius = Number.MAX_VALUE;
+			this._mesh.geometry.boundingSphere.radius = Number.MAX_VALUE;
 
 
 			var result = vector.clone();

@@ -87,6 +87,12 @@
 			return this._distance
 		},
 
+		flip: function() {
+			var temp = this._a.Copy();
+			this.setA( this._b );
+			this.setB( temp );
+		},
+
         /**
          * Restore material and restitution
          */

@@ -333,25 +333,36 @@
          * Cast a ray from the portalgun to nearest fixture
          */
         castPortalRay: function() {
-            var force = 1000;
+			var that = this;
+			this._lastLine = null;
 
             // Cast a ray from where we are to somewhere far away along the direction of our angle
             var bodyPosition = this.attachedEntity.getBody().GetPosition().Copy();
+
+			// Project outward slightly from our current position
             var pointA = bodyPosition.Copy();
             pointA.x += Math.cos(this._angle);
             pointA.y += Math.sin(this._angle)*-1;
 
+			// Using our angle, extrapolate by a large number to create a long linesegment
             var pointB = bodyPosition.Copy();
-            pointB.x += Math.cos(this._angle) * force;
-            pointB.y += Math.sin(this._angle) * -force;
+            pointB.x += Math.cos(this._angle) * 1000;
+            pointB.y += Math.sin(this._angle) * -1000;
 
 
+			// Locally store properties within the function closure to be kept after the raycast callback
             var rayFixture = null;
             var rayPoint = null;
             var rayNormal = null;
             var rayFraction = 1;
-            this._tracerActive = true;
-            var that = this;
+
+			/**
+			 * Call back for each fixture hit by the ray
+			 * @param fixture
+			 * @param point
+			 * @param normal
+			 * @param fraction
+			 */
             var callback = function RayCastOneWrapper(fixture, point, normal, fraction) {
                 //debugger;
                 if (fraction === undefined) fraction = 0;
@@ -372,6 +383,7 @@
                     rayFixture = null;
                     rayPoint = null;
                     rayNormal = null;
+					rayFraction = fraction;
                     return;
                 }
 
@@ -389,39 +401,70 @@
                 return fraction;
             };
 
+			// Cast the ray
             this._worldController.getWorld().RayCast(callback, pointA, pointB);
             this._tracerActive = false;
-            
+
+			// Nothing found
             if(!rayFixture) return;
 
-            this._rayPoint = rayPoint;
 
-            var that = this;
+			// Push outward otherwise technically our line segements will not touch due to rounding errors
+            this._rayPoint = rayPoint.Copy();
+			this._rayPoint.x += Math.cos(this._angle) * 0.5;
+			this._rayPoint.y += Math.sin(-this._angle) * 1;
+			this._tracer.SetPositionAndAngle( new b2Vec2(this._rayPoint.x, this._rayPoint.y), 0);
+
+
+			var otherBody = rayFixture.GetBody();
+			var lines = ChuClone.model.LineSegment.prototype.FROM_BODY( otherBody );
+			var lineTestResults = [];
+			var playerToTracer = new ChuClone.model.LineSegment(bodyPosition.Copy(), this._rayPoint );
+			for(var i = 0; i < lines.length; i++) {
+				var aLine = lines[i];
+				var result = ChuClone.model.LineSegment.prototype.INTERSECT_LINES( playerToTracer, aLine );
+				for(var j = 0; j < result.length; j++) {
+					//lineTestResults.push({line: aLine, point: result[j]});
+					this._lastLine = aLine; // debug draw
+					//break;
+				}
+			}
+
+
+			if( !this._lastLine ) {
+				return;
+			}
+
+			// Some final checks to see if the collision was valid (enough padding etc)
+			var portalWidth = this._nextPortal.getDimensions().width / PTM_RATIO * 2;
+			var lineDistance = this._lastLine.getLength();
+			var portalToA = new ChuClone.model.LineSegment( this._lastLine.getA(), rayPoint ).getLength();
+			var portalToB = new ChuClone.model.LineSegment( this._lastLine.getB(), rayPoint ).getLength();
+
+			// Not enough space for the portal to go there
+			if( portalWidth >= lineDistance || portalWidth*0.25 >= portalToA || portalWidth*0.25 >= portalToB ) {
+				console.log("Can't fit!");
+				this._tracerEntity.removeComponentWithName( ChuClone.components.effect.MotionStreakComponent.prototype.displayName );
+				this._tracerActive = false;
+				return;
+			}
 
 			setTimeout( function() {
-				var finalAngle = Math.atan2(rayNormal.y, rayNormal.x);
-                
-
+				var finalAngle = that._lastLine.getAngle() + Math.PI;
 
 				// Offset the position so that the back of the portal is touching it, not the center
 				var finalPosition = rayPoint.Copy();
-                finalPosition.x += rayNormal.x;
-                finalPosition.y += rayNormal.y;
+                finalPosition.x -= Math.cos(finalAngle + Math.PI/2);
+				finalPosition.y -= Math.sin(finalAngle + Math.PI/2);
 
+				// Place portal at new location
+				that._nextPortal.getBody().SetPosition( finalPosition );
+				that._nextPortal.getComponentWithName(ChuClone.components.PortalComponent.prototype.displayName).setAngle( ( finalAngle ) * 180/Math.PI );
 
-                //finalPosition.x += 20;
-				//finalPosition.x += Math.cos(finalAngle + Math.PI/2) * 2;
-				//finalPosition.y += Math.sin(finalAngle + Math.PI/2) * 2;
-
-				that._nextPortal.getBody().SetPositionAndAngle( finalPosition, finalAngle);
-				that._nextPortal.getComponentWithName(ChuClone.components.PortalComponent.prototype.displayName).setAngle( (finalAngle+Math.PI/2) * 180/Math.PI );
-                that._tracer.SetPositionAndAngle( new b2Vec2(finalPosition.x, finalPosition.y), 0);
 			}, 1);
 
 
 			this.setNextPortal();
-
-            //if( ray)
         },
 
 		/**
@@ -475,6 +518,7 @@
 			var playerToTracer = new ChuClone.model.LineSegment(playerBody.GetPosition().Copy(), fakePosition );
 
 			// Compare all 4 lines to the line segment from the player to the tracer
+			var otherBody = otherActor.getBody();
 			var lines = ChuClone.model.LineSegment.prototype.FROM_BODY( otherBody );
 			var lineTestResults = [];
 			for(var i = 0; i < lines.length; i++) {

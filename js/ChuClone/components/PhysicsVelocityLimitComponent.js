@@ -46,20 +46,20 @@ Abstract:
             var PTM_RATIO = ChuClone.model.Constants.PTM_RATIO;
             var body = this.attachedEntity.getBody();
 
-            // Cap X axis
-            if( Math.abs(body.m_linearVelocity.x) > this._maxSpeed.x ) {
-                body.m_linearVelocity.x = this._maxSpeed.x * (body.m_linearVelocity.x < 0 ? -1 : 1);
-            }
+            //// Cap X axis
+            //if( Math.abs(body.m_linearVelocity.x) > this._maxSpeed.x ) {
+            //    body.m_linearVelocity.x = this._maxSpeed.x * (body.m_linearVelocity.x < 0 ? -1 : 1);
+            //}
+			//
+            //// Cap Y up more strongly than Y down
+            //if(body.m_linearVelocity.y < -this._maxSpeed.y) {
+            //    body.m_linearVelocity.y = -this._maxSpeed.y;
+            //}
 
-            // Cap Y up more strongly than Y down
-            if(body.m_linearVelocity.y < -this._maxSpeed.y) {
-                body.m_linearVelocity.y = -this._maxSpeed.y;
-            }
-
-			//only care about compromised Y up velocity
-            if(body.m_linearVelocity.y > this._maxSpeed.y * 2) {
-                body.m_linearVelocity.y = this._maxSpeed.y * 2;
-            }
+			////only care about compromised Y up velocity
+            //if(body.m_linearVelocity.y > this._maxSpeed.y * 2) {
+            //    body.m_linearVelocity.y = this._maxSpeed.y * 2;
+            //}
         },
 
         /**

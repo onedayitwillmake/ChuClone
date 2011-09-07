@@ -34,7 +34,7 @@
 	var id = 0;
     ChuClone.GameEntity = function() {
         this.components = [];
-		this.id = ++id;
+		this._id = ++id;
     };
 
     ChuClone.GameEntity.prototype = {
@@ -317,6 +317,7 @@
         },
 
         getType: function() { return this._type; },
+		getId: function() { return this._id; },
 
 		// Prevent or allow this entity to be saved when the level is parsed
 		getIsSavable: function() { return this._isSavable; },
