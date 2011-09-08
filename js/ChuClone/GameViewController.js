@@ -450,8 +450,10 @@
          */
         addObjectToScene: function( anEntityView ) {
 
-			if( ChuClone.model.Constants.IS_EDIT_MODE() )
+			if( ChuClone.model.Constants.IS_EDIT_MODE() ) {
             	anEntityView.dynamic = true;
+				anEntityView.geometry.dynamic = true;
+			}
 
             if(this._sceneEditor)
                 this._sceneEditor.startPlottingObject( anEntityView, THREE.SceneEditor.ScenePlotterDot.prototype.TYPES.SQUARE, false, false );
