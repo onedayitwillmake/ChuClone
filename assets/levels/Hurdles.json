@@ -1,9 +1,9 @@
 {
 	"editingInfo": {
-		"author": "1dayitwillmake",
+		"author": "#{user_name}",
 		"levelName": "Hurdles",
-		"creationDate": 1314430825459,
-		"modificationDate": 1314430825459
+		"creationDate": 1315390691603,
+		"modificationDate": 1315390691603
 	},
 	"worldSettings": {
 		"PTM_RATIO": 64
@@ -11,11 +11,11 @@
 	"playerInfo": null,
 	"bodyList": [
 		{
-			"x": 447.919806981213,
-			"y": -10.43137482405075,
+			"x": 4.3206402534157515,
+			"y": -6.142751517216703,
 			"dimensions": {
-				"width": 272,
-				"height": 32,
+				"width": 256,
+				"height": 64,
 				"depth": 192
 			},
 			"angle": 0,
@@ -26,13 +26,41 @@
 				"bodyType": 1
 			},
 			"entityType": 4,
-			"components": []
+			"components": [
+				{
+					"displayName": "RespawnComponent",
+					"textureSource": "assets/images/game/flooraqua.png"
+				}
+			]
 		},
 		{
-			"x": 432.3694135454779,
-			"y": -3.56965268326375,
+			"x": 61.2013102163639,
+			"y": 4.338071457277097,
 			"dimensions": {
-				"width": 80,
+				"width": 256,
+				"height": 176,
+				"depth": 192
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "RespawnComponent",
+					"textureSource": "assets/images/game/flooraqua.png"
+				}
+			]
+		},
+		{
+			"x": 447.919806981213,
+			"y": -10.4313748240507,
+			"dimensions": {
+				"width": 272,
 				"height": 32,
 				"depth": 192
 			},
@@ -64,16 +92,15 @@
 			"entityType": 4,
 			"components": [
 				{
-					"displayName": "FrictionPadComponent",
-					"textureSource": "assets/images/game/floorred.png",
-					"inactiveDelay": 250,
-					"damping": 0.25
+					"displayName": "JumpPadComponent",
+					"textureSource": "assets/images/game/jumppad_right.png",
+					"inactiveDelay": 500
 				}
 			]
 		},
 		{
-			"x": 79.48627621274672,
-			"y": -5.187081353093192,
+			"x": 79.4862762127467,
+			"y": -5.18708135309319,
 			"dimensions": {
 				"width": 176,
 				"height": 48,
@@ -97,8 +124,8 @@
 			]
 		},
 		{
-			"x": 79.48627621274672,
-			"y": -3.242636908648747,
+			"x": 79.4862762127467,
+			"y": -3.24263690864875,
 			"dimensions": {
 				"width": 176,
 				"height": 48,
@@ -122,8 +149,8 @@
 			]
 		},
 		{
-			"x": 69.03473663330044,
-			"y": -2.9187814917700825,
+			"x": 69.0347366333004,
+			"y": -2.91878149177008,
 			"dimensions": {
 				"width": 48,
 				"height": 16.64,
@@ -146,32 +173,7 @@
 			]
 		},
 		{
-			"x": 110.671461397932,
-			"y": -3.35549977151162,
-			"dimensions": {
-				"width": 64,
-				"height": 48,
-				"depth": 192
-			},
-			"angle": 0,
-			"physicsInfo": {
-				"density": 1,
-				"friction": 1,
-				"restitution": 0.1,
-				"bodyType": 1
-			},
-			"entityType": 4,
-			"components": [
-				{
-					"displayName": "FrictionPadComponent",
-					"textureSource": "assets/images/game/floorred.png",
-					"inactiveDelay": 250,
-					"damping": 0.25
-				}
-			]
-		},
-		{
-			"x": 79.48627621274672,
+			"x": 79.4862762127467,
 			"y": -7.22411839013023,
 			"dimensions": {
 				"width": 176,
@@ -196,7 +198,7 @@
 			]
 		},
 		{
-			"x": 716.0920044436498,
+			"x": 689.0825264038147,
 			"y": -55.5636010462785,
 			"dimensions": {
 				"width": 768,
@@ -396,58 +398,8 @@
 			"components": []
 		},
 		{
-			"x": 474.386065092244,
-			"y": -3.44344352319585,
-			"dimensions": {
-				"width": 64,
-				"height": 16.64,
-				"depth": 128
-			},
-			"angle": 0,
-			"physicsInfo": {
-				"density": 1,
-				"friction": 1,
-				"restitution": 0.1,
-				"bodyType": 1
-			},
-			"entityType": 4,
-			"components": [
-				{
-					"displayName": "FrictionPadComponent",
-					"textureSource": "assets/images/game/floorred.png",
-					"inactiveDelay": 250,
-					"damping": 0.25
-				}
-			]
-		},
-		{
-			"x": 453.536065092244,
-			"y": -3.65415780891013,
-			"dimensions": {
-				"width": 80,
-				"height": 32,
-				"depth": 128
-			},
-			"angle": 0,
-			"physicsInfo": {
-				"density": 1,
-				"friction": 1,
-				"restitution": 0.1,
-				"bodyType": 1
-			},
-			"entityType": 4,
-			"components": [
-				{
-					"displayName": "FrictionPadComponent",
-					"textureSource": "assets/images/game/floorred.png",
-					"inactiveDelay": 250,
-					"damping": 0.25
-				}
-			]
-		},
-		{
 			"x": 616.327526192813,
-			"y": -16.939806252787804,
+			"y": -21.640970456509567,
 			"dimensions": {
 				"width": 80,
 				"height": 32,
@@ -501,57 +453,8 @@
 			"components": []
 		},
 		{
-			"x": 429.31678196653064,
-			"y": -3.56965268326375,
-			"dimensions": {
-				"width": 80,
-				"height": 32,
-				"depth": 192
-			},
-			"angle": 0,
-			"physicsInfo": {
-				"density": 1,
-				"friction": 1,
-				"restitution": 0.1,
-				"bodyType": 1
-			},
-			"entityType": 4,
-			"components": [
-				{
-					"displayName": "JumpPadComponent",
-					"textureSource": "assets/images/game/jumppad_right.png",
-					"inactiveDelay": 500
-				}
-			]
-		},
-		{
-			"x": 390.716665545294,
-			"y": -3.52614383903353,
-			"dimensions": {
-				"width": 80,
-				"height": 32,
-				"depth": 192
-			},
-			"angle": 0,
-			"physicsInfo": {
-				"density": 1,
-				"friction": 1,
-				"restitution": 0.1,
-				"bodyType": 1
-			},
-			"entityType": 4,
-			"components": [
-				{
-					"displayName": "FrictionPadComponent",
-					"textureSource": "assets/images/game/floorred.png",
-					"inactiveDelay": 250,
-					"damping": 0.25
-				}
-			]
-		},
-		{
-			"x": 468.2355964548972,
-			"y": -10.43137482405075,
+			"x": 468.235596454897,
+			"y": -10.4313748240507,
 			"dimensions": {
 				"width": 272,
 				"height": 32,
@@ -665,8 +568,8 @@
 			]
 		},
 		{
-			"x": 3.93602486880037,
-			"y": -10.3735207479859,
+			"x": 194.9616658944403,
+			"y": -4.476084850550034,
 			"dimensions": {
 				"width": 256,
 				"height": 64,
@@ -688,14 +591,14 @@
 			]
 		},
 		{
-			"x": 3.93602486880037,
-			"y": -11.3735207479859,
+			"x": 194.9616658944403,
+			"y": -5.476084850550034,
 			"dimensions": {
 				"width": 30,
 				"height": 30,
 				"depth": 30
 			},
-			"angle": 2217.5645735245444,
+			"angle": 2276.08387752581,
 			"physicsInfo": {
 				"density": 0,
 				"friction": 0,
@@ -723,7 +626,7 @@
 		},
 		{
 			"x": 8.12060624487111,
-			"y": 0.9888721782367851,
+			"y": 0.988872178236785,
 			"dimensions": {
 				"width": 512,
 				"height": 256,
@@ -738,81 +641,6 @@
 			},
 			"entityType": 4,
 			"components": []
-		},
-		{
-			"x": 182.451262722435,
-			"y": -4.12165334230095,
-			"dimensions": {
-				"width": 176,
-				"height": 80,
-				"depth": 192
-			},
-			"angle": 0,
-			"physicsInfo": {
-				"density": 1,
-				"friction": 1,
-				"restitution": 0.1,
-				"bodyType": 1
-			},
-			"entityType": 4,
-			"components": [
-				{
-					"displayName": "FrictionPadComponent",
-					"textureSource": "assets/images/game/floorred.png",
-					"inactiveDelay": 250,
-					"damping": 0.25
-				}
-			]
-		},
-		{
-			"x": 255.254794731264,
-			"y": -4.0296739456858,
-			"dimensions": {
-				"width": 176,
-				"height": 80,
-				"depth": 192
-			},
-			"angle": 0,
-			"physicsInfo": {
-				"density": 1,
-				"friction": 1,
-				"restitution": 0.1,
-				"bodyType": 1
-			},
-			"entityType": 4,
-			"components": [
-				{
-					"displayName": "FrictionPadComponent",
-					"textureSource": "assets/images/game/floorred.png",
-					"inactiveDelay": 250,
-					"damping": 0.25
-				}
-			]
-		},
-		{
-			"x": 294.745535472004,
-			"y": -3.58522950124135,
-			"dimensions": {
-				"width": 176,
-				"height": 48,
-				"depth": 192
-			},
-			"angle": 0,
-			"physicsInfo": {
-				"density": 1,
-				"friction": 1,
-				"restitution": 0.1,
-				"bodyType": 1
-			},
-			"entityType": 4,
-			"components": [
-				{
-					"displayName": "FrictionPadComponent",
-					"textureSource": "assets/images/game/floorred.png",
-					"inactiveDelay": 250,
-					"damping": 0.25
-				}
-			]
 		},
 		{
 			"x": 239.164721610655,
@@ -831,30 +659,6 @@
 			},
 			"entityType": 4,
 			"components": []
-		},
-		{
-			"x": 368.217757694226,
-			"y": -15.5600972261089,
-			"dimensions": {
-				"width": 176,
-				"height": 48,
-				"depth": 192
-			},
-			"angle": 0,
-			"physicsInfo": {
-				"density": 1,
-				"friction": 1,
-				"restitution": 0.1,
-				"bodyType": 1
-			},
-			"entityType": 4,
-			"components": [
-				{
-					"displayName": "JumpPadComponent",
-					"textureSource": "assets/images/game/jumppad_right.png",
-					"inactiveDelay": 500
-				}
-			]
 		},
 		{
 			"x": 356.720277166209,
@@ -950,7 +754,7 @@
 			]
 		},
 		{
-			"x": 155.92065147828052,
+			"x": 123.77395409519768,
 			"y": -41.0000978745625,
 			"dimensions": {
 				"width": 876.16,
@@ -982,7 +786,7 @@
 			]
 		},
 		{
-			"x": 264.1912267789257,
+			"x": 232.04452939584647,
 			"y": -40.6539440284084,
 			"dimensions": {
 				"width": 876.16,
@@ -1045,7 +849,7 @@
 			]
 		},
 		{
-			"x": 150.28358465479153,
+			"x": 150.283584654792,
 			"y": -8.01134286156518,
 			"dimensions": {
 				"width": 176,
@@ -1069,7 +873,7 @@
 			]
 		},
 		{
-			"x": 49.634400969399316,
+			"x": 17.487703586316428,
 			"y": -30.6154824899472,
 			"dimensions": {
 				"width": 876.16,
@@ -1125,29 +929,6 @@
 			]
 		},
 		{
-			"x": 182.89556532834,
-			"y": 12.1959098214446,
-			"dimensions": {
-				"width": 256,
-				"height": 256,
-				"depth": 192
-			},
-			"angle": 0,
-			"physicsInfo": {
-				"density": 1,
-				"friction": 1,
-				"restitution": 0.1,
-				"bodyType": 1
-			},
-			"entityType": 4,
-			"components": [
-				{
-					"displayName": "RespawnComponent",
-					"textureSource": "assets/images/game/flooraqua.png"
-				}
-			]
-		},
-		{
 			"x": 16.3571037898792,
 			"y": 10.657448282983,
 			"dimensions": {
@@ -1171,31 +952,8 @@
 			]
 		},
 		{
-			"x": 49.0494114821867,
-			"y": 11.4266790522138,
-			"dimensions": {
-				"width": 256,
-				"height": 256,
-				"depth": 192
-			},
-			"angle": 0,
-			"physicsInfo": {
-				"density": 1,
-				"friction": 1,
-				"restitution": 0.1,
-				"bodyType": 1
-			},
-			"entityType": 4,
-			"components": [
-				{
-					"displayName": "RespawnComponent",
-					"textureSource": "assets/images/game/flooraqua.png"
-				}
-			]
-		},
-		{
-			"x": 173.53807945257972,
-			"y": -10.44946048813777,
+			"x": 173.53807945258,
+			"y": -10.4494604881378,
 			"dimensions": {
 				"width": 176,
 				"height": 48,
@@ -1286,7 +1044,7 @@
 		},
 		{
 			"x": 484.949233395164,
-			"y": 1.05000017553516,
+			"y": 1.20873033426532,
 			"dimensions": {
 				"width": 656,
 				"height": 256,
@@ -1321,8 +1079,8 @@
 			"components": []
 		},
 		{
-			"x": 64.40546235139568,
-			"y": -0.9237852982504775,
+			"x": 64.4054623513957,
+			"y": -0.923785298250478,
 			"dimensions": {
 				"width": 944,
 				"height": 96,
@@ -1398,24 +1156,6 @@
 			"components": []
 		},
 		{
-			"x": 202.445024640958,
-			"y": 2.8050506805855,
-			"dimensions": {
-				"width": 1264,
-				"height": 352,
-				"depth": 193.6
-			},
-			"angle": 0,
-			"physicsInfo": {
-				"density": 1,
-				"friction": 1,
-				"restitution": 0.1,
-				"bodyType": 1
-			},
-			"entityType": 4,
-			"components": []
-		},
-		{
 			"x": 206.035841634405,
 			"y": -2.9381580111466,
 			"dimensions": {
@@ -1440,7 +1180,7 @@
 			]
 		},
 		{
-			"x": 222.477016953487,
+			"x": 225.35837288569041,
 			"y": -3.8907850567969,
 			"dimensions": {
 				"width": 176,
@@ -1457,30 +1197,11 @@
 			"entityType": 4,
 			"components": [
 				{
-					"displayName": "FrictionPadComponent",
-					"textureSource": "assets/images/game/floorred.png",
-					"inactiveDelay": 250,
-					"damping": 0.25
+					"displayName": "JumpPadComponent",
+					"textureSource": "assets/images/game/jumppad_right.png",
+					"inactiveDelay": 500
 				}
 			]
-		},
-		{
-			"x": 275.303610499543,
-			"y": 4.24949512502995,
-			"dimensions": {
-				"width": 1248,
-				"height": 448,
-				"depth": 204.8
-			},
-			"angle": 0,
-			"physicsInfo": {
-				"density": 1,
-				"friction": 1,
-				"restitution": 0.1,
-				"bodyType": 1
-			},
-			"entityType": 4,
-			"components": []
 		},
 		{
 			"x": 313.692499388432,
@@ -1499,30 +1220,6 @@
 			},
 			"entityType": 4,
 			"components": []
-		},
-		{
-			"x": 323.032572509041,
-			"y": -3.58522950124135,
-			"dimensions": {
-				"width": 176,
-				"height": 48,
-				"depth": 192
-			},
-			"angle": 0,
-			"physicsInfo": {
-				"density": 1,
-				"friction": 1,
-				"restitution": 0.1,
-				"bodyType": 1
-			},
-			"entityType": 4,
-			"components": [
-				{
-					"displayName": "JumpPadComponent",
-					"textureSource": "assets/images/game/jumppad_right.png",
-					"inactiveDelay": 500
-				}
-			]
 		},
 		{
 			"x": 126.803542249476,
@@ -1660,7 +1357,7 @@
 		},
 		{
 			"x": 10.5411786815227,
-			"y": -3.1224635437945403,
+			"y": -3.12246354379454,
 			"dimensions": {
 				"width": 32,
 				"height": 0.64,
@@ -1749,24 +1446,6 @@
 			"components": []
 		},
 		{
-			"x": 731.940185992942,
-			"y": -7.45575790902422,
-			"dimensions": {
-				"width": 432,
-				"height": 448,
-				"depth": 64
-			},
-			"angle": 0,
-			"physicsInfo": {
-				"density": 1,
-				"friction": 1,
-				"restitution": 0.1,
-				"bodyType": 1
-			},
-			"entityType": 4,
-			"components": []
-		},
-		{
 			"x": 746.029370053663,
 			"y": -3.8267256509597,
 			"dimensions": {
@@ -1785,7 +1464,7 @@
 			"components": []
 		},
 		{
-			"x": 516.274095652516,
+			"x": 505.004254382675,
 			"y": -3.8791153640884,
 			"dimensions": {
 				"width": 80,
@@ -1825,31 +1504,6 @@
 			},
 			"entityType": 4,
 			"components": []
-		},
-		{
-			"x": 662.602006184943,
-			"y": -3.66515647752468,
-			"dimensions": {
-				"width": 80,
-				"height": 32,
-				"depth": 128
-			},
-			"angle": 0,
-			"physicsInfo": {
-				"density": 1,
-				"friction": 1,
-				"restitution": 0.1,
-				"bodyType": 1
-			},
-			"entityType": 4,
-			"components": [
-				{
-					"displayName": "FrictionPadComponent",
-					"textureSource": "assets/images/game/floorred.png",
-					"inactiveDelay": 250,
-					"damping": 0.25
-				}
-			]
 		},
 		{
 			"x": 613.518362101487,
@@ -1945,31 +1599,6 @@
 			]
 		},
 		{
-			"x": 638.065923710717,
-			"y": -3.56206369401953,
-			"dimensions": {
-				"width": 80,
-				"height": 32,
-				"depth": 128
-			},
-			"angle": 0,
-			"physicsInfo": {
-				"density": 1,
-				"friction": 1,
-				"restitution": 0.1,
-				"bodyType": 1
-			},
-			"entityType": 4,
-			"components": [
-				{
-					"displayName": "FrictionPadComponent",
-					"textureSource": "assets/images/game/floorred.png",
-					"inactiveDelay": 250,
-					"damping": 0.25
-				}
-			]
-		},
-		{
 			"x": 650.394434358955,
 			"y": 1.83999372496268,
 			"dimensions": {
@@ -2042,76 +1671,8 @@
 			"components": []
 		},
 		{
-			"x": 505.773794798673,
-			"y": 2.21228087728955,
-			"dimensions": {
-				"width": 656,
-				"height": 336,
-				"depth": 304
-			},
-			"angle": 0,
-			"physicsInfo": {
-				"density": 1,
-				"friction": 1,
-				"restitution": 0.1,
-				"bodyType": 1
-			},
-			"entityType": 4,
-			"components": []
-		},
-		{
-			"x": 495.013484447083,
-			"y": -3.57351264761981,
-			"dimensions": {
-				"width": 80,
-				"height": 32,
-				"depth": 128
-			},
-			"angle": 0,
-			"physicsInfo": {
-				"density": 1,
-				"friction": 1,
-				"restitution": 0.1,
-				"bodyType": 1
-			},
-			"entityType": 4,
-			"components": [
-				{
-					"displayName": "FrictionPadComponent",
-					"textureSource": "assets/images/game/floorred.png",
-					"inactiveDelay": 250,
-					"damping": 0.25
-				}
-			]
-		},
-		{
-			"x": 540.763010063781,
-			"y": -3.86763029467863,
-			"dimensions": {
-				"width": 80,
-				"height": 32,
-				"depth": 128
-			},
-			"angle": 0,
-			"physicsInfo": {
-				"density": 1,
-				"friction": 1,
-				"restitution": 0.1,
-				"bodyType": 1
-			},
-			"entityType": 4,
-			"components": [
-				{
-					"displayName": "FrictionPadComponent",
-					"textureSource": "assets/images/game/floorred.png",
-					"inactiveDelay": 250,
-					"damping": 0.25
-				}
-			]
-		},
-		{
-			"x": 579.8054548855127,
-			"y": -3.762367136783894,
+			"x": 579.7946935188191,
+			"y": -3.76236713678389,
 			"dimensions": {
 				"width": 80,
 				"height": 32,
@@ -2135,7 +1696,7 @@
 		},
 		{
 			"x": 589.311397160555,
-			"y": -14.97205500843549,
+			"y": -19.673219212157267,
 			"dimensions": {
 				"width": 80,
 				"height": 32,
@@ -2172,7 +1733,7 @@
 		},
 		{
 			"x": 637.698493934749,
-			"y": -17.505404427401366,
+			"y": -22.206568631123158,
 			"dimensions": {
 				"width": 80,
 				"height": 32,
@@ -2322,7 +1883,7 @@
 			]
 		},
 		{
-			"x": 718.072538934118,
+			"x": 717.9490821439945,
 			"y": -6.45575790902422,
 			"dimensions": {
 				"width": 432,
@@ -2358,7 +1919,7 @@
 			"components": []
 		},
 		{
-			"x": 835.457665970422,
+			"x": 835.2107523901752,
 			"y": -10.010667739582,
 			"dimensions": {
 				"width": 1136,
@@ -2374,30 +1935,6 @@
 			},
 			"entityType": 4,
 			"components": []
-		},
-		{
-			"x": 803.408373132152,
-			"y": -12.7533053545769,
-			"dimensions": {
-				"width": 112,
-				"height": 16,
-				"depth": 256
-			},
-			"angle": 0,
-			"physicsInfo": {
-				"density": 1,
-				"friction": 1,
-				"restitution": 0.1,
-				"bodyType": 1
-			},
-			"entityType": 4,
-			"components": [
-				{
-					"displayName": "JumpPadComponent",
-					"textureSource": "assets/images/game/jumppad_right.png",
-					"inactiveDelay": 500
-				}
-			]
 		},
 		{
 			"x": 771.175480110589,
@@ -2479,106 +2016,6 @@
 			]
 		},
 		{
-			"x": 853.274303975005,
-			"y": -17.6313541350647,
-			"dimensions": {
-				"width": 64,
-				"height": 32,
-				"depth": 256
-			},
-			"angle": 0,
-			"physicsInfo": {
-				"density": 1,
-				"friction": 1,
-				"restitution": 0.1,
-				"bodyType": 1
-			},
-			"entityType": 4,
-			"components": [
-				{
-					"displayName": "FrictionPadComponent",
-					"textureSource": "assets/images/game/floorred.png",
-					"inactiveDelay": 250,
-					"damping": 0.25
-				}
-			]
-		},
-		{
-			"x": 832.53642191264,
-			"y": -17.7533053545769,
-			"dimensions": {
-				"width": 64,
-				"height": 32,
-				"depth": 256
-			},
-			"angle": 0,
-			"physicsInfo": {
-				"density": 1,
-				"friction": 1,
-				"restitution": 0.1,
-				"bodyType": 1
-			},
-			"entityType": 4,
-			"components": [
-				{
-					"displayName": "FrictionPadComponent",
-					"textureSource": "assets/images/game/floorred.png",
-					"inactiveDelay": 250,
-					"damping": 0.25
-				}
-			]
-		},
-		{
-			"x": 820.585202400445,
-			"y": -17.7533053545769,
-			"dimensions": {
-				"width": 64,
-				"height": 32,
-				"depth": 256
-			},
-			"angle": 0,
-			"physicsInfo": {
-				"density": 1,
-				"friction": 1,
-				"restitution": 0.1,
-				"bodyType": 1
-			},
-			"entityType": 4,
-			"components": [
-				{
-					"displayName": "FrictionPadComponent",
-					"textureSource": "assets/images/game/floorred.png",
-					"inactiveDelay": 250,
-					"damping": 0.25
-				}
-			]
-		},
-		{
-			"x": 846.43886093703,
-			"y": -17.6313541350647,
-			"dimensions": {
-				"width": 64,
-				"height": 32,
-				"depth": 256
-			},
-			"angle": 0,
-			"physicsInfo": {
-				"density": 1,
-				"friction": 1,
-				"restitution": 0.1,
-				"bodyType": 1
-			},
-			"entityType": 4,
-			"components": [
-				{
-					"displayName": "FrictionPadComponent",
-					"textureSource": "assets/images/game/floorred.png",
-					"inactiveDelay": 250,
-					"damping": 0.25
-				}
-			]
-		},
-		{
 			"x": 880.053048655433,
 			"y": -11.7496807264778,
 			"dimensions": {
@@ -2620,7 +2057,7 @@
 			"components": []
 		},
 		{
-			"x": 707.1205411965225,
+			"x": 688.0043736606991,
 			"y": -89.3136010462781,
 			"dimensions": {
 				"width": 768,
@@ -2652,7 +2089,7 @@
 			]
 		},
 		{
-			"x": 670.605669955993,
+			"x": 729.487307389086,
 			"y": -71.980267712945,
 			"dimensions": {
 				"width": 768,
@@ -2684,7 +2121,7 @@
 			]
 		},
 		{
-			"x": 792.6890285372345,
+			"x": 773.5728610014112,
 			"y": -71.5358232685005,
 			"dimensions": {
 				"width": 768,
@@ -2882,6 +2319,835 @@
 					"textureSource": "assets/images/game/floorred.png",
 					"inactiveDelay": 250,
 					"damping": 0.25
+				}
+			]
+		},
+		{
+			"x": 194.69502464095802,
+			"y": -2.1949493194144996,
+			"dimensions": {
+				"width": 768,
+				"height": 32,
+				"depth": 193.6
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": []
+		},
+		{
+			"x": 214.616153563634,
+			"y": -1.53518261553019,
+			"dimensions": {
+				"width": 496,
+				"height": 16.64,
+				"depth": 192
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "DeathPadComponent",
+					"textureSource": "assets/images/game/floordark.png",
+					"inactiveDelay": 1000
+				}
+			]
+		},
+		{
+			"x": 214.366153563634,
+			"y": -14.968889431589938,
+			"dimensions": {
+				"width": 256,
+				"height": 16.64,
+				"depth": 228.377085536718
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": []
+		},
+		{
+			"x": 275.303610499543,
+			"y": 20.5987014742363,
+			"dimensions": {
+				"width": 1088,
+				"height": 448,
+				"depth": 204.8
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "FrictionPadComponent",
+					"textureSource": "assets/images/game/floorred.png",
+					"inactiveDelay": 250,
+					"damping": 0.25
+				}
+			]
+		},
+		{
+			"x": 275.303610499543,
+			"y": 4.24949512502995,
+			"dimensions": {
+				"width": 1088,
+				"height": 448,
+				"depth": 204.8
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": []
+		},
+		{
+			"x": 500.773794798673,
+			"y": 2.21228087728955,
+			"dimensions": {
+				"width": 336,
+				"height": 336,
+				"depth": 304
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": []
+		},
+		{
+			"x": 485.854754288353,
+			"y": -3.32351264761981,
+			"dimensions": {
+				"width": 80,
+				"height": 16,
+				"depth": 128
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "FrictionPadComponent",
+					"textureSource": "assets/images/game/floorred.png",
+					"inactiveDelay": 250,
+					"damping": 0.25
+				}
+			]
+		},
+		{
+			"x": 603.138788218846,
+			"y": -21.5401449145616,
+			"dimensions": {
+				"width": 80,
+				"height": 32,
+				"depth": 128
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "JumpPadComponent",
+					"textureSource": "assets/images/game/jumppad_right.png",
+					"inactiveDelay": 500
+				}
+			]
+		},
+		{
+			"x": 731.940185992942,
+			"y": -8.95575790902422,
+			"dimensions": {
+				"width": 240,
+				"height": 448,
+				"depth": 64
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": []
+		},
+		{
+			"x": 110.671461397932,
+			"y": -2.85549977151162,
+			"dimensions": {
+				"width": 64,
+				"height": 16,
+				"depth": 192
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "FrictionPadComponent",
+					"textureSource": "assets/images/game/floorred.png",
+					"inactiveDelay": 250,
+					"damping": 0.25
+				}
+			]
+		},
+		{
+			"x": 107.671461397932,
+			"y": -2.85549977151162,
+			"dimensions": {
+				"width": 64,
+				"height": 16,
+				"depth": 192
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": []
+		},
+		{
+			"x": 182.451262722435,
+			"y": -3.0369075795890854,
+			"dimensions": {
+				"width": 112,
+				"height": 16,
+				"depth": 192
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "FrictionPadComponent",
+					"textureSource": "assets/images/game/floorred.png",
+					"inactiveDelay": 250,
+					"damping": 0.25
+				}
+			]
+		},
+		{
+			"x": 256.33954049397585,
+			"y": -3.1101824202620705,
+			"dimensions": {
+				"width": 176,
+				"height": 16,
+				"depth": 192
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "FrictionPadComponent",
+					"textureSource": "assets/images/game/floorred.png",
+					"inactiveDelay": 250,
+					"damping": 0.25
+				}
+			]
+		},
+		{
+			"x": 294.745535472004,
+			"y": -3.33522950124135,
+			"dimensions": {
+				"width": 176,
+				"height": 32,
+				"depth": 192
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "FrictionPadComponent",
+					"textureSource": "assets/images/game/floorred.png",
+					"inactiveDelay": 250,
+					"damping": 0.25
+				}
+			]
+		},
+		{
+			"x": 323.032572509041,
+			"y": -3.58522950124135,
+			"dimensions": {
+				"width": 176,
+				"height": 32,
+				"depth": 192
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "JumpPadComponent",
+					"textureSource": "assets/images/game/jumppad_right.png",
+					"inactiveDelay": 500
+				}
+			]
+		},
+		{
+			"x": 328.532572509041,
+			"y": -6.085229501241351,
+			"dimensions": {
+				"width": 176,
+				"height": 32,
+				"depth": 192
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "JumpPadComponent",
+					"textureSource": "assets/images/game/jumppad_right.png",
+					"inactiveDelay": 500
+				}
+			]
+		},
+		{
+			"x": 334.532572509041,
+			"y": -9.08522950124135,
+			"dimensions": {
+				"width": 176,
+				"height": 32,
+				"depth": 192
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "JumpPadComponent",
+					"textureSource": "assets/images/game/jumppad_right.png",
+					"inactiveDelay": 500
+				}
+			]
+		},
+		{
+			"x": 368.217757694226,
+			"y": -15.0600972261089,
+			"dimensions": {
+				"width": 176,
+				"height": 32,
+				"depth": 192
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "JumpPadComponent",
+					"textureSource": "assets/images/game/jumppad_right.png",
+					"inactiveDelay": 500
+				}
+			]
+		},
+		{
+			"x": 382.0991136264294,
+			"y": -24.0600972261089,
+			"dimensions": {
+				"width": 112,
+				"height": 32,
+				"depth": 192
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "JumpPadComponent",
+					"textureSource": "assets/images/game/jumppad_right.png",
+					"inactiveDelay": 500
+				}
+			]
+		},
+		{
+			"x": 390.63191978258214,
+			"y": -3.27614383903353,
+			"dimensions": {
+				"width": 80,
+				"height": 16,
+				"depth": 192
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "FrictionPadComponent",
+					"textureSource": "assets/images/game/floorred.png",
+					"inactiveDelay": 250,
+					"damping": 0.25
+				}
+			]
+		},
+		{
+			"x": 429.40152772924284,
+			"y": -3.31965268326375,
+			"dimensions": {
+				"width": 80,
+				"height": 16,
+				"depth": 192
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "JumpPadComponent",
+					"textureSource": "assets/images/game/jumppad_right.png",
+					"inactiveDelay": 500
+				}
+			]
+		},
+		{
+			"x": 432.369413545478,
+			"y": -3.31965268326375,
+			"dimensions": {
+				"width": 80,
+				"height": 16,
+				"depth": 192
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": []
+		},
+		{
+			"x": 453.536065092244,
+			"y": -3.40415780891013,
+			"dimensions": {
+				"width": 80,
+				"height": 16,
+				"depth": 128
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "FrictionPadComponent",
+					"textureSource": "assets/images/game/floorred.png",
+					"inactiveDelay": 250,
+					"damping": 0.25
+				}
+			]
+		},
+		{
+			"x": 474.386065092244,
+			"y": -3.19344352319585,
+			"dimensions": {
+				"width": 64,
+				"height": 16.64,
+				"depth": 128
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "FrictionPadComponent",
+					"textureSource": "assets/images/game/floorred.png",
+					"inactiveDelay": 250,
+					"damping": 0.25
+				}
+			]
+		},
+		{
+			"x": 540.763010063781,
+			"y": -3.61763029467863,
+			"dimensions": {
+				"width": 80,
+				"height": 16,
+				"depth": 128
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "JumpPadComponent",
+					"textureSource": "assets/images/game/jumppad_right.png",
+					"inactiveDelay": 500
+				}
+			]
+		},
+		{
+			"x": 642.6338249452849,
+			"y": -3.31206369401953,
+			"dimensions": {
+				"width": 80,
+				"height": 16,
+				"depth": 128
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "FrictionPadComponent",
+					"textureSource": "assets/images/game/floorred.png",
+					"inactiveDelay": 250,
+					"damping": 0.25
+				}
+			]
+		},
+		{
+			"x": 662.7254629750664,
+			"y": -3.41515647752468,
+			"dimensions": {
+				"width": 80,
+				"height": 16,
+				"depth": 128
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": []
+		},
+		{
+			"x": 638.0659237107169,
+			"y": -3.31206369401953,
+			"dimensions": {
+				"width": 80,
+				"height": 16,
+				"depth": 128
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "JumpPadComponent",
+					"textureSource": "assets/images/game/jumppad_right.png",
+					"inactiveDelay": 500
+				}
+			]
+		},
+		{
+			"x": 802.4207188111643,
+			"y": -12.753305354576899,
+			"dimensions": {
+				"width": 112,
+				"height": 16,
+				"depth": 256
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "JumpPadComponent",
+					"textureSource": "assets/images/game/jumppad_right.png",
+					"inactiveDelay": 500
+				}
+			]
+		},
+		{
+			"x": 811.803434860547,
+			"y": -12.753305354576897,
+			"dimensions": {
+				"width": 112,
+				"height": 16,
+				"depth": 256
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "JumpPadComponent",
+					"textureSource": "assets/images/game/jumppad_right.png",
+					"inactiveDelay": 500
+				}
+			]
+		},
+		{
+			"x": 793.5318299222754,
+			"y": -12.753305354576895,
+			"dimensions": {
+				"width": 112,
+				"height": 16,
+				"depth": 256
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "JumpPadComponent",
+					"textureSource": "assets/images/game/jumppad_right.png",
+					"inactiveDelay": 500
+				}
+			]
+		},
+		{
+			"x": 820.585202400445,
+			"y": -17.5033053545769,
+			"dimensions": {
+				"width": 64,
+				"height": 16.64,
+				"depth": 256
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "FrictionPadComponent",
+					"textureSource": "assets/images/game/floorred.png",
+					"inactiveDelay": 250,
+					"damping": 0.25
+				}
+			]
+		},
+		{
+			"x": 846.43886093703,
+			"y": -17.3813541350647,
+			"dimensions": {
+				"width": 64,
+				"height": 16,
+				"depth": 256
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "FrictionPadComponent",
+					"textureSource": "assets/images/game/floorred.png",
+					"inactiveDelay": 250,
+					"damping": 0.25
+				}
+			]
+		},
+		{
+			"x": 853.274303975005,
+			"y": -17.3813541350647,
+			"dimensions": {
+				"width": 64,
+				"height": 16,
+				"depth": 256
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "FrictionPadComponent",
+					"textureSource": "assets/images/game/floorred.png",
+					"inactiveDelay": 250,
+					"damping": 0.25
+				}
+			]
+		},
+		{
+			"x": 832.53642191264,
+			"y": -17.5033053545769,
+			"dimensions": {
+				"width": 64,
+				"height": 16,
+				"depth": 256
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "JumpPadComponent",
+					"textureSource": "assets/images/game/jumppad_right.png",
+					"inactiveDelay": 500
+				}
+			]
+		},
+		{
+			"x": 839.2030885793067,
+			"y": -22.5033053545769,
+			"dimensions": {
+				"width": 256,
+				"height": 16,
+				"depth": 256
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "JumpPadComponent",
+					"textureSource": "assets/images/game/jumppad_right.png",
+					"inactiveDelay": 500
 				}
 			]
 		}
