@@ -179,9 +179,11 @@
          * @param {ChuClone.GameViewController} aGameView
          */
         fromJsonString: function( aJsonString, aWorldController, aGameView ) {
-			this.levelJSONString = aJsonString;
             var levelObject = JSON.parse(aJsonString);
+            
+			this.levelJSONString = aJsonString;
             this.levelName = levelObject.editingInfo.levelName;
+            this.author = levelObject.editingInfo.author;
             this.creationDate = levelObject.editingInfo.creationDate;
             this.modificationDate = levelObject.editingInfo.modificationDate;
             this.ptmRatio = levelObject.worldSettings.PTM_RATIO;

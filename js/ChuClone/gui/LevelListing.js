@@ -1,4 +1,4 @@
-/**
+ /**
  File:
     LevelListing.js
  Created By:
@@ -42,25 +42,16 @@
 		 * Callback when the document is ready
 		 */
         onReady: function() {
-            this.setupDivs();
+            this.setupDivs("levellisting");
+            this.setupDivs("user_levellisting");
         },
 
         /**
          * Setup 'click' eventlistener for each level item
          */
-        setupDivs: function( ) {
-            var levelListing = document.getElementById("levellisting");
-            if( !levelListing ) {
-
-                if( window.location.href.indexOf("kongregate") > -1 ) {
-                    this.createKongregateLevelListing();
-                    return;
-                }
-                
-                console.info("Could not find levellisting element. Aborting...");
-                return;
-            }
-
+        setupDivs: function( container_id ) {
+            var levelListing = document.getElementById(container_id);
+            if( !levelListing ) return;
             for (var i = 0; i < levelListing.children.length; ++i) {
                 var item = levelListing.children[i];
                 item.addEventListener('click', this.onLevelClicked, false);
