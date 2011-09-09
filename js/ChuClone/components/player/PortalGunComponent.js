@@ -221,6 +221,7 @@
 				var portalComponent = new ChuClone.components.PortalComponent();
 				entity.addComponentAndExecute( portalComponent );
 				portalComponent.setColor(colors[i]);
+				portalComponent.setIsActive( false );
 
 
 				if( i === 0 ) this._bluePortal = entity;
@@ -313,6 +314,7 @@
 			this._tracer.SetPositionAndAngle( new b2Vec2(pointPosition.x, pointPosition.y), 0);
 
 
+			this.playSound( ChuClone.model.Constants.SOUNDS.PORTAL_SHOOT.id );
 
 			// Place the tracer entity at our location
 			this._tracerEntity.getView().position = this.attachedEntity.getView().position.clone();
@@ -333,7 +335,9 @@
          * Cast a ray from the portalgun to nearest fixture
          */
         castPortalRay: function() {
+
 			var that = this;
+			this._nextPortal.getComponentWithName( ChuClone.components.PortalComponent.prototype.displayName ).setIsActive( true );
 			this._lastLine = null;
 
             // Cast a ray from where we are to somewhere far away along the direction of our angle
@@ -356,6 +360,7 @@
             var rayNormal = null;
             var rayFraction = 1;
 
+			var nearestHit = null;
 			/**
 			 * Call back for each fixture hit by the ray
 			 * @param fixture
@@ -380,6 +385,7 @@
                     || otherActor.getComponentWithName(ChuClone.components.DeathPadComponent.prototype.displayName)
                     || otherActor.getComponentWithName(ChuClone.components.JumpPadComponent.prototype.displayName)) {
 
+					nearestHit = point;
                     rayFixture = null;
                     rayPoint = null;
                     rayNormal = null;
@@ -390,6 +396,8 @@
                 // Things that if we hit - we ignore and allow the tracer bullet to pass through it
                 if( otherActor.getComponentWithName(ChuClone.components.PortalComponent.prototype.displayName )
                     || otherActor.getComponentWithName(ChuClone.components.RespawnComponent.prototype.displayName ) ) {
+
+					nearestHit = point;
                     return;
                 }
 
@@ -406,13 +414,18 @@
             this._tracerActive = false;
 
 			// Nothing found
-            if(!rayFixture) return;
+            if(!rayFixture) {
+				this.playSound( ChuClone.model.Constants.SOUNDS.PORTAL_INVALID.id );
+				//pointB.Multiply(0.5);
+				this._tracer.SetPositionAndAngle( nearestHit || pointB, 0);
+				return;
+			}
 
 
 			// Push outward otherwise technically our line segements will not touch due to rounding errors
             this._rayPoint = rayPoint.Copy();
-			this._rayPoint.x += Math.cos(this._angle) * 0.5;
-			this._rayPoint.y += Math.sin(-this._angle) * 1;
+			this._rayPoint.x += Math.cos(this._angle) * 0.05;
+			this._rayPoint.y += Math.sin(this._angle) * -0.05;
 			this._tracer.SetPositionAndAngle( new b2Vec2(this._rayPoint.x, this._rayPoint.y), 0);
 
 
@@ -432,6 +445,7 @@
 
 
 			if( !this._lastLine ) {
+				this.playSound( ChuClone.model.Constants.SOUNDS.PORTAL_INVALID.id );
 				return;
 			}
 
@@ -442,15 +456,18 @@
 			var portalToB = new ChuClone.model.LineSegment( this._lastLine.getB(), rayPoint ).getLength();
 
 			// Not enough space for the portal to go there
-			if( portalWidth >= lineDistance || portalWidth*0.25 >= portalToA || portalWidth*0.25 >= portalToB ) {
+			if( portalWidth >= lineDistance || portalWidth*0.2 >= portalToA || portalWidth*0.2 >= portalToB ) {
 				console.log("Can't fit!");
+				this.playSound( ChuClone.model.Constants.SOUNDS.PORTAL_INVALID.id );
 				this._tracerEntity.removeComponentWithName( ChuClone.components.effect.MotionStreakComponent.prototype.displayName );
 				this._tracerActive = false;
 				return;
 			}
 
 			setTimeout( function() {
-				var finalAngle = that._lastLine.getAngle() + Math.PI;
+				var finalAngle = that._lastLine.getAngle() + Math.PI + rayFixture.GetBody().GetAngle();
+				that.playSound( ChuClone.model.Constants.SOUNDS.PORTAL_OPEN.id );
+
 
 				// Offset the position so that the back of the portal is touching it, not the center
 				var finalPosition = rayPoint.Copy();
@@ -480,9 +497,136 @@
 			}
 		},
 
+
+
+		/**
+		 * Positions the portal gun
+		 */
+		update: function() {
+            var scalar = 120;
+
+            if( this._shiftIsDown ) {
+                this.onMouseMove();
+            }
+
+			if( !this._tracerActive ) {
+				var pointPosition = this.attachedEntity.getView().position.clone();
+				pointPosition.x += Math.cos(this._angle) * scalar;
+				pointPosition.y += Math.sin(this._angle) * scalar;
+				this._pointer.position = pointPosition;
+			}
+
+			//var glide = 0.4;
+            this._pointer.rotation.z = this._angle+Math.PI/2;
+
+			// Apply a force to counteract gravity
+			if( this._tracer ) {
+				this._tracer.ApplyForce( this._antiGravity, this._tracer.GetWorldCenter() );
+
+				if( this._lastCollisionLocation ) {
+					this._tracer.SetPosition( this._lastCollisionLocation );
+				}
+			}
+		},
+
+
+		/**
+         * Special drawing function while editing that shows the extents of the platforms movements
+         * @param {Box2D.Dynamics.b2World}  Reference to b2World instance
+         */
+		fakeAngle: 0,
+        drawPlatformForEditor: function( b2World ) {
+			this.fakeAngle += 0.01;
+			if(this._lastLine) {
+				var line = this._lastLine.clone();
+			  line.rotate(this.fakeAngle);
+				var x0 = (line._a.x + b2World.m_debugDraw.offsetX) * b2World.m_debugDraw.m_drawScale;
+				var y0 = (line._a.y + b2World.m_debugDraw.offsetY) * b2World.m_debugDraw.m_drawScale;
+				var x1 = (line._b.x + b2World.m_debugDraw.offsetX) * b2World.m_debugDraw.m_drawScale;
+				var y1 = (line._b.y + b2World.m_debugDraw.offsetY) * b2World.m_debugDraw.m_drawScale;
+
+				b2World.m_debugDraw.m_ctx.moveTo( x0, y0 );
+				b2World.m_debugDraw.m_ctx.lineTo( x1, y1 );
+				b2World.m_debugDraw.m_ctx.strokeStyle = "#FF0000";
+				b2World.m_debugDraw.m_ctx.stroke();
+			}
+
+            if(this._rayPoint) {
+				var rayPoint = this._rayPoint.Copy();
+                rayPoint.x = (rayPoint.x + b2World.m_debugDraw.offsetX) * b2World.m_debugDraw.m_drawScale;
+                rayPoint.y = (rayPoint.y + b2World.m_debugDraw.offsetY) * b2World.m_debugDraw.m_drawScale;
+
+                b2World.m_debugDraw.m_ctx.arc(rayPoint.x, rayPoint.y, 10* b2World.m_debugDraw.m_drawScale, 0, Math.PI*2, false);
+			}
+		},
+
+		/**
+		 * Wrapper to dispatch an event that will cause the audiocontroller to play a saound
+		 * @param id
+		 */
+		playSound: function( id ) {
+			ChuClone.Events.Dispatcher.emit(
+					ChuClone.controller.AudioController.prototype.EVENTS.SHOULD_PLAY_SOUND,
+					id);
+		},
+
+        /**
+         * @inheritDoc
+         */
+        detach: function() {
+			ChuClone.DOM_ELEMENT.removeEventListener('keydown', this._closures.onKeyDown);
+			ChuClone.DOM_ELEMENT.removeEventListener('keyup', this._closures.onKeyUp);
+            ChuClone.DOM_ELEMENT.removeEventListener('mousemove', this._closures.onMouseMove);
+			ChuClone.DOM_ELEMENT.removeEventListener('mousedown', this._closures.onMouseDown);
+			ChuClone.DOM_ELEMENT.removeEventListener('contextmenu',this._closures.onContextMenu);
+			this._closures = null;
+
+			if( this._tracer ) {
+				this._worldController.getWorld().DestroyBody( this._tracer );
+				this._tracer = null;
+			}
+
+			if( this._bluePortal ) {
+				if( this._bluePortal.getView() ) this._gameViewController.removeObjectFromScene( this._bluePortal.getView() );
+				if( this._bluePortal.getBody() ) this._worldController.getWorld().DestroyBody( this._bluePortal.getBody() );
+				this._bluePortal.dealloc();
+				this._bluePortal = null;
+			}
+
+			if( this._orangePortal ) {
+				if( this._orangePortal.getView() ) this._gameViewController.removeObjectFromScene( this._orangePortal.getView() );
+				if( this._orangePortal.getBody() ) this._worldController.getWorld().DestroyBody( this._orangePortal.getBody() );
+				this._orangePortal.dealloc();
+				this._orangePortal = null;
+			}
+
+			this._gameViewController.removeObjectFromScene( this._pointer );
+			this._pointer = null;
+
+			this.attachedEntity.drawCustom = null;
+			this._lastCollisionLocation = null;
+			this._nextPortal = null;
+			this._gameViewController = null;
+			this._worldController = null;
+            ChuClone.components.player.PortalGunComponent.superclass.detach.call(this);
+        },
+
+		///// ACCESSORS
+		setGameView: function( aGameViewController ) { this._gameViewController = aGameViewController },
+		setWorldController: function( aWorldController ) { this._worldController = aWorldController },
+
+		// When called, will set the next portal to orange or blue
+		setNextPortal: function() { this._nextPortal = (this._nextPortal === this._bluePortal) ? this._orangePortal  : this._bluePortal }
+	};
+
+    ChuClone.extend( ChuClone.components.player.PortalGunComponent, ChuClone.components.BaseComponent );
+})();
+
+
+
 		/**
 		 * Called when our portal 'bullet' collides with something
-		 */
+
 		onCollision: function( otherActor ) {
             return;
 			if( !otherActor ) return;
@@ -523,6 +667,7 @@
 			var lineTestResults = [];
 			for(var i = 0; i < lines.length; i++) {
 				var aLine = lines[i];
+				aLine.rotate( Math.PI/2 );
 				var result = ChuClone.model.LineSegment.prototype.INTERSECT_LINES( playerToTracer, aLine );
 				for(var j = 0; j < result.length; j++) {
 					//lineTestResults.push({line: aLine, point: result[j]});
@@ -584,113 +729,4 @@
 			this.setNextPortal();
 		},
 
-
-		/**
-		 * Positions the portal gun
-		 */
-		update: function() {
-            var scalar = 120;
-
-            if( this._shiftIsDown ) {
-                this.onMouseMove();
-            }
-
-			if( !this._tracerActive ) {
-				var pointPosition = this.attachedEntity.getView().position.clone();
-				pointPosition.x += Math.cos(this._angle) * scalar;
-				pointPosition.y += Math.sin(this._angle) * scalar;
-				this._pointer.position = pointPosition;
-			}
-
-			//var glide = 0.4;
-            this._pointer.rotation.z = this._angle+Math.PI/2;
-
-			// Apply a force to counteract gravity
-			if( this._tracer ) {
-				this._tracer.ApplyForce( this._antiGravity, this._tracer.GetWorldCenter() );
-
-				if( this._lastCollisionLocation ) {
-					this._tracer.SetPosition( this._lastCollisionLocation );
-				}
-			}
-		},
-
-
-		/**
-         * Special drawing function while editing that shows the extents of the platforms movements
-         * @param {Box2D.Dynamics.b2World}  Reference to b2World instance
-         */
-        drawPlatformForEditor: function( b2World ) {
-			if(this._lastLine) {
-				var line = this._lastLine.clone();
-				var x0 = (line._a.x + b2World.m_debugDraw.offsetX) * b2World.m_debugDraw.m_drawScale;
-				var y0 = (line._a.y + b2World.m_debugDraw.offsetY) * b2World.m_debugDraw.m_drawScale;
-				var x1 = (line._b.x + b2World.m_debugDraw.offsetX) * b2World.m_debugDraw.m_drawScale;
-				var y1 = (line._b.y + b2World.m_debugDraw.offsetY) * b2World.m_debugDraw.m_drawScale;
-
-				b2World.m_debugDraw.m_ctx.moveTo( x0, y0 );
-				b2World.m_debugDraw.m_ctx.lineTo( x1, y1 );
-				b2World.m_debugDraw.m_ctx.strokeStyle = "#eee";
-				b2World.m_debugDraw.m_ctx.stroke();
-			}
-
-            if(this._rayPoint) {
-				var rayPoint = this._rayPoint.Copy();
-                rayPoint.x = (rayPoint.x + b2World.m_debugDraw.offsetX) * b2World.m_debugDraw.m_drawScale;
-                rayPoint.y = (rayPoint.y + b2World.m_debugDraw.offsetY) * b2World.m_debugDraw.m_drawScale;
-
-                b2World.m_debugDraw.m_ctx.arc(rayPoint.x, rayPoint.y, 10* b2World.m_debugDraw.m_drawScale, 0, Math.PI*2, false);
-			}
-		},
-
-        /**
-         * @inheritDoc
-         */
-        detach: function() {
-			ChuClone.DOM_ELEMENT.removeEventListener('keydown', this._closures.onKeyDown);
-			ChuClone.DOM_ELEMENT.removeEventListener('keyup', this._closures.onKeyUp);
-            ChuClone.DOM_ELEMENT.removeEventListener('mousemove', this._closures.onMouseMove);
-			ChuClone.DOM_ELEMENT.removeEventListener('mousedown', this._closures.onMouseDown);
-			ChuClone.DOM_ELEMENT.removeEventListener('contextmenu',this._closures.onContextMenu);
-			this._closures = null;
-
-			if( this._tracer ) {
-				this._worldController.getWorld().DestroyBody( this._tracer );
-				this._tracer = null;
-			}
-
-			if( this._bluePortal ) {
-				if( this._bluePortal.getView() ) this._gameViewController.removeObjectFromScene( this._bluePortal.getView() );
-				if( this._bluePortal.getBody() ) this._worldController.getWorld().DestroyBody( this._bluePortal.getBody() );
-				this._bluePortal.dealloc();
-				this._bluePortal = null;
-			}
-
-			if( this._orangePortal ) {
-				if( this._orangePortal.getView() ) this._gameViewController.removeObjectFromScene( this._orangePortal.getView() );
-				if( this._orangePortal.getBody() ) this._worldController.getWorld().DestroyBody( this._orangePortal.getBody() );
-				this._orangePortal.dealloc();
-				this._orangePortal = null;
-			}
-
-			this._gameViewController.removeObjectFromScene( this._pointer );
-			this._pointer = null;
-
-			this.attachedEntity.drawCustom = null;
-			this._lastCollisionLocation = null;
-			this._nextPortal = null;
-			this._gameViewController = null;
-			this._worldController = null;
-            ChuClone.components.player.PortalGunComponent.superclass.detach.call(this);
-        },
-
-		///// ACCESSORS
-		setGameView: function( aGameViewController ) { this._gameViewController = aGameViewController },
-		setWorldController: function( aWorldController ) { this._worldController = aWorldController },
-
-		// When called, will set the next portal to orange or blue
-		setNextPortal: function() { this._nextPortal = (this._nextPortal === this._bluePortal) ? this._orangePortal  : this._bluePortal }
-	};
-
-    ChuClone.extend( ChuClone.components.player.PortalGunComponent, ChuClone.components.BaseComponent );
-})();
+ */

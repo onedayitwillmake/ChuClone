@@ -93,6 +93,40 @@
 			this.setB( temp );
 		},
 
+		rotate: function(angle) {
+
+			//var ta = this._a.Copy();
+			//var tb = this._b.Copy();
+			//var len = this.getLength();
+			//
+			//this._a.Normalize();
+			//this._b.Normalize();
+			//var rotateVector = function( v, angle ) {
+			//	var s = Math.sin(angle);
+			//	var c = Math.cos(angle);
+			//
+			//	var nx = c * v.x - s * v.y;
+			//	var ny = s * v.x + c * v.y;
+			//
+			//	v.x = nx;
+			//	v.y = ny;
+			//};
+			//
+			//
+			//rotateVector(this._a, angle);
+			//rotateVector(this._b, angle);
+			//
+			//this._a.Multiply( ta.GetLength() );
+			////this._a.Add( ta )
+			//
+			//
+			//this._b.Multiply( len);
+			//this._b.Add( tb );
+			//this._b.Add( tb );
+
+			//this._le
+		},
+
         /**
          * Restore material and restitution
          */

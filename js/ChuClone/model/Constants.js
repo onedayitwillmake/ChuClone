@@ -25,6 +25,8 @@
         GAME_WIDTH				: 1000,
         GAME_HEIGHT				: 500,
         PTM_RATIO               : 64,
+		TO_DEGREES				: 180/Math.PI,
+		TO_RADIANS				: Math.PI/180,
         DOM_ELEMENT             : null,
 		INITIAL_STATE			: 'PlayLevel',
         IS_EDIT_MODE            : function(){
@@ -109,6 +111,13 @@
 
 			CONTROLLER: null,
 			WORLD: null
+		},
+
+		SOUNDS: {
+			PORTAL_ENTER: {id:'PORTAL_ENTER', src:"assets/sounds/fx/portals/enter.mp3"},
+			PORTAL_INVALID: {id:'PORTAL_INVALID', src:"assets/sounds/fx/portals/invalidsurface.mp3"},
+			PORTAL_OPEN: {id:'PORTAL_OPEN', src:"assets/sounds/fx/portals/open.mp3"},
+			PORTAL_SHOOT: {id:'PORTAL_SHOOT', src:"assets/sounds/fx/portals/shoot.mp3"}
 		}
     }
 })();

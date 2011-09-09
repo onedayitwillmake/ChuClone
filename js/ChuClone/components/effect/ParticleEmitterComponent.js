@@ -67,8 +67,8 @@
 		_parent			: null,
 
         _yLimit         : 500,
-        _maxSpeed       : 20,
-        _minSpeed       : 5,
+        _maxSpeed       : 17,
+        _minSpeed       : 4,
 
         /**
          * @inheritDoc
@@ -86,6 +86,7 @@
 
                 var vertex = new THREE.Vertex( vector );
                 vertex.speed = ChuClone.utils.randFloat(this._minSpeed, this._maxSpeed);
+				vertex.yLimit = ChuClone.utils.randFloat(this._yLimit*0.8, this._yLimit*1.5);
                 this._geometry.vertices.push(vertex);
             }
 
@@ -106,9 +107,10 @@
 
 			for( var i = 0; i < this._count; i++) {
                 this._geometry.vertices[i].position.y += this._geometry.vertices[i].speed;
-				if(this._geometry.vertices[i].position.y > this._yLimit) {
+				if(this._geometry.vertices[i].position.y > this._geometry.vertices[i].yLimit) {
 
                     this._geometry.vertices[i].speed = ChuClone.utils.randFloat(this._minSpeed, this._maxSpeed);
+					this._geometry.vertices[i].yLimit = ChuClone.utils.randFloat(this._yLimit*0.8, this._yLimit*1.5);
 					this._geometry.vertices[i].position.y = 0;
                 }
             }

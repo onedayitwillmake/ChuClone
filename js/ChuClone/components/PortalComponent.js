@@ -85,9 +85,10 @@ Abstract:
 
 	ChuClone.components.PortalComponent = function() {
 		ChuClone.components.PortalComponent.superclass.constructor.call(this);
-        //this._isReady = true;
         this._angle = 0;
 		this._inactiveList = {};
+		this._isActive = true;
+		this.__isReady = true;
 		//this._inactiveList = [];
 	};
 
@@ -131,24 +132,18 @@ Abstract:
          */
         _particleController : null,
 
-        /**
-         * If false, collision is ignroed.
-         * This happens if there is technically another collision, say the frame after we did our stuff
-         * @type {Boolean}
-         */
-        //_isReady                        : true,
+
+		/**
+		 * If false, the portal is disabled
+		 * @type {Boolean}
+		 */
+        _isActive                        : true,
 
         /**
          * How long to wait before being considered ready again
          * @type {Number}
          */
-        _inactiveDelay                  : 100,
-
-        /**
-         * Store the timeout
-         * @type {Number}
-         */
-        //_isReadyTimeout                 : null,
+        _inactiveDelay                  : 1400,
 
 
 
@@ -168,6 +163,8 @@ Abstract:
 		attach: function(anEntity) {
 			ChuClone.components.PortalComponent.superclass.attach.call(this, anEntity);
 			__addPortalPoint( this );
+
+
 
 			this.attachedEntity.getBody().GetFixtureList().SetSensor( true );
 			this._previousDimensions = this.attachedEntity.getDimensions();
@@ -307,6 +304,10 @@ Abstract:
             // We have to do it 'next frame' because box2d locks all these properties during a collision
             setTimeout( function() { that.getMirror().onPlayerExitPortal( playerActor, playerDirection, playerSpeed ); }, 1);
 
+			ChuClone.Events.Dispatcher.emit(
+					ChuClone.controller.AudioController.prototype.EVENTS.SHOULD_PLAY_SOUND,
+					ChuClone.model.Constants.SOUNDS.PORTAL_ENTER.id);
+
             this.startWaitingForIsReady( playerActor.getId() );
         },
 
@@ -323,7 +324,7 @@ Abstract:
 
 			setTimeout( function(){
 				playerActor.getBody().SetType(Box2D.Dynamics.b2Body.b2_dynamicBody);
-			}, 16);
+			}, this._inactiveDelay);
 
 
 
@@ -336,16 +337,16 @@ Abstract:
         },
 
          /**
-         * Once set _isReady is locked for N milliseconds
+         * Once set _isActive is locked for N milliseconds
          */
         startWaitingForIsReady: function( entityId ) {
 			 var that = this;
-			 this._inactiveList[entityId] = Date.now();
+			 this.__isReady = false;
+			 //this._inactiveList[entityId] = Date.now();
 
-			 //this._isReady = false;
-			 //clearTimeout(this._isReadyTimeout);
-			 setTimeout(function() {
-				 delete that._inactiveList[entityId];
+			 clearTimeout( this._inactiveTimeout );
+			 this._inactiveTimeout = setTimeout(function() {
+				 that.__isReady = true;
 			 }, this._inactiveDelay);
         },
 
@@ -419,7 +420,12 @@ Abstract:
 		},
 
         ///// ACCESSORS
-        getIsReady: function( entityId ) { return !this._inactiveList.hasOwnProperty(entityId); }, // if we do have such a property, we're not ready
+        getIsReady: function( entityId ) {
+			return this.__isReady;
+
+			return !this._inactiveList.hasOwnProperty(entityId); }, // if we do have such a property, we're not ready
+		setIsActive: function( aValue ) { this._isActive = aValue; },
+		getIsActive: function( ) { return this._isActive; },
         /**
          * @return {ChuClone.components.PortalComponent}
          */
