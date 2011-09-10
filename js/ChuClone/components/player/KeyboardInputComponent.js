@@ -22,7 +22,7 @@ Abstract:
 	ChuClone.components.player.KeyboardInputComponent = function() {
 		this._callback = null;
 		this._keyStates = {left:false, right:false, up:false, down: false};
-		ChuClone.components.player.KeyboardInputComponent .superclass.constructor.call(this);
+		ChuClone.components.player.KeyboardInputComponent.superclass.constructor.call(this);
 	};
 
 	ChuClone.components.player.KeyboardInputComponent.prototype = {
@@ -51,11 +51,11 @@ Abstract:
 		 * @inheritDoc
 		 */
 		attach: function(anEntity) {
-			ChuClone.components.player.KeyboardInputComponent .superclass.attach.call(this, anEntity);
+			ChuClone.components.player.KeyboardInputComponent.superclass.attach.call(this, anEntity);
 		},
 
         execute: function() {
-            ChuClone.components.player.KeyboardInputComponent .superclass.execute.call(this);
+            ChuClone.components.player.KeyboardInputComponent.superclass.execute.call(this);
 
             var that = this;
             this._callback = function(e){
@@ -116,7 +116,7 @@ Abstract:
             ChuClone.DOM_ELEMENT.removeEventListener('keyup', this._callback, false);
             this._callback = null;
 
-           ChuClone.components.player.KeyboardInputComponent .superclass.detach.call(this);
+           ChuClone.components.player.KeyboardInputComponent.superclass.detach.call(this);
         }
 
 	};

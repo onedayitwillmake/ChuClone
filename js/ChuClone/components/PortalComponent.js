@@ -143,7 +143,7 @@ Abstract:
          * How long to wait before being considered ready again
          * @type {Number}
          */
-        _inactiveDelay                  : 100,
+        _inactiveDelay                  : 500,
 
 
 
@@ -251,7 +251,7 @@ Abstract:
 
             // Not ready or mirror is not ready!
             if( !this.getIsReady( otherActor.getId() ) || !this.getMirror().getIsReady( otherActor.getId() ) ) {
-                //console.log("NotReady!");
+              	console.log("NotReady!");
                 return;
             }
 
@@ -267,10 +267,12 @@ Abstract:
             var dot =  Box2D.Common.Math.b2Math.Dot( direction, playerToPortal );
 
             // Player is attempting to enter from back area, ignore collision
-            if( dot > 0 ) {
+            if( dot > 0.2 ) {
                 console.log("Bad Dot!:", Math.round(dot*10000)/10000);
-                return;
+                //return;
             }
+
+			console.log("Dot", dot);
             
 
 

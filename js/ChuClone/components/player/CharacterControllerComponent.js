@@ -113,7 +113,7 @@ Abstract:
 				}
 			}
 
-            // Apply force
+			// Apply force
             var bodyPosition = body.GetWorldCenter();
             var impulse = new Box2D.Common.Math.b2Vec2(this._moveSpeed.x * PTM_RATIO * body.GetMass() * force.x, this._moveSpeed.y * PTM_RATIO * body.GetMass() * force.y);
             body.ApplyImpulse(impulse, bodyPosition);

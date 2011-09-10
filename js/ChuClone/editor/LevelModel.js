@@ -190,34 +190,48 @@
 
             var len = levelObject.bodyList.length;
             // Create all Box2D bodies which contain an entity
+
+
             for(var i = 0; i < len; i++) {
                 var entityInfo = levelObject.bodyList[i];
                 if( !this.checkLevelEntityInfoIsValid(entityInfo) ) continue;
 
+
+				var modifier = 1; // Harmless modifier i use if i need to tweek ALL the pieces in a level like if i made the level too big
+				for(var j = entityInfo.components.length - 1; j >= 0 ; j--) {
+                    /**
+                     * Use the factory to create the components
+                     * @type {ChuClone.components.BaseComponent}
+                     */
+                    if( entityInfo.components[j].displayName == "CharacterControllerComponent")
+						modifier = 1;
+				}
+
                 var body = aWorldController.createRect(
-                    entityInfo.x * this.ptmRatio,
-                    entityInfo.y * this.ptmRatio,
+                    entityInfo.x * this.ptmRatio * modifier,
+                    entityInfo.y * this.ptmRatio * modifier,
                     entityInfo.angle,
-                    entityInfo.dimensions.width,
-                    entityInfo.dimensions.height,
+                    entityInfo.dimensions.width * modifier,
+                    entityInfo.dimensions.height * modifier,
                     entityInfo.physicsInfo.bodyType == Box2D.Dynamics.b2Body.b2_kinematicBody
                 );
 
 
+
                 var view = aGameView.createEntityView(
-                    entityInfo.x*this.ptmRatio,
-                    entityInfo.y*this.ptmRatio,
-                    entityInfo.dimensions.width*2,
-                    entityInfo.dimensions.height*2,
+                    entityInfo.x*this.ptmRatio * modifier,
+                    entityInfo.y*this.ptmRatio * modifier,
+                    entityInfo.dimensions.width*2 * modifier,
+                    entityInfo.dimensions.height*2 * modifier,
                     entityInfo.dimensions.depth*2);
 
                 var entity = new ChuClone.GameEntity();
                 entity.setBody( body );
                 entity.setView( view );
-                entity.setDimensions( entityInfo.dimensions.width, entityInfo.dimensions.height, entityInfo.dimensions.depth );
+                entity.setDimensions( entityInfo.dimensions.width * modifier, entityInfo.dimensions.height * modifier, entityInfo.dimensions.depth * modifier );
 
                 // Attach all components in reverse order
-                for(var j = entityInfo.components.length - 1; j >= 0 ; j--) {
+                for(j = entityInfo.components.length - 1; j >= 0 ; j--) {
                     /**
                      * Use the factory to create the components
                      * @type {ChuClone.components.BaseComponent}

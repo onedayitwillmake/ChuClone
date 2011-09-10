@@ -59,7 +59,7 @@ Abstract:
 		 * Sets up events this state wants to listen for
 		 */
         setupEvents: function() {
-            console.log("setting up events")
+            //console.log("setting up events")
         },
 
         /**
