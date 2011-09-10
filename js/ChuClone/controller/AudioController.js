@@ -114,6 +114,7 @@
 			}
 
 			var audio = new Audio();
+			audio.volume = 0.25;
 			audio.src = this._sounds[soundName].src;
 			audio.play();
 		},

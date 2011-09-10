@@ -143,7 +143,7 @@ Abstract:
          * How long to wait before being considered ready again
          * @type {Number}
          */
-        _inactiveDelay                  : 1400,
+        _inactiveDelay                  : 100,
 
 
 
@@ -324,7 +324,7 @@ Abstract:
 
 			setTimeout( function(){
 				playerActor.getBody().SetType(Box2D.Dynamics.b2Body.b2_dynamicBody);
-			}, this._inactiveDelay);
+			}, 16);
 
 
 

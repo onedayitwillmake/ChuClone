@@ -114,6 +114,12 @@
             ChuClone.Events.Dispatcher.addListener(ChuClone.editor.LevelManager.prototype.EVENTS.LEVEL_DESTROYED, function( aLevelModel ) {
                 that._controls['type'].domElement.childNodes[1].selectedIndex = 0;
             });
+
+			// LEVEL CREATED
+            ChuClone.Events.Dispatcher.addListener(ChuClone.editor.LevelManager.prototype.EVENTS.LEVEL_CREATED, function( aLevelModel ) {
+				that._controls['type'].domElement.childNodes[1].selectedIndex = 1;
+				that.onCamTypeChange( 1 );
+            });
         },
 
 

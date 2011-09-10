@@ -66,7 +66,7 @@ Abstract:
          */
 		setupGUI: function() {
 			var camera = this._gameView.getCamera();
-			return;
+
 			this._gui = new DAT.GUI({width: ChuClone.model.Constants.EDITOR.PANEL_WIDTH+20});
 
 
@@ -155,7 +155,7 @@ Abstract:
 
 				b.SetPosition(new Box2D.Common.Math.b2Vec2(start.x, start.y))
 				entity.getView().position.z = start.z;
-				entity.getView().visible = true;
+				entity.getView().visible = false;
 				var tween = new TWEEN.Tween(prop)
 						.to({x: end.x, y: end.y, z: end.z}, 2000)
 						.delay(Math.random() * 1000 + 500)

@@ -435,6 +435,8 @@
 			var playerToTracer = new ChuClone.model.LineSegment(bodyPosition.Copy(), this._rayPoint );
 			for(var i = 0; i < lines.length; i++) {
 				var aLine = lines[i];
+				aLine.rotate( otherBody.GetAngle() );
+
 				var result = ChuClone.model.LineSegment.prototype.INTERSECT_LINES( playerToTracer, aLine );
 				for(var j = 0; j < result.length; j++) {
 					//lineTestResults.push({line: aLine, point: result[j]});
@@ -456,7 +458,7 @@
 			var portalToB = new ChuClone.model.LineSegment( this._lastLine.getB(), rayPoint ).getLength();
 
 			// Not enough space for the portal to go there
-			if( portalWidth >= lineDistance || portalWidth*0.2 >= portalToA || portalWidth*0.2 >= portalToB ) {
+			if( portalWidth >= lineDistance || portalWidth*0.25 >= portalToA || portalWidth*0.25 >= portalToB ) {
 				console.log("Can't fit!");
 				this.playSound( ChuClone.model.Constants.SOUNDS.PORTAL_INVALID.id );
 				this._tracerEntity.removeComponentWithName( ChuClone.components.effect.MotionStreakComponent.prototype.displayName );
@@ -465,7 +467,7 @@
 			}
 
 			setTimeout( function() {
-				var finalAngle = that._lastLine.getAngle() + Math.PI + rayFixture.GetBody().GetAngle();
+				var finalAngle = that._lastLine.getAngle() + Math.PI;
 				that.playSound( ChuClone.model.Constants.SOUNDS.PORTAL_OPEN.id );
 
 
@@ -539,7 +541,6 @@
 			this.fakeAngle += 0.01;
 			if(this._lastLine) {
 				var line = this._lastLine.clone();
-			  line.rotate(this.fakeAngle);
 				var x0 = (line._a.x + b2World.m_debugDraw.offsetX) * b2World.m_debugDraw.m_drawScale;
 				var y0 = (line._a.y + b2World.m_debugDraw.offsetY) * b2World.m_debugDraw.m_drawScale;
 				var x1 = (line._b.x + b2World.m_debugDraw.offsetX) * b2World.m_debugDraw.m_drawScale;
