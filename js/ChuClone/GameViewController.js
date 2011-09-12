@@ -306,6 +306,7 @@
         onSetupComplete: function() {
 			this._domElement.firstChild.focus();
 			//this.setupParticles();
+			//this.startPostProcessing();
         },
 
         /**
@@ -321,6 +322,7 @@
             var sceneEditorCanvas = document.createElement('canvas');
             sceneEditorCanvas.width = 500;
             sceneEditorCanvas.height = 400;
+
             container.appendChild(sceneEditorCanvas);
 
             // Instantiate the SceneEditor
@@ -502,6 +504,8 @@
          */
         onDocumentMouseMove: function( event ) {
             event.preventDefault();
+
+			console.log("MouseInfo:", event.clientX, this.getDimensions().x)
             this._mousePosition.x = ( event.clientX / this.getDimensions().x ) * 2 - 1;
             this._mousePosition.y = - ( event.clientY / this.getDimensions().y ) * 2 + 1;
         },
@@ -511,9 +515,8 @@
          * @param {Event} e
          */
         onResize: function( e ) {
-			return;
             this._renderer.setSize( this.getDimensions().x, this.getDimensions().y );
-            this._camera.aspect = this.getDimensions().x/this.getDimensions().y;
+            this._camera.aspect = this._domElement.clientWidth/this._domElement.clientHeight;
             this._camera.updateProjectionMatrix();
 
 
@@ -551,10 +554,6 @@
          * @return {THREE.Vector2}
          */
         getDimensions: function() {
-            if( this._isFullScreen ) {
-                return new THREE.Vector2( window.innerWidth, window.innerHeight-10 );
-            }
-
             return this._dimensions;
         },
 		/**
@@ -568,16 +567,32 @@
 			this._isFullScreen = aValue;
 
             if( this._isFullScreen ) {
+
+
+				console.log(  );
+
+				// These aren't stored in the style yet -
+				//this._domElement.style.width = this._domElement.clientWidth+"px";
+				//this._domElement.style.height = this._domElement.clientHeight+"px";
+				ChuClone.utils.StyleMemoizer.rememberStyle( this._domElement.id );
+
+				// Change the props
                 this._domElement.style.position = "absolute";
-                this._domElement.style.top = 0;
-                this._domElement.style.left = 0;
-                
+                this._domElement.style.top = "1%";
+                this._domElement.style.left = "1%";
+				this._domElement.style.width = "98%";
+				this._domElement.style.height = "98%";
+				this._domElement.style.marginLeft = "0";
+				this._domElement.firstChild.style.width = "100%";
+				this._domElement.firstChild.style.height = "100%";
+				//this.setDimensions(window.innerWidth, window.innerHeight-10);
             } else {
-                this._domElement.style.top = "";
-                this._domElement.style.left = "";
-                this._domElement.style.position = "relative";
+				ChuClone.utils.StyleMemoizer.restoreStyle( this._domElement.id );
             }
-			this._renderer.setSize( this.getDimensions().x, this.getDimensions().y );
+
+
+			this.setDimensions( ChuClone.model.Constants.GAME_WIDTH, ChuClone.model.Constants.GAME_HEIGHT );
+			//this._renderer.setSize( this.getDimensions().x, this.getDimensions().y );
 			this.onResize();
 		},
 

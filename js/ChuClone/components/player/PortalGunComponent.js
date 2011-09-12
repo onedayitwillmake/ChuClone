@@ -119,6 +119,17 @@
          */
         _shiftIsDown        : false,
 
+		/**
+		 * @type {Boolean}
+		 */
+		_cameraWasSetup		: false,
+
+
+		/**
+		 * @type {THREE.Vector2}
+		 */
+		_cameraOldFocusInfo	: null,
+
         /**
          * Creates a fixture and attaches to the attachedEntity's Box2D body
          */
@@ -143,7 +154,7 @@
 			this.setupEvents();
 			this.setupTracerBullet();
 			this.setupPortals();
-			this.setupGUI();
+			//this.setupGUI();
         },
 
 		/**
@@ -198,7 +209,7 @@
 			this._tracerEntity = new ChuClone.GameEntity();
 			this._tracerEntity.setBody( this._tracer);
 			this._tracerEntity.setView( this._pointer );
-			this._tracerEntity.setDimensions( 10, 50, 10 );
+			this._tracerEntity.setDimensions( 5, 25, 5 );
 			this._tracerEntity.setIsSavable( false );
 			this._tracerEntity.getView().visible = false;
 		},
@@ -209,7 +220,7 @@
 		 */
 		setupPortals: function(  ) {
 			var width = 2 * PTM_RATIO;
-			var height = PTM_RATIO;
+			var height = PTM_RATIO/2;
 			var depth = 2 * PTM_RATIO;
 
 
@@ -253,7 +264,8 @@
 			this._closures['contextmenu'] = function(e){ that.onContextMenu(e); };
 
 			ChuClone.DOM_ELEMENT.addEventListener('keydown', this._closures.keydown, true);
-			ChuClone.DOM_ELEMENT.addEventListener('keyup', this._closures.keyup, true);
+			window.addEventListener('keyup', this._closures.keyup, true);
+
 			ChuClone.DOM_ELEMENT.addEventListener('mousemove', this._closures.mousemove, true);
 			ChuClone.DOM_ELEMENT.addEventListener('mousedown', this._closures.mousedown, true);
 			ChuClone.DOM_ELEMENT.addEventListener('contextmenu',this._closures.contextmenu, true);
@@ -294,8 +306,6 @@
 			mesh.position.x = centerPosition.x;
 			mesh.position.y = centerPosition.y;
 			mesh.position.z = centerPosition.z;
-			//mesh.rotation.x = 90 * Math.PI / 180;
-
 			this._rayplane = mesh;
 		},
 
@@ -331,10 +341,9 @@
 
 			// if the event was passed, update the mouse position
             if( e ) {
-			    this._mousePosition.x = ( event.layerX / ChuClone.model.Constants.VIEW.DIMENSIONS.width  ) * 2 - 1;
-                this._mousePosition.y = - ( event.layerY / ChuClone.model.Constants.VIEW.DIMENSIONS.height ) * 2 + 1;
+			    this._mousePosition.x = ( e.layerX / ChuClone.model.Constants.VIEW.DIMENSIONS.width  ) * 2 - 1;
+                this._mousePosition.y = - ( e.layerY / ChuClone.model.Constants.VIEW.DIMENSIONS.height ) * 2 + 1;
             }
-
 
 			// Convert the characters position to 2D screen cordinates and use that to get the angle
 			this._projectedMouse = this._projector.projectVector( this.attachedEntity.getView().position.clone(), this._gameViewController.getCamera() );
@@ -500,11 +509,19 @@
 			var lines = ChuClone.model.LineSegment.prototype.FROM_BODY( otherBody );
 			var lineTestResults = [];
 			var playerToTracer = new ChuClone.model.LineSegment(bodyPosition.Copy(), this._rayPoint );
+			this._incriment = this._incriment || 0;
+			if( this._incriment > 3 ) this._incriment = 0;
+			else this._incriment++;
+
 			for(var i = 0; i < lines.length; i++) {
 				var aLine = lines[i];
-				aLine.rotate( otherBody.GetAngle() );
+				aLine.rotate( otherBody.GetAngle(), otherBody.GetWorldCenter() );
 
 				var result = ChuClone.model.LineSegment.prototype.INTERSECT_LINES( playerToTracer, aLine );
+				if(i == this._incriment) {
+					this._drawLine = aLine;
+				}
+
 				for(var j = 0; j < result.length; j++) {
 					//lineTestResults.push({line: aLine, point: result[j]});
 					this._lastLine = aLine; // debug draw
@@ -525,12 +542,32 @@
 			var portalToB = new ChuClone.model.LineSegment( this._lastLine.getB(), rayPoint ).getLength();
 
 			// Not enough space for the portal to go there
-			if( portalWidth >= lineDistance || portalWidth*0.25 >= portalToA || portalWidth*0.25 >= portalToB ) {
-				console.log("Can't fit!");
+			if( portalWidth >= lineDistance ) {
 				this.playSound( ChuClone.model.Constants.SOUNDS.PORTAL_INVALID.id );
 				this._tracerEntity.removeComponentWithName( ChuClone.components.effect.MotionStreakComponent.prototype.displayName );
 				this._tracerActive = false;
 				return;
+			} else if // There's enough space - but we have to recenter the portal
+					(portalWidth*0.4 >= portalToA || portalWidth*0.4 >= portalToB ) {
+
+				var minWidth = portalWidth;
+				var closestPoint = portalToA < portalToB ? this._lastLine.getA() : this._lastLine.getB();
+				var distance = (portalToA < portalToB) ? portalToA : portalToB;
+				var fraction = minWidth - distance;
+				var lineMidpoint = this._lastLine.getMidpoint();
+
+				var v = Box2D.Common.Math.b2Math.SubtractVV(closestPoint, lineMidpoint);
+				v.Normalize();
+				v.Multiply( -fraction );
+				v.Add(closestPoint);
+
+
+				//var midpoint = new b2Vec2(closestPoint.x+lineMidpoint.x, closestPoint.y+lineMidpoint.y);
+				//midpoint.Multiply( 0.5 );
+				rayPoint = v;
+
+
+				console.log("ADJUSTING RAYPOINT!");
 			}
 
 			setTimeout( function() {
@@ -540,8 +577,8 @@
 
 				// Offset the position so that the back of the portal is touching it, not the center
 				var finalPosition = rayPoint.Copy();
-                finalPosition.x -= Math.cos(finalAngle + Math.PI/2);
-				finalPosition.y -= Math.sin(finalAngle + Math.PI/2);
+                finalPosition.x -= Math.cos(finalAngle + Math.PI/2) / 2;
+				finalPosition.y -= Math.sin(finalAngle + Math.PI/2) / 2;
 
 				// Place portal at new location
 				that._nextPortal.getBody().SetPosition( finalPosition );
@@ -581,12 +618,23 @@
 			if( !this._tracerActive ) {
 				var pointPosition = this.attachedEntity.getView().position.clone();
 				pointPosition.y += 1 * PTM_RATIO;
-				//pointPosition.x += Math.cos(this._angle) * scalar;
-				//pointPosition.y += Math.sin(this._angle) * scalar;
 				this._pointer.position = pointPosition;
 			}
 
-			//var glide = 0.4;
+
+			if(!this._cameraWasSetup) {
+
+				var focusComponent = this._gameViewController.getCamera().getComponentWithName(ChuClone.components.camera.CameraFocusRadiusComponent.prototype.displayName);
+
+				if(focusComponent) {
+					this._cameraOldFocusInfo = focusComponent.getRadius().clone();
+					this._cameraWasSetup = true;
+					focusComponent.getRadius().x = 200;
+					focusComponent.getRadius().y = 200;
+					focusComponent.getRadius().z = 4000;
+				}
+			}
+
             this._pointer.rotation.z = this._angle+Math.PI/2;
 
 			// Apply a force to counteract gravity
@@ -607,8 +655,8 @@
 		fakeAngle: 0,
         drawPlatformForEditor: function( b2World ) {
 			this.fakeAngle += 0.01;
-			if(this._lastLine) {
-				var line = this._lastLine.clone();
+			if(this._drawLine) {
+				var line = this._drawLine.clone();
 				var x0 = (line._a.x + b2World.m_debugDraw.offsetX) * b2World.m_debugDraw.m_drawScale;
 				var y0 = (line._a.y + b2World.m_debugDraw.offsetY) * b2World.m_debugDraw.m_drawScale;
 				var x1 = (line._b.x + b2World.m_debugDraw.offsetX) * b2World.m_debugDraw.m_drawScale;
@@ -646,6 +694,7 @@
 			for( var eventName in this._closures ) {
 				console.log("Removing Listener:", eventName);
 				ChuClone.DOM_ELEMENT.removeEventListener( eventName, this._closures[eventName], true );
+				window.removeEventListener( eventName, this._closures[eventName], true );
 			}
 			this._closures = {};
 
@@ -668,6 +717,13 @@
 				this._orangePortal = null;
 			}
 
+			var focusComponent = this._gameViewController.getCamera().getComponentWithName(ChuClone.components.camera.CameraFocusRadiusComponent.prototype.displayName);
+
+			if(focusComponent && this._cameraOldFocusInfo) {
+				//focusComponent.getRadius().x = this._cameraOldFocusInfo.x;
+				//focusComponent.getRadius().y = this._cameraOldFocusInfo.y;
+				//focusComponent.getRadius().z = this._cameraOldFocusInfo.z;
+			}
 			this._gameViewController.removeObjectFromScene( this._pointer );
 			this._pointer = null;
 			this._rayplane = null;

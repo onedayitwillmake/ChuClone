@@ -34,6 +34,7 @@
 	var id = 0;
     ChuClone.GameEntity = function() {
         this.components = [];
+		this._rememberedVelocity = {speed: -1, time: 0};
 		this._id = ++id;
     };
 
@@ -61,6 +62,12 @@
          * @type {Number}
          */
         height      : 0,
+
+		/**
+		 * Ineligant fix for double collision
+		 * @type {Object}
+		 */
+		_rememberedVelocity: null,
 
         /**
          * @type {Number}

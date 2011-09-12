@@ -155,6 +155,10 @@
 		///// Accessors
 		setColor: function( aColor ) {
 			this._system.materials[0].color = new THREE.Color( aColor );
+		},
+
+		setVisible: function( aValue ) {
+			this._system.visible = aValue;
 		}
 	};
 

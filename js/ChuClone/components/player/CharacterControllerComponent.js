@@ -54,8 +54,8 @@ Abstract:
 		attach: function(anEntity) {
 			ChuClone.components.player.CharacterControllerComponent.superclass.attach.call(this, anEntity);
 
-			this.intercept(['_type']);
-			this.attachedEntity.getBody().SetBullet( true );
+			this.intercept(['_type', 'onCollision']);
+			//this.attachedEntity.getBody().SetBullet( true );
 
 			// Set collisionfiltering
 			this.setFilterData( this.attachedEntity.getBody() );
@@ -69,13 +69,22 @@ Abstract:
             // Attach sensor to check if jumping
             this._jumpCheckComponent = new ChuClone.components.player.CheckIsJumpingComponent();
             this.attachedEntity.addComponentAndExecute( this._jumpCheckComponent );
+
+			// Attach boundsY check component
             this.attachedEntity.addComponentAndExecute( new ChuClone.components.BoundsYCheckComponent() );
 
+			// Attach physics velocity limit component
+			this.attachedEntity.addComponentAndExecute(new ChuClone.components.PhysicsVelocityLimitComponent());
+
 			//ChuClone.components.player.PortalGunComponent
-			var portalGunComponent = new ChuClone.components.player.PortalGunComponent();
-			portalGunComponent.setGameView( ChuClone.GameViewController.INSTANCE );
-			portalGunComponent.setWorldController( ChuClone.model.Constants.PHYSICS.CONTROLLER );
-			this.attachedEntity.addComponentAndExecute( portalGunComponent );
+			var levelModel = ChuClone.editor.LevelManager.getInstance().getModel();
+
+			if( levelModel.allowsPortalGun() ) {
+				var portalGunComponent = new ChuClone.components.player.PortalGunComponent();
+				portalGunComponent.setGameView( ChuClone.GameViewController.INSTANCE );
+				portalGunComponent.setWorldController( ChuClone.model.Constants.PHYSICS.CONTROLLER );
+				this.attachedEntity.addComponentAndExecute( portalGunComponent );
+			}
 
 
 			// Swap materials
@@ -118,6 +127,22 @@ Abstract:
             var impulse = new Box2D.Common.Math.b2Vec2(this._moveSpeed.x * PTM_RATIO * body.GetMass() * force.x, this._moveSpeed.y * PTM_RATIO * body.GetMass() * force.y);
             body.ApplyImpulse(impulse, bodyPosition);
         },
+
+		onCollision: function( otherActor ) {
+
+			var now = Date.now();
+			var then = this.attachedEntity._rememberedVelocity.time;
+			var delta = now - then;
+			if( delta < 16 ) {
+				console.log("MinDelta");
+			}
+
+			this.attachedEntity._rememberedVelocity.time = now;
+
+			var playerSpeed = Math.abs(this.attachedEntity.getBody().GetLinearVelocity().x) + Math.abs(this.attachedEntity.getBody().GetLinearVelocity().y);
+			console.log("CharSpeed:", playerSpeed);
+			this.interceptedProperties.onCollision.call(this.attachedEntity, otherActor);
+		},
 
 		/**
          * Dispatches the created event via timeout so that it can be called the "next frame"
@@ -165,5 +190,34 @@ Abstract:
         }
 	};
 
+	/**
+	 * Creates a character at a given respawn point
+	 * @param {ChuClone.components.RespawnComponent} respawnPoint
+	 * @param {ChuClone.GameViewController} gameViewController
+	 * @param {ChuClone.physics.WorldController} worldController
+	 */
+	ChuClone.components.player.CharacterControllerComponent.CREATE = function(respawnPoint, gameViewController, worldController) {
+		// Create a body and a view object
+		var body = worldController.createRect(0, 0, 0, ChuClone.model.Constants.PLAYER.WIDTH, ChuClone.model.Constants.PLAYER.HEIGHT, false);
+		var view = gameViewController.createEntityView(0, 0, ChuClone.model.Constants.PLAYER.WIDTH, ChuClone.model.Constants.PLAYER.HEIGHT, ChuClone.model.Constants.PLAYER.DEPTH);
+
+		// Create the entity and set it's body and view
+		var entity = new ChuClone.GameEntity();
+		entity.setBody(body);
+		entity.setView(view);
+
+		// Position it at the respawn point
+		body.SetPosition(new Box2D.Common.Math.b2Vec2(respawnPoint.attachedEntity.getBody().GetPosition().x, respawnPoint.attachedEntity.getBody().GetPosition().y - 1));
+
+		// Modify the material
+		entity.setDimensions(ChuClone.model.Constants.PLAYER.WIDTH, ChuClone.model.Constants.PLAYER.HEIGHT, ChuClone.model.Constants.PLAYER.DEPTH);
+
+		// Set the main component of a player - CharacterControllerComponent
+		entity.addComponentAndExecute(new ChuClone.components.player.CharacterControllerComponent());
+
+		// Add it to the scene
+		gameViewController.addObjectToScene(entity.view);
+		return entity;
+	};
     ChuClone.extend( ChuClone.components.player.CharacterControllerComponent, ChuClone.components.BaseComponent );
 })();

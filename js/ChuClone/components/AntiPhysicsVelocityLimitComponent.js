@@ -53,8 +53,8 @@ Abstract:
 			// Attach a motionstreak component
             this.attachedEntity.addComponentAndExecute( new ChuClone.components.effect.MotionStreakComponent() );
 			var physicsVelocityLimitComponent = this.attachedEntity.getComponentWithName( ChuClone.components.PhysicsVelocityLimitComponent.prototype.displayName );
-			this._oldLimit = physicsVelocityLimitComponent._maxSpeed.Copy();
-			physicsVelocityLimitComponent.setMaxSpeedXY( this._oldLimit.x*40, this._oldLimit.y*30);
+			this._oldLimit = {x:physicsVelocityLimitComponent, yUp: physicsVelocityLimitComponent._maxSpeedYUp, yDown: physicsVelocityLimitComponent._maxSpeedYDown};
+			physicsVelocityLimitComponent.setMaxSpeedXY( 110, 110, 110);
 
             this.intercept(['onCollision']);
         },
@@ -74,9 +74,6 @@ Abstract:
 
             if(this._isWaitingToBeDetached) return;
             this._isWaitingToBeDetached = true;
-
-			console.log("HIT SOMETHING!")
-
             this.detachAfterDelay(1);
         },
 
@@ -87,7 +84,7 @@ Abstract:
         detach: function() {
             //this.attachedEntity.addComponentAndExecute( new ChuClone.components.PhysicsVelocityLimitComponent );
 			var physicsVelocityLimitComponent = this.attachedEntity.getComponentWithName( ChuClone.components.PhysicsVelocityLimitComponent.prototype.displayName );
-			physicsVelocityLimitComponent.setMaxSpeedXY( this._oldLimit.x, this._oldLimit.y );
+			physicsVelocityLimitComponent.setMaxSpeedXY( this._oldLimit.x, this._oldLimit.yUp, this._oldLimit.yDown );
 
 			this.attachedEntity.removeComponentWithName( ChuClone.components.effect.MotionStreakComponent.prototype.displayName );
             ChuClone.components.AntiPhysicsVelocityLimitComponent.superclass.detach.call(this);
