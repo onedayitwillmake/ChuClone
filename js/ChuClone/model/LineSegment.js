@@ -87,18 +87,43 @@
 			return this._distance
 		},
 
+		/**
+		 * @return {Box2D.Common.Math.b2Vec2}
+		 */
+		getMidpoint: function() {
+			var midpoint = new b2Vec2(this._a.x+this._b.x, this._a.y+this._b.y);
+			midpoint.Multiply( 0.5 );
+			return midpoint;
+		},
+
+		/**
+		 * @return Number
+		 */
+		getSlope: function(){
+			var deltaY = this._a.y - this._b.y;
+			var deltaX = this._a.x - this._b.x;
+			return deltaY / deltaX;
+		},
+
 		flip: function() {
 			var temp = this._a.Copy();
 			this.setA( this._b );
 			this.setB( temp );
 		},
 
-		rotate: function(angle) {
+		/**
+		 * Rotate the linesegment by an angle
+		 * @param {Number} angle
+		 * @param {Box2D.Common.Math.b2Vec2} center
+		 */
+		rotate: function(angle, center) {
 
 			// Find the mid-point between A and B
-			var center = this._a.Copy();
-			center.Add( this._b );
-			center.Multiply( 0.5 );
+			if( !center ) {
+				var center = this._a.Copy();
+				center.Add( this._b );
+				center.Multiply( 0.5 );
+			}
 
 
 			var na = this._a.Copy();
