@@ -143,7 +143,7 @@ Abstract:
          * How long to wait before being considered ready again
          * @type {Number}
          */
-        _inactiveDelay                  : 500,
+        _inactiveDelay                  : 150,
 
 
 
@@ -167,6 +167,7 @@ Abstract:
 
 
 			this.attachedEntity.getBody().GetFixtureList().SetSensor( true );
+			this.attachedEntity.getBody().SetBullet( true );
 			this._previousDimensions = this.attachedEntity.getDimensions();
 			this.attachedEntity.setDimensions( this._previousDimensions.width, ChuClone.model.Constants.PTM_RATIO/4, this._previousDimensions.depth );
 
@@ -235,7 +236,7 @@ Abstract:
 
             var newRotation = this.attachedEntity.getView().rotation.clone();
             var glide = 0.1;
-            this._pointer.rotation.x -= (this._pointer.rotation.x - newRotation.x) * glide;
+            this._pointer.rotation.x = newRotation.x
             this._pointer.rotation.y -= (this._pointer.rotation.y - newRotation.y) * glide;
             this._pointer.rotation.z -= (this._pointer.rotation.z - newRotation.z) * glide;
         },
@@ -272,16 +273,14 @@ Abstract:
                 //return;
             }
 
-			console.log("Dot", dot);
-            
-
-
-            this.interceptedProperties.onCollision.call(this.attachedEntity, otherActor );
-
+			//console.log("Dot", dot);
+            //this.interceptedProperties.onCollision.call(this.attachedEntity, otherActor );
 			// Get the players direction, velocity and speed
 			var playerVelocity = otherActor.getBody().GetLinearVelocity().Copy();
             var playerSpeed = Math.abs(playerVelocity.x) + Math.abs(playerVelocity.y);
             var playerDirection = playerPosition.Copy();
+
+			console.log("Entering portal with speed:", playerSpeed);
             playerDirection.Add( playerVelocity );
             playerDirection.Subtract( playerPosition );
             playerDirection.Normalize();
@@ -327,7 +326,6 @@ Abstract:
 			setTimeout( function(){
 				playerActor.getBody().SetType(Box2D.Dynamics.b2Body.b2_dynamicBody);
 			}, 16);
-
 
 
             // Rotate the players velocity
@@ -423,10 +421,14 @@ Abstract:
 
         ///// ACCESSORS
         getIsReady: function( entityId ) {
-			return this.__isReady;
+			return this._isActive && this.__isReady;
 
 			return !this._inactiveList.hasOwnProperty(entityId); }, // if we do have such a property, we're not ready
-		setIsActive: function( aValue ) { this._isActive = aValue; },
+		setIsActive: function( aValue ) {
+			this._isActive = aValue;
+			this.attachedEntity.getView().visible = aValue;
+			this._particleController.setVisible( aValue );
+		},
 		getIsActive: function( ) { return this._isActive; },
         /**
          * @return {ChuClone.components.PortalComponent}
