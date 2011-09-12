@@ -35,6 +35,7 @@
          */
         _sensor                         : null,
         _canJump                        : false,
+		_canApplyDownwardForce			: true,
 
         /**
          * Creates a fixture and attaches to the attachedEntity's Box2D body
@@ -68,12 +69,18 @@
 		 */
         onCollision: function( otherActor ) {
 			ChuClone.model.AchievementTracker.getInstance().stopTrackingJump();
+			console.log("Allowingjump")
 			this._canJump = true;
+			this._canApplyDownwardForce = true;
         },
 
 		// TODO: KIND OF A HACK SINCE THIS SHOULD ALWAYS COLLIDE FIRST
 		forceAllowJump: function() {
 			this.onCollision();
+		},
+
+		setCanApplyDownwardForce: function( value ) {
+			this._canApplyDownwardForce = value;
 		},
 
 

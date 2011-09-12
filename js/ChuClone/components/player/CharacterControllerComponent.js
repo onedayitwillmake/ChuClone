@@ -116,7 +116,7 @@ Abstract:
                 this._jumpCheckComponent._canJump = false;
 				ChuClone.model.AchievementTracker.getInstance().startTrackingJump();
 
-            } else if (this._input._keyStates.down) {
+            } else if (this._input._keyStates.down && this._jumpCheckComponent._canApplyDownwardForce) {
 				if( body.GetLinearVelocity().y < (PTM_RATIO/2 - 2)/2 ) {
 					force.y = 0.25;
 				}

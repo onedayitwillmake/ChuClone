@@ -56,6 +56,13 @@ Abstract:
 			this._oldLimit = {x:physicsVelocityLimitComponent, yUp: physicsVelocityLimitComponent._maxSpeedYUp, yDown: physicsVelocityLimitComponent._maxSpeedYDown};
 			physicsVelocityLimitComponent.setMaxSpeedXY( 110, 110, 110);
 
+			//this._jumpCheckComponent._canApplyDownwardForce
+			var jumpCheckComponent = this.attachedEntity.getComponentWithName( ChuClone.components.player.CheckIsJumpingComponent.prototype.displayName );
+			jumpCheckComponent._canJump = false;
+			jumpCheckComponent._canApplyDownwardForce = false;
+
+			//console.log("Stopping")
+
             this.intercept(['onCollision']);
         },
 
@@ -68,9 +75,17 @@ Abstract:
 
 
             // If we hit another portal - ignore the collision, also ignore if we hit an object without an entity (world boundaries)
-            if( !otherActor || otherActor.getComponentWithName( ChuClone.components.PortalComponent.prototype.displayName ) ) {
+            if( !otherActor ) {
                 return;
             }
+
+			if( otherActor.getComponentWithName( ChuClone.components.PortalComponent.prototype.displayName ) ) {
+				var jumpCheckComponent = this.attachedEntity.getComponentWithName( ChuClone.components.player.CheckIsJumpingComponent.prototype.displayName );
+				jumpCheckComponent._canJump = false;
+				jumpCheckComponent._canApplyDownwardForce = false;
+
+				return;
+			}
 
             if(this._isWaitingToBeDetached) return;
             this._isWaitingToBeDetached = true;
