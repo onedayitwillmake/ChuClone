@@ -203,7 +203,7 @@
                 if( !this.checkLevelEntityInfoIsValid(entityInfo) ) continue;
 
 
-				var modifier = 0.6; // Harmless modifier i use if i need to tweek ALL the pieces in a level like if i made the level too big
+				var modifier = 1; // Harmless modifier i use if i need to tweek ALL the pieces in a level like if i made the level too big
 
 
                 var body = aWorldController.createRect(

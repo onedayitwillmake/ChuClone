@@ -285,7 +285,7 @@ Abstract:
             playerDirection.Subtract( playerPosition );
             playerDirection.Normalize();
 
-            this.onPlayerEnterPortal( otherActor, playerDirection, playerSpeed );
+            this.onPlayerEnterPortal( otherActor, playerDirection, Math.max(playerSpeed, 12) );
         },
 
         /**

@@ -101,8 +101,9 @@
 
 		PHYSICS: {
 			COLLISION_CATEGORY: {
-					PLAYER: 0x0001,
-					WORLD_OBJECT: 0x0002
+					PLAYER: 1 << 1,
+					WORLD_OBJECT: 1 << 2,
+					NONE: 1 << 3
 			},
 			COLLISION_GROUP: {
 				PLAYER: -1,

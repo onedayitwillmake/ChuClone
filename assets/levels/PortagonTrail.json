@@ -2,14 +2,82 @@
 	"editingInfo": {
 		"author": "#{user_name}",
 		"levelName": "PortagonTrail",
-		"creationDate": 1315628858391,
-		"modificationDate": 1315628858391
+		"creationDate": 1315719321773,
+		"modificationDate": 1315719321773
 	},
 	"worldSettings": {
 		"PTM_RATIO": 64
 	},
 	"playerInfo": null,
 	"bodyList": [
+		{
+			"x": 38.66880141468372,
+			"y": -75.77276215905559,
+			"dimensions": {
+				"width": 128,
+				"height": 16.64,
+				"depth": 192
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "FrictionPadComponent",
+					"textureSource": "assets/images/game/floorred.png",
+					"inactiveDelay": 250,
+					"damping": 0.25
+				}
+			]
+		},
+		{
+			"x": 32.31880141468372,
+			"y": -75.77276215905559,
+			"dimensions": {
+				"width": 256,
+				"height": 16.64,
+				"depth": 192
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "FrictionPadComponent",
+					"textureSource": "assets/images/game/floorred.png",
+					"inactiveDelay": 250,
+					"damping": 0.25
+				}
+			]
+		},
+		{
+			"x": 34.239171785054076,
+			"y": -83.39178572807913,
+			"dimensions": {
+				"width": 368,
+				"height": 448.64,
+				"depth": 192
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": []
+		},
 		{
 			"x": 27.383093047108623,
 			"y": -50.19604897031826,
@@ -53,8 +121,8 @@
 			]
 		},
 		{
-			"x": 61.57228353248925,
-			"y": -47.94615213870699,
+			"x": 61.57228353248924,
+			"y": -47.94615213870698,
 			"dimensions": {
 				"width": 256,
 				"height": 48,
@@ -168,26 +236,8 @@
 			]
 		},
 		{
-			"x": 32.43917178505408,
-			"y": -86.09178572807912,
-			"dimensions": {
-				"width": 256,
-				"height": 448.64,
-				"depth": 192
-			},
-			"angle": 0,
-			"physicsInfo": {
-				"density": 1,
-				"friction": 1,
-				"restitution": 0.1,
-				"bodyType": 1
-			},
-			"entityType": 4,
-			"components": []
-		},
-		{
-			"x": 19.734283022720465,
-			"y": -49.96524415995744,
+			"x": 19.73428302272047,
+			"y": -49.965244159957436,
 			"dimensions": {
 				"width": 192,
 				"height": 192,
@@ -204,8 +254,8 @@
 			"components": []
 		},
 		{
-			"x": 0.3877508096520432,
-			"y": -55.04932561631811,
+			"x": 48.518609872201424,
+			"y": -116.52524946850151,
 			"dimensions": {
 				"width": 32,
 				"height": 32,
@@ -227,14 +277,14 @@
 			]
 		},
 		{
-			"x": 0.3877508096520432,
-			"y": -56.04932561631811,
+			"x": 48.518609872201424,
+			"y": -117.52524946850151,
 			"dimensions": {
 				"width": 30,
 				"height": 30,
 				"depth": 30
 			},
-			"angle": 0.6795475509725944,
+			"angle": 4.52521778025006,
 			"physicsInfo": {
 				"density": 0,
 				"friction": 0,
@@ -287,7 +337,7 @@
 			]
 		},
 		{
-			"x": 41.927556802530745,
+			"x": 41.92755680253074,
 			"y": -54.05173465255585,
 			"dimensions": {
 				"width": 128,
@@ -516,7 +566,7 @@
 		},
 		{
 			"x": 32.31880141468372,
-			"y": -67.90912579541924,
+			"y": -67.90912579541926,
 			"dimensions": {
 				"width": 256,
 				"height": 16.64,
@@ -590,31 +640,6 @@
 			]
 		},
 		{
-			"x": 32.31880141468372,
-			"y": -78.27276215905559,
-			"dimensions": {
-				"width": 256,
-				"height": 16.64,
-				"depth": 192
-			},
-			"angle": 0,
-			"physicsInfo": {
-				"density": 1,
-				"friction": 1,
-				"restitution": 0.1,
-				"bodyType": 1
-			},
-			"entityType": 4,
-			"components": [
-				{
-					"displayName": "FrictionPadComponent",
-					"textureSource": "assets/images/game/floorred.png",
-					"inactiveDelay": 250,
-					"damping": 0.25
-				}
-			]
-		},
-		{
 			"x": 18.562325542562697,
 			"y": -90.26066607201352,
 			"dimensions": {
@@ -663,8 +688,8 @@
 			]
 		},
 		{
-			"x": 55.93105028385414,
-			"y": -52.63643099810342,
+			"x": 56.13105028385414,
+			"y": -52.936430998103425,
 			"dimensions": {
 				"width": 16.64,
 				"height": 224,
@@ -723,7 +748,7 @@
 		},
 		{
 			"x": 153.9619693155505,
-			"y": -44.83544158489294,
+			"y": -44.83544158489295,
 			"dimensions": {
 				"width": 576,
 				"height": 304,
@@ -1006,7 +1031,7 @@
 		},
 		{
 			"x": 135.21196931555062,
-			"y": -46.918774918226255,
+			"y": -46.91877491822625,
 			"dimensions": {
 				"width": 576,
 				"height": 304,
@@ -1261,7 +1286,7 @@
 			"components": []
 		},
 		{
-			"x": 243.94978854563286,
+			"x": 250.0874048517592,
 			"y": -93.03281000594504,
 			"dimensions": {
 				"width": 512,
@@ -1312,7 +1337,7 @@
 		},
 		{
 			"x": 3.561880925896591,
-			"y": -50.696048970318294,
+			"y": -50.6960489703183,
 			"dimensions": {
 				"width": 192,
 				"height": 192,
@@ -1441,7 +1466,7 @@
 		},
 		{
 			"x": 15.461880925896551,
-			"y": -48.49604897031828,
+			"y": -48.49604897031829,
 			"dimensions": {
 				"width": 64.64,
 				"height": 192,
@@ -1552,7 +1577,7 @@
 		},
 		{
 			"x": 116.4619693155507,
-			"y": -46.085441584892926,
+			"y": -46.08544158489293,
 			"dimensions": {
 				"width": 576,
 				"height": 304,
@@ -1575,8 +1600,8 @@
 			]
 		},
 		{
-			"x": 98.96196931555069,
-			"y": -45.085441584892926,
+			"x": 98.96196931555068,
+			"y": -45.08544158489293,
 			"dimensions": {
 				"width": 512,
 				"height": 304,
@@ -1600,7 +1625,7 @@
 		},
 		{
 			"x": 34.89824456226012,
-			"y": -50.219858494127806,
+			"y": -50.21985849412779,
 			"dimensions": {
 				"width": 192,
 				"height": 192,

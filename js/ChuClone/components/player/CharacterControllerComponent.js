@@ -57,9 +57,6 @@ Abstract:
 			this.intercept(['_type', 'onCollision']);
 			//this.attachedEntity.getBody().SetBullet( true );
 
-			// Set collisionfiltering
-			this.setFilterData( this.attachedEntity.getBody() );
-
             // Attach a RemoteJoystickInput or KeyboardInput controller
 			if( ChuClone.model.Constants.JOYSTICK.ENABLED )this._input = new ChuClone.components.player.RemoteJoystickInputComponent();
 			else this._input = new ChuClone.components.player.KeyboardInputComponent ();
@@ -78,6 +75,9 @@ Abstract:
 
 			//ChuClone.components.player.PortalGunComponent
 			var levelModel = ChuClone.editor.LevelManager.getInstance().getModel();
+
+			// Set collisionfiltering
+			this.setFilterData( this.attachedEntity.getBody() );
 
 			if( levelModel.allowsPortalGun() ) {
 				var portalGunComponent = new ChuClone.components.player.PortalGunComponent();
@@ -130,17 +130,17 @@ Abstract:
 
 		onCollision: function( otherActor ) {
 
-			var now = Date.now();
-			var then = this.attachedEntity._rememberedVelocity.time;
-			var delta = now - then;
-			if( delta < 16 ) {
-				console.log("MinDelta");
-			}
-
-			this.attachedEntity._rememberedVelocity.time = now;
+			//var now = Date.now();
+			//var then = this.attachedEntity._rememberedVelocity.time;
+			//var delta = now - then;
+			//if( delta < 16 ) {
+			//	//console.log("MinDelta");
+			//}
+			//
+			//this.attachedEntity._rememberedVelocity.time = now;
 
 			var playerSpeed = Math.abs(this.attachedEntity.getBody().GetLinearVelocity().x) + Math.abs(this.attachedEntity.getBody().GetLinearVelocity().y);
-			console.log("CharSpeed:", playerSpeed);
+			//console.log("CharSpeed:", playerSpeed);
 			this.interceptedProperties.onCollision.call(this.attachedEntity, otherActor);
 		},
 
@@ -169,10 +169,16 @@ Abstract:
 		 */
 		setFilterData: function( aBody ) {
 			var filter = new Box2D.Dynamics.b2FilterData();
-			filter.categoryBits = ChuClone.model.Constants.PHYSICS.COLLISION_CATEGORY.PLAYER;
-			filter.maskBits = ChuClone.model.Constants.PHYSICS.COLLISION_CATEGORY.WORLD_OBJECT;
-			filter.groupIndex = ChuClone.model.Constants.PHYSICS.COLLISION_GROUP.PLAYER;
-			aBody.GetFixtureList().SetFilterData(filter);
+
+			for (var fixture = aBody.m_fixtureList; fixture;) {
+				filter.categoryBits = ChuClone.model.Constants.PHYSICS.COLLISION_CATEGORY.PLAYER;
+				filter.maskBits = ChuClone.model.Constants.PHYSICS.COLLISION_CATEGORY.WORLD_OBJECT;
+				filter.groupIndex = ChuClone.model.Constants.PHYSICS.COLLISION_GROUP.PLAYER;
+				fixture.SetFilterData(filter);
+
+				// next
+				fixture = fixture.m_next;
+			 }
 		},
 
         /**
