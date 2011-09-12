@@ -109,6 +109,10 @@
             ChuClone.Events.Dispatcher.addListener(ChuClone.components.player.CharacterControllerComponent.prototype.EVENTS.CREATED, function( aPlayer ) {
                 that._player = aPlayer;
             });
+			// Player destroyed
+			ChuClone.Events.Dispatcher.addListener(ChuClone.components.player.CharacterControllerComponent.prototype.EVENTS.REMOVED, function( aPlayer ) {
+                if( aPlayer == that._player ) that._player = null;
+            });
 
             // LEVEL DESTROYED
             ChuClone.Events.Dispatcher.addListener(ChuClone.editor.LevelManager.prototype.EVENTS.LEVEL_DESTROYED, function( aLevelModel ) {
