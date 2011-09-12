@@ -35,7 +35,7 @@
 	 * Utility functions to store styles before modification, and restore them after.
 	 * For example when toggling fullscreen mode
 	 */
-	var props = ['z-index', 'position', 'top', 'left', 'display', 'visibility'];
+	//var props = ['z-index', 'position', 'top', 'left', 'display', 'visibility'];
 
 	var storedStyles = {};
 	ChuClone.utils.StyleMemoizer = {
@@ -47,10 +47,14 @@
 		rememberStyle: function(id) {
 			storedStyles[id] = {};
 			var element = document.getElementById(id);
+
+			var props = window.getComputedStyle(element);
 			for (var i = 0; i < props.length; i++) {
 				var prop = props[i];
 				storedStyles[id][prop] = window.getComputedStyle(element).getPropertyValue(prop);
+				//console.log("Storing:", prop, " as:",window.getComputedStyle(element).getPropertyValue(prop) );
 			}
+
 		},
 
 		/**
@@ -64,6 +68,7 @@
 			}
 
 			var element = document.getElementById(id);
+			var props = window.getComputedStyle(element);
 			for (var i = 0; i < props.length; i++) {
 				var prop = props[i];
 				element.style[prop] = storedStyles[id][prop];
