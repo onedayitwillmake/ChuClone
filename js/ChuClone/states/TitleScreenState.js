@@ -66,7 +66,7 @@ Abstract:
          */
 		setupGUI: function() {
 			var camera = this._gameView.getCamera();
-
+			    return;
 			this._gui = new DAT.GUI({width: ChuClone.model.Constants.EDITOR.PANEL_WIDTH+20});
 
 
@@ -139,8 +139,10 @@ Abstract:
 				 */
 				var entity = b.GetUserData();
 				if (!(entity instanceof ChuClone.GameEntity)) continue;
-				if (entity.getComponentWithName(ChuClone.components.player.CharacterControllerComponent.prototype.displayName)) continue;
-				entity.getView().visible = false;
+				if (entity.getComponentWithName(ChuClone.components.player.CharacterControllerComponent.prototype.displayName)) {
+					entity.removeAllComponents();
+					continue;
+				}
 
 
 				var birdComponent = new ChuClone.components.effect.BirdEmitterComponent();
@@ -155,7 +157,6 @@ Abstract:
 
 				b.SetPosition(new Box2D.Common.Math.b2Vec2(start.x, start.y))
 				entity.getView().position.z = start.z;
-				entity.getView().visible = false;
 				var tween = new TWEEN.Tween(prop)
 						.to({x: end.x, y: end.y, z: end.z}, 2000)
 						.delay(Math.random() * 1000 + 500)
@@ -215,7 +216,7 @@ Abstract:
 			focusComponent.getRadius().y = -1000;
 			focusComponent.getRadius().z = 1000;
 
-			this.setupGUI();
+			//this.setupGUI();
 
 		},
 
