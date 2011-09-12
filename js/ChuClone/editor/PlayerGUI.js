@@ -94,24 +94,8 @@
 				return null;
 			}
 
-
-			var body = worldEditor.getWorldController().createRect( 0, 0, 0, ChuClone.model.Constants.PLAYER.WIDTH, ChuClone.model.Constants.PLAYER.HEIGHT, false);
-			var view = worldEditor.getViewController().createEntityView(0, 0, ChuClone.model.Constants.PLAYER.WIDTH, ChuClone.model.Constants.PLAYER.HEIGHT, ChuClone.model.Constants.PLAYER.DEPTH);
-
-			var entity = new ChuClone.GameEntity();
-			entity.setBody(body);
-			entity.setView(view);
-
-			body.SetPosition(new Box2D.Common.Math.b2Vec2( respawnPoint.attachedEntity.getBody().GetPosition().x, respawnPoint.attachedEntity.getBody().GetPosition().y - 1));
-			view.materials[0] = ChuClone.model.Constants.PLAYER.MATERIAL;
-			entity.setDimensions(ChuClone.model.Constants.PLAYER.WIDTH, ChuClone.model.Constants.PLAYER.HEIGHT, ChuClone.model.Constants.PLAYER.DEPTH);
-
-
-			entity.addComponentAndExecute(new ChuClone.components.player.CharacterControllerComponent());
-			entity.addComponentAndExecute(new ChuClone.components.PhysicsVelocityLimitComponent());
-			entity.addComponentAndExecute(new ChuClone.components.BoundsYCheckComponent());
-
-			worldEditor.getViewController().addObjectToScene(entity.view);
+			// Checks passed - create the player
+			ChuClone.components.player.CharacterControllerComponent.CREATE( respawnPoint, worldEditor.getViewController(), worldEditor.getWorldController());
         },
 
 		/**

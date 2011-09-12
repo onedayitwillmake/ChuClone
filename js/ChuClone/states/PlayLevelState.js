@@ -35,16 +35,6 @@ Abstract:
 		_elapsedFrames	: 0,
 
         _lastTextUpdate : 0,
-        
-        /**
-         * @type {ChuClone.GameViewController}
-         */
-        _gameView: null,
-
-        /**
-         * @type {ChuClone.physics.WorldController}
-         */
-        _worldController: null,
 
         /**
          * @type {ChuClone.editor.LevelManager}
@@ -91,7 +81,6 @@ Abstract:
             this._beatLevel = false;
             this._previousTime = Date.now();
 			this.addFloorPlane();
-			//this.setupPortalGun();
 
 			ChuClone.DOM_ELEMENT.focus();
 		},
@@ -280,7 +269,7 @@ Abstract:
          */
         update: function() {
             ChuClone.states.PlayLevelState.superclass.update.call(this);
-			  this._elapsedFrames++;
+			this._elapsedFrames++;
             this.updateTime();
 			this.updatePhysics();
             this._gameView.update( this._currentTime );
@@ -378,6 +367,13 @@ Abstract:
 		 */
 		onLevelLoaded: function( aLevelManager ) {
             this._isLevelLoaded = true;
+
+			// Create the player
+			ChuClone.components.player.CharacterControllerComponent.CREATE(
+					ChuClone.components.RespawnComponent.prototype.GET_CURRENT_RESPAWNPOINT(),
+					this._gameView,
+					this._worldController);
+
 			this.resetTime();
             this.setupCamera();
             this._worldController.createBox2dWorld();
@@ -463,7 +459,7 @@ Abstract:
         },
 
 		/**
-		 * Removes extra cubes created as background elements
+		 * Removes extra cubes created as background elements when the level loaded
 		 */
 		removeBackgroundElements: function() {
 			if( this._backgroundElements ) {
@@ -493,23 +489,6 @@ Abstract:
 			var respawnPoint = ChuClone.components.RespawnComponent.prototype.GET_CURRENT_RESPAWNPOINT();
 			respawnPoint.setSpawnedEntityPosition( aPlayer );
 			this._player = aPlayer;
-
-			this.setupPortalGun();
-		},
-
-		setupPortalGun: function() {
-			// No player
-			if( !this._player ) { console.error("PlayLevelState - Cannot setup portal gun. There is no player!"); return; }
-
-			// Already has portal gun
-			if( this._player.getComponentWithName(ChuClone.components.player.PortalGunComponent) ) {
-				console.error("PlayLevelState - Cannot setup portal gun. Player already has portal gun!"); return;
-			}
-
-			//var portalGunComponent = new ChuClone.components.player.PortalGunComponent();
-			//portalGunComponent.setGameView( this._gameView );
-			//portalGunComponent.setWorldController( this._worldController );
-			//this.attachedEntity.addComponentAndExecute( portalGunComponent );
 		},
 
 		/**
