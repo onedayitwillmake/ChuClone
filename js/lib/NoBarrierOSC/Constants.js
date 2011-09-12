@@ -47,7 +47,8 @@ Version:
 			PLAYER_UPDATE		: 7,			// Player is sending sampled input
 			SERVER_FULL_UPDATE	: 8,				// Player is sending sampled input
 			JOYSTICK_SELECT_LEVEL : 9,
-			JOYSTICK_UPDATE       : 10
+			JOYSTICK_UPDATE       : 10,
+			LEVEL_COMPLETE       : 11
 		},
 
 		// The client sends this bitmask to the server

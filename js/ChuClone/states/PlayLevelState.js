@@ -346,7 +346,6 @@ Abstract:
             respawnPoint.setSpawnedEntityPosition( this._player );
 
 			this.startRecordingPlayer();
-			//this.startRecordingPlayback();
             this.animateIn();
         },
 
@@ -373,6 +372,7 @@ Abstract:
 					ChuClone.components.RespawnComponent.prototype.GET_CURRENT_RESPAWNPOINT(),
 					this._gameView,
 					this._worldController);
+
 
 			this.resetTime();
             this.setupCamera();

@@ -69,7 +69,6 @@
 		 */
         onCollision: function( otherActor ) {
 			ChuClone.model.AchievementTracker.getInstance().stopTrackingJump();
-			console.log("Allowingjump")
 			this._canJump = true;
 			this._canApplyDownwardForce = true;
         },

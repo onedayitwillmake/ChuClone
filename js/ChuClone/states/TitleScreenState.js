@@ -217,7 +217,6 @@ Abstract:
 			focusComponent.getRadius().z = 1000;
 
 			//this.setupGUI();
-
 		},
 
 		  /**
@@ -229,10 +228,17 @@ Abstract:
 				this.pushPlayLevelState( aLevelManager );
 				return;
 			}
+
 			this._hasShown = true;
             this.setupCamera();
             this._worldController.createBox2dWorld();
 			this.animateIn();
+
+            // Create the player
+			ChuClone.components.player.CharacterControllerComponent.CREATE(
+					ChuClone.components.RespawnComponent.prototype.GET_CURRENT_RESPAWNPOINT(),
+					this._gameView,
+					this._worldController);
 		},
 
         /**

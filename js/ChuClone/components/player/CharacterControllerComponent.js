@@ -186,8 +186,9 @@ Abstract:
          */
         detach: function() {
             // remove input component
-            this.attachedEntity.removeComponentWithName( ChuClone.components.player.KeyboardInputComponent .prototype.displayName );
-            this._input = null;
+            this.attachedEntity.removeComponentWithName( ChuClone.components.player.KeyboardInputComponent.prototype.displayName );
+            this.attachedEntity.removeComponentWithName( ChuClone.components.player.RemoteJoystickInputComponent.prototype.displayName );
+            this._input = null; 
 
             this._jumpCheckComponent = null;
 
