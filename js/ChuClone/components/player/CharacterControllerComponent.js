@@ -58,7 +58,7 @@ Abstract:
 			//this.attachedEntity.getBody().SetBullet( true );
 
             // Attach a RemoteJoystickInput or KeyboardInput controller
-			if( ChuClone.model.Constants.JOYSTICK.ENABLED )this._input = new ChuClone.components.player.RemoteJoystickInputComponent();
+			if( ChuClone.model.Constants.JOYSTICK.ENABLED ) this._input = new ChuClone.components.player.RemoteJoystickInputComponent();
 			else this._input = new ChuClone.components.player.KeyboardInputComponent ();
             this.attachedEntity.addComponentAndExecute( this._input );
 
@@ -164,7 +164,7 @@ Abstract:
         },
 
 		/**
-		 * Sets the collision filter data for our body
+		 * Sets the collision filter data for our body to colide against world objects
 		 * @param {Box2D.Dynamics.b2Body} aBody
 		 */
 		setFilterData: function( aBody ) {
@@ -187,9 +187,11 @@ Abstract:
         detach: function() {
             // remove input component
             this.attachedEntity.removeComponentWithName( ChuClone.components.player.KeyboardInputComponent.prototype.displayName );
-            this.attachedEntity.removeComponentWithName( ChuClone.components.player.RemoteJoystickInputComponent.prototype.displayName );
-            this._input = null; 
 
+			// Remove RemoteJoystick if joystick is enabled
+			if( ChuClone.model.Constants.JOYSTICK.ENABLED ) this.attachedEntity.removeComponentWithName( ChuClone.components.player.RemoteJoystickInputComponent.prototype.displayName );
+
+            this._input = null;
             this._jumpCheckComponent = null;
 
 			ChuClone.Events.Dispatcher.emit( ChuClone.components.player.CharacterControllerComponent.prototype.EVENTS.REMOVED, this.attachedEntity);

@@ -39,7 +39,6 @@
 		ChuClone.components.player.RemoteJoystickInputComponent.superclass.constructor.call(this);
 		this.requiresUpdate = true;
         this.forceLoadedLevel = -1;
-        this.forceLoadedId = -1;
 
 		this.cmdMap[RealtimeMultiplayerGame.Constants.CMDS.JOYSTICK_UPDATE] = this.joystickUpdate;
 		this.cmdMap[RealtimeMultiplayerGame.Constants.CMDS.JOYSTICK_SELECT_LEVEL] = this.joystickSelectLevel;
@@ -169,15 +168,14 @@
 		 * @param {Object} message
 		 */
 		joystickUpdate: function(message) {
-
+			// Check if the message recieved was for loading another level -
+			// If it was - refresh the page to load that level
             var level = ChuClone.utils.getLevelIDFromURL();
             if( level != message.payload.level && this.forceLoadedLevel != level) {
                 if( !message.payload.level ) {
                     console.log("No level in payload!");
                 } else {
                     this.forceLoadedLevel = level;
-                    this.forceLoadedId = message.id;
-
                     loadLevel(message.payload.level);
                     return;
                 }

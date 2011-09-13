@@ -145,8 +145,6 @@ Abstract:
          */
         _inactiveDelay                  : 150,
 
-
-
          /**
 		 * Overwrite to allow component specific GUI
 		 */
@@ -165,7 +163,6 @@ Abstract:
 			__addPortalPoint( this );
 
 
-
 			this.attachedEntity.getBody().GetFixtureList().SetSensor( true );
 			this.attachedEntity.getBody().SetBullet( true );
 			this._previousDimensions = this.attachedEntity.getDimensions();
@@ -179,7 +176,7 @@ Abstract:
             this.intercept(['onCollision', 'setBody']);
 
             if(ChuClone.model.Constants.IS_EDIT_MODE) {
-                this.setupDebug();
+                //this.setupDebug();
             }
 		},
 
@@ -187,7 +184,6 @@ Abstract:
          * Creates a cube that we re-orientate to show us the direction we're traveling in
          */
         setupDebug: function() {
-            return;
             this.requiresUpdate = true;
             var geometry = new THREE.CubeGeometry( 25, 100, 25 );
             this._pointer = new THREE.Mesh( geometry, [new THREE.MeshLambertMaterial( {
@@ -257,15 +253,12 @@ Abstract:
             }
 
 
-
-
-
             // Check if the portal and player are facing opposite directions using the dot product
             var direction = this.getDirection();
             var playerPosition = otherActor.getBody().GetPosition().Copy();
 			var playerToPortal = new Box2D.Common.Math.b2Vec2(playerPosition.x - this.attachedEntity.getBody().GetPosition().x, playerPosition.y - this.attachedEntity.getBody().GetPosition().y);
 			playerToPortal.Normalize();
-            var dot =  Box2D.Common.Math.b2Math.Dot( direction, playerToPortal );
+            var dot = Box2D.Common.Math.b2Math.Dot( direction, playerToPortal );
 
             // Player is attempting to enter from back area, ignore collision
             if( dot > 0.2 ) {
@@ -273,28 +266,22 @@ Abstract:
                 //return;
             }
 
-			//console.log("Dot", dot);
-            //this.interceptedProperties.onCollision.call(this.attachedEntity, otherActor );
-			// Get the players direction, velocity and speed
+            // this.interceptedProperties.onCollision.call(this.attachedEntity, otherActor );
+
+			// Get the players speed, but if its less than 12, make it 12 to avoid infinately entering portals
 			var playerVelocity = otherActor.getBody().GetLinearVelocity().Copy();
             var playerSpeed = Math.abs(playerVelocity.x) + Math.abs(playerVelocity.y);
-            var playerDirection = playerPosition.Copy();
+			playerSpeed = Math.max(playerSpeed, 12);
 
-			console.log("Entering portal with speed:", playerSpeed);
-            playerDirection.Add( playerVelocity );
-            playerDirection.Subtract( playerPosition );
-            playerDirection.Normalize();
-
-            this.onPlayerEnterPortal( otherActor, playerDirection, Math.max(playerSpeed, 12) );
+            this.onPlayerEnterPortal( otherActor, playerSpeed );
         },
 
         /**
          * Called by us when a player has successfully entered this portal.
          * @param {ChuClone.GameEntity} playerActor
-         * @param {Box2D.Common.Math.b2Vec2} playerDirection Direction of the players movement
          * @param {Number} playerSpeed Combined linear velocity of the player
          */
-        onPlayerEnterPortal: function( playerActor, playerDirection, playerSpeed ) {
+        onPlayerEnterPortal: function( playerActor, playerSpeed ) {
             var that = this;
 
             playerActor.getBody().SetType(Box2D.Dynamics.b2Body.b2_kinematicBody);
@@ -303,7 +290,7 @@ Abstract:
             playerActor.addComponentAndExecute( new ChuClone.components.AntiPhysicsVelocityLimitComponent() );
             
             // We have to do it 'next frame' because box2d locks all these properties during a collision
-            setTimeout( function() { that.getMirror().onPlayerExitPortal( playerActor, playerDirection, playerSpeed ); }, 1);
+            setTimeout( function() { that.getMirror().onPlayerExitPortal( playerActor, playerSpeed ); }, 1);
 
 			ChuClone.Events.Dispatcher.emit(
 					ChuClone.controller.AudioController.prototype.EVENTS.SHOULD_PLAY_SOUND,
@@ -315,20 +302,19 @@ Abstract:
         /**
          * Called by us when a player has successfully entered this portal.
          * @param {ChuClone.GameEntity} playerActor
-         * @param {Box2D.Common.Math.b2Vec2} playerDirection Direction of the players movement
          * @param {Number} playerSpeed Combined linear velocity of the player
          */
-        onPlayerExitPortal: function( playerActor, playerDirection, playerSpeed ) {
+        onPlayerExitPortal: function( playerActor, playerSpeed ) {
 
             this.startWaitingForIsReady( playerActor.getId() );
             playerActor.getBody().SetPosition( this.attachedEntity.getBody().GetPosition().Copy() );
 
+			// Make player imaterial for one frame
 			setTimeout( function(){
 				playerActor.getBody().SetType(Box2D.Dynamics.b2Body.b2_dynamicBody);
 			}, 16);
 
-
-            // Rotate the players velocity
+            // Set the players new velocity to match the direction this portal is facing
             var directionVector = this.getDirection();
             directionVector.Multiply( playerSpeed );
             directionVector.x *= -1; // Flip X for box2d
