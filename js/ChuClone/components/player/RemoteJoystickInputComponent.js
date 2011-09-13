@@ -139,11 +139,16 @@
 			}
 			if (!this._focusComponent) {
 				this._focusComponent = ChuClone.GameViewController.INSTANCE.getCamera().getComponentWithName(ChuClone.components.camera.CameraFocusRadiusComponent.prototype.displayName)
+				
+				if(ChuClone.model.FSM.StateMachine.getInstance()._currentState instanceof ChuClone.states.TitleScreenState)
+					this.startCameraAnimation()
 			}
 
 			this.updateClock();
 			this.netChannel.tick();
 		},
+		
+		
 
 		/**
 		 * Updates the gameclock and sets the current
@@ -163,6 +168,19 @@
 			// 1.0 means running at exactly the correct speed, 0.5 means half-framerate. (otherwise faster machines which can update themselves more accurately will have an advantage)
 			this.speedFactor = delta / ( 1000 / this.targetFramerate );
 			if (this.speedFactor <= 0) this.speedFactor = 1;
+		},
+		
+		startCameraAnimation: function() {
+		console.log("Animate!");
+			var that = this;
+			new TWEEN.Tween( this._focusComponent._mousePosition )
+				.to( { x: Math.random()*3-1, y: Math.random()*0.3 + 1.3}, Math.random()*5000+3000 )
+				.easing( TWEEN.Easing.Sinusoidal.EaseInOut )
+				.onUpdate( function() {
+				}).start()
+				.onComplete( function(){
+					that.startCameraAnimation();
+				});
 		},
 
 		/**
@@ -296,4 +314,43 @@
         window.location = "http://" + ChuClone.model.Constants.JOYSTICK.SERVER_LOCATION + ":3000/remoteplay/" + levelid;
     };
 	ChuClone.extend(ChuClone.components.player.RemoteJoystickInputComponent, ChuClone.components.BaseComponent);
+	
+	
+	
+	function Spline() {
+ 
+				var c = [], v2 = { x: 0, y: 0 },
+				point, intPoint, weight;
+ 
+				this.get2DPoint = function ( points, k ) {
+ 
+					point = ( points.length - 1 ) * k;
+					intPoint = Math.floor( point );
+					weight = point - intPoint;
+ 
+					c[ 0 ] = intPoint == 0 ? intPoint : intPoint - 1;
+					c[ 1 ] = intPoint;
+					c[ 2 ] = intPoint > points.length - 2 ? intPoint : intPoint + 1;
+					c[ 3 ] = intPoint > points.length - 3 ? intPoint : intPoint + 2;
+ 
+					v2.x = interpolate( points[ c[ 0 ] ].x, points[ c[ 1 ] ].x, points[ c[ 2 ] ].x, points[ c[ 3 ] ].x, weight );
+					v2.y = interpolate( points[ c[ 0 ] ].y, points[ c[ 1 ] ].y, points[ c[ 2 ] ].y, points[ c[ 3 ] ].y, weight );
+ 
+					return v2;
+ 
+				}
+ 
+				// Catmull-Rom
+ 
+				function interpolate( p0, p1, p2, p3, t ) {
+ 
+					var v0 = ( p2 - p0 ) * 0.5;
+					var v1 = ( p3 - p1 ) * 0.5;
+					var t2 = t * t;
+					var t3 = t * t2;
+					return ( 2 * p1 - 2 * p2 + v0 + v1 ) * t3 + ( - 3 * p1 + 3 * p2 - 2 * v0 - v1 ) * t2 + v0 * t + p1;
+ 
+				}
+ 
+			}
 })();
