@@ -221,7 +221,7 @@
 
 			var renderModel = new THREE.RenderPass( this._scene, this._camera );
 
-			var blurAmount = 0.001953125;
+			var blurAmount = 0.001953125 * 0.75;
 			THREE.BloomPass.blurX = new THREE.Vector2( blurAmount, 0.0 );
 			THREE.BloomPass.blurY = new THREE.Vector2( 0.0, blurAmount);
 			var effectBloom = new THREE.BloomPass( 1.6, 15 );
@@ -563,13 +563,10 @@
 		/**
 		 * @type {Boolean}
 		 */
-		setFullscreen: function( aValue ) {
+		setFullscreen: function( aValue, isHD ) {
 			this._isFullScreen = aValue;
 
             if( this._isFullScreen ) {
-
-
-				console.log(  );
 
 				// These aren't stored in the style yet -
 				//this._domElement.style.width = this._domElement.clientWidth+"px";
@@ -585,13 +582,20 @@
 				this._domElement.style.marginLeft = "0";
 				this._domElement.firstChild.style.width = "100%";
 				this._domElement.firstChild.style.height = "100%";
-				//this.setDimensions(window.innerWidth, window.innerHeight-10);
+
+                // If is HD render at the size of the element - if not - just scale it up
+                if( isHD ) {
+				    this.setDimensions(window.innerWidth * 0.98, window.innerHeight * 0.98);
+                } else {
+                    this.setDimensions( ChuClone.model.Constants.GAME_WIDTH, ChuClone.model.Constants.GAME_HEIGHT );
+                }
             } else {
 				ChuClone.utils.StyleMemoizer.restoreStyle( this._domElement.id );
+                this.setDimensions( ChuClone.model.Constants.GAME_WIDTH, ChuClone.model.Constants.GAME_HEIGHT );
             }
 
 
-			this.setDimensions( ChuClone.model.Constants.GAME_WIDTH, ChuClone.model.Constants.GAME_HEIGHT );
+
 			//this._renderer.setSize( this.getDimensions().x, this.getDimensions().y );
 			this.onResize();
 		},

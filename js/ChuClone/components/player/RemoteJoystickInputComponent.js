@@ -108,6 +108,8 @@
 		 */
 		attach: function(anEntity) {
 			ChuClone.components.player.RemoteJoystickInputComponent.superclass.attach.call(this, anEntity);
+            
+            ChuClone.GameViewController.INSTANCE.startPostProcessing();
             clearTimeout(waitingToRefreshTimeout);
 		},
 
