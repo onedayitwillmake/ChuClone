@@ -89,9 +89,9 @@
 
 			// Radius component
 			var maxRadius = 7000;
-			this._gui.add(this._propProxy.radius, 'x').onChange( function( aValue ) { that.onRadiusChange(this); }).min(-maxRadius).max(maxRadius);
-			this._gui.add(this._propProxy.radius, 'y').onChange( function( aValue ) { that.onRadiusChange(this); }).min(-maxRadius/2).max(maxRadius/2);
-			this._gui.add(this._propProxy.radius, 'z').onChange( function( aValue ) { that.onRadiusChange(this); }).min(0).max(maxRadius*2);
+			this._controls['radiusX'] = this._gui.add(this._propProxy.radius, 'x').onChange( function( aValue ) { that.onRadiusChange(this); }).min(-maxRadius).max(maxRadius);
+			this._controls['radiusY'] = this._gui.add(this._propProxy.radius, 'y').onChange( function( aValue ) { that.onRadiusChange(this); }).min(-maxRadius/2).max(maxRadius/2);
+			this._controls['radiusZ'] = this._gui.add(this._propProxy.radius, 'z').onChange( function( aValue ) { that.onRadiusChange(this); }).min(0).max(maxRadius*2);
 
 
 			this.setupFullscreenToggle();
@@ -109,10 +109,20 @@
             ChuClone.Events.Dispatcher.addListener(ChuClone.components.player.CharacterControllerComponent.prototype.EVENTS.CREATED, function( aPlayer ) {
                 that._player = aPlayer;
             });
+			// Player destroyed
+			ChuClone.Events.Dispatcher.addListener(ChuClone.components.player.CharacterControllerComponent.prototype.EVENTS.REMOVED, function( aPlayer ) {
+                if( aPlayer == that._player ) that._player = null;
+            });
 
             // LEVEL DESTROYED
             ChuClone.Events.Dispatcher.addListener(ChuClone.editor.LevelManager.prototype.EVENTS.LEVEL_DESTROYED, function( aLevelModel ) {
                 that._controls['type'].domElement.childNodes[1].selectedIndex = 0;
+            });
+
+			// LEVEL CREATED
+            ChuClone.Events.Dispatcher.addListener(ChuClone.editor.LevelManager.prototype.EVENTS.LEVEL_CREATED, function( aLevelModel ) {
+				that._controls['type'].domElement.childNodes[1].selectedIndex = 1;
+				that.onCamTypeChange( 1 );
             });
         },
 
@@ -197,6 +207,12 @@
 			focusComponent.getRadius().x = this._propProxy.radius.x;
 			focusComponent.getRadius().y = this._propProxy.radius.y;
 			focusComponent.getRadius().z = this._propProxy.radius.z;
+
+			if( this._camTypes[selectedIndex] == ChuClone.components.camera.CameraFollowPlayerComponent ) {
+				this._controls['radiusX'].setValue(500);
+				this._controls['radiusY'].setValue(500);
+				this._controls['radiusZ'].setValue(4500);
+			}
 
             if( this._player ) {
                 this._camera.position = this._player.getView().position.clone();

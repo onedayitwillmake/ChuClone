@@ -1,0 +1,557 @@
+{
+	"editingInfo": {
+		"author": "#{user_name}",
+		"levelName": "Portaltest1",
+		"creationDate": 1315800829122,
+		"modificationDate": 1315800829122
+	},
+	"worldSettings": {
+		"PTM_RATIO": 64
+	},
+	"playerInfo": null,
+	"bodyList": [
+		{
+			"x": 1.041517489693709,
+			"y": -0.4767602775999624,
+			"dimensions": {
+				"width": 30,
+				"height": 30,
+				"depth": 30
+			},
+			"angle": -5.390730040601232,
+			"physicsInfo": {
+				"density": 0,
+				"friction": 0,
+				"restitution": 0,
+				"bodyType": 2
+			},
+			"entityType": 2,
+			"components": [
+				{
+					"displayName": "MotionStreakComponent"
+				},
+				{
+					"displayName": "AntiPhysicsVelocityLimitComponent"
+				},
+				{
+					"displayName": "PortalGunComponent"
+				},
+				{
+					"displayName": "PhysicsVelocityLimitComponent"
+				},
+				{
+					"displayName": "BoundsYCheckComponent"
+				},
+				{
+					"displayName": "CheckIsJumpingComponent"
+				},
+				{
+					"displayName": "KeyboardInputComponent"
+				},
+				{
+					"displayName": "CharacterControllerComponent"
+				}
+			]
+		},
+		{
+			"x": 18.431387523349187,
+			"y": -15.627446962821946,
+			"dimensions": {
+				"width": 1222.4,
+				"height": 32,
+				"depth": 192
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "FrictionPadComponent",
+					"textureSource": "assets/images/game/floorred.png",
+					"inactiveDelay": 250,
+					"damping": 0.25
+				}
+			]
+		},
+		{
+			"x": 18.638575193834697,
+			"y": -17.32808798846296,
+			"dimensions": {
+				"width": 1158.4,
+				"height": 64,
+				"depth": 192
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": []
+		},
+		{
+			"x": 21.821908527168333,
+			"y": -50.461421321796166,
+			"dimensions": {
+				"width": 902.4000000000001,
+				"height": 64,
+				"depth": 192
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": []
+		},
+		{
+			"x": 77.42190852716789,
+			"y": -69.26142132179602,
+			"dimensions": {
+				"width": 1158.4,
+				"height": 64,
+				"depth": 192
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": []
+		},
+		{
+			"x": 21.821908527168333,
+			"y": -86.46142132179588,
+			"dimensions": {
+				"width": 902.4000000000001,
+				"height": 64,
+				"depth": 192
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": []
+		},
+		{
+			"x": 13.221908527168036,
+			"y": -20.378935446090072,
+			"dimensions": {
+				"width": 838.4,
+				"height": 64,
+				"depth": 192
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": []
+		},
+		{
+			"x": 12.388575193834711,
+			"y": 4.1690871527799,
+			"dimensions": {
+				"width": 838.4,
+				"height": 64,
+				"depth": 192
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": []
+		},
+		{
+			"x": 1.1267047767172622,
+			"y": -13.11582471381238,
+			"dimensions": {
+				"width": 64.63999999999999,
+				"height": 124.15999999999997,
+				"depth": 192
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": []
+		},
+		{
+			"x": 13.177464082723585,
+			"y": -23.47893544609002,
+			"dimensions": {
+				"width": 838.4,
+				"height": 64,
+				"depth": 192
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "GoalPadComponent",
+					"textureSource": "assets/images/game/floorgreen.png"
+				}
+			]
+		},
+		{
+			"x": 1.041517489693709,
+			"y": 0.5232397224000376,
+			"dimensions": {
+				"width": 64.64,
+				"height": 60.15999999999997,
+				"depth": 192
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "RespawnComponent",
+					"textureSource": "assets/images/game/flooraqua.png"
+				}
+			]
+		},
+		{
+			"x": 1.1267047767172622,
+			"y": -5.847719937233048,
+			"dimensions": {
+				"width": 64.64,
+				"height": 316.15999999999997,
+				"depth": 192
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": []
+		},
+		{
+			"x": 20.920201045349344,
+			"y": -5.281536965305225,
+			"dimensions": {
+				"width": 64.64,
+				"height": 252.15999999999997,
+				"depth": 192
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "FrictionPadComponent",
+					"textureSource": "assets/images/game/floorred.png",
+					"inactiveDelay": 250,
+					"damping": 0.25
+				}
+			]
+		},
+		{
+			"x": 35.66186771201608,
+			"y": -42.398203631971725,
+			"dimensions": {
+				"width": 256,
+				"height": 64,
+				"depth": 192
+			},
+			"angle": -0.2617993877991494,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "TiltComponent",
+					"angle": -15
+				}
+			]
+		},
+		{
+			"x": 87.43024186050111,
+			"y": -15.619754655129642,
+			"dimensions": {
+				"width": 1414.4,
+				"height": 16,
+				"depth": 192
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "FrictionPadComponent",
+					"textureSource": "assets/images/game/floorred.png",
+					"inactiveDelay": 250,
+					"damping": 0.25
+				}
+			]
+		},
+		{
+			"x": 93.59041381130666,
+			"y": 1.4546332474607369,
+			"dimensions": {
+				"width": 256,
+				"height": 64,
+				"depth": 192
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": []
+		},
+		{
+			"x": 87.43024186050111,
+			"y": -17.32808798846297,
+			"dimensions": {
+				"width": 1414.4,
+				"height": 64,
+				"depth": 192
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": []
+		},
+		{
+			"x": 43.03290143496932,
+			"y": 1.8252808058632017,
+			"dimensions": {
+				"width": 343.04,
+				"height": 64,
+				"depth": 192
+			},
+			"angle": -0.08726646259971647,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "TiltComponent",
+					"angle": -5
+				}
+			]
+		},
+		{
+			"x": 57.420201045349344,
+			"y": 2.518463034694775,
+			"dimensions": {
+				"width": 256,
+				"height": 64,
+				"depth": 192
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "DeathPadComponent",
+					"textureSource": "assets/images/game/floordark.png",
+					"inactiveDelay": 1000
+				}
+			]
+		},
+		{
+			"x": 77.20743508790247,
+			"y": 1.4546332474607369,
+			"dimensions": {
+				"width": 256,
+				"height": 64,
+				"depth": 192
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": []
+		},
+		{
+			"x": 85.50530742832797,
+			"y": 1.4546332474607369,
+			"dimensions": {
+				"width": 256,
+				"height": 64,
+				"depth": 192
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": []
+		},
+		{
+			"x": 67.43290143496924,
+			"y": 1.825280805863202,
+			"dimensions": {
+				"width": 343.04,
+				"height": 64,
+				"depth": 192
+			},
+			"angle": -0.08726646259971647,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "TiltComponent",
+					"angle": -5
+				},
+				{
+					"displayName": "FrictionPadComponent",
+					"textureSource": "assets/images/game/floorred.png",
+					"inactiveDelay": 250,
+					"damping": 0.25
+				}
+			]
+		},
+		{
+			"x": 31.58207801869339,
+			"y": 3.052420486113257,
+			"dimensions": {
+				"width": 374.4,
+				"height": 64,
+				"depth": 192
+			},
+			"angle": -0.08726646259971647,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "TiltComponent",
+					"angle": -5
+				}
+			]
+		},
+		{
+			"x": 72.84962281405677,
+			"y": -30.80636689727788,
+			"dimensions": {
+				"width": 256,
+				"height": 64,
+				"depth": 192
+			},
+			"angle": 0.2617993877991494,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": [
+				{
+					"displayName": "TiltComponent",
+					"angle": 15
+				}
+			]
+		},
+		{
+			"x": 84.4822758752812,
+			"y": -22.643101591155464,
+			"dimensions": {
+				"width": 64,
+				"height": 256,
+				"depth": 192
+			},
+			"angle": 0,
+			"physicsInfo": {
+				"density": 1,
+				"friction": 1,
+				"restitution": 0.1,
+				"bodyType": 1
+			},
+			"entityType": 4,
+			"components": []
+		}
+	]
+}

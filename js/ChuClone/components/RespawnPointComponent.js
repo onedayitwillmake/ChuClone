@@ -101,6 +101,7 @@ Abstract:
 		setSpawnedEntityPosition: function( spawnedEntity ) {
 			ChuClone.model.AchievementTracker.getInstance().incrimentDeathCount();
 			spawnedEntity.getBody().SetPosition(new Box2D.Common.Math.b2Vec2( this.attachedEntity.getBody().GetPosition().x, this.attachedEntity.getBody().GetPosition().y - 1));
+			spawnedEntity.getBody().SetAngle(Math.random() * Math.PI * 2);
 			ChuClone.Events.Dispatcher.emit( ChuClone.components.RespawnComponent.prototype.EVENTS.SPAWNED_PLAYER, this );
 		},
 
@@ -128,7 +129,7 @@ Abstract:
 		 * Override oncollision to set this as the current respawn point
 		 */
         onCollision: function( otherActor ) {
-            if( otherActor._type != ChuClone.model.Constants.ENTITY_TYPES.PLAYER )
+            if( !otherActor || otherActor._type != ChuClone.model.Constants.ENTITY_TYPES.PLAYER )
                 return;
 
             this.interceptedProperties.onCollision.call(this.attachedEntity, otherActor );

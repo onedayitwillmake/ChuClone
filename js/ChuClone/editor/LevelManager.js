@@ -22,7 +22,6 @@
 
 	ChuClone.namespace("ChuClone.editor");
 	ChuClone.editor.LevelManager = function() {
-
 		// TEMP HACK FOR NOW TO ACCESS FROM JS ON CLICK
 		ChuClone.editor.LevelManager.INSTANCE = this;
 	};
@@ -324,15 +323,16 @@
 		 */
 		loadLevelFromJSONString: function(aWorldController, gameViewController, JSONString) {
 			var model = new ChuClone.editor.LevelModel();
+			this._levelModel = model;
 			model.fromJsonString(JSONString, aWorldController, gameViewController);
 
+			// Set the current name
 			if (this._controllers.hasOwnProperty('name')) {
-				// Set the current name, and emit the loaded event
 				this._controllers['name'].setValue(model.levelName);
 				document.getElementById("levelName").innerText = model.levelName
 			}
 
-			this._levelModel = model;
+			//emit the loaded event
 			ChuClone.Events.Dispatcher.emit(ChuClone.editor.LevelManager.prototype.EVENTS.LEVEL_CREATED, this);
 			return model;
 		},
@@ -441,5 +441,7 @@
 		getModel: function(){
 			return this._levelModel;
 		}
-	}
+	};
+
+	ChuClone.editor.LevelManager.getInstance = function() { return ChuClone.editor.LevelManager.INSTANCE; };
 })();

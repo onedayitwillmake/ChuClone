@@ -54,11 +54,11 @@ Abstract:
 		attach: function(anEntity) {
 			ChuClone.components.player.CharacterControllerComponent.superclass.attach.call(this, anEntity);
 
-			this.intercept(['_type']);
-			this.attachedEntity.getBody().SetBullet( true );
+			this.intercept(['_type', 'onCollision']);
+			//this.attachedEntity.getBody().SetBullet( true );
 
             // Attach a RemoteJoystickInput or KeyboardInput controller
-			if( ChuClone.model.Constants.JOYSTICK.ENABLED )this._input = new ChuClone.components.player.RemoteJoystickInputComponent();
+			if( ChuClone.model.Constants.JOYSTICK.ENABLED ) this._input = new ChuClone.components.player.RemoteJoystickInputComponent();
 			else this._input = new ChuClone.components.player.KeyboardInputComponent ();
             this.attachedEntity.addComponentAndExecute( this._input );
 
@@ -66,11 +66,25 @@ Abstract:
             // Attach sensor to check if jumping
             this._jumpCheckComponent = new ChuClone.components.player.CheckIsJumpingComponent();
             this.attachedEntity.addComponentAndExecute( this._jumpCheckComponent );
+
+			// Attach boundsY check component
             this.attachedEntity.addComponentAndExecute( new ChuClone.components.BoundsYCheckComponent() );
 
-			//// Attach a motionstreak component
-			//ChuClone.components.player.PortalGunComponent
-			//this.attachedEntity.addComponentAndExecute( new ChuClone.components.player.PortalGunComponent() );
+			// Attach physics velocity limit component
+			this.attachedEntity.addComponentAndExecute(new ChuClone.components.PhysicsVelocityLimitComponent());
+
+			//ChuClone.components.portal.PortalGunComponent
+			var levelModel = ChuClone.editor.LevelManager.getInstance().getModel();
+
+			// Set collisionfiltering
+			this.setFilterData( this.attachedEntity.getBody() );
+
+			if( levelModel.allowsPortalGun() ) {
+				var portalGunComponent = new ChuClone.components.portal.PortalGunComponent();
+				portalGunComponent.setGameView( ChuClone.GameViewController.INSTANCE );
+				portalGunComponent.setWorldController( ChuClone.model.Constants.PHYSICS.CONTROLLER );
+				this.attachedEntity.addComponentAndExecute( portalGunComponent );
+			}
 
 
 			// Swap materials
@@ -102,17 +116,33 @@ Abstract:
                 this._jumpCheckComponent._canJump = false;
 				ChuClone.model.AchievementTracker.getInstance().startTrackingJump();
 
-            } else if (this._input._keyStates.down) {
+            } else if (this._input._keyStates.down && this._jumpCheckComponent._canApplyDownwardForce) {
 				if( body.GetLinearVelocity().y < (PTM_RATIO/2 - 2)/2 ) {
 					force.y = 0.25;
 				}
 			}
 
-            // Apply force
+			// Apply force
             var bodyPosition = body.GetWorldCenter();
             var impulse = new Box2D.Common.Math.b2Vec2(this._moveSpeed.x * PTM_RATIO * body.GetMass() * force.x, this._moveSpeed.y * PTM_RATIO * body.GetMass() * force.y);
             body.ApplyImpulse(impulse, bodyPosition);
         },
+
+		onCollision: function( otherActor ) {
+
+			//var now = Date.now();
+			//var then = this.attachedEntity._rememberedVelocity.time;
+			//var delta = now - then;
+			//if( delta < 16 ) {
+			//	//console.log("MinDelta");
+			//}
+			//
+			//this.attachedEntity._rememberedVelocity.time = now;
+
+			var playerSpeed = Math.abs(this.attachedEntity.getBody().GetLinearVelocity().x) + Math.abs(this.attachedEntity.getBody().GetLinearVelocity().y);
+			//console.log("CharSpeed:", playerSpeed);
+			this.interceptedProperties.onCollision.call(this.attachedEntity, otherActor);
+		},
 
 		/**
          * Dispatches the created event via timeout so that it can be called the "next frame"
@@ -129,17 +159,39 @@ Abstract:
          */
         setBody: function( aBody ) {
 			this.interceptedProperties['setBody'].call( this.attachedEntity, aBody );
-            aBody.GetFixtureList().m_filter.groupIndex = ChuClone.components.player.CharacterControllerComponent.prototype.GROUP;
+			this.setFilterData( aBody )
+            //aBody.GetFixtureList().m_filter.groupIndex = ChuClone.components.player.CharacterControllerComponent.prototype.GROUP;
         },
+
+		/**
+		 * Sets the collision filter data for our body to colide against world objects
+		 * @param {Box2D.Dynamics.b2Body} aBody
+		 */
+		setFilterData: function( aBody ) {
+			var filter = new Box2D.Dynamics.b2FilterData();
+
+			for (var fixture = aBody.m_fixtureList; fixture;) {
+				filter.categoryBits = ChuClone.model.Constants.PHYSICS.COLLISION_CATEGORY.PLAYER;
+				filter.maskBits = ChuClone.model.Constants.PHYSICS.COLLISION_CATEGORY.WORLD_OBJECT;
+				filter.groupIndex = ChuClone.model.Constants.PHYSICS.COLLISION_GROUP.PLAYER;
+				fixture.SetFilterData(filter);
+
+				// next
+				fixture = fixture.m_next;
+			 }
+		},
 
         /**
          * Restore material and restitution
          */
         detach: function() {
             // remove input component
-            this.attachedEntity.removeComponentWithName( ChuClone.components.player.KeyboardInputComponent .prototype.displayName );
-            this._input = null;
+            this.attachedEntity.removeComponentWithName( ChuClone.components.player.KeyboardInputComponent.prototype.displayName );
 
+			// Remove RemoteJoystick if joystick is enabled
+			if( ChuClone.model.Constants.JOYSTICK.ENABLED ) this.attachedEntity.removeComponentWithName( ChuClone.components.player.RemoteJoystickInputComponent.prototype.displayName );
+
+            this._input = null;
             this._jumpCheckComponent = null;
 
 			ChuClone.Events.Dispatcher.emit( ChuClone.components.player.CharacterControllerComponent.prototype.EVENTS.REMOVED, this.attachedEntity);
@@ -147,5 +199,34 @@ Abstract:
         }
 	};
 
+	/**
+	 * Creates a character at a given respawn point
+	 * @param {ChuClone.components.RespawnComponent} respawnPoint
+	 * @param {ChuClone.GameViewController} gameViewController
+	 * @param {ChuClone.physics.WorldController} worldController
+	 */
+	ChuClone.components.player.CharacterControllerComponent.CREATE = function(respawnPoint, gameViewController, worldController) {
+		// Create a body and a view object
+		var body = worldController.createRect(0, 0, 0, ChuClone.model.Constants.PLAYER.WIDTH, ChuClone.model.Constants.PLAYER.HEIGHT, false);
+		var view = gameViewController.createEntityView(0, 0, ChuClone.model.Constants.PLAYER.WIDTH, ChuClone.model.Constants.PLAYER.HEIGHT, ChuClone.model.Constants.PLAYER.DEPTH);
+
+		// Create the entity and set it's body and view
+		var entity = new ChuClone.GameEntity();
+		entity.setBody(body);
+		entity.setView(view);
+
+		// Position it at the respawn point
+		body.SetPosition(new Box2D.Common.Math.b2Vec2(respawnPoint.attachedEntity.getBody().GetPosition().x, respawnPoint.attachedEntity.getBody().GetPosition().y - 1));
+
+		// Modify the material
+		entity.setDimensions(ChuClone.model.Constants.PLAYER.WIDTH, ChuClone.model.Constants.PLAYER.HEIGHT, ChuClone.model.Constants.PLAYER.DEPTH);
+
+		// Set the main component of a player - CharacterControllerComponent
+		entity.addComponentAndExecute(new ChuClone.components.player.CharacterControllerComponent());
+
+		// Add it to the scene
+		gameViewController.addObjectToScene(entity.view);
+		return entity;
+	};
     ChuClone.extend( ChuClone.components.player.CharacterControllerComponent, ChuClone.components.BaseComponent );
 })();

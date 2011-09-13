@@ -19,7 +19,7 @@
 	ChuClone.namespace("ChuClone.components.effect");
 	ChuClone.components.effect.ParticleEmitterComponent = function() {
 		ChuClone.components.effect.ParticleEmitterComponent.superclass.constructor.call(this);
-        this._yLimit = 500;
+        this._yLimit = 300;
 		this.requiresUpdate = true;
 	};
 
@@ -67,8 +67,8 @@
 		_parent			: null,
 
         _yLimit         : 500,
-        _maxSpeed       : 20,
-        _minSpeed       : 5,
+        _maxSpeed       : 17,
+        _minSpeed       : 4,
 
         /**
          * @inheritDoc
@@ -81,11 +81,12 @@
             for( var i = 0; i < this._count; i++) {
                 var vector = new THREE.Vector3(
 						(Math.random()*this.attachedEntity.getDimensions().width*2) - this.attachedEntity.getDimensions().width,
-						Math.random()*500,
+						Math.random()*this._yLimit,
 						(Math.random() * this.attachedEntity.getDimensions().depth*2) - this.attachedEntity.getDimensions().depth);
 
                 var vertex = new THREE.Vertex( vector );
                 vertex.speed = ChuClone.utils.randFloat(this._minSpeed, this._maxSpeed);
+				vertex.yLimit = ChuClone.utils.randFloat(this._yLimit*0.8, this._yLimit*1.5);
                 this._geometry.vertices.push(vertex);
             }
 
@@ -106,9 +107,10 @@
 
 			for( var i = 0; i < this._count; i++) {
                 this._geometry.vertices[i].position.y += this._geometry.vertices[i].speed;
-				if(this._geometry.vertices[i].position.y > 500) {
+				if(this._geometry.vertices[i].position.y > this._geometry.vertices[i].yLimit) {
 
                     this._geometry.vertices[i].speed = ChuClone.utils.randFloat(this._minSpeed, this._maxSpeed);
+					this._geometry.vertices[i].yLimit = ChuClone.utils.randFloat(this._yLimit*0.8, this._yLimit*1.5);
 					this._geometry.vertices[i].position.y = 0;
                 }
             }
@@ -148,7 +150,16 @@
             ChuClone.components.effect.ParticleEmitterComponent.superclass.fromModel.call(this, data);
             this._count = data.count;
 			this._color = new THREE.Color().setRGB( data.color.r, data.color.g, data.color.b );
-        }
+        },
+
+		///// Accessors
+		setColor: function( aColor ) {
+			this._system.materials[0].color = new THREE.Color( aColor );
+		},
+
+		setVisible: function( aValue ) {
+			this._system.visible = aValue;
+		}
 	};
 
     ChuClone.extend( ChuClone.components.effect.ParticleEmitterComponent, ChuClone.components.BaseComponent );

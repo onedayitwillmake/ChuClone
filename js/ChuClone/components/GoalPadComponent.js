@@ -62,13 +62,9 @@ Abstract:
 			var that = this;
 			this.playerCallback = function(){
 				that._isReady = true;
-				console.log("Goalpad - resetting status");
 			};
 
 			ChuClone.Events.Dispatcher.addListener( ChuClone.components.player.CharacterControllerComponent.prototype.EVENTS.CREATED, this.playerCallback );
-
-//			var particleEmitterComponent = new ChuClone.components.effect.ParticleEmitterComponent();
-//			this.attachedEntity.addComponentAndExecute( particleEmitterComponent );
 		},
 
         execute: function() {
@@ -92,7 +88,6 @@ Abstract:
             this.interceptedProperties.onCollision.call(this.attachedEntity, otherActor );
             if( !this._isReady ) return;
 			this._isReady = false;
-
             ChuClone.Events.Dispatcher.emit( ChuClone.components.GoalPadComponent.prototype.EVENTS.GOAL_REACHED, this );
         },
 

@@ -51,7 +51,8 @@
         var convolution_shader = THREE.ShaderUtils.lib["convolution"];
         var convolution_uniforms = THREE.UniformsUtils.clone( convolution_shader.uniforms );
 
-        var blurAmount = 0.001;
+
+		var blurAmount = 0.001953125;
 		postprocessing.blurx = new THREE.Vector2( blurAmount, 0.0 ),
 		postprocessing.blury = new THREE.Vector2( 0.0, blurAmount*2 );
 
@@ -203,6 +204,7 @@
 
             this._renderer.domElement.tabIndex = "1";
             this._domElement.appendChild( this._renderer.domElement );
+
         },
 
 		startPostProcessing: function() {
@@ -213,9 +215,26 @@
             var tone = document.createElement("div");
             tone.innerHTML = '<video controls="" autoplay="" style="margin: auto; position: absolute; top: -1000px;" name="media" src="' + toneURL + '"></video>';
             document.getElementsByTagName('body')[0].appendChild(tone)
-            initPostprocessing( this );
+            //initPostprocessing( this );
 			ChuClone.model.Constants.IS_BLOOM = true;
 			postprocessing.enabled = true;
+
+			var renderModel = new THREE.RenderPass( this._scene, this._camera );
+
+			var blurAmount = 0.001953125;
+			THREE.BloomPass.blurX = new THREE.Vector2( blurAmount, 0.0 );
+			THREE.BloomPass.blurY = new THREE.Vector2( 0.0, blurAmount);
+			var effectBloom = new THREE.BloomPass( 1.6, 15 );
+			var effectScreen = new THREE.ShaderPass( THREE.ShaderExtras[ "screen" ] );
+
+			effectScreen.renderToScreen = true;
+
+			this.composer = new THREE.EffectComposer( this._renderer);
+
+			this.composer.addPass( renderModel );
+			this.composer.addPass( effectBloom );
+			this.composer.addPass( effectScreen );
+
 			this._renderer.setClearColor(new THREE.Color(0x060606), 1);
 		},
 
@@ -227,6 +246,7 @@
             this._camera.position.y = 100;
             this._camera.position.z = 1300;
             this._camera.name = "camera";
+			ChuClone.model.Constants.VIEW.camera = this._camera;
         },
 
         /**
@@ -286,6 +306,7 @@
         onSetupComplete: function() {
 			this._domElement.firstChild.focus();
 			//this.setupParticles();
+			//this.startPostProcessing();
         },
 
         /**
@@ -301,6 +322,7 @@
             var sceneEditorCanvas = document.createElement('canvas');
             sceneEditorCanvas.width = 500;
             sceneEditorCanvas.height = 400;
+
             container.appendChild(sceneEditorCanvas);
 
             // Instantiate the SceneEditor
@@ -350,39 +372,40 @@
             if (postprocessing.enabled) {
 
                 renderer.clear();
-
-                // Render scene into texture
-
-                renderer.render(scene, camera, postprocessing.rtTexture1, true);
-
-                // Render quad with blured scene into texture (convolution pass 1)
-
-                postprocessing.quad.materials = [ postprocessing.materialConvolution ];
-
-                postprocessing.materialConvolution.uniforms.tDiffuse.texture = postprocessing.rtTexture1;
-                postprocessing.materialConvolution.uniforms.uImageIncrement.value = postprocessing.blurx;
-
-                renderer.render(postprocessing.scene, postprocessing.camera, postprocessing.rtTexture2, true);
-
-                // Render quad with blured scene into texture (convolution pass 2)
-
-                postprocessing.materialConvolution.uniforms.tDiffuse.texture = postprocessing.rtTexture2;
-                postprocessing.materialConvolution.uniforms.uImageIncrement.value = postprocessing.blury;
-
-                renderer.render(postprocessing.scene, postprocessing.camera, postprocessing.rtTexture3, true);
-
-                // Render original scene with superimposed blur to texture
-
-                postprocessing.quad.materials = [ postprocessing.materialScreen ];
-
-                postprocessing.materialScreen.uniforms.tDiffuse.texture = postprocessing.rtTexture3;
-                postprocessing.materialScreen.uniforms.opacity.value = 1.25;
-
-                renderer.render(postprocessing.scene, postprocessing.camera, postprocessing.rtTexture1, false);
-
-
-                postprocessing.materialScreen.uniforms.tDiffuse.texture = postprocessing.rtTexture1;
-                renderer.render(postprocessing.scene, postprocessing.camera);
+				this.composer.render();
+				//
+                //// Render scene into texture
+				//
+                //renderer.render(scene, camera, postprocessing.rtTexture1, true);
+				//
+                //// Render quad with blured scene into texture (convolution pass 1)
+				//
+                //postprocessing.quad.materials = [ postprocessing.materialConvolution ];
+				//
+                //postprocessing.materialConvolution.uniforms.tDiffuse.texture = postprocessing.rtTexture1;
+                //postprocessing.materialConvolution.uniforms.uImageIncrement.value = postprocessing.blurx;
+				//
+                //renderer.render(postprocessing.scene, postprocessing.camera, postprocessing.rtTexture2, true);
+				//
+                //// Render quad with blured scene into texture (convolution pass 2)
+				//
+                //postprocessing.materialConvolution.uniforms.tDiffuse.texture = postprocessing.rtTexture2;
+                //postprocessing.materialConvolution.uniforms.uImageIncrement.value = postprocessing.blury;
+				//
+                //renderer.render(postprocessing.scene, postprocessing.camera, postprocessing.rtTexture3, true);
+				//
+                //// Render original scene with superimposed blur to texture
+				//
+                //postprocessing.quad.materials = [ postprocessing.materialScreen ];
+				//
+                //postprocessing.materialScreen.uniforms.tDiffuse.texture = postprocessing.rtTexture3;
+                //postprocessing.materialScreen.uniforms.opacity.value = 1.25;
+				//
+                //renderer.render(postprocessing.scene, postprocessing.camera, postprocessing.rtTexture1, false);
+				//
+				//
+                //postprocessing.materialScreen.uniforms.tDiffuse.texture = postprocessing.rtTexture1;
+                //renderer.render(postprocessing.scene, postprocessing.camera);
 
             } else {
 
@@ -481,6 +504,8 @@
          */
         onDocumentMouseMove: function( event ) {
             event.preventDefault();
+
+			console.log("MouseInfo:", event.clientX, this.getDimensions().x)
             this._mousePosition.x = ( event.clientX / this.getDimensions().x ) * 2 - 1;
             this._mousePosition.y = - ( event.clientY / this.getDimensions().y ) * 2 + 1;
         },
@@ -490,9 +515,8 @@
          * @param {Event} e
          */
         onResize: function( e ) {
-			return;
             this._renderer.setSize( this.getDimensions().x, this.getDimensions().y );
-            this._camera.aspect = this.getDimensions().x/this.getDimensions().y;
+            this._camera.aspect = this._domElement.clientWidth/this._domElement.clientHeight;
             this._camera.updateProjectionMatrix();
 
 
@@ -504,6 +528,9 @@
 
         // Memory
         dealloc: function() {
+			if(ChuClone.model.Constants.VIEW.camera == this._camera)
+					ChuClone.model.Constants.VIEW.camera = null;
+
             // TODO: Deallocate resources
         },
 
@@ -527,10 +554,6 @@
          * @return {THREE.Vector2}
          */
         getDimensions: function() {
-            if( this._isFullScreen ) {
-                return new THREE.Vector2( window.innerWidth, window.innerHeight-10 );
-            }
-
             return this._dimensions;
         },
 		/**
@@ -544,16 +567,32 @@
 			this._isFullScreen = aValue;
 
             if( this._isFullScreen ) {
+
+
+				console.log(  );
+
+				// These aren't stored in the style yet -
+				//this._domElement.style.width = this._domElement.clientWidth+"px";
+				//this._domElement.style.height = this._domElement.clientHeight+"px";
+				ChuClone.utils.StyleMemoizer.rememberStyle( this._domElement.id );
+
+				// Change the props
                 this._domElement.style.position = "absolute";
-                this._domElement.style.top = 0;
-                this._domElement.style.left = 0;
-                
+                this._domElement.style.top = "1%";
+                this._domElement.style.left = "1%";
+				this._domElement.style.width = "98%";
+				this._domElement.style.height = "98%";
+				this._domElement.style.marginLeft = "0";
+				this._domElement.firstChild.style.width = "100%";
+				this._domElement.firstChild.style.height = "100%";
+				//this.setDimensions(window.innerWidth, window.innerHeight-10);
             } else {
-                this._domElement.style.top = "";
-                this._domElement.style.left = "";
-                this._domElement.style.position = "relative";
+				ChuClone.utils.StyleMemoizer.restoreStyle( this._domElement.id );
             }
-			this._renderer.setSize( this.getDimensions().x, this.getDimensions().y );
+
+
+			this.setDimensions( ChuClone.model.Constants.GAME_WIDTH, ChuClone.model.Constants.GAME_HEIGHT );
+			//this._renderer.setSize( this.getDimensions().x, this.getDimensions().y );
 			this.onResize();
 		},
 

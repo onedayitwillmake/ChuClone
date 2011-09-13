@@ -48,10 +48,20 @@ Abstract:
 		attach: function(anEntity) {
 			ChuClone.components.AntiPhysicsVelocityLimitComponent.superclass.attach.call(this, anEntity);
 
-            this.attachedEntity.removeComponentWithName( ChuClone.components.PhysicsVelocityLimitComponent.prototype.displayName );
+            //this.attachedEntity.removeComponentWithName( ChuClone.components.PhysicsVelocityLimitComponent.prototype.displayName );
 
 			// Attach a motionstreak component
             this.attachedEntity.addComponentAndExecute( new ChuClone.components.effect.MotionStreakComponent() );
+			var physicsVelocityLimitComponent = this.attachedEntity.getComponentWithName( ChuClone.components.PhysicsVelocityLimitComponent.prototype.displayName );
+			this._oldLimit = {x:physicsVelocityLimitComponent, yUp: physicsVelocityLimitComponent._maxSpeedYUp, yDown: physicsVelocityLimitComponent._maxSpeedYDown};
+			physicsVelocityLimitComponent.setMaxSpeedXY( 110, 110, 110);
+
+			//this._jumpCheckComponent._canApplyDownwardForce
+			var jumpCheckComponent = this.attachedEntity.getComponentWithName( ChuClone.components.player.CheckIsJumpingComponent.prototype.displayName );
+			jumpCheckComponent._canJump = false;
+			jumpCheckComponent._canApplyDownwardForce = false;
+
+			//console.log("Stopping")
 
             this.intercept(['onCollision']);
         },
@@ -65,13 +75,20 @@ Abstract:
 
 
             // If we hit another portal - ignore the collision, also ignore if we hit an object without an entity (world boundaries)
-            if( !otherActor || otherActor.getComponentWithName( ChuClone.components.PortalComponent.prototype.displayName ) ) {
+            if( !otherActor ) {
                 return;
             }
 
+			if( otherActor.getComponentWithName( ChuClone.components.portal.PortalComponent.prototype.displayName ) ) {
+				var jumpCheckComponent = this.attachedEntity.getComponentWithName( ChuClone.components.player.CheckIsJumpingComponent.prototype.displayName );
+				jumpCheckComponent._canJump = false;
+				jumpCheckComponent._canApplyDownwardForce = false;
+
+				return;
+			}
+
             if(this._isWaitingToBeDetached) return;
             this._isWaitingToBeDetached = true;
-
             this.detachAfterDelay(1);
         },
 
@@ -80,7 +97,10 @@ Abstract:
          * Detaches a component from an 'attachedEntity' and restores the properties
          */
         detach: function() {
-            this.attachedEntity.addComponentAndExecute( new ChuClone.components.PhysicsVelocityLimitComponent );
+            //this.attachedEntity.addComponentAndExecute( new ChuClone.components.PhysicsVelocityLimitComponent );
+			var physicsVelocityLimitComponent = this.attachedEntity.getComponentWithName( ChuClone.components.PhysicsVelocityLimitComponent.prototype.displayName );
+			physicsVelocityLimitComponent.setMaxSpeedXY( this._oldLimit.x, this._oldLimit.yUp, this._oldLimit.yDown );
+
 			this.attachedEntity.removeComponentWithName( ChuClone.components.effect.MotionStreakComponent.prototype.displayName );
             ChuClone.components.AntiPhysicsVelocityLimitComponent.superclass.detach.call(this);
         }

@@ -88,6 +88,12 @@
 		levelJSONString: null,
 
 		/**
+		 * JSON Object representing the level
+		 * @type {Object}
+		 */
+		levelJSON: null,
+
+		/**
 		 * Listen for respawn points
 		 */
         setupEvents: function() {
@@ -139,6 +145,9 @@
                  */
                 var entity = b.GetUserData();
                 if(!entity) continue;
+				if( !entity.getIsSavable() ) {
+					continue;
+				}
 
                 var entityInfo = {
                     x: b.GetPosition().x,
@@ -177,44 +186,51 @@
          */
         fromJsonString: function( aJsonString, aWorldController, aGameView ) {
 			this.levelJSONString = aJsonString;
-            var levelObject = JSON.parse(aJsonString);
-            this.levelName = levelObject.editingInfo.levelName;
-            this.creationDate = levelObject.editingInfo.creationDate;
-            this.modificationDate = levelObject.editingInfo.modificationDate;
-            this.ptmRatio = levelObject.worldSettings.PTM_RATIO;
+			this.levelJSON = JSON.parse(aJsonString);
+            this.levelName = this.levelJSON.editingInfo.levelName;
+            this.creationDate = this.levelJSON.editingInfo.creationDate;
+            this.modificationDate = this.levelJSON.editingInfo.modificationDate;
+            this.ptmRatio = this.levelJSON.worldSettings.PTM_RATIO;
             this.bodyList = [];
-            ChuClone.model.Constants.PTM_RATIO = levelObject.worldSettings.PTM_RATIO;
+            ChuClone.model.Constants.PTM_RATIO = this.levelJSON.worldSettings.PTM_RATIO;
 
-            var len = levelObject.bodyList.length;
+            var len = this.levelJSON.bodyList.length;
             // Create all Box2D bodies which contain an entity
+
+
             for(var i = 0; i < len; i++) {
-                var entityInfo = levelObject.bodyList[i];
+                var entityInfo = this.levelJSON.bodyList[i];
                 if( !this.checkLevelEntityInfoIsValid(entityInfo) ) continue;
 
+
+				var modifier = 1; // Harmless modifier i use if i need to tweek ALL the pieces in a level like if i made the level too big
+
+
                 var body = aWorldController.createRect(
-                    entityInfo.x * this.ptmRatio,
-                    entityInfo.y * this.ptmRatio,
+                    entityInfo.x * this.ptmRatio * modifier,
+                    entityInfo.y * this.ptmRatio * modifier,
                     entityInfo.angle,
-                    entityInfo.dimensions.width,
-                    entityInfo.dimensions.height,
+                    entityInfo.dimensions.width * modifier,
+                    entityInfo.dimensions.height * modifier,
                     entityInfo.physicsInfo.bodyType == Box2D.Dynamics.b2Body.b2_kinematicBody
                 );
 
 
+
                 var view = aGameView.createEntityView(
-                    entityInfo.x*this.ptmRatio,
-                    entityInfo.y*this.ptmRatio,
-                    entityInfo.dimensions.width*2,
-                    entityInfo.dimensions.height*2,
+                    entityInfo.x*this.ptmRatio * modifier,
+                    entityInfo.y*this.ptmRatio * modifier,
+                    entityInfo.dimensions.width*2 * modifier,
+                    entityInfo.dimensions.height*2 * modifier,
                     entityInfo.dimensions.depth*2);
 
                 var entity = new ChuClone.GameEntity();
                 entity.setBody( body );
                 entity.setView( view );
-                entity.setDimensions( entityInfo.dimensions.width, entityInfo.dimensions.height, entityInfo.dimensions.depth );
+                entity.setDimensions( entityInfo.dimensions.width * modifier, entityInfo.dimensions.height * modifier, entityInfo.dimensions.depth * modifier );
 
                 // Attach all components in reverse order
-                for(var j = entityInfo.components.length - 1; j >= 0 ; j--) {
+                for(j = entityInfo.components.length - 1; j >= 0 ; j--) {
                     /**
                      * Use the factory to create the components
                      * @type {ChuClone.components.BaseComponent}
@@ -238,9 +254,30 @@
         checkLevelEntityInfoIsValid: function( aLevelEntityInfo ) {
             var isValid = true;
             if( aLevelEntityInfo.dimensions.width == 0) isValid = false;
+
+			for(var j = aLevelEntityInfo.components.length - 1; j >= 0 ; j--) {
+				if( aLevelEntityInfo.components[j].displayName == "CharacterControllerComponent")
+					isValid = false;
+			}
             
             //... SOME OTHER CHECKS HERE
             return isValid;
-        }
-    };
+        },
+
+		/**
+		 * Returns true if portal guns are allowed in the level
+		 * This check is done by seeing if the character had a portalgun when the level was created
+		 */
+		allowsPortalGun:  function () {
+			var len = this.levelJSON.bodyList.length;
+			for (var i = 0; i < len; i++) {
+				var entityInfo = this.levelJSON.bodyList[i];
+				for (var j = entityInfo.components.length - 1; j >= 0; j--) {
+					if (entityInfo.components[j].displayName == ChuClone.components.portal.PortalGunComponent.prototype.displayName) {
+						return true;
+					}
+				}
+			}
+		}
+	}
 })();

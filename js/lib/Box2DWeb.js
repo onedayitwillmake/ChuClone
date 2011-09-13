@@ -5062,7 +5062,8 @@ Box2D.postDefs = [];
       if (filter1.groupIndex == filter2.groupIndex && filter1.groupIndex != 0) {
          return filter1.groupIndex > 0;
       }
-       return true;
+	   var mask1 = (filter1.maskBits & filter2.categoryBits);
+	   var mask2 = (filter1.categoryBits & filter2.maskBits);
       var collide = (filter1.maskBits & filter2.categoryBits) != 0 && (filter1.categoryBits & filter2.maskBits) != 0;
       return collide;
    }

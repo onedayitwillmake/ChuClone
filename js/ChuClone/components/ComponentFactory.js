@@ -36,12 +36,14 @@
     lookup[ChuClone.components.player.CharacterControllerComponent.prototype.displayName] = ChuClone.components.player.CharacterControllerComponent;
     lookup[ChuClone.components.JumpPadComponent.prototype.displayName] = ChuClone.components.JumpPadComponent;
     lookup[ChuClone.components.RespawnComponent.prototype.displayName] = ChuClone.components.RespawnComponent;
-    lookup[ChuClone.components.PortalComponent.prototype.displayName] = ChuClone.components.PortalComponent;
+    lookup[ChuClone.components.portal.PortalComponent.prototype.displayName] = ChuClone.components.portal.PortalComponent;
+    lookup[ChuClone.components.portal.AntiPortalWallComponent.prototype.displayName] = ChuClone.components.portal.AntiPortalWallComponent;
     lookup[ChuClone.components.GoalPadComponent.prototype.displayName] = ChuClone.components.GoalPadComponent;
     lookup[ChuClone.components.FrictionPadComponent.prototype.displayName] = ChuClone.components.FrictionPadComponent;
     lookup[ChuClone.components.MovingPlatformComponent.prototype.displayName] = ChuClone.components.MovingPlatformComponent;
 	lookup[ChuClone.components.AutoRotationComponent.prototype.displayName] = ChuClone.components.AutoRotationComponent;
 	lookup[ChuClone.components.DeathPadComponent.prototype.displayName] = ChuClone.components.DeathPadComponent;
+	lookup[ChuClone.components.TiltComponent.prototype.displayName] = ChuClone.components.TiltComponent;
     lookup[ChuClone.components.player.KeyboardInputComponent .prototype.displayName] = ChuClone.components.player.KeyboardInputComponent ;
     lookup[ChuClone.components.player.PlayerRecordComponent.prototype.displayName] = ChuClone.components.player.PlayerRecordComponent;
     lookup[ChuClone.components.player.PlayerPlaybackComponent.prototype.displayName] = ChuClone.components.player.PlayerPlaybackComponent;
@@ -52,6 +54,7 @@
     lookup[ChuClone.components.camera.CameraFollowPlayerComponent.prototype.displayName] = ChuClone.components.camera.CameraFollowPlayerComponent;
 	lookup[ChuClone.components.effect.ParticleEmitterComponent.prototype.displayName] = ChuClone.components.effect.ParticleEmitterComponent;
 	lookup[ChuClone.components.misc.TutorialNoteComponent.prototype.displayName] = ChuClone.components.misc.TutorialNoteComponent;
+
 
 
 

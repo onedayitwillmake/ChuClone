@@ -110,9 +110,11 @@
          * Creates the Box2D world with 4 walls around the edges
          */
         createBox2dWorld: function() {
-			console.log(PTM_RATIO/2 - 2);
             var didNotHaveWorld = (this._world == null);
             this._world = this._world || new b2World( new b2Vec2(0, PTM_RATIO/2 - 2), true );
+			ChuClone.model.Constants.PHYSICS.WORLD = this._world;
+			ChuClone.model.Constants.PHYSICS.CONTROLLER = this;
+
 
             if(didNotHaveWorld) {
 				this._world.SetContactListener( new ChuClone.physics.ContactListener() );
@@ -202,6 +204,7 @@
             fixtureDef.friction = 1.0;//65;
             fixtureDef.restitution = 0.1;//(isFixed) ? 3 : 0.1;
 
+
             var bodyDef = new Box2D.Dynamics.b2BodyDef();
             bodyDef.type = (isFixed) ? Box2D.Dynamics.b2Body.b2_kinematicBody : Box2D.Dynamics.b2Body.b2_dynamicBody;
 
@@ -210,7 +213,23 @@
 
             var body = this._world.CreateBody( bodyDef );
             body.SetPositionAndAngle( new Box2D.Common.Math.b2Vec2(x, y), rotation );
-            body.CreateFixture( fixtureDef );
+            var fixture = body.CreateFixture( fixtureDef );
+
+
+			//fixtureDef.m_filter.categoryBits = ChuClone.model.Constants.PHYSICS.COLLISION_CATEGORY.WORLD_OBJECT;
+
+
+			/*
+			 b2FilterData = function () {
+			 this.categoryBits = 0x0001;
+			 this.maskBits = 0xFFFF;
+			 this.groupIndex = 0;
+			 */
+			var filter = new Box2D.Dynamics.b2FilterData();
+			filter.categoryBits = ChuClone.model.Constants.PHYSICS.COLLISION_CATEGORY.WORLD_OBJECT;
+			filter.maskBits = ChuClone.model.Constants.PHYSICS.COLLISION_CATEGORY.PLAYER | ChuClone.model.Constants.PHYSICS.COLLISION_CATEGORY.WORLD_OBJECT;
+			filter.groupIndex = ChuClone.model.Constants.PHYSICS.COLLISION_GROUP.WORLD_OBJECT;
+			fixture.SetFilterData(filter);
 
             return body;
         },

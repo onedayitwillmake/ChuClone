@@ -14,7 +14,6 @@ Abstract:
     http://creativecommons.org/licenses/by-nc-sa/3.0/
 */
 
-// TODO: Move "_left", "_right" to enumeration
 (function(){
     "use strict";
     

@@ -38,7 +38,15 @@ Abstract:
         /**
          * @type {Number}
          */
-        _maxSpeed                       : new Box2D.Common.Math.b2Vec2(22, 0.36),
+        _maxSpeedX						: 22,
+		/**
+         * @type {Number}
+         */
+		_maxSpeedYUp					: 23.4,
+		/**
+         * @type {Number}
+         */
+		_maxSpeedYDown					: 23.4*3,
         //_maxSpeed                       : new Box2D.Common.Math.b2Vec2(2, 0.1),
 
         update: function() {
@@ -47,13 +55,21 @@ Abstract:
             var body = this.attachedEntity.getBody();
 
             // Cap X axis
-            if( Math.abs(body.m_linearVelocity.x) > this._maxSpeed.x ) {
-                body.m_linearVelocity.x = this._maxSpeed.x * (body.m_linearVelocity.x < 0 ? -1 : 1);
+            if( Math.abs(body.m_linearVelocity.x) > this._maxSpeedX ) {
+				//console.log("CapX", Math.abs(body.m_linearVelocity.x));
+                body.m_linearVelocity.x = this._maxSpeedX * (body.m_linearVelocity.x < 0 ? -1 : 1);
             }
 
-            //only care about compromised Y up velocity
-            if(body.m_linearVelocity.y < -this._maxSpeed.y * PTM_RATIO) {
-                body.m_linearVelocity.y = -this._maxSpeed.y * PTM_RATIO;
+            // Cap Y up more strongly than Y down
+            if(body.m_linearVelocity.y < -this._maxSpeedYUp) {
+				//console.log("CapY UP", body.m_linearVelocity.y);
+                body.m_linearVelocity.y = -this._maxSpeedYUp;
+            }
+
+			//only care about compromised Y up velocity
+            if(body.m_linearVelocity.y > this._maxSpeedYDown) {
+				//console.log("CapY DOWN", body.m_linearVelocity.y);
+                body.m_linearVelocity.y = this._maxSpeedYDown;
             }
         },
 
@@ -62,8 +78,10 @@ Abstract:
          * @param x
          * @param y
          */
-        setMaxSpeedXY: function( x, y ) {
-            this._maxSpeed = new Box2D.Common.Math.b2Vec2( x, y );
+        setMaxSpeedXY: function( x, yUp, yDown) {
+            this._maxSpeedX = x;
+			this._maxSpeedYUp = yUp;
+			this._maxSpeedYDown = yDown;
         }
 	};
 

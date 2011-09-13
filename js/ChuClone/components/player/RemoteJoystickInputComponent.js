@@ -34,18 +34,20 @@
 	document.write('<script src="/game/js/lib/NoBarrierOSC/GameEntity.js"></script>');
 
 	ChuClone.namespace("ChuClone.components");
+
 	ChuClone.components.player.RemoteJoystickInputComponent = function() {
 		ChuClone.components.player.RemoteJoystickInputComponent.superclass.constructor.call(this);
 		this.requiresUpdate = true;
+        this.forceLoadedLevel = -1;
 
 		this.cmdMap[RealtimeMultiplayerGame.Constants.CMDS.JOYSTICK_UPDATE] = this.joystickUpdate;
 		this.cmdMap[RealtimeMultiplayerGame.Constants.CMDS.JOYSTICK_SELECT_LEVEL] = this.joystickSelectLevel;
 
 		var address = ChuClone.model.Constants.JOYSTICK.SERVER_LOCATION;
 		var port = ChuClone.model.Constants.JOYSTICK.SERVER_PORT;
-		var transports = ['xhr-polling','websocket'];
+		var transports = ['websocket', 'xhr-polling'];
 
-		this.netChannel = new RealtimeMultiplayerGame.ClientNetChannel(this, address, port, transports, false);
+		this.netChannel = new RealtimeMultiplayerGame.ClientNetChannel(this, address, port, transports, true);
 	};
 
 
@@ -101,12 +103,12 @@
 		 */
 		_idleTimeout					: null,
 
-
 		/**
 		 * @inheritDoc
 		 */
 		attach: function(anEntity) {
 			ChuClone.components.player.RemoteJoystickInputComponent.superclass.attach.call(this, anEntity);
+            clearTimeout(waitingToRefreshTimeout);
 		},
 
 		/**
@@ -166,6 +168,18 @@
 		 * @param {Object} message
 		 */
 		joystickUpdate: function(message) {
+			// Check if the message recieved was for loading another level -
+			// If it was - refresh the page to load that level
+            var level = ChuClone.utils.getLevelIDFromURL();
+            if( level != message.payload.level && this.forceLoadedLevel != level) {
+                if( !message.payload.level ) {
+                    console.log("No level in payload!");
+                } else {
+                    this.forceLoadedLevel = level;
+                    loadLevel(message.payload.level);
+                    return;
+                }
+            }
 			var angle = +message.payload.analog
 			this._keyStates['left'] = angle != 0 && angle < 360 && angle > 180;
 			this._keyStates['right'] = angle > 0 && angle < 180;
@@ -196,20 +210,22 @@
 			this.netChannel.dealloc();
 			this.netChannel = null;
 
-			// LOAD THE LEVEL
-			var url = ChuClone.model.Constants.SERVER.LEVEL_LOAD_LOCATION + message.payload.level_id + ".js?r" + Math.floor(Math.random() * 9999);
-			ChuClone.Events.Dispatcher.emit(ChuClone.gui.LevelListing.prototype.EVENTS.SHOULD_CHANGE_LEVEL, url)
+            loadLevel(message.payload.level_id);
 		},
 
 
 		resetIdleTimer: function() {
 			var that = this;
 			clearTimeout( this._idleTimeout );
-			setTimeout( function(){ that.onIdleTimerWasHit(); }, 10000);
+			this._idleTimeout = setTimeout( function(){ that.onIdleTimerWasHit(); }, 5000);
 		},
 
 		onIdleTimerWasHit: function() {
 			console.log("Idle for too long!")
+            var level = ChuClone.utils.getLevelIDFromURL();
+            if(level) { // if level is not null, that means
+                window.location = "http://" + ChuClone.model.Constants.JOYSTICK.SERVER_LOCATION + ":3000/remoteplay/";
+            }
 		},
 
 		/**
@@ -233,18 +249,49 @@
 
 		log: function() { console.log(arguments); },
 
+        disconnect: function() {
+            debugger;
+            if (this.netChannel) this.netChannel.dealloc();
+            this.netChannel = null;
+            clearTimeout( this._idleTimeout );
+        },
+
 		/**
 		 * Destroy the connection and clear memory
 		 */
 		detach: function() {
-			if (this.netChannel) this.netChannel.dealloc();
 
+            // Send one last levelcomplete message and exit 
+			if (this.netChannel) {
+                var message = new RealtimeMultiplayerGame.model.NetChannelMessage( this.outgoingSequenceNumber, this.clientid, true, RealtimeMultiplayerGame.Constants.CMDS.LEVEL_COMPLETE, {levelcomplete: true} );
+                this.netChannel.sendMessage( message );
+                this.netChannel.dealloc();
+            }
 			clearTimeout( this._idleTimeout );
 			this.netChannel = null;
 			this._focusComponent = null;
+
+            startWaitingToExit();
 			ChuClone.components.player.RemoteJoystickInputComponent.superclass.detach.call(this);
 		}
 	};
 
+    var waitingToRefreshTimeout = null;
+    // Called on detach - starts waiting to send the game back to the titlescreen
+    // This timeout is cleared on attach
+    var startWaitingToExit = function(){
+        var startLevel = ChuClone.utils.getLevelIDFromURL();
+        waitingToRefreshTimeout = setTimeout(function(){
+            console.log("Waiting to refresh timeout hit! - Sending to titlescreen...");
+            var currentLevel = ChuClone.utils.getLevelIDFromURL();
+            if(currentLevel && currentLevel == startLevel) {
+                window.location = "http://" + ChuClone.model.Constants.JOYSTICK.SERVER_LOCATION + ":3000/remoteplay/";
+            }
+        }, 5000);
+    };
+
+    var loadLevel = function( levelid ) {
+        window.location = "http://" + ChuClone.model.Constants.JOYSTICK.SERVER_LOCATION + ":3000/remoteplay/" + levelid;
+    };
 	ChuClone.extend(ChuClone.components.player.RemoteJoystickInputComponent, ChuClone.components.BaseComponent);
 })();

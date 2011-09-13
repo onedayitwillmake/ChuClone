@@ -25,6 +25,8 @@
         GAME_WIDTH				: 1000,
         GAME_HEIGHT				: 500,
         PTM_RATIO               : 64,
+		TO_DEGREES				: 180/Math.PI,
+		TO_RADIANS				: Math.PI/180,
         DOM_ELEMENT             : null,
 		INITIAL_STATE			: 'PlayLevel',
         IS_EDIT_MODE            : function(){
@@ -60,7 +62,8 @@
 			DIMENSIONS: {
 				width: 0,
 				height:0
-			}
+			},
+			CAMERA: null
 		},
 		// WASD KEYS
         KEYS: {
@@ -68,10 +71,13 @@
             W: 87,
             D: 68,
             S: 83,
+			X: 88,
+			C: 67,
 			UP_ARROW: 38,
 			DOWN_ARROW: 40,
 			LEFT_ARROW: 37,
-			RIGHT_ARROW: 39
+			RIGHT_ARROW: 39,
+			LEFT_SHIFT: 16
         },
 
         EDITOR: {
@@ -85,11 +91,34 @@
             PLATFORM: 1 << 2
         },
 
+
         PLAYER: {
             WIDTH: 30,
             HEIGHT: 30,
             DEPTH: 30,
             MATERIAL: new THREE.MeshPhongMaterial( { ambient: 0xff, color: 0x666666, specular: 0xDDDDDD, shininess:1, shading: THREE.FlatShading } )
-        }
+        },
+
+		PHYSICS: {
+			COLLISION_CATEGORY: {
+					PLAYER: 1 << 1,
+					WORLD_OBJECT: 1 << 2,
+					NONE: 1 << 3
+			},
+			COLLISION_GROUP: {
+				PLAYER: -1,
+				WORLD_OBJECT: -2
+			},
+
+			CONTROLLER: null,
+			WORLD: null
+		},
+
+		SOUNDS: {
+			PORTAL_ENTER: {id:'PORTAL_ENTER', src:"assets/sounds/fx/portals/enter.mp3"},
+			PORTAL_INVALID: {id:'PORTAL_INVALID', src:"assets/sounds/fx/portals/invalidsurface.mp3"},
+			PORTAL_OPEN: {id:'PORTAL_OPEN', src:"assets/sounds/fx/portals/open.mp3"},
+			PORTAL_SHOOT: {id:'PORTAL_SHOOT', src:"assets/sounds/fx/portals/shoot.mp3"}
+		}
     }
 })();

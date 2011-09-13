@@ -52,6 +52,11 @@
          */
         _levelManager: null,
 
+		/**
+		 * @type {ChuClone.controller.AudioController}
+		 */
+		_audioController: null,
+
         /**
          * @type {ChuClone.GameEntity}
          */
@@ -99,6 +104,7 @@
             this.setupView();
             this.setupWorldController();
             this.setupLevelManager();
+			this.setupAudioController();
             this._stateMachine = new ChuClone.model.FSM.StateMachine();
 
 			// Start the initial state
@@ -164,15 +170,10 @@
             this._worldController = new ChuClone.physics.WorldController();
         },
 
-        /**
-         * Called when a level is about to start
-         * For example a level has been loaded or like whatever
-         * @param {ChuClone.editor.LevelModel} aLevelModel
-         */
-        onBeforeStart: function( aLevelModel ) {
-			debugger;
-            this._worldController.createBox2dWorld();
-        },
+		setupAudioController: function() {
+			this._audioController = new ChuClone.controller.AudioController();
+			this._audioController.preloadSounds( ChuClone.model.Constants.SOUNDS );
+		},
 
 
         /**

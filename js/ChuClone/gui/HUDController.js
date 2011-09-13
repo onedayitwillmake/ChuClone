@@ -120,14 +120,20 @@
 				ChuClone.utils.StyleMemoizer.rememberStyle(fullscreenToggle.id);
 
 				fullscreenToggle.style.position = "absolute";
-				fullscreenToggle.style.top = "47px";
-				fullscreenToggle.style.left = "165px";
+				fullscreenToggle.style.top = "1%";
+				fullscreenToggle.style.left = "1%";
 				fullscreenToggle.style.zIndex = "2";
 				fullscreenToggle.innerHTML = '<p class="grayBorder"> Exit Fullscreen</p>';
 
+
+				console.log(window.innerHeight, window.innerHeight * 0.1)
 				// Set custom styles for the HUDTime
 				ChuClone.utils.StyleMemoizer.rememberStyle(HUDTime.id);
 				HUDTime.style.position = "absolute";
+				HUDTime.style.top = "1%";
+				HUDTime.style.right = "1%";
+				HUDTime.style.marginTop = "10px";
+				HUDTime.style.marginRight = "10px";
 				HUDTime.style.zIndex = "2";
 
 				// Hide all children except the gamecontainers parent
@@ -137,7 +143,6 @@
 				ChuClone.utils.hideAllChildren( gameContainer.parentNode, [gameContainer]);
 				fullscreenToggle.style.display = "block";
 				HUDTime.style.display = "";
-
 			} else {
 
 				// Tell the gameviewcontainer

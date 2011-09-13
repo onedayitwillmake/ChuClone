@@ -64,7 +64,7 @@ Abstract:
         },
 
         onCollision: function( otherActor ) {
-            if( otherActor._type != ChuClone.model.Constants.ENTITY_TYPES.PLAYER )
+            if( !otherActor || otherActor._type != ChuClone.model.Constants.ENTITY_TYPES.PLAYER )
                 return;
             
             this.interceptedProperties.onCollision.call(this.attachedEntity, otherActor );
