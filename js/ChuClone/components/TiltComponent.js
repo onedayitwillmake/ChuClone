@@ -76,7 +76,7 @@ Abstract:
          */
         detach: function() {
 			this.attachedEntity.getBody().SetAngle( this._previousAngle * TO_RADIANS);
-			//ChuClone.components.TiltComponent.superclass.detach.call(this);
+			ChuClone.components.TiltComponent.superclass.detach.call(this);
         },
 
         /**

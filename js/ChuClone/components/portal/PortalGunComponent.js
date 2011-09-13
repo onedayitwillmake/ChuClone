@@ -21,18 +21,17 @@
     var b2FixtureDef = Box2D.Dynamics.b2FixtureDef;
 
     "use strict";
-    ChuClone.namespace("ChuClone.components.player");
+    ChuClone.namespace("ChuClone.components.portal");
     
     var PTM_RATIO = ChuClone.model.Constants.PTM_RATIO;
 
-	ChuClone.components.player.PortalGunComponent = function() {
-		ChuClone.components.player.PortalGunComponent.superclass.constructor.call(this);
+	ChuClone.components.portal.PortalGunComponent = function() {
+		ChuClone.components.portal.PortalGunComponent.superclass.constructor.call(this);
 		this.requiresUpdate = true;
-		this._tracerActive = false;
 		this._closures = {};
 	};
 
-	ChuClone.components.player.PortalGunComponent.prototype = {
+	ChuClone.components.portal.PortalGunComponent.prototype = {
         /**
          * @type {String}
          */
@@ -65,11 +64,6 @@
 		 */
 		_tracerEntity		: null,
 
-		/**
-		 * When we fire this is true, until the tracer hits something
-		 * @type {Boolean}
-		 */
-		_tracerActive		: false,
 
 		/**
 		 * A force we apply every frame to counter the world's gravity so our bullet floats forever
@@ -135,7 +129,7 @@
          */
         attach: function( anEntity ) {
 
-            ChuClone.components.player.PortalGunComponent.superclass.attach.call(this, anEntity);
+            ChuClone.components.portal.PortalGunComponent.superclass.attach.call(this, anEntity);
 			if( !this._worldController || !this._gameViewController ) {
 				console.error("PortalGunController - Could not attach. Please call setWorldController & setGameViewController before attaching!");
 				return;
@@ -237,7 +231,7 @@
 				entity.setDimensions( width, height, depth );
 				entity.setIsSavable( false );
 
-				var portalComponent = new ChuClone.components.PortalComponent();
+				var portalComponent = new ChuClone.components.portal.PortalComponent();
 				entity.addComponentAndExecute( portalComponent );
 				portalComponent.setColor(colors[i]);
 				portalComponent.setIsActive( false );
@@ -326,7 +320,7 @@
 		 * @param e
 		 */
 		onKeyUp: function(e) {
-			if( e.keyCode == ChuClone.model.Constants.KEYS.LEFT_SHIFT && !this._tracerActive ) {
+			if( e.keyCode == ChuClone.model.Constants.KEYS.LEFT_SHIFT) {
                 this._shiftIsDown = true;
 				//this._tracerEntity.getView().visible = false;
 			}
@@ -375,14 +369,10 @@
 			}
 
 
-			///*
-			var radius = 50 / PTM_RATIO;
+			// Place pointer slightly above head
 			var pointPosition = this.attachedEntity.getBody().GetPosition().Copy();
 			pointPosition.y += 1 * PTM_RATIO;
-			//pointPosition.x += Math.cos(-this._angle) * radius;
-			//pointPosition.y += Math.sin(-this._angle) * radius;
 
-			this._tracerActive = true;
 			this._lastCollisionLocation = null;
 			this._tracer.SetPositionAndAngle(new b2Vec2(pointPosition.x, pointPosition.y), 0);
 
@@ -412,7 +402,7 @@
         castPortalRay: function( ) {
 
 			var that = this;
-			this._nextPortal.getComponentWithName( ChuClone.components.PortalComponent.prototype.displayName ).setIsActive( true );
+			this._nextPortal.getComponentWithName( ChuClone.components.portal.PortalComponent.prototype.displayName ).setIsActive( true );
 			this._lastLine = null;
 
             // Cast a ray from where we are to somewhere far away along the direction of our angle
@@ -437,6 +427,7 @@
             var rayFraction = 1;
 
 			var nearestHit = null;
+			var otherPortal = (this._nextPortal === this._bluePortal) ? this._orangePortal  : this._bluePortal;
 			/**
 			 * Call back for each fixture hit by the ray
 			 * @param fixture
@@ -450,17 +441,21 @@
                 if (fraction > rayFraction) return;
                 //if( fraction)
 
-                if ( !that._tracerActive || !fixture.GetBody() ) return;
+                if ( !fixture.GetBody() ) return;
 
                 var otherActor = fixture.GetBody().GetUserData();
                 if ( !otherActor ) return;
 
 
                 // Things that if we hit them - our tracer bullet is considered inactive
-                if (otherActor.getComponentWithName(ChuClone.components.FrictionPadComponent.prototype.displayName)
-                    || otherActor.getComponentWithName(ChuClone.components.DeathPadComponent.prototype.displayName)
-                    || otherActor.getComponentWithName(ChuClone.components.JumpPadComponent.prototype.displayName)) {
+                if (otherActor == that._nextPortal
+						|| otherActor.getComponentWithName(ChuClone.components.FrictionPadComponent.prototype.displayName)
+						|| otherActor.getComponentWithName(ChuClone.components.DeathPadComponent.prototype.displayName)
+						|| otherActor.getComponentWithName(ChuClone.components.JumpPadComponent.prototype.displayName)) {
 
+					if( otherActor == that._nextPortal ) {
+						console.log("Hit other portal! aborting raycast");
+					}
 					nearestHit = point;
                     rayFixture = null;
                     rayPoint = null;
@@ -470,7 +465,7 @@
                 }
 
                 // Things that if we hit - we ignore and allow the tracer bullet to pass through it
-                if( otherActor.getComponentWithName(ChuClone.components.PortalComponent.prototype.displayName )
+                if( otherActor.getComponentWithName(ChuClone.components.portal.PortalComponent.prototype.displayName )
                     || otherActor.getComponentWithName(ChuClone.components.RespawnComponent.prototype.displayName ) ) {
 
 					nearestHit = point;
@@ -481,13 +476,11 @@
                 rayPoint = point;
                 rayNormal = normal;
                 rayFraction = fraction;
-                //that._tracerActive = false;
                 return fraction;
             };
 
 			// Cast the ray
             this._worldController.getWorld().RayCast(callback, pointA, pointB);
-            this._tracerActive = false;
 
 			// Nothing found
             if(!rayFixture) {
@@ -545,7 +538,6 @@
 			if( portalWidth >= lineDistance ) {
 				this.playSound( ChuClone.model.Constants.SOUNDS.PORTAL_INVALID.id );
 				this._tracerEntity.removeComponentWithName( ChuClone.components.effect.MotionStreakComponent.prototype.displayName );
-				this._tracerActive = false;
 				return;
 			} else if // There's enough space - but we have to recenter the portal
 					(portalWidth*0.4 >= portalToA || portalWidth*0.4 >= portalToB ) {
@@ -582,7 +574,7 @@
 
 				// Place portal at new location
 				that._nextPortal.getBody().SetPosition( finalPosition );
-				that._nextPortal.getComponentWithName(ChuClone.components.PortalComponent.prototype.displayName).setAngle( ( finalAngle ) * 180/Math.PI );
+				that._nextPortal.getComponentWithName(ChuClone.components.portal.PortalComponent.prototype.displayName).setAngle( ( finalAngle ) * 180/Math.PI );
 
 			}, 1);
 
@@ -615,17 +607,14 @@
                 this.onMouseMove();
             }
 
-			if( !this._tracerActive ) {
-				var pointPosition = this.attachedEntity.getView().position.clone();
-				pointPosition.y += 1 * PTM_RATIO;
-				this._pointer.position = pointPosition;
-			}
+			var pointPosition = this.attachedEntity.getView().position.clone();
+			pointPosition.y += 1 * PTM_RATIO;
+			this._pointer.position = pointPosition;
+			this._pointer.rotation.z = this._angle+Math.PI/2;
 
 
 			if(!this._cameraWasSetup) {
-
 				var focusComponent = this._gameViewController.getCamera().getComponentWithName(ChuClone.components.camera.CameraFocusRadiusComponent.prototype.displayName);
-
 				if(focusComponent) {
 					this._cameraOldFocusInfo = focusComponent.getRadius().clone();
 					this._cameraWasSetup = true;
@@ -635,12 +624,11 @@
 				}
 			}
 
-            this._pointer.rotation.z = this._angle+Math.PI/2;
+
 
 			// Apply a force to counteract gravity
 			if( this._tracer ) {
 				this._tracer.ApplyForce( this._antiGravity, this._tracer.GetWorldCenter() );
-
 				if( this._lastCollisionLocation ) {
 					this._tracer.SetPosition( this._lastCollisionLocation );
 				}
@@ -734,7 +722,7 @@
 			this._gameViewController = null;
 			this._worldController = null;
 			this._tracerEntity = null;
-            ChuClone.components.player.PortalGunComponent.superclass.detach.call(this);
+            ChuClone.components.portal.PortalGunComponent.superclass.detach.call(this);
         },
 
 		///// ACCESSORS
@@ -745,5 +733,5 @@
 		setNextPortal: function() { this._nextPortal = (this._nextPortal === this._bluePortal) ? this._orangePortal  : this._bluePortal }
 	};
 
-    ChuClone.extend( ChuClone.components.player.PortalGunComponent, ChuClone.components.BaseComponent );
+    ChuClone.extend( ChuClone.components.portal.PortalGunComponent, ChuClone.components.BaseComponent );
 })();

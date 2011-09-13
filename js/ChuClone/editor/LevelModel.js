@@ -273,7 +273,7 @@
 			for (var i = 0; i < len; i++) {
 				var entityInfo = this.levelJSON.bodyList[i];
 				for (var j = entityInfo.components.length - 1; j >= 0; j--) {
-					if (entityInfo.components[j].displayName == ChuClone.components.player.PortalGunComponent.prototype.displayName) {
+					if (entityInfo.components[j].displayName == ChuClone.components.portal.PortalGunComponent.prototype.displayName) {
 						return true;
 					}
 				}

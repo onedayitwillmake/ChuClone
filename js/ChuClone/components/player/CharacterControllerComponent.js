@@ -73,14 +73,14 @@ Abstract:
 			// Attach physics velocity limit component
 			this.attachedEntity.addComponentAndExecute(new ChuClone.components.PhysicsVelocityLimitComponent());
 
-			//ChuClone.components.player.PortalGunComponent
+			//ChuClone.components.portal.PortalGunComponent
 			var levelModel = ChuClone.editor.LevelManager.getInstance().getModel();
 
 			// Set collisionfiltering
 			this.setFilterData( this.attachedEntity.getBody() );
 
 			if( levelModel.allowsPortalGun() ) {
-				var portalGunComponent = new ChuClone.components.player.PortalGunComponent();
+				var portalGunComponent = new ChuClone.components.portal.PortalGunComponent();
 				portalGunComponent.setGameView( ChuClone.GameViewController.INSTANCE );
 				portalGunComponent.setWorldController( ChuClone.model.Constants.PHYSICS.CONTROLLER );
 				this.attachedEntity.addComponentAndExecute( portalGunComponent );

@@ -16,7 +16,7 @@ Abstract:
 */
 (function(){
     "use strict";
-	ChuClone.namespace("ChuClone.components");
+	ChuClone.namespace("ChuClone.components.portal");
 
 	// TRACK RESPAWN POINTS INTERNALLY
     /**
@@ -24,12 +24,12 @@ Abstract:
      */
     var __portalPoints = [];
     /**
-     * @type {ChuClone.components.PortalComponent}
+     * @type {ChuClone.components.portal.PortalComponent}
      */
     var __currentPortalPoint = null;
     /**
      *  Removes a PortalPoint
-     *  @param {ChuClone.components.PortalComponent}
+     *  @param {ChuClone.components.portal.PortalComponent}
      */
     var __removePortalPoint = function( aPortalPoint ) {
 
@@ -48,7 +48,7 @@ Abstract:
 
     /**
      * Adds a respawn point to our internal array
-     * @param {ChuClone.components.PortalComponent} aPortalPoint
+     * @param {ChuClone.components.portal.PortalComponent} aPortalPoint
      */
     var __addPortalPoint = function( aPortalPoint ) {
 
@@ -67,8 +67,8 @@ Abstract:
      * Creates a relationship between two portals
      * If force is true, destroys any existing relationship
      *
-     * @param {ChuClone.components.PortalComponent} portalA
-     * @param {ChuClone.components.PortalComponent} portalB
+     * @param {ChuClone.components.portal.PortalComponent} portalA
+     * @param {ChuClone.components.portal.PortalComponent} portalB
      * @param {Boolean} force
      */
     var __createRelationship = function( portalA, portalB ) {
@@ -81,10 +81,8 @@ Abstract:
     };
 
 
-	
-
-	ChuClone.components.PortalComponent = function() {
-		ChuClone.components.PortalComponent.superclass.constructor.call(this);
+	ChuClone.components.portal.PortalComponent = function() {
+		ChuClone.components.portal.PortalComponent.superclass.constructor.call(this);
         this._angle = 0;
 		this._inactiveList = {};
 		this._isActive = true;
@@ -92,7 +90,7 @@ Abstract:
 		//this._inactiveList = [];
 	};
 
-	ChuClone.components.PortalComponent.prototype = {
+	ChuClone.components.portal.PortalComponent.prototype = {
 		displayName		: "PortalComponent",					// Unique string name for this Trait
 
         /**
@@ -108,7 +106,7 @@ Abstract:
         /**
          * Portals are always linked.
          * If a portal does not have an 'otherPortal' property - it does nothing on collision
-         * @type {ChuClone.components.PortalComponent}
+         * @type {ChuClone.components.portal.PortalComponent}
          */
         _mirror         : null,
 
@@ -151,15 +149,15 @@ Abstract:
 		_editableProperties: {angle: {value: 90, min: 0, max: 360, step: 10}},
 
         EVENTS: {
-            CREATED     : "ChuClone.components.PortalComponent.events.CREATED",
-            DESTROYED   : "ChuClone.components.PortalComponent.events.DESTROYED"
+            CREATED     : "ChuClone.components.portal.PortalComponent.events.CREATED",
+            DESTROYED   : "ChuClone.components.portal.PortalComponent.events.DESTROYED"
         },
 
 		/**
 		 * @inheritDoc
 		 */
 		attach: function(anEntity) {
-			ChuClone.components.PortalComponent.superclass.attach.call(this, anEntity);
+			ChuClone.components.portal.PortalComponent.superclass.attach.call(this, anEntity);
 			__addPortalPoint( this );
 
 
@@ -185,14 +183,6 @@ Abstract:
          */
         setupDebug: function() {
             this.requiresUpdate = true;
-            var geometry = new THREE.CubeGeometry( 25, 100, 25 );
-            this._pointer = new THREE.Mesh( geometry, [new THREE.MeshLambertMaterial( {
-                color: 0xFFFFFF,
-                shading: THREE.SmoothShading,
-                map : ChuClone.utils.TextureUtils.GET_TEXTURE( ChuClone.model.Constants.SERVER.ASSET_PREFIX + "assets/images/game/floor.png" )
-            })] );
-
-            ChuClone.GameViewController.INSTANCE.addObjectToScene(this._pointer );
         },
 
 
@@ -200,7 +190,7 @@ Abstract:
 		 * @inheritDoc
 		 */
         execute: function() {
-            ChuClone.components.PortalComponent.superclass.execute.call(this);
+            ChuClone.components.portal.PortalComponent.superclass.execute.call(this);
 
             var view = this.attachedEntity.getView();
             var body = this.attachedEntity.getBody();
@@ -365,14 +355,14 @@ Abstract:
                 this._particleController = null;
             }
 
-            ChuClone.components.PortalComponent.superclass.detach.call(this);
+            ChuClone.components.portal.PortalComponent.superclass.detach.call(this);
         },
 
         /**
          * @inheritDoc
          */
         getModel: function() {
-            var returnObject = ChuClone.components.PortalComponent.superclass.getModel.call(this);
+            var returnObject = ChuClone.components.portal.PortalComponent.superclass.getModel.call(this);
             returnObject.textureSource = this._textureSource;
             returnObject.mirrorId = this._mirrorId;
             returnObject.angle = this._angle;
@@ -384,7 +374,7 @@ Abstract:
 		 * @inheritDoc
 		 */
         fromModel: function( data, futureEntity ) {
-			ChuClone.components.PortalComponent.superclass.fromModel.call(this, data);
+			ChuClone.components.portal.PortalComponent.superclass.fromModel.call(this, data);
             this._textureSource = data.textureSource;
             this._mirrorId  = data._mirrorId || 0;
             this._angle = data.angle || 0;
@@ -417,12 +407,12 @@ Abstract:
 		},
 		getIsActive: function( ) { return this._isActive; },
         /**
-         * @return {ChuClone.components.PortalComponent}
+         * @return {ChuClone.components.portal.PortalComponent}
          */
         getMirror: function() { return this._mirror },
 
         /**
-         * @param {ChuClone.components.PortalComponent} aPortal
+         * @param {ChuClone.components.portal.PortalComponent} aPortal
          */
         setMirror: function(aPortal) { this._mirror = aPortal; },
 		/**
@@ -456,5 +446,5 @@ Abstract:
         }
 	};
 
-    ChuClone.extend( ChuClone.components.PortalComponent, ChuClone.components.BaseComponent );
+    ChuClone.extend( ChuClone.components.portal.PortalComponent, ChuClone.components.BaseComponent );
 })();

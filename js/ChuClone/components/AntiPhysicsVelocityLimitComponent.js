@@ -79,7 +79,7 @@ Abstract:
                 return;
             }
 
-			if( otherActor.getComponentWithName( ChuClone.components.PortalComponent.prototype.displayName ) ) {
+			if( otherActor.getComponentWithName( ChuClone.components.portal.PortalComponent.prototype.displayName ) ) {
 				var jumpCheckComponent = this.attachedEntity.getComponentWithName( ChuClone.components.player.CheckIsJumpingComponent.prototype.displayName );
 				jumpCheckComponent._canJump = false;
 				jumpCheckComponent._canApplyDownwardForce = false;
