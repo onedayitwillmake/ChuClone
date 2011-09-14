@@ -213,9 +213,9 @@
 		 * Creates two portals, orange & blue
 		 */
 		setupPortals: function(  ) {
-			var width = 2 * PTM_RATIO;
+			var width = 2.5 * PTM_RATIO;
 			var height = PTM_RATIO/2;
-			var depth = 2 * PTM_RATIO;
+			var depth = 2.5 * PTM_RATIO;
 
 
 			var colors = [0xFF00FF, 0xff0054];
