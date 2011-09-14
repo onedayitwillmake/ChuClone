@@ -449,6 +449,7 @@
 
                 // Things that if we hit them - our tracer bullet is considered inactive
                 if (otherActor == that._nextPortal
+						|| otherActor.getComponentWithName(ChuClone.components.portal.AntiPortalWallComponent.prototype.displayName)
 						|| otherActor.getComponentWithName(ChuClone.components.FrictionPadComponent.prototype.displayName)
 						|| otherActor.getComponentWithName(ChuClone.components.DeathPadComponent.prototype.displayName)
 						|| otherActor.getComponentWithName(ChuClone.components.JumpPadComponent.prototype.displayName)) {

@@ -46,7 +46,7 @@ Abstract:
 			var dimensions = this.attachedEntity.getDimensions();
 			var geometry = new THREE.CubeGeometry( dimensions.width + 100, dimensions.height + 10, dimensions.depth + 10);
             var mesh = new THREE.Mesh( geometry, [new THREE.MeshLambertMaterial( {
-						color: 0xff2a00,
+						color: 0xdd00FF,
 						opacity: 0.25,
 						transparent: true,
 						shading: THREE.SmoothShading,
@@ -89,7 +89,7 @@ Abstract:
 			//this.depth = aDepth;
 
             // THIS TRICK CURRENTLY ONLY WORKS FOR RECTANGULAR/CUBE ENTITIES
-			var delta = 25;
+			var delta = 15;
 			aWidth += delta;
 			aHeight += delta;
 			aDepth += delta;
@@ -117,7 +117,7 @@ Abstract:
          * Restore material and restitution
          */
         detach: function() {
-            this.attachedEntity.getView().parent.removeChild( this.clone );
+            this.clone.parent.removeChild( this.clone );
 			this.clone = null;
             ChuClone.components.portal.AntiPortalWallComponent.superclass.detach.call(this);
         }
