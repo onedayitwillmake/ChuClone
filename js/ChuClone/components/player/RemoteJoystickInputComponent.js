@@ -108,8 +108,6 @@
 		 */
 		attach: function(anEntity) {
 			ChuClone.components.player.RemoteJoystickInputComponent.superclass.attach.call(this, anEntity);
-            
-            ChuClone.GameViewController.INSTANCE.startPostProcessing();
             clearTimeout(waitingToRefreshTimeout);
 		},
 
@@ -171,7 +169,6 @@
 		},
 		
 		startCameraAnimation: function() {
-		console.log("Animate!");
 			var that = this;
 			new TWEEN.Tween( this._focusComponent._mousePosition )
 				.to( { x: Math.random()*3-1, y: Math.random()*0.3 + 1.3}, Math.random()*5000+3000 )
@@ -181,6 +178,30 @@
 				.onComplete( function(){
 					that.startCameraAnimation();
 				});
+				
+				if( document.getElementById("instructions") ) 
+					return;
+					
+            ChuClone.GameViewController.INSTANCE.startPostProcessing();
+				var div = document.createElement("div");
+				div.id = "instructions"
+				div.style.width ="100%";
+				div.style.position = "absolute";
+				div.style.bottom = "50px";
+				div.style.zIndex = "10";
+				div.innerHTML = '<div class="container_12"> \
+				<div class="push_5 grid_5 jura_53 magentaBorder" style="margin-left:-30px;margin-bottom:30px; color:#01b0ee; text-align:center; margin-left: 12px; background: rgba(0,0,0, 0.75);">How To Play!</div> \
+				<div class="clear"></div> 		 \
+				<div class="grid_5 jura_28 magentaBorder" style="color:#01b0ee; text-align:center;  background: rgba(0,0,0, 0.75);">1. Pull out your smartphone </div> 	\
+				<div class="grid_5 jura_28 magentaBorder" style="color:#01b0ee; text-align:center;  background: rgba(0,0,0, 0.75);">2. Connect to <span style="color:#F7F">ChuClone</span> wifi</div> 	 \
+				<div class="grid_5 jura_28 magentaBorder" style="color:#01b0ee; text-align:center;  background: rgba(0,0,0, 0.75);">3. Browse to <span style="color:#F7F">http://10.0.2.1</span></div> \
+				</div>'
+		document.body.appendChild( div );
+				
+				/**
+				<div style="width:100%; position:absolute; bottom:50px; z-index:10">
+</div>
+*/
 		},
 
 		/**
@@ -210,11 +231,11 @@
 			// Use the accelerometer to move the camera
 			if (this._focusComponent) {
 				this._focusComponent._mousePosition.x = (message.payload.accelY) / 10;
-				this._focusComponent._mousePosition.x *= 0.5;
-				this._focusComponent._mousePosition.x += 0.5;
+				this._focusComponent._mousePosition.x *= 0.4;
+				this._focusComponent._mousePosition.x += 0.6;
 				this._focusComponent._mousePosition.y = (message.payload.accelX) / 10;
-				this._focusComponent._mousePosition.y *= 0.5;
-				this._focusComponent._mousePosition.y += 0.6;
+				this._focusComponent._mousePosition.y *= 0.1;
+				this._focusComponent._mousePosition.y += 0.8;
 			}
 		},
 
