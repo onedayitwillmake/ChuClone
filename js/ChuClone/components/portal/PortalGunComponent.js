@@ -213,9 +213,9 @@
 		 * Creates two portals, orange & blue
 		 */
 		setupPortals: function(  ) {
-			var width = 2 * PTM_RATIO;
+			var width = 2.5 * PTM_RATIO;
 			var height = PTM_RATIO/2;
-			var depth = 2 * PTM_RATIO;
+			var depth = 2.5 * PTM_RATIO;
 
 
 			var colors = [0xFF00FF, 0xff0054];
@@ -449,6 +449,7 @@
 
                 // Things that if we hit them - our tracer bullet is considered inactive
                 if (otherActor == that._nextPortal
+						|| otherActor.getComponentWithName(ChuClone.components.portal.AntiPortalWallComponent.prototype.displayName)
 						|| otherActor.getComponentWithName(ChuClone.components.FrictionPadComponent.prototype.displayName)
 						|| otherActor.getComponentWithName(ChuClone.components.DeathPadComponent.prototype.displayName)
 						|| otherActor.getComponentWithName(ChuClone.components.JumpPadComponent.prototype.displayName)) {

@@ -221,10 +221,20 @@
                     return;
                 }
             }
+            
 			var angle = +message.payload.analog
 			this._keyStates['left'] = angle != 0 && angle < 360 && angle > 180;
 			this._keyStates['right'] = angle > 0 && angle < 180;
-			this._keyStates['up'] = message.payload.button;
+
+            if(message.payload.button != "null") {
+			    this._keyStates['up'] = message.payload.button;
+            } else if( angle != 0 ) {
+                var range = 45;
+                // 45 degrees left of pure up, or right of pure up
+                this._keyStates['up'] = angle > (360-range)  || angle < range;
+
+                console.log( angle > (360-range),angle < range )
+            }
 
 			this.resetIdleTimer();
 
