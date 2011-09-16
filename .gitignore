@@ -8,5 +8,7 @@ workspace.xml
 *_t.json
 /ChuCloneDB/app/tmp/
 /compiler/
+assets/levels/Untitled.json
+assets/levels/_users
 # js/chuclone_min.js
 # js/lib/three.js/
