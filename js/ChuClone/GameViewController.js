@@ -563,9 +563,19 @@
 		/**
 		 * @type {Boolean}
 		 */
-		setFullscreen: function( aValue, isHD ) {
-			this._isFullScreen = aValue;
+		setFullscreen: function( wantsFullscreen, isHD ) {
 
+             // If is HD render at the size of the element - if not - just scale it up
+            if( wantsFullscreen && isHD ) {
+                this.setDimensions(window.innerWidth * 0.98, window.innerHeight * 0.98);
+                this.onResize();
+            } else {
+                this.setDimensions( ChuClone.model.Constants.GAME_WIDTH, ChuClone.model.Constants.GAME_HEIGHT );
+                this.onResize();
+            }
+
+            if( this._fullScreen == wantsFullscreen ) return; // nothing to do
+			this._isFullScreen = wantsFullscreen;
             if( this._isFullScreen ) {
 
 				// These aren't stored in the style yet -
@@ -582,13 +592,6 @@
 				this._domElement.style.marginLeft = "0";
 				this._domElement.firstChild.style.width = "100%";
 				this._domElement.firstChild.style.height = "100%";
-
-                // If is HD render at the size of the element - if not - just scale it up
-                if( isHD ) {
-				    this.setDimensions(window.innerWidth * 0.98, window.innerHeight * 0.98);
-                } else {
-                    this.setDimensions( ChuClone.model.Constants.GAME_WIDTH, ChuClone.model.Constants.GAME_HEIGHT );
-                }
             } else {
 				ChuClone.utils.StyleMemoizer.restoreStyle( this._domElement.id );
                 this.setDimensions( ChuClone.model.Constants.GAME_WIDTH, ChuClone.model.Constants.GAME_HEIGHT );

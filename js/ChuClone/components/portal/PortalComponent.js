@@ -318,11 +318,12 @@ Abstract:
         startWaitingForIsReady: function( entityId ) {
 			 var that = this;
 			 this.__isReady = false;
-			 //this._inactiveList[entityId] = Date.now();
+
+			 this._inactiveList[entityId] = Date.now();
 
 			 clearTimeout( this._inactiveTimeout );
 			 this._inactiveTimeout = setTimeout(function() {
-				 that.__isReady = true;
+                 that._inactiveList[entityId] = null;
 			 }, this._inactiveDelay);
         },
 
@@ -397,9 +398,10 @@ Abstract:
 
         ///// ACCESSORS
         getIsReady: function( entityId ) {
-			return this._isActive && this.__isReady;
-
-			return !this._inactiveList.hasOwnProperty(entityId); }, // if we do have such a property, we're not ready
+			return this._isActive
+                && this._inactiveList[entityId] == null;
+        },
+        
 		setIsActive: function( aValue ) {
 			this._isActive = aValue;
 			this.attachedEntity.getView().visible = aValue;

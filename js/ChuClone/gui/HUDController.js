@@ -18,6 +18,8 @@
 	ChuClone.namespace("ChuClone.gui");
 
 	var domElementTime = null;
+    var hdButtonElement = null;
+    var isHD    = false;
 	var timeCanvas = null;
 	var timeContext = null;
 	var lastScoreUpdate = Date.now();
@@ -107,6 +109,7 @@
 		 * Switches on/off fullscreen mode
 		 */
 		toggleFullscreen: function() {
+            console.log("ABC")
 			var fullscreenToggle = document.getElementById('fullscreen_toggle');
 			var gameContainer = document.getElementById('gameContainer');
 			var HUDTime = document.getElementById('HUDTime');
@@ -126,6 +129,7 @@
 				fullscreenToggle.innerHTML = '<p class="grayBorder"> Exit Fullscreen</p>';
 
 
+
 				console.log(window.innerHeight, window.innerHeight * 0.1)
 				// Set custom styles for the HUDTime
 				ChuClone.utils.StyleMemoizer.rememberStyle(HUDTime.id);
@@ -143,10 +147,21 @@
 				ChuClone.utils.hideAllChildren( gameContainer.parentNode, [gameContainer]);
 				fullscreenToggle.style.display = "block";
 				HUDTime.style.display = "";
+
+                hdButtonElement = fullscreenToggle.cloneNode(true);
+                hdButtonElement.innerHTML = '<p class="grayBorder"> Toggle HD </p>';
+                hdButtonElement.id = "hdbutton";
+                hdButtonElement.style.width = "100px";
+                hdButtonElement.style.left = window.innerWidth*0.1 + "px";
+                hdButtonElement.addEventListener( 'mousedown', function(){
+                    isHD = !isHD;
+                    ChuClone.GameViewController.INSTANCE.setFullscreen( true, isHD );
+                });
+                document.body.appendChild( hdButtonElement )
 			} else {
 
 				// Tell the gameviewcontainer
-				ChuClone.GameViewController.INSTANCE.setFullscreen( false );
+				ChuClone.GameViewController.INSTANCE.setFullscreen( false, true );
 
 				// Unhide all children
 				ChuClone.utils.unhideAllChildren( document.getElementsByTagName('body')[0], null );
@@ -159,6 +174,7 @@
 				// Restore 'HUDTime'
 				ChuClone.utils.StyleMemoizer.restoreStyle('HUDTime');
 
+                document.body.removeChild( hdButtonElement );
 			}
 		},
 
