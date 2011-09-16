@@ -172,7 +172,7 @@
 		 * @param idString
 		 */
 		constructURLForLevelWithID: function( idString ) {
-			return ChuClone.model.Constants.SERVER.LEVEL_LOAD_LOCATION + idString + ".js" + "?r="+Math.floor(Math.random()*1000);
+			return ChuClone.model.Constants.SERVER.LEVEL_LOAD_LOCATION + idString + ".js";
 		},
 
 		/**

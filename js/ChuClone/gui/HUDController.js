@@ -44,7 +44,12 @@
 
 				if( document.getElementById('score_container') )
 					that.updateScores();
-			})
+
+                if( document.getElementById('author') ) {
+                    document.getElementById('author').innerHTML = aLevelManager._levelModel.author;
+                }
+
+			});
 
 			if( document.getElementById('fullscreen_toggle') ) {
 				document.getElementById('fullscreen_toggle').style.cursor = "pointer"
@@ -243,7 +248,6 @@
 		 * @param {Boolean} force If true, will always update (ignoring id/time check)
 		 */
 		updateScores: function( force ) {
-
 			var level_id = ChuClone.utils.getLevelIDFromURL();
 			if( !level_id ) return; // No level-id in address bar, probably at titlescreen
 

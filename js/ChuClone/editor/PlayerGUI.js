@@ -52,7 +52,7 @@
             this._controls['Destroy'] = this._gui.add(this, 'destroyPlayer').name("Destroy");
             this._controls['Reset'] = this._gui.add(this, 'resetPlayer').name("Reset");
 			this._gui.close();
-			this._gui.open();
+			//this._gui.open();
         },
 
 

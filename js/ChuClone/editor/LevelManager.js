@@ -108,7 +108,7 @@
 			this.setupEvents();
 
 			that._gui.close();
-			that._gui.open();
+			//that._gui.open();
 		},
 
 		/**
@@ -174,7 +174,7 @@
 
 			var worldController = ChuClone.editor.WorldEditor.getInstance().getWorldController();
 			var aWorldEditor = ChuClone.editor.WorldEditor.getInstance().getViewController();
-			var aURL = ChuClone.model.Constants.SERVER.LEVEL_LOAD_LOCATION + itemValue + ".js?r" + Math.floor(Math.random() * 9999);
+			var aURL = ChuClone.model.Constants.SERVER.LEVEL_LOAD_LOCATION + itemValue + ".js";
 			this.loadLevelFromURL(worldController, aWorldEditor, aURL);
 
 			// Remove focus from the element otherwise it interferes with the kb
