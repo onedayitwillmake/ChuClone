@@ -42,6 +42,11 @@
          */
         _controls: [],
 
+		/**
+		 * @type {Boolean}
+		 */
+		_allowPortalGun: false,
+
         setupGUI: function() {
             var that = this;
             this._gui = new DAT.GUI({width: ChuClone.model.Constants.EDITOR.PANEL_WIDTH});
@@ -51,6 +56,9 @@
             this._controls['Create'] = this._gui.add(this, 'createPlayer').name("Create");
             this._controls['Destroy'] = this._gui.add(this, 'destroyPlayer').name("Destroy");
             this._controls['Reset'] = this._gui.add(this, 'resetPlayer').name("Reset");
+            this._controls['Portal'] = this._gui.add(this, '_allowPortalGun').name("Allow Portal Gun").onChange(function(){
+				that.togglePortalGun();
+			})
 			this._gui.close();
 			//this._gui.open();
         },
@@ -114,6 +122,7 @@
             ChuClone.editor.WorldEditor.getInstance().getWorldController().getWorld().DestroyBody( playerbody );
 
 			this._player = null;
+
         },
 
 		/**
@@ -152,6 +161,27 @@
 
 			this._player.getBody().SetPosition(new Box2D.Common.Math.b2Vec2( respawnPoint.attachedEntity.getBody().GetPosition().x, respawnPoint.attachedEntity.getBody().GetPosition().y - 1));
         },
+
+		togglePortalGun: function( value ) {
+
+			if( !this._player ) {
+				ChuClone.utils.displayFlash("ChuClone.editor.PlayerGUI.resetPlayer<br>There is no player!!", 0);
+				return null;
+			}
+
+			var hasPortal = this._player.getComponentWithName(ChuClone.components.portal.PortalGunComponent.prototype.displayName);
+			if( this._allowPortalGun === hasPortal ) return;
+
+
+			if(this._allowPortalGun) {
+				var portalGunComponent = new ChuClone.components.portal.PortalGunComponent();
+				portalGunComponent.setGameView( ChuClone.GameViewController.INSTANCE );
+				portalGunComponent.setWorldController( ChuClone.model.Constants.PHYSICS.CONTROLLER );
+				this._player.addComponentAndExecute( portalGunComponent );
+			} else {
+				this._player.removeComponentWithName(ChuClone.components.portal.PortalGunComponent.prototype.displayName);
+			}
+		},
 
         /**
          * Deallocate resources
