@@ -21,7 +21,6 @@ Abstract:
 
 	ChuClone.states.PlayLevelState = function() {
 		ChuClone.states.PlayLevelState.superclass.constructor.call(this);
-		this._record = [];
 	};
 
 	ChuClone.states.PlayLevelState.prototype = {
@@ -50,11 +49,6 @@ Abstract:
 		 * @type {THREE.Mesh}
 		 */
 		_floorPlane		: null,
-
-		/**
-		 * @type {Array}
-		 */
-		_record			: null,
 
         /**
          * @type {Array}    Array of our extra mesh items
@@ -246,7 +240,6 @@ Abstract:
 			this._elapsedFrames = 0;
 
             this._previousTime = Date.now();
-			this._recording = [];
 
             this._didAnimateIn = true;
             this._player.getBody().SetActive( true );
@@ -345,7 +338,8 @@ Abstract:
             var respawnPoint = ChuClone.components.RespawnComponent.prototype.GET_CURRENT_RESPAWNPOINT();
             respawnPoint.setSpawnedEntityPosition( this._player );
 
-			this.startRecordingPlayer();
+			this.startRecordingPlayback();
+			//this.startRecordingPlayer();
             this.animateIn();
         },
 
@@ -494,7 +488,7 @@ Abstract:
 		/**
 		 * return @{type} Number The current _elapsedTime
 		 */
-		getCurrentTime: function() { return this._elapsedFrames; }
+		getCurrentTime: function() { return this._elapsedTime; }
 	};
 
     ChuClone.extend( ChuClone.states.PlayLevelState, ChuClone.states.ChuCloneBaseState );
