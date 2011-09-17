@@ -127,12 +127,14 @@
 
             this.rollOver =  new TWEEN.Tween({target: this, size:0}).to({size: 3}, 150 ).easing( TWEEN.Easing.Quadratic.EaseInOut).onUpdate(function(){
                 this.target.style["box-shadow"] = "inset 0 0 0 " + (this.size << 0) + "px #888"
+				//this.target.style["background-image"] = "url(/game/assets/images/page/levelthumbnails/sunsetmountain.png)"
             }).start();
         },
         
         onLevelRollout: function() {
             this.rollOut =  new TWEEN.Tween({target: this, size:3}).to({size: 0}, 150 ).easing( TWEEN.Easing.Quadratic.EaseInOut).onUpdate(function(){
-                this.target.style["box-shadow"] = "inset 0 0 0 " + (this.size << 0) + "px #888"
+                this.target.style["box-shadow"] = "inset 0 0 0 " + (this.size << 0) + "px #888";
+				//this.target.style["background-image"] = "";
             }).start();
         },
 

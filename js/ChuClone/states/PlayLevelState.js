@@ -338,7 +338,7 @@ Abstract:
             var respawnPoint = ChuClone.components.RespawnComponent.prototype.GET_CURRENT_RESPAWNPOINT();
             respawnPoint.setSpawnedEntityPosition( this._player );
 
-			this.startRecordingPlayback();
+			//this.startRecordingPlayback();
 			//this.startRecordingPlayer();
             this.animateIn();
         },

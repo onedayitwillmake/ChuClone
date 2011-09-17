@@ -30,6 +30,7 @@
 			ChuClone.gui.HUDController.createTimeCanvas();
 
 			ChuClone.gui.HUDController.setupEvents();
+
 			// TODO: TEMP HACK TO ALLOW THE FONT TO LOAD
 			setTimeout(ChuClone.gui.HUDController.setTimeInSeconds, 2000);
 		},
@@ -48,9 +49,11 @@
 					that.updateScores();
 
                 if( document.getElementById('author') ) {
-                    document.getElementById('author').innerHTML = aLevelManager._levelModel.author;
+                    document.getElementById('author').innerHTML = aLevelManager._levelModel.author || "1dayitwillmake";
                 }
 
+				if( aLevelManager.getModel().levelName != "TitleScree" )
+					document.title = "ChuClone - " + aLevelManager._levelModel.levelName;
 			});
 
 			if( document.getElementById('fullscreen_toggle') ) {
@@ -114,10 +117,12 @@
 		 * Switches on/off fullscreen mode
 		 */
 		toggleFullscreen: function() {
-            console.log("ABC")
+
 			var fullscreenToggle = document.getElementById('fullscreen_toggle');
 			var gameContainer = document.getElementById('gameContainer');
 			var HUDTime = document.getElementById('HUDTime');
+
+			ChuClone.model.AnalyticsTracker.trackFullscreen( !ChuClone.GameViewController.INSTANCE.getFullscreen() );
 
 			if( !ChuClone.GameViewController.INSTANCE.getFullscreen() ) {
 
@@ -157,9 +162,10 @@
                 hdButtonElement.innerHTML = '<p class="grayBorder"> Toggle HD </p>';
                 hdButtonElement.id = "hdbutton";
                 hdButtonElement.style.width = "100px";
-                hdButtonElement.style.left = window.innerWidth*0.1 + "px";
+                hdButtonElement.style.left = window.innerWidth*0.1 + 10 + "px";
                 hdButtonElement.addEventListener( 'mousedown', function(){
                     isHD = !isHD;
+					ChuClone.model.AnalyticsTracker.trackHD( isHD );
                     ChuClone.GameViewController.INSTANCE.setFullscreen( true, isHD );
                 });
                 document.body.appendChild( hdButtonElement )
@@ -187,9 +193,14 @@
 		 * Toggle the instructions screen
 		 */
 		toggleInstructions: function() {
+
+
 			var instructions = document.getElementById('instructions');
 			var isShowing = instructions != null;
 			var gameContainer = document.getElementById('gameContainer');
+
+			ChuClone.model.AnalyticsTracker.getInstance().trackInstructions( !isShowing );
+
 			if( !isShowing ) {
 				instructions = document.createElement("div");
 				instructions.id = 'instructions'
@@ -238,7 +249,7 @@
 				instructions.style.top = gameContainer.offsetTop+1 + "px";
 				instructions.style.left = gameContainer.offsetLeft-9 + "px";
 				instructions.style.opacity = 0;
-				instructions.style.cursor = "pointer"
+				instructions.style.cursor = "pointer";
 
 				new TWEEN.Tween({opacity:0})
 				.to({opacity: 1}, 500)

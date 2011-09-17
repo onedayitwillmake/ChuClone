@@ -37,6 +37,19 @@
 		},
 
 		/**
+		 * Preload some images we might need
+		 */
+		preloadImages: function() {
+
+			var pre = ChuClone.model.Constants.SERVER.ASSET_PREFIX;
+			var images =  [ pre + "assets/images/page/instructions.png" ];
+			for( var i = 0; i < images.length; i++ ) {
+				var img = new Image();
+				img.src = "";
+			}
+		},
+
+		/**
 		 * Retrieves the level ID from the address bar
 		 */
 		getLevelIDFromURL: function() {

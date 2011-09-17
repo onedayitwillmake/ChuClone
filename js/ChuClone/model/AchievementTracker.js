@@ -81,6 +81,7 @@
 		 * Incriments death count, called on respawn
 		 */
 		incrimentDeathCount: function() {
+			ChuClone.model.AnalyticsTracker.getInstance().trackLevelDeath();
 			this._counterTotalDeaths++;
 		},
 
