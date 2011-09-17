@@ -17,22 +17,15 @@ Abstract:
 (function(){
     "use strict";
 
-	/**
-	 * Stores current status of each key
-	 * @type {Object}
-	 */
-	var KEY_STATES = {
-		UP		: 1 << 1,
-		DOWN	: 1 << 2,
-		LEFT	: 1 << 3,
-		RIGHT	: 1 << 4
-	};
-	
+
 	ChuClone.namespace("ChuClone.components.player");
 
 	ChuClone.components.player.PlayerRecordComponent = function() {
 		ChuClone.components.player.PlayerRecordComponent.superclass.constructor.call(this);
 		this._record = [];
+		this._previousPosition = new Box2D.Common.Math.b2Vec2();
+		this.requiresUpdate = true;
+		this.lastTime = -1;
 	};
 
 	ChuClone.components.player.PlayerRecordComponent.prototype = {
@@ -53,9 +46,14 @@ Abstract:
 		_clockDelegate			: null,
 
 		/**
-		 * @type {Function}
+		 * @type {Box2D.Common.Math.b2Vec2}
 		 */
-		_callback				: null,
+		_previousPosition		: null,
+
+		/**
+		 * @type {Number}
+		 */
+		_minDistance			: 1 / ChuClone.model.Constants.PTM_RATIO,
 
 		/**
 		 * @type {Array}
@@ -84,76 +82,29 @@ Abstract:
 
 			var PlayerRecordComponent = this.attachedEntity.getComponentWithName( ChuClone.components.player.PlayerRecordComponent.prototype.displayName );
 			if( !PlayerRecordComponent ) {
-				console.error("Cannot attach PlayerInputComponent. Cannot find 'PlayerRecordComponent' in attachedEntity");
+				console.error("Cannot execute PlayerInputComponent. Cannot find 'PlayerRecordComponent' in attachedEntity");
 				return;
 			}
-
-
-			var that = this;
-            this._callback = function(e){
-                if(e.type == "keyup") that.handleKeyUp(e);
-                else if( e.type === "keydown") that.handleKeyDown(e);
-            };
-
-            ChuClone.DOM_ELEMENT.addEventListener('keydown', this._callback, false);
-            ChuClone.DOM_ELEMENT.addEventListener('keyup', this._callback, false);
-
         },
 
-		/**
-		 * Dispatched when a key is press down, changes the state this component
-		 * @param {Event} e
-		 */
-        handleKeyDown: function( e ) {
-			var state = this._currentState;
-			var validChange = false;
+		update: function() {
+			var now = Date.now();
+			if( now - this.lastTime < ChuClone.model.Constants.PLAYER.RECORDING_INTERVAL ) return;
+			var body = this.attachedEntity.getBody();
+			var pos = body.GetPosition();
+			var delta = Box2D.Common.Math.b2Math.DistanceSquared( pos, this._previousPosition );
+			if( delta < this._minDistance ) return;
 
-            if( e.keyCode == ChuClone.model.Constants.KEYS.A ) { state |= KEY_STATES.LEFT; validChange = true; }
-            else if(  e.keyCode == ChuClone.model.Constants.KEYS.D ) { state |= KEY_STATES.RIGHT; validChange = true; }
-            if( e.keyCode == ChuClone.model.Constants.KEYS.W ) { state |= KEY_STATES.UP; validChange = true; }
-            else if( e.keyCode == ChuClone.model.Constants.KEYS.S ) { state |= KEY_STATES.DOWN; validChange = true; }
-
-			if( validChange && state !== this._currentState ) {
-				this.onStateHasChanged( state );
-			}
-        },
-
-		/**
-		 * Dispatched when a key is press down, changes the state this component
-		 * @param {Event} e
-		 */
-        handleKeyUp: function(e) {
-			var state = this._currentState;
-			var validChange = false;
-
-            if( e.keyCode == ChuClone.model.Constants.KEYS.A ) { state &= ~KEY_STATES.LEFT; validChange = true; }
-            else if(  e.keyCode == ChuClone.model.Constants.KEYS.D ) { state &= ~KEY_STATES.RIGHT; validChange = true; }
-            if( e.keyCode == ChuClone.model.Constants.KEYS.W ) { state &= ~KEY_STATES.UP; validChange = true; }
-            else if( e.keyCode == ChuClone.model.Constants.KEYS.S ) { state &= ~KEY_STATES.DOWN; validChange = true; }
-
-			if( validChange && state !== this._currentState ) {
-				this.onStateHasChanged( state );
-			}
-        },
-
-		/**
-		 * The state has changed, set the current state and record the previous
-		 * @param newState
-		 */
-		onStateHasChanged: function( newState ) {
-			this._currentState = newState;
-			var time = this._clockDelegate.getCurrentTime();
-			this._record.push({t:time, s: this._currentState });
+			this._previousPosition = pos.Copy();
+			this._record.push({t: this._clockDelegate.getCurrentTime(), x: pos.x, y: pos.y, rotation: body.GetAngle() });
+			this.lastTime = now;
 		},
+
 
         /**
          * Restore material and restitution
          */
         detach: function() {
-            ChuClone.DOM_ELEMENT.removeEventListener('keydown', this._callback, false);
-            ChuClone.DOM_ELEMENT.removeEventListener('keyup', this._callback, false);
-            this._callback = null;
-
            ChuClone.components.player.PlayerRecordComponent.superclass.detach.call(this);
         },
 
@@ -171,7 +122,7 @@ Abstract:
 		 * @return {Array}
 		 */
 		getRecord: function() {
-			console.log( this._record );
+			console.log( JSON.stringify( this._record ) );
 			return this._record;
 		}
 	};

@@ -96,7 +96,8 @@
             WIDTH: 30,
             HEIGHT: 30,
             DEPTH: 30,
-            MATERIAL: new THREE.MeshPhongMaterial( { ambient: 0xff, color: 0x666666, specular: 0xDDDDDD, shininess:1, shading: THREE.FlatShading } )
+            MATERIAL: new THREE.MeshPhongMaterial( { ambient: 0xff, color: 0x666666, specular: 0xDDDDDD, shininess:1, shading: THREE.FlatShading } ),
+			RECORDING_INTERVAL: 200
         },
 
 		PHYSICS: {
