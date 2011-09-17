@@ -44,6 +44,7 @@
         onReady: function() {
             this.setupDivs("levellisting");
             this.setupDivs("user_levellisting");
+            this.setupDivs("beta_levellisting");
         },
 
         /**
@@ -54,25 +55,18 @@
             if( !levelListing ) return;
             for (var i = 0; i < levelListing.children.length; ++i) {
                 var item = levelListing.children[i];
+
+                // No data
+                if( item.getAttribute("data-id") == "" )  {
+                    item.style.opacity = "0.4";
+                    continue;
+                }
+                
                 item.addEventListener('click', this.onLevelClicked, false);
                 item.addEventListener('mouseover', this.onLevelRollover, false);
             }
         },
 
-        /**
-		 * Sets up the drop down list that displays this users levels
-		 */
-		createKongregateLevelListing: function() {
-			var that = this;
-			var request = new XMLHttpRequest();
-			request.onreadystatechange = function() {
-				if (request.readyState == 4) {
-					that.populateServerLevelList(request);
-				}
-			};
-			request.open("GET", ChuClone.model.Constants.SERVER.USER_LEVELS_LOCATION, true);
-			request.send(null);
-		},
 
 		/**
 		 * Called once the level list has been loaded
