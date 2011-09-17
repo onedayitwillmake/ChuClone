@@ -40,6 +40,10 @@
 
 		trackHD: function( state ) {
 			window._gaq.push(['_trackEvent', 'HD', state ]);
+		},
+
+		trackGlowMode: function() {
+			window._gaq.push(['_trackEvent', 'GlowMode', 'TRUE']);
 		}
 
 

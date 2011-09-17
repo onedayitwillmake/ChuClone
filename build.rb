@@ -1,5 +1,5 @@
 importsString = <<-eos
-    java -jar compiler/compiler.jar --compilation_level SIMPLE_OPTIMIZATIONS  --jscomp_off=internetExplorerChecks --js_output_file=chuclone_min.js
+    java -jar compiler/compiler.jar --compilation_level SIMPLE_OPTIMIZATIONS  --jscomp_off=internetExplorerChecks --js_output_file=js/min/chuclone_min.js
 
 
     <script type='text/javascript' src='/game/js/lib/DAT.GUI.js'></script>
@@ -28,6 +28,7 @@ importsString = <<-eos
     <script type='text/javascript' src='/game/js/ChuClone/model/Constants.js'></script>
     <script type='text/javascript' src='/game/js/ChuClone/model/LineSegment.js'></script>
     <script type='text/javascript' src='/game/js/ChuClone/model/AchievementTracker.js'></script>
+    <script type='text/javascript' src='/game/js/ChuClone/model/AnalyticsTracker.js'></script>
 
     <script type='text/javascript' src='/game/js/ChuClone/controller/AudioController.js'></script>
 
@@ -108,9 +109,9 @@ importsString = <<-eos
     <script type='text/javascript' src='/game/js/ChuClone/ChuCloneGame.js'></script>
 eos
 
-importsString = importsString.gsub("<script type='text/javascript' src='/game/", "--js ./")
+importsString = importsString.gsub("<script type='text/javascript' src='/game/", " --js ./")
 importsString = importsString.gsub("'></script>", "")
 importsString = importsString.gsub("\n", "")
 importsString = importsString.gsub("\t", "")
-#//puts importsString
+#puts importsString
 exec importsString

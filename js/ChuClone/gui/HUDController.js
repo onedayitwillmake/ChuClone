@@ -52,7 +52,7 @@
                     document.getElementById('author').innerHTML = aLevelManager._levelModel.author || "1dayitwillmake";
                 }
 
-				if( aLevelManager.getModel().levelName != "TitleScree" )
+				if( aLevelManager.getModel().levelName != "TitleScreen" )
 					document.title = "ChuClone - " + aLevelManager._levelModel.levelName;
 			});
 
@@ -122,7 +122,7 @@
 			var gameContainer = document.getElementById('gameContainer');
 			var HUDTime = document.getElementById('HUDTime');
 
-			ChuClone.model.AnalyticsTracker.trackFullscreen( !ChuClone.GameViewController.INSTANCE.getFullscreen() );
+			ChuClone.model.AnalyticsTracker.getInstance().trackFullscreen( !ChuClone.GameViewController.INSTANCE.getFullscreen() );
 
 			if( !ChuClone.GameViewController.INSTANCE.getFullscreen() ) {
 
@@ -165,7 +165,7 @@
                 hdButtonElement.style.left = window.innerWidth*0.1 + 10 + "px";
                 hdButtonElement.addEventListener( 'mousedown', function(){
                     isHD = !isHD;
-					ChuClone.model.AnalyticsTracker.trackHD( isHD );
+					ChuClone.model.AnalyticsTracker.getInstance().trackHD( isHD );
                     ChuClone.GameViewController.INSTANCE.setFullscreen( true, isHD );
                 });
                 document.body.appendChild( hdButtonElement )

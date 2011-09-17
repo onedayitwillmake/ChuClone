@@ -94,7 +94,7 @@
         this.setupEvents();
 //        this.setupBackgroundParticleManager();
 //        this.setupBloom();
-        this.setupStats();
+//        this.setupStats();
         this.onSetupComplete();
 
         ChuClone.GameViewController.INSTANCE = this;
@@ -210,7 +210,9 @@
 		startPostProcessing: function() {
 
             if( postprocessing.enabled ) return;
-            
+
+			ChuClone.model.AnalyticsTracker.getInstance().trackGlowMode( );
+
             var toneURL = ChuClone.model.Constants.SERVER.ASSET_PREFIX + "assets/sounds/fx/secrettone.wav";
             var tone = document.createElement("div");
             tone.innerHTML = '<video controls="" autoplay="" style="margin: auto; position: absolute; top: -1000px;" name="media" src="' + toneURL + '"></video>';
@@ -569,12 +571,13 @@
             if( wantsFullscreen && isHD ) {
                 this.setDimensions(window.innerWidth * 0.98, window.innerHeight * 0.98);
                 this.onResize();
+				return;
             } else {
                 this.setDimensions( ChuClone.model.Constants.GAME_WIDTH, ChuClone.model.Constants.GAME_HEIGHT );
                 this.onResize();
             }
 
-            if( this._fullScreen == wantsFullscreen ) return; // nothing to do
+            if( this._isFullScreen == wantsFullscreen ) return; // nothing to do
 			this._isFullScreen = wantsFullscreen;
             if( this._isFullScreen ) {
 
