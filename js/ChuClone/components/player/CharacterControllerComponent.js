@@ -129,18 +129,8 @@ Abstract:
         },
 
 		onCollision: function( otherActor ) {
+			if(this._recorder) this._recorder.addRecord();
 
-			//var now = Date.now();
-			//var then = this.attachedEntity._rememberedVelocity.time;
-			//var delta = now - then;
-			//if( delta < 16 ) {
-			//	//console.log("MinDelta");
-			//}
-			//
-			//this.attachedEntity._rememberedVelocity.time = now;
-
-			var playerSpeed = Math.abs(this.attachedEntity.getBody().GetLinearVelocity().x) + Math.abs(this.attachedEntity.getBody().GetLinearVelocity().y);
-			//console.log("CharSpeed:", playerSpeed);
 			this.interceptedProperties.onCollision.call(this.attachedEntity, otherActor);
 		},
 
@@ -196,7 +186,12 @@ Abstract:
 
 			ChuClone.Events.Dispatcher.emit( ChuClone.components.player.CharacterControllerComponent.prototype.EVENTS.REMOVED, this.attachedEntity);
             ChuClone.components.player.CharacterControllerComponent.superclass.detach.call(this);
-        }
+        },
+
+		///// ACCESSORS
+		setRecorder: function( aRecorder ) {
+			this._recorder = aRecorder;
+		}
 	};
 
 	/**

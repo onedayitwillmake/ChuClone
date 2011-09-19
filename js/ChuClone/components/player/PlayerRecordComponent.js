@@ -22,10 +22,7 @@ Abstract:
 	var PTM_RATIO = ChuClone.model.Constants.PTM_RATIO;
 	ChuClone.components.player.PlayerRecordComponent = function() {
 		ChuClone.components.player.PlayerRecordComponent.superclass.constructor.call(this);
-		this._record = [];
-		this._previousPosition = new Box2D.Common.Math.b2Vec2();
-		this.requiresUpdate = true;
-		this.lastTime = -1;
+		this.reset();
 	};
 
 	ChuClone.components.player.PlayerRecordComponent.prototype = {
@@ -53,7 +50,7 @@ Abstract:
 		/**
 		 * @type {Number}
 		 */
-		_minDistance			: 100,
+		_minDistance			: 1/PTM_RATIO,
 
 		/**
 		 * @type {Array}
@@ -87,19 +84,42 @@ Abstract:
 			}
         },
 
+		/**
+		 * Records player position info if
+		 */
 		update: function() {
 			var now = Date.now();
 			if( now - this.lastTime < ChuClone.model.Constants.PLAYER.RECORDING_INTERVAL ) return;
 			var body = this.attachedEntity.getBody();
 			var pos = body.GetPosition();
 			var delta = Box2D.Common.Math.b2Math.DistanceSquared( pos, this._previousPosition );
+
+			//console.log("Attempting to record TimeDelta:", now - this.lastTime);
 			if( delta < this._minDistance ) return;
 
-			this._previousPosition = pos.Copy();
-			this._record.push({t: this._clockDelegate.getCurrentTime(), x: (pos.x*PTM_RATIO) << 1, y: (pos.y*PTM_RATIO) << 1, rotation: (body.GetAngle()*57.2957795) << 1 });
-			this.lastTime = now;
+			//console.log("Recorded Position: delta:", delta);
+			this.addRecord();
 		},
 
+		addRecord: function() {
+			//console.log("addingrecord");
+			var body = this.attachedEntity.getBody();
+			var pos = body.GetPosition();
+			this._previousPosition.x = pos.x;
+			this._previousPosition.y = pos.y;
+			this._record.push({t: this._clockDelegate.getCurrentTime(), x: Math.round(pos.x*1000)/1000, y: Math.round(pos.y*1000)/1000, r: Math.round(body.GetAngle()*10000)/10000  });
+			this.lastTime = Date.now();
+		},
+
+		/**
+		 * Clears record
+		 */
+		reset: function() {
+			this._record = [];
+			this._previousPosition = new Box2D.Common.Math.b2Vec2();
+			this.requiresUpdate = true;
+			this.lastTime = -1;
+		},
 
         /**
          * Restore material and restitution

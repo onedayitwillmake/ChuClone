@@ -87,7 +87,7 @@ Abstract:
 			var geometry = new THREE.PlaneGeometry(width, 10000, 10, 1);
 
 			var mesh = new THREE.Mesh(geometry, [new THREE.MeshBasicMaterial({
-						color: ChuClone.model.Constants.IS_BLOOM ? 0xFF00FF : 0xeeeeee,
+						color: ChuClone.model.Constants.IS_BLOOM ? 0xFF00FF : 0xdedede,
 						shading: THREE.FlatShading,
 						opacity: ChuClone.model.Constants.IS_BLOOM ? 0.25 : 1,
 						wireframe: true
@@ -243,6 +243,8 @@ Abstract:
 
             this._didAnimateIn = true;
             this._player.getBody().SetActive( true );
+			//this.startRecordingPlayback();
+			this.startRecordingPlayer();
         },
 
 		/**
@@ -254,6 +256,7 @@ Abstract:
             this.addListener( ChuClone.editor.LevelManager.prototype.EVENTS.LEVEL_DESTROYED, function( aLevelManager ) { that.onLevelDestroyed( aLevelManager ) } );
             this.addListener( ChuClone.components.player.CharacterControllerComponent.prototype.EVENTS.CREATED, function( aPlayer ) { that.onPlayerCreated(aPlayer) } );
             this.addListener( ChuClone.components.player.CharacterControllerComponent.prototype.EVENTS.REMOVED, function( aPlayer ) { that.onPlayerDestroyed(aPlayer) } );
+            this.addListener( ChuClone.components.RespawnComponent.prototype.EVENTS.SPAWNED_PLAYER, function( aRespawnPoint ) { that.onPlayerRespawned( aRespawnPoint ) } );
             this.addListener( ChuClone.components.GoalPadComponent.prototype.EVENTS.GOAL_REACHED, function( aGoalPad ) { that.onGoalReached( aGoalPad ) } );
         },
 
@@ -304,7 +307,7 @@ Abstract:
 		 * Sets up the camera
 		 */
 		setupCamera: function() {
-			console.log("SETTING UP CAMERA")
+			//console.log("SETTING UP CAMERA")
 			// Attach a few gameplay related components to the camera
 			var gameCamera = this._gameView.getCamera();
 
@@ -338,9 +341,9 @@ Abstract:
             var respawnPoint = ChuClone.components.RespawnComponent.prototype.GET_CURRENT_RESPAWNPOINT();
             respawnPoint.setSpawnedEntityPosition( this._player );
 
-			//this.startRecordingPlayback();
-			this.startRecordingPlayer();
-            this.animateIn();
+
+            //this.animateIn();
+			this.animateInComplete();
         },
 
 		/**
@@ -353,6 +356,21 @@ Abstract:
                 this._player = null;
             }
         },
+
+		/**
+		 * Player has spawned from a RespawnPoint
+		 * @param {ChuClone.components.RespawnComponent} aRespawnPoint
+		 */
+		onPlayerRespawned: function( aRespawnPoint ) {
+			 console.log("Player-Respawned!");
+			if( !aRespawnPoint.getIsInitial() ) return;
+
+			this.resetTime();
+			var recorder = this._player.getComponentWithName( ChuClone.components.player.PlayerRecordComponent.prototype.displayName );
+			if( recorder ) {
+				recorder.reset();
+			}
+		},
 
         /**
 		 * Called when a goal is hit

@@ -54,14 +54,25 @@ Abstract:
 	 */
 	var __addRespawnPoint = function( aRespawnPoint ) {
 		__respawnPoints.push(aRespawnPoint);
+
+		/**
+		 * Sorts two respawn points based on position
+		 * @param {ChuClone.components.RespawnComponent} a
+		 * @param {ChuClone.components.RespawnComponent} b
+		 */
 		__respawnPoints.sort( function( a, b ) {
 			var posA = a.attachedEntity.getBody().GetPosition().x;
 			var posB = b.attachedEntity.getBody().GetPosition().x;
+
+			a.setIsInitial( false );
+			b.setIsInitial( false );
 
 			if(posA < posB) return -1;
 			else if (posA > posB) return 1;
 			else return 0;
 		});
+
+		__respawnPoints[0].setIsInitial( true );
 	};
 
 
@@ -72,7 +83,7 @@ Abstract:
 	ChuClone.components.RespawnComponent.prototype = {
 		displayName		: "RespawnComponent",					// Unique string name for this Trait
         _textureSource	: "assets/images/game/flooraqua.png",
-        _respawnState   : 0,
+		_isInitial	: false,
 
         EVENTS: {
             CREATED     	: "ChuClone.components.RespawnComponent.events.CREATED",
@@ -172,6 +183,13 @@ Abstract:
 			ChuClone.components.RespawnComponent.superclass.fromModel.call(this, data);
             this._textureSource = data.textureSource;
 		},
+
+		/**
+		 * Sometimes unique things might want to happen, if we spawn from an initial poiont (such as resetting the clock)
+		 * @param {Boolean} aValue
+		 */
+		setIsInitial: function( aValue ) { this._isInitial = aValue; },
+		getIsInitial: function() { return this._isInitial },
 
 
 		/**

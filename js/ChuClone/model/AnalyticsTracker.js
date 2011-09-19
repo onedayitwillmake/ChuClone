@@ -15,8 +15,7 @@
 
 	ChuClone.model.AnalyticsTracker.prototype = {
 		trackLevelLoaded: function( levelTitle ) {
-			if(window._gaq)
-				window._gaq.push(['_trackEvent', 'Levels', 'Play', levelTitle]);
+			window._gaq.push(['_trackEvent', 'Levels', 'Play', levelTitle]);
 		},
 
 		trackLevelCompleted: function( levelTitle ){
