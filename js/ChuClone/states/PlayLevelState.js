@@ -250,6 +250,8 @@ Abstract:
 
             this._didAnimateIn = true;
             this._player.getBody().SetActive( true );
+			//this.startRecordingPlayer();
+			this.startRecordingPlayback();
         },
 
 		/**
@@ -345,8 +347,8 @@ Abstract:
             var respawnPoint = ChuClone.components.RespawnComponent.prototype.GET_CURRENT_RESPAWNPOINT();
             respawnPoint.setSpawnedEntityPosition( this._player );
 
-			this.startRecordingPlayer();
-            this.animateIn();
+            //this.animateIn();
+			this.animateInComplete();
         },
 
 		/**
@@ -443,6 +445,7 @@ Abstract:
 			var playerPlayback = new ChuClone.components.player.PlayerPlaybackComponent();
 			playerPlayback.setClockDelegate( this );
 			this._player.addComponentAndExecute( playerPlayback );
+			playerPlayback.update();
 		},
 
         /**

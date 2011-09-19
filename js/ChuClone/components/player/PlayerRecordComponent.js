@@ -69,6 +69,11 @@ Abstract:
 		_currentState: 0,
 
 		/**
+		 * @type {ChuClone.components.player.KeyboardInputComponent}
+		 */
+		_input: null,
+
+		/**
 		 * @inheritDoc
 		 */
 		attach: function(anEntity) {
@@ -82,59 +87,29 @@ Abstract:
 				return;
 			}
 
-			var PlayerRecordComponent = this.attachedEntity.getComponentWithName( ChuClone.components.player.PlayerRecordComponent.prototype.displayName );
-			if( !PlayerRecordComponent ) {
-				console.error("Cannot attach PlayerInputComponent. Cannot find 'PlayerRecordComponent' in attachedEntity");
+			this._input = this.attachedEntity.getComponentWithName(ChuClone.components.player.KeyboardInputComponent.prototype.displayName);
+			if( !this._input ) {
+				console.error("Cannot attach PlayerRecordComponent without a valid keyboardinputcomponent");
 				return;
 			}
-
-
-			var that = this;
-            this._callback = function(e){
-                if(e.type == "keyup") that.handleKeyUp(e);
-                else if( e.type === "keydown") that.handleKeyDown(e);
-            };
-
-            ChuClone.DOM_ELEMENT.addEventListener('keydown', this._callback, false);
-            ChuClone.DOM_ELEMENT.addEventListener('keyup', this._callback, false);
-
+			this.requiresUpdate = true;
         },
 
-		/**
-		 * Dispatched when a key is press down, changes the state this component
-		 * @param {Event} e
-		 */
-        handleKeyDown: function( e ) {
-			var state = this._currentState;
-			var validChange = false;
+		update: function() {
+			var state = 0;
+			var validChange = true;
 
-            if( e.keyCode == ChuClone.model.Constants.KEYS.A ) { state |= KEY_STATES.LEFT; validChange = true; }
-            else if(  e.keyCode == ChuClone.model.Constants.KEYS.D ) { state |= KEY_STATES.RIGHT; validChange = true; }
-            if( e.keyCode == ChuClone.model.Constants.KEYS.W ) { state |= KEY_STATES.UP; validChange = true; }
-            else if( e.keyCode == ChuClone.model.Constants.KEYS.S ) { state |= KEY_STATES.DOWN; validChange = true; }
+			if( this._input._keyStates.left ) { state |= KEY_STATES.LEFT; validChange = true; }
+            if( this._input._keyStates.right ) { state |= KEY_STATES.RIGHT; validChange = true; }
+            if( this._input._keyStates.up ) { state |= KEY_STATES.UP; validChange = true; }
+            if( this._input._keyStates.down ) { state |= KEY_STATES.DOWN; validChange = true; }
 
 			if( validChange && state !== this._currentState ) {
+
+				console.log("StateChange:", state);
 				this.onStateHasChanged( state );
 			}
-        },
-
-		/**
-		 * Dispatched when a key is press down, changes the state this component
-		 * @param {Event} e
-		 */
-        handleKeyUp: function(e) {
-			var state = this._currentState;
-			var validChange = false;
-
-            if( e.keyCode == ChuClone.model.Constants.KEYS.A ) { state &= ~KEY_STATES.LEFT; validChange = true; }
-            else if(  e.keyCode == ChuClone.model.Constants.KEYS.D ) { state &= ~KEY_STATES.RIGHT; validChange = true; }
-            if( e.keyCode == ChuClone.model.Constants.KEYS.W ) { state &= ~KEY_STATES.UP; validChange = true; }
-            else if( e.keyCode == ChuClone.model.Constants.KEYS.S ) { state &= ~KEY_STATES.DOWN; validChange = true; }
-
-			if( validChange && state !== this._currentState ) {
-				this.onStateHasChanged( state );
-			}
-        },
+		},
 
 		/**
 		 * The state has changed, set the current state and record the previous
@@ -143,19 +118,17 @@ Abstract:
 		onStateHasChanged: function( newState ) {
 			this._currentState = newState;
 			var time = this._clockDelegate.getCurrentTime();
+
 			this._record.push({t:time, s: this._currentState });
 		},
 
         /**
          * Restore material and restitution
          */
-        detach: function() {
-            ChuClone.DOM_ELEMENT.removeEventListener('keydown', this._callback, false);
-            ChuClone.DOM_ELEMENT.removeEventListener('keyup', this._callback, false);
-            this._callback = null;
-
-           ChuClone.components.player.PlayerRecordComponent.superclass.detach.call(this);
-        },
+		detach: function() {
+			this._input = null;
+			ChuClone.components.player.PlayerRecordComponent.superclass.detach.call(this);
+		},
 
 		/**
 		 * Sets the object we call getClock on, probably the playlevelstate
@@ -171,7 +144,7 @@ Abstract:
 		 * @return {Array}
 		 */
 		getRecord: function() {
-			console.log( this._record );
+			console.log( JSON.stringify( this._record ) );
 			return this._record;
 		}
 	};

@@ -149,9 +149,9 @@ Abstract:
          */
         dispatchCreatedEvent: function() {
             var that = this;
-            setTimeout(function(){
+            ChuClone.utils.FunctionQueue.setTimeout(function(){
                 ChuClone.Events.Dispatcher.emit( ChuClone.components.player.CharacterControllerComponent.prototype.EVENTS.CREATED, that.attachedEntity);
-            }, 16);
+            }, 1);
         },
 
 		/**

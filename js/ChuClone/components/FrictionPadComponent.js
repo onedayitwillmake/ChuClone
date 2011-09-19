@@ -31,7 +31,7 @@ Abstract:
         _previousMaterial               : null,
 		_damping						: 0.25,
 
-        _inactiveDelay                  : 250,
+        _inactiveDelay                  : 16,
         _isReady                        : true,
         _isReadyTimeout                 : null,
 
@@ -84,8 +84,8 @@ Abstract:
         startWaitingForIsReady: function() {
             var that = this;
             this._isReady = false;
-            clearTimeout( this._isReadyTimeout );
-            this._isReadyTimeout = setTimeout( function(){
+            ChuClone.utils.FunctionQueue.clearTimeout( this._isReadyTimeout );
+            this._isReadyTimeout = ChuClone.utils.FunctionQueue.setTimeout( function(){
                 that._isReady = true;
             }, this._inactiveDelay );
         },

@@ -78,7 +78,7 @@ Abstract:
 
 
             // Respawn the entity on the next frame
-            setTimeout( function() {
+            ChuClone.utils.FunctionQueue.setTimeout(function() {
                 ChuClone.components.RespawnComponent.prototype.GET_CURRENT_RESPAWNPOINT().setSpawnedEntityPosition( otherActor );
                 otherActor.getBody().SetLinearVelocity( new Box2D.Common.Math.b2Vec2(0, 0) );
             }, 1);

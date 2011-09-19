@@ -140,6 +140,7 @@
 				})();
 			} else {
 				(function loop() {
+						ChuClone.utils.FunctionQueue.update();
 						that.update();
 						TWEEN.update();
 						window.requestAnimationFrame(loop);

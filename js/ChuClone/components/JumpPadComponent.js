@@ -128,12 +128,10 @@ Abstract:
 			var angle = Math.min( distx / (this.attachedEntity.getDimensions().width/ChuClone.model.Constants.PTM_RATIO), 1) * Math.PI*1.5;
 
             // Note: We have to call it on a timeout for 'next frame', because Box2D locks certain body properties during the collision
-			setTimeout( function() {
+			ChuClone.utils.FunctionQueue.setTimeout(function() {
 				otherActor.getBody().SetAngularVelocity( otherActor.getBody().GetAngularVelocity() - angle);
 				ChuClone.model.AchievementTracker.getInstance().startTrackingJump();
-			}, 16);
-
-
+			}, 1);
 
             // Prevent double-jumping
             this.startWaitingForIsReady()

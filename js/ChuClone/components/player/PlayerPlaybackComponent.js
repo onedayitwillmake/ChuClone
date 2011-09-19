@@ -32,8 +32,9 @@ Abstract:
 
 	ChuClone.components.player.PlayerPlaybackComponent = function() {
 		ChuClone.components.player.PlayerPlaybackComponent.superclass.constructor.call(this);
+		this._keyStates = {left:false, right:false, up:false, down: false};
 		this.requiresUpdate = true;
-		this._record = JSON.parse('[{"t":107,"s":16},{"t":199,"s":18},{"t":206,"s":16},{"t":265,"s":18},{"t":297,"s":16},{"t":338,"s":18},{"t":346,"s":16},{"t":406,"s":18},{"t":430,"s":16},{"t":476,"s":0},{"t":485,"s":8},{"t":503,"s":10},{"t":514,"s":2},{"t":519,"s":18},{"t":520,"s":16},{"t":598,"s":0},{"t":610,"s":8},{"t":613,"s":10},{"t":631,"s":8},{"t":633,"s":0},{"t":650,"s":16},{"t":686,"s":0},{"t":703,"s":16},{"t":715,"s":18},{"t":722,"s":16},{"t":798,"s":0},{"t":805,"s":8},{"t":828,"s":0},{"t":835,"s":16},{"t":998,"s":0},{"t":1003,"s":2},{"t":1012,"s":0},{"t":1022,"s":8},{"t":1050,"s":10},{"t":1059,"s":2},{"t":1062,"s":0},{"t":1064,"s":8},{"t":1072,"s":0},{"t":1083,"s":16},{"t":1095,"s":0},{"t":1105,"s":8},{"t":1117,"s":10},{"t":1129,"s":8},{"t":1131,"s":0},{"t":1149,"s":16},{"t":1151,"s":0},{"t":1172,"s":16},{"t":1217,"s":18},{"t":1224,"s":16},{"t":1265,"s":20},{"t":1283,"s":16},{"t":1320,"s":18},{"t":1327,"s":16},{"t":1357,"s":20},{"t":1371,"s":16},{"t":1452,"s":0},{"t":1462,"s":16},{"t":1486,"s":18},{"t":1522,"s":16},{"t":1594,"s":18},{"t":1599,"s":16},{"t":1602,"s":0},{"t":1611,"s":4},{"t":1617,"s":12},{"t":1621,"s":8},{"t":1624,"s":0},{"t":1632,"s":8},{"t":1642,"s":10},{"t":1727,"s":2},{"t":1729,"s":0},{"t":1729,"s":16},{"t":1734,"s":20},{"t":1760,"s":16},{"t":1836,"s":18},{"t":1844,"s":16},{"t":1913,"s":18},{"t":2080,"s":2},{"t":2084,"s":0},{"t":2085,"s":8},{"t":2098,"s":10},{"t":2109,"s":8},{"t":2114,"s":0},{"t":2123,"s":16},{"t":2129,"s":20},{"t":2138,"s":16},{"t":2160,"s":18},{"t":2257,"s":16},{"t":2263,"s":20},{"t":2265,"s":4},{"t":2273,"s":20},{"t":2283,"s":16},{"t":2324,"s":18},{"t":2424,"s":16},{"t":2426,"s":0},{"t":2432,"s":8},{"t":2454,"s":0},{"t":2463,"s":16},{"t":2479,"s":0},{"t":2484,"s":8},{"t":2488,"s":0},{"t":2505,"s":16},{"t":2524,"s":0},{"t":2527,"s":8},{"t":2534,"s":10},{"t":2553,"s":8},{"t":2571,"s":0},{"t":2586,"s":16},{"t":2591,"s":0},{"t":2619,"s":16},{"t":2633,"s":0},{"t":2646,"s":16},{"t":2660,"s":0},{"t":2667,"s":16},{"t":2755,"s":20},{"t":2763,"s":16},{"t":2790,"s":18},{"t":2796,"s":16},{"t":2832,"s":20},{"t":2846,"s":16},{"t":2931,"s":0},{"t":2952,"s":16},{"t":2965,"s":18},{"t":2974,"s":16},{"t":3072,"s":0},{"t":3112,"s":16},{"t":3136,"s":0},{"t":3141,"s":8},{"t":3152,"s":10},{"t":3167,"s":8},{"t":3178,"s":0},{"t":3198,"s":16},{"t":3268,"s":18},{"t":3332,"s":16},{"t":3337,"s":20},{"t":3348,"s":16},{"t":3386,"s":18},{"t":3392,"s":16},{"t":3432,"s":18},{"t":3438,"s":16},{"t":3444,"s":18},{"t":3449,"s":16},{"t":3455,"s":18},{"t":3460,"s":16},{"t":3558,"s":0},{"t":3569,"s":8},{"t":3583,"s":0},{"t":3596,"s":8},{"t":3605,"s":0},{"t":3614,"s":16},{"t":3620,"s":18},{"t":3632,"s":16},{"t":3678,"s":0},{"t":3689,"s":8},{"t":3694,"s":0},{"t":3699,"s":16},{"t":3707,"s":18},{"t":3719,"s":16},{"t":3794,"s":0}]');
+		this._record = JSON.parse('[{"t":72,"s":16},{"t":166,"s":0},{"t":201,"s":16},{"t":296,"s":0},{"t":321,"s":2},{"t":330,"s":0},{"t":335,"s":16},{"t":418,"s":0},{"t":431,"s":2},{"t":450,"s":0},{"t":458,"s":16},{"t":478,"s":0},{"t":560,"s":2},{"t":585,"s":0},{"t":597,"s":16},{"t":602,"s":0},{"t":619,"s":2},{"t":640,"s":0},{"t":674,"s":8},{"t":750,"s":0},{"t":793,"s":16},{"t":877,"s":0},{"t":886,"s":2},{"t":898,"s":0},{"t":908,"s":16},{"t":939,"s":0},{"t":1020,"s":8},{"t":1033,"s":0},{"t":1044,"s":8},{"t":1058,"s":0},{"t":1137,"s":16},{"t":1146,"s":0},{"t":1168,"s":16},{"t":1179,"s":0},{"t":1217,"s":8},{"t":1220,"s":0},{"t":1252,"s":8},{"t":1258,"s":0},{"t":1264,"s":8},{"t":1287,"s":0},{"t":1304,"s":8},{"t":1323,"s":0},{"t":1417,"s":8},{"t":1463,"s":0},{"t":1472,"s":16},{"t":1473,"s":20},{"t":1479,"s":16},{"t":1496,"s":0},{"t":1530,"s":2},{"t":1534,"s":0},{"t":1563,"s":4},{"t":1582,"s":0},{"t":1616,"s":2},{"t":1640,"s":0},{"t":1646,"s":16},{"t":1786,"s":0},{"t":1828,"s":16},{"t":1922,"s":0},{"t":1944,"s":16},{"t":1960,"s":0},{"t":1980,"s":16},{"t":1986,"s":0},{"t":2012,"s":16},{"t":2019,"s":0},{"t":2047,"s":8},{"t":2063,"s":0},{"t":2116,"s":2},{"t":2128,"s":0},{"t":2148,"s":8},{"t":2157,"s":0},{"t":2179,"s":4},{"t":2184,"s":16},{"t":2189,"s":0},{"t":2201,"s":16},{"t":2209,"s":0},{"t":2219,"s":16},{"t":2256,"s":0},{"t":2264,"s":2},{"t":2272,"s":0},{"t":2288,"s":16},{"t":2294,"s":0},{"t":2311,"s":8},{"t":2347,"s":0},{"t":2427,"s":16},{"t":2484,"s":0},{"t":2518,"s":16},{"t":2539,"s":0},{"t":2597,"s":8},{"t":2612,"s":0},{"t":2625,"s":16},{"t":2650,"s":0},{"t":2658,"s":2},{"t":2684,"s":0},{"t":2697,"s":2},{"t":2711,"s":0},{"t":2721,"s":8},{"t":2730,"s":0},{"t":2741,"s":16},{"t":2930,"s":0},{"t":2936,"s":2},{"t":2961,"s":0},{"t":2966,"s":16},{"t":3147,"s":0},{"t":3173,"s":8},{"t":3183,"s":0},{"t":3205,"s":16},{"t":3242,"s":0},{"t":3337,"s":16},{"t":3395,"s":0},{"t":3440,"s":16},{"t":3459,"s":0},{"t":3468,"s":16},{"t":3479,"s":0}]');
 		this._record.reverse();
 	};
 
@@ -80,14 +81,14 @@ Abstract:
 			}
 
 			/**
-			 * @type {ChuClone.components.player.KeyboardInputComponent }
+			 * @type {ChuClone.components.player.CharacterControllerComponent}
 			 */
-			this._keyboardComponent = this.attachedEntity.getComponentWithName( ChuClone.components.player.KeyboardInputComponent .prototype.displayName );
+			this._keyboardComponent = this.attachedEntity.getComponentWithName( ChuClone.components.player.CharacterControllerComponent.prototype.displayName );
+			this._keyboardComponent._input = this;
 			if( !this._keyboardComponent ) {
 				console.error("Cannot attach PlayerInputComponent. Cannot find 'PlayerPlaybackComponent' in attachedEntity");
 				return;
 			}
-			this._keyboardComponent.handleKeyDown = this._keyboardComponent.handleKeyUp = function(){};
         },
 
 		/**
@@ -95,7 +96,8 @@ Abstract:
 		 */
 		update: function() {
 			var time = this._clockDelegate.getCurrentTime();
-			time += 4;
+			//console.log(time)
+			//time -= 2;
 			var len = this._record.length;
 			var needsUpdate = false;
 			var i = 0;
@@ -104,7 +106,7 @@ Abstract:
 				// Match found - set our state and pop the element
 				if(stateInfo.t == time) {
 					this._currentState = stateInfo.s;
-					this._record.pop();
+					//this._record.pop();
 					needsUpdate = true;
 					break;
 				}
@@ -113,10 +115,10 @@ Abstract:
 
 			// Found an update state
 			if( needsUpdate ) {
-				this._keyboardComponent._keyStates.up = (this._currentState & KEY_STATES.UP);
-				this._keyboardComponent._keyStates.down = (this._currentState & KEY_STATES.DOWN);
-				this._keyboardComponent._keyStates.left = (this._currentState & KEY_STATES.LEFT);
-				this._keyboardComponent._keyStates.right = (this._currentState & KEY_STATES.RIGHT);
+				this._keyStates.up = (this._currentState & KEY_STATES.UP);
+				this._keyStates.down = (this._currentState & KEY_STATES.DOWN);
+				this._keyStates.left = (this._currentState & KEY_STATES.LEFT);
+				this._keyStates.right = (this._currentState & KEY_STATES.RIGHT);
 			}
 		},
 
