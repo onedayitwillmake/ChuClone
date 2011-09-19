@@ -144,10 +144,10 @@ Abstract:
             var that = this;
             this._isReady = false;
 
-            clearTimeout( this._isReadyTimeout );
-            this._isReadyTimeout = setTimeout( function(){
+            ChuClone.utils.FunctionQueue.clearTimeout( this._isReadyTimeout );
+            this._isReadyTimeout = ChuClone.utils.FunctionQueue.setTimeout( function(){
                 that._isReady = true;
-            }, this._inactiveDelay);
+            }, Math.round(this._inactiveDelay/60));
         },
 
         /**

@@ -94,7 +94,7 @@
         this.setupEvents();
 //        this.setupBackgroundParticleManager();
 //        this.setupBloom();
-//        this.setupStats();
+        this.setupStats();
         this.onSetupComplete();
 
         ChuClone.GameViewController.INSTANCE = this;

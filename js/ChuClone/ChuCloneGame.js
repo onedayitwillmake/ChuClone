@@ -139,10 +139,13 @@
 					}
 				})();
 			} else {
+				var s = 0;
 				(function loop() {
-						ChuClone.utils.FunctionQueue.update();
-						that.update();
-						TWEEN.update();
+						//if(++s % 2 == 0) {
+							ChuClone.utils.FunctionQueue.update();
+							that.update();
+							TWEEN.update();
+						//}
 						window.requestAnimationFrame(loop);
 				})();
 			}
