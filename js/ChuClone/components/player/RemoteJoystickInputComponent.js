@@ -187,7 +187,7 @@
 				div.id = "instructions"
 				div.style.width ="100%";
 				div.style.position = "absolute";
-				div.style.bottom = "50px";
+				div.style.bottom = "60px";
 				div.style.zIndex = "10";
 				div.innerHTML = '<div class="container_12"> \
 				<div class="push_5 grid_5 jura_53 magentaBorder" style="margin-left:-30px;margin-bottom:30px; color:#01b0ee; text-align:center; margin-left: 12px; background: rgba(0,0,0, 0.75);">How To Play!</div> \
@@ -195,6 +195,8 @@
 				<div class="grid_5 jura_28 magentaBorder" style="color:#01b0ee; text-align:center;  background: rgba(0,0,0, 0.75);">1. Pull out your smartphone </div> 	\
 				<div class="grid_5 jura_28 magentaBorder" style="color:#01b0ee; text-align:center;  background: rgba(0,0,0, 0.75);">2. Connect to <span style="color:#F7F">ChuClone</span> wifi</div> 	 \
 				<div class="grid_5 jura_28 magentaBorder" style="color:#01b0ee; text-align:center;  background: rgba(0,0,0, 0.75);">3. Browse to <span style="color:#F7F">http://10.0.2.1</span></div> \
+				<div class="clear"></div> \
+				<div class="grid_4 jura_12 magentaBorder" style="position:absolute; bottom:-30px; right:25px;color:#01b0ee; text-align:center;  background: rgba(0,0,0, 0.75);">By Mario Gonzalez @ Ogilvy</span></div> \
 				</div>'
 		document.body.appendChild( div );
 				
