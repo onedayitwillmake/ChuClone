@@ -65,7 +65,13 @@
             if( this._currentState ) {
                 this._currentState.update();
             }
-        }
+        },
+
+		///// ACCESSORS
+		/**
+		 * ChuClone.model.FSM.State
+		 */
+		getCurrentState: function() { return this._currentState; }
     };
 
     /**

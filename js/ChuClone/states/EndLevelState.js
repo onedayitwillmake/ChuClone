@@ -44,15 +44,11 @@ Abstract:
 		enter: function() {
 			ChuClone.states.EndLevelState.superclass.enter.call(this);
 
+			// track level complete
+			ChuClone.model.AnalyticsTracker.getInstance().trackLevelCompleted( this._levelManager.getModel().levelName );
+
 			var gameCamera = this._gameView.getCamera();
 			gameCamera.removeAllComponents();
-
-			// Let's find the radius of the level
-			 var node = this._worldController.getWorld().GetBodyList();
-            while(node) {
-                var b = node;
-                node = node.GetNext();
-			}
 
 			// Allow rotation about target
 			var focusComponent = new ChuClone.components.camera.CameraOrbitRadiusComponent();

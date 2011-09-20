@@ -30,7 +30,7 @@
          * @param {Function} listener Function to be executed when the specified event is emitted
          */
         addListener: function( eventName, listener ) {
-			console.log("Adding Listener:", eventName);
+			//console.log("Adding Listener:", eventName);
 
             listener.eventName = eventName;
             this._closures[ eventName ] = listener;
@@ -51,7 +51,7 @@
 		 */
 		removeAllListeners: function() {
 			for( var eventName in this._closures ) {
-				console.log("Removing Listener:", eventName);
+				//console.log("Removing Listener:", eventName);
 				this.removeListener( eventName );
 			}
 

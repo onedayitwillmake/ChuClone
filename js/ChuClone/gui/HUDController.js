@@ -18,6 +18,8 @@
 	ChuClone.namespace("ChuClone.gui");
 
 	var domElementTime = null;
+    var hdButtonElement = null;
+    var isHD    = false;
 	var timeCanvas = null;
 	var timeContext = null;
 	var lastScoreUpdate = Date.now();
@@ -28,6 +30,7 @@
 			ChuClone.gui.HUDController.createTimeCanvas();
 
 			ChuClone.gui.HUDController.setupEvents();
+
 			// TODO: TEMP HACK TO ALLOW THE FONT TO LOAD
 			setTimeout(ChuClone.gui.HUDController.setTimeInSeconds, 2000);
 		},
@@ -46,9 +49,11 @@
 					that.updateScores();
 
                 if( document.getElementById('author') ) {
-                    document.getElementById('author').innerHTML = aLevelManager._levelModel.author;
+                    document.getElementById('author').innerHTML = aLevelManager._levelModel.author || "1dayitwillmake";
                 }
 
+				if( aLevelManager.getModel().levelName != "TitleScreen" )
+					document.title = "ChuClone - " + aLevelManager._levelModel.levelName;
 			});
 
 			if( document.getElementById('fullscreen_toggle') ) {
@@ -112,9 +117,12 @@
 		 * Switches on/off fullscreen mode
 		 */
 		toggleFullscreen: function() {
+
 			var fullscreenToggle = document.getElementById('fullscreen_toggle');
 			var gameContainer = document.getElementById('gameContainer');
 			var HUDTime = document.getElementById('HUDTime');
+
+			ChuClone.model.AnalyticsTracker.getInstance().trackFullscreen( !ChuClone.GameViewController.INSTANCE.getFullscreen() );
 
 			if( !ChuClone.GameViewController.INSTANCE.getFullscreen() ) {
 
@@ -129,6 +137,7 @@
 				fullscreenToggle.style.left = "1%";
 				fullscreenToggle.style.zIndex = "2";
 				fullscreenToggle.innerHTML = '<p class="grayBorder"> Exit Fullscreen</p>';
+
 
 
 				console.log(window.innerHeight, window.innerHeight * 0.1)
@@ -148,10 +157,22 @@
 				ChuClone.utils.hideAllChildren( gameContainer.parentNode, [gameContainer]);
 				fullscreenToggle.style.display = "block";
 				HUDTime.style.display = "";
+
+                hdButtonElement = fullscreenToggle.cloneNode(true);
+                hdButtonElement.innerHTML = '<p class="grayBorder"> Toggle HD </p>';
+                hdButtonElement.id = "hdbutton";
+                hdButtonElement.style.width = "100px";
+                hdButtonElement.style.left = window.innerWidth*0.1 + 10 + "px";
+                hdButtonElement.addEventListener( 'mousedown', function(){
+                    isHD = !isHD;
+					ChuClone.model.AnalyticsTracker.getInstance().trackHD( isHD );
+                    ChuClone.GameViewController.INSTANCE.setFullscreen( true, isHD );
+                });
+                document.body.appendChild( hdButtonElement )
 			} else {
 
 				// Tell the gameviewcontainer
-				ChuClone.GameViewController.INSTANCE.setFullscreen( false );
+				ChuClone.GameViewController.INSTANCE.setFullscreen( false, true );
 
 				// Unhide all children
 				ChuClone.utils.unhideAllChildren( document.getElementsByTagName('body')[0], null );
@@ -164,6 +185,7 @@
 				// Restore 'HUDTime'
 				ChuClone.utils.StyleMemoizer.restoreStyle('HUDTime');
 
+                document.body.removeChild( hdButtonElement );
 			}
 		},
 
@@ -171,9 +193,14 @@
 		 * Toggle the instructions screen
 		 */
 		toggleInstructions: function() {
+
+
 			var instructions = document.getElementById('instructions');
 			var isShowing = instructions != null;
 			var gameContainer = document.getElementById('gameContainer');
+
+			ChuClone.model.AnalyticsTracker.getInstance().trackInstructions( !isShowing );
+
 			if( !isShowing ) {
 				instructions = document.createElement("div");
 				instructions.id = 'instructions'
@@ -222,7 +249,7 @@
 				instructions.style.top = gameContainer.offsetTop+1 + "px";
 				instructions.style.left = gameContainer.offsetLeft-9 + "px";
 				instructions.style.opacity = 0;
-				instructions.style.cursor = "pointer"
+				instructions.style.cursor = "pointer";
 
 				new TWEEN.Tween({opacity:0})
 				.to({opacity: 1}, 500)

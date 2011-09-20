@@ -1,12 +1,12 @@
 /**
 File:
-	AntiPortalWallComponent.js
+	EnergyCubeComponent.js
 Created By:
 	Mario Gonzalez
 Project	:
 	ChuClone
 Abstract:
- 	Special property that prevents portals from sticking to this entity
+ 	An entity that represents an energy orb from portal that is used for switches
 
  Basic Usage:
 
@@ -20,16 +20,16 @@ Abstract:
 
 	ChuClone.namespace("ChuClone.components.portal");
 
-	ChuClone.components.portal.AntiPortalWallComponent = function() {
-		ChuClone.components.portal.AntiPortalWallComponent.superclass.constructor.call(this);
+	ChuClone.components.portal.EnergyCubeComponent = function() {
+		ChuClone.components.portal.EnergyCubeComponent.superclass.constructor.call(this);
 
 		if( ChuClone.model.Constants.IS_EDIT_MODE() ) {
 			this.requiresUpdate = true;
 		}
 	};
 
-	ChuClone.components.portal.AntiPortalWallComponent.prototype = {
-		displayName			: "AntiPortalWallComponent",					// Unique string name for this Trait
+	ChuClone.components.portal.EnergyCubeComponent.prototype = {
+		displayName			: "EnergyCubeComponent",					// Unique string name for this Trait
 		_textureSource		: "assets/images/game/floor.png",
 
 		/**
@@ -41,7 +41,7 @@ Abstract:
 		 * @inheritDoc
 		 */
 		attach: function(anEntity) {
-			ChuClone.components.portal.AntiPortalWallComponent.superclass.attach.call(this, anEntity);
+			ChuClone.components.portal.EnergyCubeComponent.superclass.attach.call(this, anEntity);
 
 			var dimensions = this.attachedEntity.getDimensions();
 			var geometry = new THREE.CubeGeometry( dimensions.width + 100, dimensions.height + 10, dimensions.depth + 10);
@@ -72,7 +72,7 @@ Abstract:
          * @inheritDoc
          */
         execute: function() {
-            ChuClone.components.portal.AntiPortalWallComponent.superclass.execute.call(this);
+            ChuClone.components.portal.EnergyCubeComponent.superclass.execute.call(this);
 		 },
 
 		/**
@@ -119,12 +119,12 @@ Abstract:
         detach: function() {
             this.clone.parent.removeChild( this.clone );
 			this.clone = null;
-            ChuClone.components.portal.AntiPortalWallComponent.superclass.detach.call(this);
+            ChuClone.components.portal.EnergyCubeComponent.superclass.detach.call(this);
         }
 	};
 
 	// Steal setDimensions
-	//ChuClone.components.portal.AntiPortalWallComponent.prototype.setCloneDimensions = ChuClone.GameEntity.prototype.setDimensions;
+	//ChuClone.components.portal.EnergyCubeComponent.prototype.setCloneDimensions = ChuClone.GameEntity.prototype.setDimensions;
 
-    ChuClone.extend( ChuClone.components.portal.AntiPortalWallComponent, ChuClone.components.BaseComponent );
+    ChuClone.extend( ChuClone.components.portal.EnergyCubeComponent, ChuClone.components.BaseComponent );
 })();

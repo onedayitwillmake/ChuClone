@@ -243,9 +243,15 @@
          */
         update: function() {
 			var noFixedTimestep = true;
+			var now = Date.now();
+            var dt = (now - TIME)/1000;
+			TIME = now;
+
 			if(noFixedTimestep) {
-				fixedTimestepAccumulatorRatio_ = 1;
-				this._world.Step(FIXED_TIMESTEP, 5, 3);
+				var delta = Math.min(dt,FIXED_TIMESTEP);
+				fixedTimestepAccumulatorRatio_ = delta / FIXED_TIMESTEP;
+
+				this._world.Step(Math.min(delta,FIXED_TIMESTEP), 5, 3);
 				this._world.ClearForces();
 
 				if(this._debugDraw) {
@@ -254,8 +260,7 @@
 
 				return;
 			}
-            var now = Date.now();
-            var dt = (now - TIME)/1000;
+
             var MAX_STEPS = 5;
 
             fixedTimestepAccumulator_ += dt;

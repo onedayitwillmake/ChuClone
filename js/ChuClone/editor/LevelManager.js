@@ -59,6 +59,7 @@
 		 * @type {Object}
 		 */
 		EVENTS			  : {
+			LEVEL_LOADED	: "LevelManager.Events.LevelLoaded",
 			LEVEL_CREATED   : "LevelManager.Events.WorldCreated",
 			LEVEL_DESTROYED : "LevelManager.Events.LevelDestroyed"
 		},
@@ -333,6 +334,7 @@
 			}
 
 			//emit the loaded event
+			ChuClone.model.AnalyticsTracker.getInstance().trackLevelLoaded( model.levelName );
 			ChuClone.Events.Dispatcher.emit(ChuClone.editor.LevelManager.prototype.EVENTS.LEVEL_CREATED, this);
 			return model;
 		},

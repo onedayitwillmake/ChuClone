@@ -1,10 +1,6 @@
+importsString = <<-eos
+    java -jar compiler/compiler.jar --compilation_level SIMPLE_OPTIMIZATIONS  --jscomp_off=internetExplorerChecks --js_output_file=js/min/chuclone_min.js
 
-<!DOCTYPE html> 
-<html lang="en"> 
-<head> 
- 
-    <meta charset="utf-8"/> 
-    <title>ChuClone</title> 
 
     <script type='text/javascript' src='/game/js/lib/DAT.GUI.js'></script>
     <script type='text/javascript' src='/game/js/lib/Stats.js'></script>
@@ -50,7 +46,7 @@
     <script type='text/javascript' src='/game/js/ChuClone/components/BaseComponent.js'></script>
     <script type='text/javascript' src='/game/js/ChuClone/components/JumpPadComponent.js'></script>
     <script type='text/javascript' src='/game/js/ChuClone/components/FrictionPadComponent.js'></script>
-    <script type='text/javascript' src='/game/js/ChuClone/components/MovingPlatformComponent.js'></script>  
+    <script type='text/javascript' src='/game/js/ChuClone/components/MovingPlatformComponent.js'></script>
     <script type='text/javascript' src='/game/js/ChuClone/components/RespawnPointComponent.js'></script>
 
     <script type='text/javascript' src='/game/js/ChuClone/components/GoalPadComponent.js'></script>
@@ -111,41 +107,11 @@
     <script type='text/javascript' src='/game/js/ChuClone/states/PlayLevelState.js'></script>
     <script type='text/javascript' src='/game/js/ChuClone/states/TitleScreenState.js'></script>
     <script type='text/javascript' src='/game/js/ChuClone/ChuCloneGame.js'></script>
+eos
 
-
-    <!--MINIFIED VERSION-->
-	<!--<script type='text/javascript' src='js/chuclone_min.js'></script>-->
-	<script type="text/javascript"> 
-		ChuClone.model.Constants.GAME_WIDTH = 800;
-		ChuClone.model.Constants.GAME_HEIGHT = 400;
-		ChuClone.model.Constants.INITIAL_STATE = 'Edit';
-		ChuClone.model.Constants.SERVER.ASSET_PREFIX = "";
-        
-		new ChuClone.ChuCloneGame(  );
-	</script> 
- 
-        <link rel="shortcut icon" href="/favicon.ico"/> 
-<link rel="stylesheet" href="assets/css/960/reset.css"/>
-<link rel="stylesheet" href="assets/css/960/text.css"/>
-<link rel="stylesheet" href="assets/css/960/960.css"/>
-<link href="/stylesheets/ChuClone.css?1314651528" media="screen" rel="stylesheet" type="text/css" /> 
- 
- 
- 
-<link href="http://fonts.googleapis.com/css?family=Jura:300,400,500,600&v1" rel="stylesheet" type="text/css">
-</head> 
-<body> 
-	
- 
-<div class="container_12">
-    <div class="flash_notice" id="flash_notice">
-		<a href="/EditMode">Notices:</a>
-	</div> 
-	<div id="gameContainer" class="push_1 grid_12" style="width:800px; height:400px;"></div>
-	<div id="editorContainer" class="push_1 grid_12" style="width:800px; height: 400px;"></div>
- 
-	<div class="grid_4 push_1 lineBorder" id="HUDTime" style="margin-left:10px">00.0 secs</div> 
-	<div class="jura_36 grid_4"><p class="grayBorder push_1" id="levelName"> Level Name </p></div> 
-</div> 
-</body> 
-</html> 
+importsString = importsString.gsub("<script type='text/javascript' src='/game/", " --js ./")
+importsString = importsString.gsub("'></script>", "")
+importsString = importsString.gsub("\n", "")
+importsString = importsString.gsub("\t", "")
+#puts importsString
+exec importsString

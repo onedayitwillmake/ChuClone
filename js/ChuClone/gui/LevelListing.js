@@ -44,6 +44,7 @@
         onReady: function() {
             this.setupDivs("levellisting");
             this.setupDivs("user_levellisting");
+            this.setupDivs("beta_levellisting");
         },
 
         /**
@@ -54,25 +55,18 @@
             if( !levelListing ) return;
             for (var i = 0; i < levelListing.children.length; ++i) {
                 var item = levelListing.children[i];
+
+                // No data
+                if( item.getAttribute("data-id") == "" )  {
+                    item.style.opacity = "0.4";
+                    continue;
+                }
+                
                 item.addEventListener('click', this.onLevelClicked, false);
                 item.addEventListener('mouseover', this.onLevelRollover, false);
             }
         },
 
-        /**
-		 * Sets up the drop down list that displays this users levels
-		 */
-		createKongregateLevelListing: function() {
-			var that = this;
-			var request = new XMLHttpRequest();
-			request.onreadystatechange = function() {
-				if (request.readyState == 4) {
-					that.populateServerLevelList(request);
-				}
-			};
-			request.open("GET", ChuClone.model.Constants.SERVER.USER_LEVELS_LOCATION, true);
-			request.send(null);
-		},
 
 		/**
 		 * Called once the level list has been loaded
@@ -133,12 +127,14 @@
 
             this.rollOver =  new TWEEN.Tween({target: this, size:0}).to({size: 3}, 150 ).easing( TWEEN.Easing.Quadratic.EaseInOut).onUpdate(function(){
                 this.target.style["box-shadow"] = "inset 0 0 0 " + (this.size << 0) + "px #888"
+				//this.target.style["background-image"] = "url(/game/assets/images/page/levelthumbnails/sunsetmountain.png)"
             }).start();
         },
         
         onLevelRollout: function() {
             this.rollOut =  new TWEEN.Tween({target: this, size:3}).to({size: 0}, 150 ).easing( TWEEN.Easing.Quadratic.EaseInOut).onUpdate(function(){
-                this.target.style["box-shadow"] = "inset 0 0 0 " + (this.size << 0) + "px #888"
+                this.target.style["box-shadow"] = "inset 0 0 0 " + (this.size << 0) + "px #888";
+				//this.target.style["background-image"] = "";
             }).start();
         },
 
