@@ -54,7 +54,7 @@ Abstract:
 		attach: function(anEntity) {
 			ChuClone.components.player.CharacterControllerComponent.superclass.attach.call(this, anEntity);
 
-			this.intercept(['_type', 'onCollision']);
+			this.intercept(['_type']);
 			//this.attachedEntity.getBody().SetBullet( true );
 
             // Attach a RemoteJoystickInput or KeyboardInput controller

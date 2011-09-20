@@ -147,7 +147,7 @@ Abstract:
             ChuClone.utils.FunctionQueue.clearTimeout( this._isReadyTimeout );
             this._isReadyTimeout = ChuClone.utils.FunctionQueue.setTimeout( function(){
                 that._isReady = true;
-            }, Math.round(this._inactiveDelay/60));
+            }, 2);
         },
 
         /**
