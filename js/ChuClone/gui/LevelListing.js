@@ -62,7 +62,7 @@
                     continue;
                 }
 
-                ChuClone.utils.setTextAndScaleToFit( item, item.innerText+item.innerText );
+                ChuClone.utils.setTextAndScaleToFit( item, item.innerHTML );
                 item.addEventListener('click', this.onLevelClicked, false);
                 item.addEventListener('mouseover', this.onLevelRollover, false);
             }
