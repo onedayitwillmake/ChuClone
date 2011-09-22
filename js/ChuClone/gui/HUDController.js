@@ -49,7 +49,7 @@
 					that.updateScores();
 
                 if( document.getElementById('author') ) {
-                    document.getElementById('author').innerHTML = aLevelManager._levelModel.author || "1dayitwillmake";
+                    document.getElementById('author').innerHTML = aLevelManager._levelModel.levelJSON.editingInfo.author || "1dayitwillmake";
                 }
 
 				if( aLevelManager.getModel().levelName != "TitleScreen" )
