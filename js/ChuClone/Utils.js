@@ -279,6 +279,23 @@
 						})
 					.start();
 			}
-		}
+		},
+
+        /**
+         * Scales the font size of a div to fit longer text
+         * @param anElement
+         * @param text
+         */
+        setTextAndScaleToFit: function( anElement, text ) {
+            var maxSize = anElement.getAttribute("data-fontsize");
+            var charcount = anElement.getAttribute("data-charcount");
+            var fontSize = Math.min( charcount / text.length, 1.0);
+
+            if(fontSize == 1.0 && anElement.innerHTML == text ) return; // nothing to change
+
+            // Scale fontsize and set text
+            anElement.style.fontSize = Math.round( fontSize * maxSize ) + "px";
+            anElement.innerHTML = text;
+        }
     };
 })();

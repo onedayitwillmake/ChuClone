@@ -61,7 +61,8 @@
                     item.style.opacity = "0.4";
                     continue;
                 }
-                
+
+                ChuClone.utils.setTextAndScaleToFit( item, item.innerText+item.innerText );
                 item.addEventListener('click', this.onLevelClicked, false);
                 item.addEventListener('mouseover', this.onLevelRollover, false);
             }

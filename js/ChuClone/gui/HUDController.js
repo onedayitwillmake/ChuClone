@@ -42,8 +42,14 @@
 
 			var that = this;
 			ChuClone.Events.Dispatcher.addListener(ChuClone.editor.LevelManager.prototype.EVENTS.LEVEL_CREATED, function( aLevelManager ) {
-				if(document.getElementById('leveltitle'))
-					document.getElementById('leveltitle').innerHTML = aLevelManager._levelModel.levelName;
+				if(document.getElementById('leveltitle')) {
+                    var levelname = aLevelManager._levelModel.levelName;
+
+                    /*
+
+                     */
+                    ChuClone.utils.setTextAndScaleToFit( document.getElementById('leveltitle'), levelname );
+                }
 
 				if( document.getElementById('score_container') )
 					that.updateScores();
