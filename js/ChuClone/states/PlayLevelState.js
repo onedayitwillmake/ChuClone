@@ -339,7 +339,7 @@ Abstract:
             respawnPoint.setSpawnedEntityPosition( this._player );
 
 			//this.startRecordingPlayback();
-			//this.startRecordingPlayer();
+			this.startRecordingPlayer();
             this.animateIn();
         },
 

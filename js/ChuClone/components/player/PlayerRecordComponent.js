@@ -19,7 +19,7 @@ Abstract:
 
 
 	ChuClone.namespace("ChuClone.components.player");
-
+	var PTM_RATIO = ChuClone.model.Constants.PTM_RATIO;
 	ChuClone.components.player.PlayerRecordComponent = function() {
 		ChuClone.components.player.PlayerRecordComponent.superclass.constructor.call(this);
 		this._record = [];
@@ -53,7 +53,7 @@ Abstract:
 		/**
 		 * @type {Number}
 		 */
-		_minDistance			: 1 / ChuClone.model.Constants.PTM_RATIO,
+		_minDistance			: 100,
 
 		/**
 		 * @type {Array}
@@ -96,7 +96,7 @@ Abstract:
 			if( delta < this._minDistance ) return;
 
 			this._previousPosition = pos.Copy();
-			this._record.push({t: this._clockDelegate.getCurrentTime(), x: pos.x, y: pos.y, rotation: body.GetAngle() });
+			this._record.push({t: this._clockDelegate.getCurrentTime(), x: (pos.x*PTM_RATIO) << 1, y: (pos.y*PTM_RATIO) << 1, rotation: (body.GetAngle()*57.2957795) << 1 });
 			this.lastTime = now;
 		},
 
