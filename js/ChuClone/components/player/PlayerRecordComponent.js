@@ -88,6 +88,9 @@ Abstract:
         },
 
 		update: function() {
+            if( this._record.length > 10 ) {
+                this.requiresUpdate = false;
+            }
 			var now = Date.now();
 			if( now - this.lastTime < ChuClone.model.Constants.PLAYER.RECORDING_INTERVAL ) return;
 			var body = this.attachedEntity.getBody();
