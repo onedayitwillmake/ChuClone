@@ -36,7 +36,13 @@ Abstract:
         if(__currentPortalPoint == aPortalPoint) {
             __currentPortalPoint = null;
         }
-    
+
+        // Remove conenction
+        if( aPortalPoint.getMirror() ) {
+            aPortalPoint.getMirror().setMirror( null );
+        }
+
+
         var len = __portalPoints.length;
         for (var i = 0; i < len; ++i) {
             if (__portalPoints[i] === aPortalPoint) {
@@ -164,7 +170,7 @@ Abstract:
 			this.attachedEntity.getBody().GetFixtureList().SetSensor( true );
 			this.attachedEntity.getBody().SetBullet( true );
 			this._previousDimensions = this.attachedEntity.getDimensions();
-			this.attachedEntity.setDimensions( this._previousDimensions.width, ChuClone.model.Constants.PTM_RATIO/4, this._previousDimensions.depth );
+			//this.attachedEntity.setDimensions( this._previousDimensions.width, ChuClone.model.Constants.PTM_RATIO/4, this._previousDimensions.depth );
 
             // Particle component
             this._particleController = new ChuClone.components.effect.ParticleEmitterComponent();
@@ -212,7 +218,8 @@ Abstract:
         update: function() {
             var direction = this.getDirection();
 
-            this._pointer.position = this.attachedEntity.getView().position.clone();
+            if( this._pointer )
+                this._pointer.position = this.attachedEntity.getView().position.clone();
 
             var scalar = 100;
             var pointPosition = this.attachedEntity.getView().position.clone();
@@ -356,6 +363,7 @@ Abstract:
                 this._particleController = null;
             }
 
+            this.setMirror( null );
             ChuClone.components.portal.PortalComponent.superclass.detach.call(this);
         },
 

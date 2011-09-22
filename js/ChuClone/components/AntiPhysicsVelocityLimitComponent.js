@@ -53,7 +53,7 @@ Abstract:
 			// Attach a motionstreak component
             this.attachedEntity.addComponentAndExecute( new ChuClone.components.effect.MotionStreakComponent() );
 			var physicsVelocityLimitComponent = this.attachedEntity.getComponentWithName( ChuClone.components.PhysicsVelocityLimitComponent.prototype.displayName );
-			this._oldLimit = {x:physicsVelocityLimitComponent, yUp: physicsVelocityLimitComponent._maxSpeedYUp, yDown: physicsVelocityLimitComponent._maxSpeedYDown};
+			this._oldLimit = {x:physicsVelocityLimitComponent._maxSpeedX, yUp: physicsVelocityLimitComponent._maxSpeedYUp, yDown: physicsVelocityLimitComponent._maxSpeedYDown};
 			physicsVelocityLimitComponent.setMaxSpeedXY( 110, 110, 110);
 
 			//this._jumpCheckComponent._canApplyDownwardForce

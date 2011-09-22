@@ -269,6 +269,8 @@
 		 * This check is done by seeing if the character had a portalgun when the level was created
 		 */
 		allowsPortalGun:  function () {
+            // In editmode there is no leveljson - 
+            if( !this.levelJSON ) return false;
 			var len = this.levelJSON.bodyList.length;
 			for (var i = 0; i < len; i++) {
 				var entityInfo = this.levelJSON.bodyList[i];

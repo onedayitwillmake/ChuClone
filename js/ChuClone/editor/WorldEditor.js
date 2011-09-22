@@ -50,7 +50,7 @@
             return "Exiting page will lose unsaved changes!";
         };
 
-		//this._­+
+		//this._ï¿½+
     };
 
 
@@ -272,7 +272,7 @@
 			this._toggableComponents[ChuClone.components.MovingPlatformComponent.prototype.displayName] = ChuClone.components.MovingPlatformComponent;
 			this._toggableComponents[ChuClone.components.DeathPadComponent.prototype.displayName] = ChuClone.components.DeathPadComponent;
 			this._toggableComponents[ChuClone.components.portal.AntiPortalWallComponent.prototype.displayName] = ChuClone.components.portal.AntiPortalWallComponent;
-			//this._toggableComponents[ChuClone.components.portal.PortalComponent.prototype.displayName] = ChuClone.components.portal.PortalComponent;
+			this._toggableComponents[ChuClone.components.portal.PortalComponent.prototype.displayName] = ChuClone.components.portal.PortalComponent;
             //this._toggableComponents[ChuClone.components.AutoRotationComponent.prototype.displayName] = ChuClone.components.AutoRotationComponent;
 			//this._toggableComponents[ChuClone.components.misc.TutorialNoteComponent.prototype.displayName] = ChuClone.components.misc.TutorialNoteComponent;
 			this._toggableComponents[ChuClone.components.TiltComponent.prototype.displayName] = ChuClone.components.TiltComponent;

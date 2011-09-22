@@ -202,6 +202,10 @@
 		 */
 		saveLevelToSlot: function(aWorldController) {
 
+            var confirm = window.confirm("Will erase previous data\nAre you sure?");
+			if (!confirm) {
+				return;
+			}
 			// No worldcontroller specified - grab from editor but if there's no editor, let fail loudly
 			if (!aWorldController) {
 				aWorldController = ChuClone.editor.WorldEditor.getInstance().getWorldController();
