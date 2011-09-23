@@ -91,7 +91,9 @@ Abstract:
 			var view = this.attachedEntity.getView();
             this._previousMaterial = view.materials[0];
             view.materials[0] = new THREE.MeshLambertMaterial( {
-                color: 0xFFFFFF, shading: THREE.SmoothShading,
+                color: 0xFFFFFF,
+				shading: THREE.SmoothShading,
+				shininess: 2,
                 map : ChuClone.utils.TextureUtils.GET_TEXTURE( ChuClone.model.Constants.SERVER.ASSET_PREFIX + "assets/images/game/crate.png" )
             });
 

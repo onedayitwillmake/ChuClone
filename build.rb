@@ -35,6 +35,7 @@ importsString = <<-eos
     <script type='text/javascript' src='/game/js/ChuClone/Utils.js'></script>
     <script type='text/javascript' src='/game/js/ChuClone/utils/TextureUtils.js'></script>
     <script type='text/javascript' src='/game/js/ChuClone/utils/StyleMemoizer.js'></script>
+    <script type='text/javascript' src='/game/js/ChuClone/utils/FunctionQueue.js'></script>
 
     <script type='text/javascript' src='/game/js/ChuClone/gui/LevelListing.js'></script>
     <script type='text/javascript' src='/game/js/ChuClone/gui/HUDController.js'></script>
@@ -46,7 +47,7 @@ importsString = <<-eos
     <script type='text/javascript' src='/game/js/ChuClone/components/BaseComponent.js'></script>
     <script type='text/javascript' src='/game/js/ChuClone/components/JumpPadComponent.js'></script>
     <script type='text/javascript' src='/game/js/ChuClone/components/FrictionPadComponent.js'></script>
-    <script type='text/javascript' src='/game/js/ChuClone/components/MovingPlatformComponent.js'></script>
+    <script type='text/javascript' src='/game/js/ChuClone/components/MovingPlatformComponent.js'></script>  
     <script type='text/javascript' src='/game/js/ChuClone/components/RespawnPointComponent.js'></script>
 
     <script type='text/javascript' src='/game/js/ChuClone/components/GoalPadComponent.js'></script>

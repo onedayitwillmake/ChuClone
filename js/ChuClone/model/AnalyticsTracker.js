@@ -43,7 +43,7 @@
 		},
 
 		trackGlowMode: function() {
-			window._gaq.push(['_trackEvent', 'GlowMode', 'TRUE']);
+			window._gaq.push(['_trackEvent', 'GlowMode']);
 		}
 
 
