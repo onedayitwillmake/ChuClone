@@ -56,9 +56,9 @@
             this._controls['Create'] = this._gui.add(this, 'createPlayer').name("Create");
             this._controls['Destroy'] = this._gui.add(this, 'destroyPlayer').name("Destroy");
             this._controls['Reset'] = this._gui.add(this, 'resetPlayer').name("Reset");
-            this._controls['Portal'] = this._gui.add(this, '_allowPortalGun').name("Allow Portal Gun").onChange(function(){
-				that.togglePortalGun();
-			})
+			//this._controls['Portal'] = this._gui.add(this, '_allowPortalGun').name("Allow Portal Gun").onChange(function(){
+			//	that.togglePortalGun();
+			//})
 			this._gui.close();
 			//this._gui.open();
         },

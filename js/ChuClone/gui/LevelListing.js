@@ -145,16 +145,9 @@
 		 * Load the sleected level
 		 */
         onLevelClicked: function() {
-
             var aURL = ChuClone.utils.constructURLForLevelWithID(this.getAttribute("data-id"));
             ChuClone.Events.Dispatcher.emit(ChuClone.gui.LevelListing.prototype.EVENTS.SHOULD_CHANGE_LEVEL, aURL);
-
-            // Don't change the history state if on kongregate
-            if( !ChuClone.model.Constants.IS_KONGREGATE() ) {
-                history.pushState(null, null, "/game/"+this.getAttribute("data-id"));
-            } else {
-                document.getElementById('levellistingcontainer').style.display = 'none';
-            }
+			history.pushState(null, null, "/game/"+this.getAttribute("data-id"));
         },
 
         /**

@@ -29,14 +29,12 @@
 		TO_RADIANS				: Math.PI/180,
         DOM_ELEMENT             : null,
 		INITIAL_STATE			: 'PlayLevel',
+		TITLE_SCREEN_LEVEL		: "TitleScreen",
         IS_EDIT_MODE            : function(){
             return window.location.href.toLowerCase().indexOf("edit") != -1;
         },
-        IS_KONGREGATE           : function() {
-            return window.location.href.indexOf("kongregate") != -1;
-        },
 		IS_BLOOM				: false,
-		MAX_LEVEL_AREA			: 400000000,
+		MAX_LEVEL_AREA			: 400000000, // Used to determine how many particles to create for this level -
 
 		SERVER: {
 			ASSET_PREFIX			: "", 					// Prefix all asset request with this
@@ -63,7 +61,6 @@
 				width: 0,
 				height:0
 			},
-			CAMERA: null
 		},
 		// WASD KEYS
         KEYS: {
@@ -81,9 +78,7 @@
         },
 
         EDITOR: {
-            PANEL_DOMELEMENT : document.getElementById("guiContainer"),
-            PANEL_WIDTH         : 190,
-			PATH_SERVER_LOCAL_SAVE	: "assets/levels/save.php"
+            PANEL_WIDTH         : 190
         },
 
         ENTITY_TYPES: {
