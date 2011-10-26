@@ -78,7 +78,10 @@
 				console.error("CameraGUI.augmentCamera - Attempting to augment camera that already contains 'components' property ");
 				return;
 			}
+			
             aCamera.components = [];
+            aCamera.target = new THREE.Object3D();
+            
             for(var prop in ChuClone.GameEntity.prototype) {
                 if(! ChuClone.GameEntity.prototype.hasOwnProperty(prop) ) return;
 
@@ -100,6 +103,7 @@
                         this.components[i].update();
                     }
                 }
+                aCamera.lookAt( aCamera.target.position );
                 this.superUpdate.call( this );
             }
         },
