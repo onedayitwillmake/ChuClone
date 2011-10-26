@@ -60,7 +60,7 @@
 				that.togglePortalGun();
 			})
 			this._gui.close();
-			//this._gui.open();
+			this._gui.open();
         },
 
 

@@ -135,6 +135,15 @@
         // Access the page with a 'level' parameter in the query string to change the level
         // "localhost:8889/chuclone/index.html?level=assets/levels/Intro.json"
         var game = new ChuClone.ChuCloneGame( getQuerystring("level", "assets/levels/ChuChinko.json") );
+        
+        window.addEventListener('DOMContentLoaded', function callback(e){
+        	window.removeEventListener('DOMContentLoaded', callback, false);
+         game._gameView.setFullscreen( true, false );
+        }, false);
+
+//         game._gameView.setFullscreen( true, true );
+// 		document.addEvent
+// 		console.log( game );
 	</script>
 </head> 
 <body> 
