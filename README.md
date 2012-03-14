@@ -3,7 +3,8 @@
   
 It contains **a from scratch custom Box2D WorldEditor** that can create/destroy/clone/drag/scale objects the world in realtime allowing easy level design iteration.
 The editor supports panning, and zooming, levels are saved via HTML5 localstorage or to the database via rails web-application which is also open source ( https://github.com/onedayitwillmake/ChuCloneSite ).  
-It also supports an arcade cabinate mode using Node.JS and websockets to control the character remotely ( https://github.com/onedayitwillmake/NoBarrierOSC/tree/joystick )
+
+It also supports an **arcade cabinate mode** using **Node.JS** and html5-websocket connection to control the character remotely (https://github.com/onedayitwillmake/NoBarrierOSC/tree/joystick)
 
 **Promo**
 
@@ -22,6 +23,10 @@ It also supports an arcade cabinate mode using Node.JS and websockets to control
 
 **Selected for highlight in Google's Chrome Expiriments website**
 ![Chuclone ChromeWebstore](http://farm8.staticflickr.com/7068/6833512520_c8a08106a1_b.jpg "")
+
+**Arcade Cabinate Mode**
+![Chuclone ArcadeCabinate](http://farm7.staticflickr.com/6001/6003668915_d0db666a46_b.jpg "")
+
 
 ### License
 Creative Commons Attribution-NonCommercial-ShareAlike
