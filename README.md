@@ -1,7 +1,7 @@
 #ChuClone
 **ChuClone is a 2.5D HTML5 game that uses 2D physics (Box2D), but is drawn in 3D (Three.js).**  
   
-It contains **a Box2D WorldEditor** that can create/destroy/clone/drag/scale objects the world.  
+It contains **a from scratch built-in custom Box2D WorldEditor** that can create/destroy/clone/drag/scale objects the world in realtime allowing easy level design iteration.
 The editor supports panning, and zooming, levels are saved via HTML5 localstorage.  
 
 
